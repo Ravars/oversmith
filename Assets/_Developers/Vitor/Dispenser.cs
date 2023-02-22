@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace _Developers.Vitor
 {
-    [RequireComponent(typeof(Interactable))]
+    [RequireComponent(typeof(Interactable),typeof(Table))]
     public class Dispenser : MonoBehaviour
     {
         public RawMaterial rawMaterial;

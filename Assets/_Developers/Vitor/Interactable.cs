@@ -28,7 +28,6 @@ namespace _Developers.Vitor
 
         public void SetStatusInteract(bool b)
         {
-            Debug.Log("batata");
         }
     }
 }

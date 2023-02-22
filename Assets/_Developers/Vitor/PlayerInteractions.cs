@@ -12,6 +12,8 @@ namespace _Developers.Vitor
         private PlayerInteractableHandler _playerInteractableHandler;
         // [SerializeField] private Vector3 positionToSpawnItems;
         [SerializeField] private Transform itemHolder;
+        private Transform _itemTransform;
+        private BaseItem _holdingItem;
         
         private void Start()
         {
@@ -21,15 +23,33 @@ namespace _Developers.Vitor
 
         private void GrabOnPerformed(InputAction.CallbackContext obj)
         {
-            Debug.Log("grab");
             if (_playerInteractableHandler.CurrentInteractable != null)
             {
-                Debug.Log("has current");
-                if (_playerInteractableHandler.CurrentInteractable.Interactable.hasDispenser)
+                var Interactable = _playerInteractableHandler.CurrentInteractable.Interactable;
+                if (Interactable.hasTable)
                 {
-                    Debug.Log("instantiate");
-                    Instantiate(_playerInteractableHandler.CurrentInteractable.Interactable.dispenser.rawMaterial.prefab,
-                        itemHolder.position, Quaternion.identity,itemHolder);
+                    if (_holdingItem == null && Interactable.table.HasItem())
+                    {
+                        _holdingItem = Interactable.table.GetItem();
+                        _itemTransform = Instantiate(_holdingItem.prefab, itemHolder.position, Quaternion.identity,itemHolder).transform;
+                        return;
+                    }
+                    
+                    if (_holdingItem != null && Interactable.table.CanSetItem(_holdingItem))
+                    {
+                        Interactable.table.SetItem(_holdingItem);
+                        _holdingItem = null;
+                        Destroy(_itemTransform.gameObject);
+                        _itemTransform = null;
+                        return;
+                    }
+                }
+                
+                if(Interactable.hasDispenser && _holdingItem == null)
+                {
+                    _holdingItem = _playerInteractableHandler.CurrentInteractable.Interactable.dispenser.rawMaterial;
+                    _itemTransform = Instantiate(_holdingItem.prefab, itemHolder.position, Quaternion.identity,itemHolder).transform;
+                    return;
                 }
             }
             // _playerInteractableHandler.CurrentInteractable.Interactable 
