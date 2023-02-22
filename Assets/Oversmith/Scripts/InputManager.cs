@@ -23,7 +23,7 @@ namespace Oversmith.Scripts
             if(controls != null) return;
             controls = new InputActions();
         }
-
+ 
         private void OnEnable()
         {
             Controls.Enable();
