@@ -19,6 +19,20 @@ namespace _Developers.Vitor
         {
             _playerInteractableHandler = GetComponent<PlayerInteractableHandler>();
             InputManager.Controls.Gameplay.Grab.performed += GrabOnPerformed;  
+            InputManager.Controls.Gameplay.Interact.performed += InteractOnperformed;  
+        }
+
+        private void InteractOnperformed(InputAction.CallbackContext obj)
+        {
+            if (_playerInteractableHandler.CurrentInteractable != null)
+            {
+                var Interactable = _playerInteractableHandler.CurrentInteractable.Interactable;
+                if (Interactable.hasCraftingTable)
+                {
+                    Interactable.craftingTable.AddPlayer(this);
+                }
+            }
+            
         }
 
         private void GrabOnPerformed(InputAction.CallbackContext obj)

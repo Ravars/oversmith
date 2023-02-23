@@ -1,13 +1,20 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 
 namespace _Developers.Vitor
 {
     [RequireComponent(typeof(Interactable))]
     public class Table : MonoBehaviour
     {
-        private BaseItem item;
+        public BaseItem item { get; private set; }
         private Transform _itemTransform;
         [SerializeField] private Transform pointToSpawnItem;
+        private Interactable _interactable;
+
+        private void Awake()
+        {
+            _interactable = GetComponent<Interactable>();
+        }
 
         public bool HasItem()
         {
@@ -25,6 +32,22 @@ namespace _Developers.Vitor
 
         public bool CanSetItem(BaseItem newItem)
         {
+            if (_interactable.hasCraftingTable)
+            {
+                foreach (var process in newItem.Processes)
+                {
+                    if (process.craftingTable == _interactable.craftingTable.type)
+                    {
+                        return true;
+                    }
+                }
+                return false;
+            }
+            
+            
+            
+            
+            
             if (item == null)
             {
                 return true;
@@ -44,11 +67,19 @@ namespace _Developers.Vitor
             }
         }
 
-        public void SetItem(BaseItem newItem)
+        public void SetItem(BaseItem newItem, bool craftingTable = false)
         {
             if (item == null)
             {
                 item = newItem;
+                _itemTransform = Instantiate(item.prefab, pointToSpawnItem.position, Quaternion.identity,
+                    pointToSpawnItem).transform;
+            }
+
+            if (craftingTable)
+            {
+                item = newItem;
+                Destroy(_itemTransform.gameObject);
                 _itemTransform = Instantiate(item.prefab, pointToSpawnItem.position, Quaternion.identity,
                     pointToSpawnItem).transform;
             }
