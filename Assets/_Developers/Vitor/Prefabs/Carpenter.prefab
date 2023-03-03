@@ -257,7 +257,7 @@ Transform:
   - {fileID: 4170535798464433866}
   - {fileID: 4179438851246772157}
   m_Father: {fileID: 0}
-  m_RootOrder: 0
+  m_RootOrder: 10
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &5189054952472078319
 MonoBehaviour:
@@ -290,7 +290,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f483bf3afb24452c9c4a3987f87420e3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  pointToSpawnItem: {fileID: 0}
+  pointToSpawnItem: {fileID: 4179438851246772157}
 --- !u!114 &2328738670423799681
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -318,6 +318,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 491b4e9422e443e4a7b3bf3e0e8c256d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  timeToPrepareItem: 10
+  timeToPrepareItem: 5
   currentTimeToPrepareItem: 0
   type: 1

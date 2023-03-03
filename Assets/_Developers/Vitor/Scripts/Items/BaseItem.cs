@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace _Developers.Vitor
 {
-    [CreateAssetMenu(fileName = "newBaseItem", menuName = "Items/BaseItem")]
+    // [CreateAssetMenu(fileName = "newBaseItem", menuName = "Items/BaseItem")]
     public class BaseItem : ScriptableObject
     {
         public string itemName;
@@ -17,12 +17,14 @@ namespace _Developers.Vitor
     {
         public CraftingTableType craftingTable;
         public BaseItem itemGenerated;
-
-        public Process(CraftingTableType craftingTable, BaseItem itemGenerated)
+        public BaseItem[] itemsNeeded;
+        public Process(CraftingTableType craftingTable, BaseItem itemGenerated, BaseItem[] itemsNeeded)
         {
             this.craftingTable = craftingTable;
             this.itemGenerated = itemGenerated;
+            this.itemsNeeded = itemsNeeded;
         }
+        
     }
 
     public enum ItemType
@@ -38,5 +40,6 @@ namespace _Developers.Vitor
         Carpentry,
         SwordMold,
         Anvil,
+        Table
     }
 }

@@ -72,6 +72,7 @@ namespace Test1.Scripts.Prototype
 
         private void OnTriggerExit(Collider other)
         {
+            Debug.Log("on exit");
             if (!other.transform.root.TryGetComponent(out Interactable interactable)) return;
             ObjectInteractable objectInteractable = new ObjectInteractable(other.transform.root,interactable);
             var index = _interactableList.FindIndex(a => a.Interactable == interactable);

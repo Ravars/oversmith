@@ -3,9 +3,9 @@
 namespace _Developers.Vitor
 {
     [CreateAssetMenu(fileName = "newRecipe", menuName = "Items/Recipe")]
-    public class Recipe : ScriptableObject
+    public class RecipeSo : ScriptableObject
     {
-        public GameObject item;
-        public Material[] materialsNeeded;
+        public BaseItem itemGenerated;
+        public MaterialSo[] materialsNeeded;
     }
 }

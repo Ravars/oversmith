@@ -61,7 +61,7 @@ namespace _Developers.Vitor
                 
                 if(Interactable.hasDispenser && _holdingItem == null)
                 {
-                    _holdingItem = _playerInteractableHandler.CurrentInteractable.Interactable.dispenser.rawMaterial;
+                    _holdingItem = _playerInteractableHandler.CurrentInteractable.Interactable.dispenser.rawMaterialSo;
                     _itemTransform = Instantiate(_holdingItem.prefab, itemHolder.position, Quaternion.identity,itemHolder).transform;
                     return;
                 }

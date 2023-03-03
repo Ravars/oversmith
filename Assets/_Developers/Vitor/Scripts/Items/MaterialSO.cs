@@ -3,9 +3,9 @@
 namespace _Developers.Vitor
 {
     [CreateAssetMenu(fileName = "newMaterial", menuName = "Items/Material")]
-    public class Material : BaseItem
+    public class MaterialSo : BaseItem
     {
-        private Material()
+        private MaterialSo()
         {
             itemType = ItemType.Material;
         }
