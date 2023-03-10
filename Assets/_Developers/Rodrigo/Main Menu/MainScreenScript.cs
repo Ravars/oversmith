@@ -49,4 +49,9 @@ public class MainScreenScript : MonoBehaviour
     {
         SceneManager.LoadScene(newGameSceneName);
     }
+
+    public void QuitGame()
+    {
+        Application.Quit();
+    }
 }
