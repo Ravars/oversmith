@@ -17,12 +17,6 @@ public class StartScreenScript : MonoBehaviour
 		input.SwitchCurrentActionMap("StartUp");
 	}
 
-	// Update is called once per frame
-	void Update()
-	{
-		
-	}
-
 	void OnEnable()
 	{
 		fade = GetComponent<FadeUI>();
@@ -30,26 +24,36 @@ public class StartScreenScript : MonoBehaviour
 	}
 
 	void OnDisable()
-    {
-		input.actions["StartUp"].performed -= OnAnyPressed;
-    }
+	{
+		if (input != null) 
+		{ 
+			input.actions["StartUp"].performed -= OnAnyPressed;
+		}
+	}
 
+	// Called when any button is pressed in start screen
 	public void OnAnyPressed(InputAction.CallbackContext ctx)
-    {
-		fade = GetComponent<FadeUI>();
-		fade.BeginFadeOut();
-    }
+	{
+		if (this != null)
+		{
+			fade = GetComponent<FadeUI>();
+			fade.BeginFadeOut();
+		}
+		ctx.action.performed -= OnAnyPressed;
+	}
 
+	// Enable press any button after fading in
 	public void EnablePress()
-    {
+	{
 		input.actions["StartUp"].performed += OnAnyPressed;
-    }
+	}
 
+	// Go to menu
 	public void Continue()
-    {
+	{
 		if (onContinue != null)
-        {
+		{
 			onContinue.Invoke();
-        }
-    }
+		}
+	}
 }
