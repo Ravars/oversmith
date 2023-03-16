@@ -54,6 +54,7 @@ public class FadeUI : MonoBehaviour
         {
             counter = 0f;
             isFadingIn = false;
+            canvasGr.alpha = 1;
         }
         else
         {
@@ -69,6 +70,7 @@ public class FadeUI : MonoBehaviour
         {
             counter = 0f;
             isFadingOut = false;
+            canvasGr.alpha = 0;
         }
         else
         {
