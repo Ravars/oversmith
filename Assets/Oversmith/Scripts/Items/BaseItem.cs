@@ -7,7 +7,6 @@ namespace _Developers.Vitor
     public class BaseItem : ScriptableObject
     {
         public string itemName;
-        // public ItemType itemType;
         public GameObject prefab;
         public Process[] processes;
     }

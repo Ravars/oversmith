@@ -44,6 +44,7 @@ namespace _Developers.Vitor
             if (!_craftingInteractionHandler.isRunning)
             {
                 _craftingInteractionHandler.Init(timeToPrepareItem,2);
+                
             }
             else
             {

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using UnityEngine;
 
 namespace _Developers.Vitor
@@ -10,6 +11,10 @@ namespace _Developers.Vitor
         private Transform _itemTransform;
         [SerializeField] private Transform pointToSpawnItem;
         private Interactable _interactable;
+
+        public Item itemScript { get; private set; }
+        //ideia
+        // public Base
 
         private void Awake()
         {
@@ -27,6 +32,7 @@ namespace _Developers.Vitor
             Destroy(_itemTransform.gameObject);
             item = null;
             _itemTransform = null;
+            itemScript = null;
             return tempItem;
         }
 
@@ -36,7 +42,7 @@ namespace _Developers.Vitor
             {
                 foreach (var process in newItem.processes)
                 {
-                    if (process.craftingTable == _interactable.craftingTable.type)
+                    if (process.craftingTable == _interactable.craftingTable.type && process.craftingTable != CraftingTableType.Table)
                     {
                         return true;
                     }
@@ -55,35 +61,74 @@ namespace _Developers.Vitor
             else
             {
                 //new item pode ser mesclado com o item atual ?
-                bool canMerge = false;
-                if (canMerge)
+                BaseItem[] itemsInUse = {
+                    newItem,
+                    item
+                };
+                Process[] processes = newItem.processes.Concat(item.processes).ToArray();
+                
+                
+                
+                
+                
+                foreach (var process in processes)
                 {
-                    return true;
+                    var canMerge = process.itemsNeeded.All(itemNeeded => itemsInUse.Contains(itemNeeded));
+
+                    if (canMerge)
+                    {
+                        return true;
+                    }
                 }
-                else
-                {
-                    return false;
-                }
+
+                return false;
             }
         }
 
         public void SetItem(BaseItem newItem, bool craftingTable = false)
         {
-            if (item == null)
-            {
-                item = newItem;
-                _itemTransform = Instantiate(item.prefab, pointToSpawnItem.position, Quaternion.identity,
-                    pointToSpawnItem).transform;
-            }
-
             if (craftingTable)
             {
-                item = newItem;
-                Destroy(_itemTransform.gameObject);
-                _itemTransform = Instantiate(item.prefab, pointToSpawnItem.position, Quaternion.identity,
-                    pointToSpawnItem).transform;
+                Debug.Log("Crafting table");
+                SpawnItem(newItem,true);
+                return;
             }
             
+            if (item == null)
+            {
+                Debug.Log("Item null");
+                SpawnItem(newItem,false);
+            }
+            else
+            {
+                Debug.Log("merge item");
+                BaseItem[] itemsInUse = {
+                    newItem,
+                    item
+                };
+                Process[] processes = newItem.processes.Concat(item.processes).ToArray();
+                
+                foreach (var process in processes)
+                {
+                    var canMerge = process.itemsNeeded.All(itemNeeded => itemsInUse.Contains(itemNeeded));
+                    if (canMerge)
+                    {
+                        SpawnItem(process.itemGenerated, true);
+                    }
+                }
+            }
+        }
+
+        private void SpawnItem(BaseItem newItem, bool hasToDestroy)
+        {
+            item = newItem;
+            if (hasToDestroy)
+            {
+                Destroy(_itemTransform.gameObject);
+            }
+            _itemTransform = Instantiate(item.prefab, pointToSpawnItem.position, Quaternion.identity,
+                pointToSpawnItem).transform;
+            itemScript = _itemTransform.GetComponent<Item>();
         }
     }
 }
