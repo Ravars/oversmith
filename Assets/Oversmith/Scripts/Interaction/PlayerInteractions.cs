@@ -1,7 +1,5 @@
-﻿using System;
-using Oversmith.Scripts;
+﻿using Oversmith.Scripts;
 using Test1.Scripts.Prototype;
-using Unity.Mathematics;
 using UnityEngine;
 using UnityEngine.InputSystem;
 

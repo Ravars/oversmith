@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Linq;
-using UnityEditor;
-using UnityEditor.Localization.Plugins.XLIFF.V12;
 using UnityEngine;
 
 namespace _Developers.Vitor

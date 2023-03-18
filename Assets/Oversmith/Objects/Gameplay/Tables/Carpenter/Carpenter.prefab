@@ -24,7 +24,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 78500092119457308}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 1.16, z: 0}
+  m_LocalPosition: {x: 0.83, y: 1.16, z: 1.8}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -114,8 +114,8 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 1, y: 1, z: 1}
-  m_Center: {x: 0.5, y: 0.5, z: 0.5}
+  m_Size: {x: 2, y: 1, z: 2}
+  m_Center: {x: 1, y: 0.5, z: 1}
 --- !u!1 &7219020621227821713
 GameObject:
   m_ObjectHideFlags: 0
@@ -129,6 +129,7 @@ GameObject:
   - component: {fileID: 7065156798647131239}
   - component: {fileID: 2328738670423799681}
   - component: {fileID: 579738523632398111}
+  - component: {fileID: 1269822107474507585}
   m_Layer: 0
   m_Name: Carpenter
   m_TagString: Untagged
@@ -152,7 +153,7 @@ Transform:
   - {fileID: 4170535798464433866}
   - {fileID: 4179438851246772157}
   m_Father: {fileID: 0}
-  m_RootOrder: 0
+  m_RootOrder: 38
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &5189054952472078319
 MonoBehaviour:
@@ -216,6 +217,27 @@ MonoBehaviour:
   timeToPrepareItem: 5
   currentTimeToPrepareItem: 0
   type: 1
+--- !u!65 &1269822107474507585
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7219020621227821713}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 2, y: 1, z: 2}
+  m_Center: {x: 1, y: 0.5, z: 1}
 --- !u!1001 &6356696880001528621
 PrefabInstance:
   m_ObjectHideFlags: 0

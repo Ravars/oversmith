@@ -1,5 +1,4 @@
-﻿using System;
-using System.Linq;
+﻿using System.Linq;
 using UnityEngine;
 
 namespace _Developers.Vitor
@@ -40,6 +39,12 @@ namespace _Developers.Vitor
         {
             if (_interactable.hasCraftingTable)
             {
+                if (item != null)
+                {
+                    return false;
+                }
+                
+                
                 foreach (var process in newItem.processes)
                 {
                     if (process.craftingTable == _interactable.craftingTable.type && process.craftingTable != CraftingTableType.Table)
@@ -50,31 +55,24 @@ namespace _Developers.Vitor
                 return false;
             }
             
-            
-            
-            
-            
             if (item == null)
             {
                 return true;
             }
             else
             {
-                //new item pode ser mesclado com o item atual ?
                 BaseItem[] itemsInUse = {
                     newItem,
                     item
                 };
                 Process[] processes = newItem.processes.Concat(item.processes).ToArray();
-                
-                
-                
-                
-                
                 foreach (var process in processes)
                 {
-                    var canMerge = process.itemsNeeded.All(itemNeeded => itemsInUse.Contains(itemNeeded));
-
+                    var canMerge = false;
+                    if (process.itemsNeeded.Length > 0)
+                    {
+                        canMerge = process.itemsNeeded.All(itemNeeded => itemsInUse.Contains(itemNeeded));
+                    }
                     if (canMerge)
                     {
                         return true;
@@ -110,7 +108,11 @@ namespace _Developers.Vitor
                 
                 foreach (var process in processes)
                 {
-                    var canMerge = process.itemsNeeded.All(itemNeeded => itemsInUse.Contains(itemNeeded));
+                    var canMerge = false;
+                    if (process.itemsNeeded.Length > 0)
+                    {
+                        canMerge = process.itemsNeeded.All(itemNeeded => itemsInUse.Contains(itemNeeded));
+                    }
                     if (canMerge)
                     {
                         SpawnItem(process.itemGenerated, true);
@@ -126,7 +128,7 @@ namespace _Developers.Vitor
             {
                 Destroy(_itemTransform.gameObject);
             }
-            _itemTransform = Instantiate(item.prefab, pointToSpawnItem.position, Quaternion.identity,
+            _itemTransform = Instantiate(item.prefab, pointToSpawnItem.position, pointToSpawnItem.rotation,
                 pointToSpawnItem).transform;
             itemScript = _itemTransform.GetComponent<Item>();
         }

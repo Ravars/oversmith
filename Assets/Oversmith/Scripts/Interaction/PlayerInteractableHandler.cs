@@ -1,8 +1,6 @@
-﻿using System;
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using _Developers.Vitor;
-using Oversmith.Scripts;
 using UnityEngine;
 
 namespace Test1.Scripts.Prototype
@@ -63,6 +61,7 @@ namespace Test1.Scripts.Prototype
 
         private void OnTriggerEnter(Collider other)
         {
+            Debug.Log("trigger enter: " + other.transform.root.name + other.isTrigger);
             if (!other.transform.root.TryGetComponent(out Interactable interactable)) return;
             ObjectInteractable objectInteractable = new ObjectInteractable(other.transform.root,interactable);
             if (!_interactableList.Contains(objectInteractable))
@@ -73,6 +72,7 @@ namespace Test1.Scripts.Prototype
 
         private void OnTriggerExit(Collider other)
         {
+            Debug.Log("trigger exit: " + other.transform.root.name);
             if (!other.transform.root.TryGetComponent(out Interactable interactable)) return;
             ObjectInteractable objectInteractable = new ObjectInteractable(other.transform.root,interactable);
             var index = _interactableList.FindIndex(a => a.Interactable == interactable);
@@ -81,6 +81,13 @@ namespace Test1.Scripts.Prototype
                 _interactableList.RemoveAt(index);
                 if (CurrentInteractable != null && objectInteractable.Interactable == CurrentInteractable.Interactable)
                 {
+                    Debug.Log("VAR" + _interactableList.Count);
+                    foreach (var a in _interactableList)
+                    {
+                        Debug.Log(a.ObjectTransform.name);
+                    }
+                    
+                    
                     CurrentInteractable = null;
                     interactable.SetStatusInteract(false);
                 }
