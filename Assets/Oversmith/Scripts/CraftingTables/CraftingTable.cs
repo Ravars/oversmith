@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Collections.Generic;
 using UnityEngine;
 
 namespace _Developers.Vitor
@@ -44,6 +42,7 @@ namespace _Developers.Vitor
             if (!_craftingInteractionHandler.isRunning)
             {
                 _craftingInteractionHandler.Init(timeToPrepareItem,2);
+                
             }
             else
             {

@@ -1,5 +1,3 @@
-using UnityEngine;
-
 namespace Oversmith.Scripts.Utils
 {
     public class PersistentSingleton<T> : Singleton<T> where T : Singleton<T>

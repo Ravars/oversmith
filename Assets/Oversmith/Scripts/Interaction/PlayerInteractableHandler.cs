@@ -1,8 +1,6 @@
-﻿using System;
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using _Developers.Vitor;
-using Oversmith.Scripts;
 using UnityEngine;
 
 namespace Test1.Scripts.Prototype
