@@ -12,6 +12,10 @@ namespace _Developers.Vitor
         public Table table;
         public Dispenser dispenser;
         public CraftingTable craftingTable;
+
+        public GameObject visual;
+        public GameObject visualSelected;
+        
         private void Awake()
         {
             table = GetComponent<Table>();
@@ -27,6 +31,16 @@ namespace _Developers.Vitor
 
         public void SetStatusInteract(bool b)
         {
+            if (visual != null && visualSelected != null)
+            {
+                visualSelected.SetActive(b);
+                visual.SetActive(!b);
+            }
         }
+        
+        
+
+
+
     }
 }
