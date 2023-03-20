@@ -1,3 +1,5 @@
+using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -6,16 +8,17 @@ namespace Oversmith.Scripts.Menu
     public class FadeUI : MonoBehaviour
     {
         [Header("Fade Control")]
-        [Range(0, 5)]
+        [Range(0, 2)]
         public float duration = 0.6f;
         private float counter = 0f;
         private bool isFadingIn = false;
         private bool isFadingOut = false;
         private CanvasGroup canvasGr;
-        [Space(20)]
+        [Space(10)]
         [Header("Events")]
         public UnityEvent onFadeInEnd;
         public UnityEvent onFadeOutEnd;
+        private delegate void OnFadeHandler();
 
         // Start is called before the first frame update
         void Start()
@@ -28,32 +31,59 @@ namespace Oversmith.Scripts.Menu
         {
             if (isFadingIn)
             {
-                FadeIn();
-                if(!isFadingIn) onFadeInEnd.Invoke();
+                _FadeIn();
+                if (!isFadingIn) onFadeInEnd.Invoke();
             }
             else if (isFadingOut)
             {
-                FadeOut();
-                if(!isFadingOut) onFadeOutEnd.Invoke();
+                _FadeOut();
+                if (!isFadingOut) onFadeOutEnd.Invoke();
             }
         }
 
         public void BeginFadeIn()
         {
+            isFadingOut = false;
             isFadingIn = true;
         }
 
+        public void FadeIn(float time, UnityAction ender)
+        {
+            duration = time;
+            onFadeInEnd.RemoveAllListeners();
+            if (ender != null) onFadeInEnd.AddListener(ender);
+            isFadingOut = false;
+            isFadingIn = true;
+        }
+        public void FadeIn(float time) { FadeIn(time, null); }
+        public void FadeIn(UnityAction ender) { FadeIn(duration, ender); }
+        public void FadeIn() { FadeIn(duration, null); }
+
         public void BeginFadeOut()
         {
+            isFadingIn = false;
             isFadingOut = true;
         }
 
-        private void FadeIn()
+        public void FadeOut(float time, UnityAction ender)
+        {
+            duration = time;
+            onFadeOutEnd.RemoveAllListeners();
+            if (ender != null) onFadeOutEnd.AddListener(ender);
+            isFadingIn = false;
+            isFadingOut = true;
+        }
+        public void FadeOut(float time) { FadeOut(time, null); }
+        public void FadeOut(UnityAction ender) { FadeOut(duration, ender); }
+        public void FadeOut() { FadeOut(duration, null); }
+
+        private void _FadeIn()
         {
             if (counter >= duration)
             {
                 counter = 0f;
                 isFadingIn = false;
+                canvasGr.alpha = 1;
             }
             else
             {
@@ -63,12 +93,13 @@ namespace Oversmith.Scripts.Menu
             }
         }
 
-        private void FadeOut()
+        private void _FadeOut()
         {
             if (counter >= duration)
             {
                 counter = 0f;
                 isFadingOut = false;
+                canvasGr.alpha = 0;
             }
             else
             {

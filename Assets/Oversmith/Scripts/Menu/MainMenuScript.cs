@@ -1,28 +1,48 @@
+using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.InputSystem.UI;
+using UnityEngine.SceneManagement;
 
 namespace Oversmith.Scripts.Menu
 {
 	public class MainMenuScript : MonoBehaviour
 	{
-		delegate void Ends();
-
 		public GameObject startScr;
 		public GameObject menuScr;
+		public GameObject configScr;
 
 		private PlayerInput input;
+		private GameObject curScr;
+		[Space(10)]
+		public LevelNames NewGameLevel;
 
 		// Start is called before the first frame update
 		void Start()
 		{
 			input = GetComponent<PlayerInput>();
-			startScr.SetActive(true);
+			curScr = menuScr;
+			curScr.SetActive(true);
 		}
 
-		public void SwitchToMainScreen()
+		public void LoadNewGame()
 		{
-			startScr.SetActive(false);
+			SceneManager.LoadScene((int)NewGameLevel);
+		}
+
+		public void ReturnToMainScreen()
+		{
+			curScr.SetActive(false);
+			curScr = menuScr;
 			menuScr.SetActive(true);
+		}
+
+		public void SwitchToConfigScreen()
+		{
+			curScr.SetActive(false);
+			curScr = configScr;
+			configScr.SetActive(true);
 		}
 	}
 }

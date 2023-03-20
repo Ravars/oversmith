@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace Oversmith.Script.Menu
+namespace Oversmith.Scripts.Menu
 {
     public class PreferredSizeSetter : MonoBehaviour
     {

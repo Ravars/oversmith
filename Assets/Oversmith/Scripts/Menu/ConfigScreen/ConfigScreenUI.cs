@@ -5,7 +5,7 @@ using UnityEngine.Events;
 using UnityEngine.InputSystem;
 using UnityEngine.Localization.Settings;
 
-namespace Oversmith.Script.Menu
+namespace Oversmith.Scripts.Menu
 {
     public class ConfigScreenUI : MonoBehaviour
     {
@@ -91,7 +91,14 @@ namespace Oversmith.Script.Menu
         }
         private void OnApply(InputAction.CallbackContext ctx)
         {
-            OnApply();
+            try
+            {
+                OnApply();
+            }
+            catch(MissingReferenceException)
+            {
+                ctx.action.performed -= OnApply;
+            }
         }
 
         // Cancel modifications, keep configs as before
@@ -102,7 +109,14 @@ namespace Oversmith.Script.Menu
         }
         private void OnCancel(InputAction.CallbackContext ctx)
         {
-            OnCancel();
+            try
+            {
+                OnCancel();
+            }
+            catch (MissingReferenceException)
+            {
+                ctx.action.performed -= OnCancel;
+            }
         }
     }
 }

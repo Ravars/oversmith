@@ -1,3 +1,5 @@
+using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.InputSystem;
@@ -10,6 +12,15 @@ namespace Oversmith.Scripts.Menu
 		public UnityEvent onContinue;
 
 		private FadeUI fade;
+		private FadeUI Fade
+		{
+			get
+			{
+				if (fade == null)
+					fade = GetComponent<FadeUI>();
+				return fade;
+			}
+		}
 
 		// Start is called before the first frame update
 		void Start()
@@ -19,14 +30,13 @@ namespace Oversmith.Scripts.Menu
 
 		void OnEnable()
 		{
-			fade = GetComponent<FadeUI>();
-			fade.BeginFadeIn();
+			Fade.BeginFadeIn();
 		}
 
 		void OnDisable()
 		{
-			if (input != null) 
-			{ 
+			if (input != null)
+			{
 				input.actions["StartUp"].performed -= OnAnyPressed;
 			}
 		}
@@ -36,8 +46,7 @@ namespace Oversmith.Scripts.Menu
 		{
 			if (this != null)
 			{
-				fade = GetComponent<FadeUI>();
-				fade.BeginFadeOut();
+				Fade.BeginFadeOut();
 			}
 			ctx.action.performed -= OnAnyPressed;
 		}

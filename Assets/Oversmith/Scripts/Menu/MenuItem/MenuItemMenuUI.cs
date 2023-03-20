@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace Oversmith.Script.Menu
+namespace Oversmith.Scripts.Menu
 {
     public class MenuItemMenuUI : MonoBehaviour
     {
@@ -34,8 +34,6 @@ namespace Oversmith.Script.Menu
 
         void Awake()
         {
-            textMesh.text = propertyName;
-
             selectors = new GameObject[options.Length];
             for(int i = 0; i < options.Length; i++)
             {
