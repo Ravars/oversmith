@@ -3,13 +3,13 @@ using UnityEngine;
 
 namespace _Developers.Vitor
 {
-    [RequireComponent(typeof(Interactable))]
+    [RequireComponent(typeof(InteractableHolder))]
     public class Table : MonoBehaviour
     {
         public BaseItem item { get; private set; }
         private Transform _itemTransform;
         [SerializeField] private Transform pointToSpawnItem;
-        private Interactable _interactable;
+        private InteractableHolder _interactableHolder;
 
         public Item itemScript { get; private set; }
         //ideia
@@ -17,7 +17,7 @@ namespace _Developers.Vitor
 
         private void Awake()
         {
-            _interactable = GetComponent<Interactable>();
+            _interactableHolder = GetComponent<InteractableHolder>();
         }
 
         public bool HasItem()
@@ -37,7 +37,7 @@ namespace _Developers.Vitor
 
         public bool CanSetItem(BaseItem newItem)
         {
-            if (_interactable.hasCraftingTable)
+            if (_interactableHolder.hasCraftingTable)
             {
                 if (item != null)
                 {
@@ -47,7 +47,7 @@ namespace _Developers.Vitor
                 
                 foreach (var process in newItem.processes)
                 {
-                    if (process.craftingTable == _interactable.craftingTable.type && process.craftingTable != CraftingTableType.Table)
+                    if (process.craftingTable == _interactableHolder.craftingTable.type && process.craftingTable != CraftingTableType.Table)
                     {
                         return true;
                     }

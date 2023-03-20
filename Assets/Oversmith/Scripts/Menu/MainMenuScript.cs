@@ -19,21 +19,10 @@ namespace Oversmith.Scripts.Menu
 			startScr.SetActive(true);
 		}
 
-		// Update is called once per frame
-		void Update()
-		{
-			
-		}
-
 		public void SwitchToMainScreen()
-	    {
+		{
 			startScr.SetActive(false);
 			menuScr.SetActive(true);
-	    }
-
-		public void LoadNewGame()
-	    {
-
-	    }
+		}
 	}
 }

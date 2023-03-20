@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace _Developers.Vitor
 {
-    [RequireComponent(typeof(Interactable),typeof(CraftingInteractionHandler))]
+    [RequireComponent(typeof(InteractableHolder),typeof(CraftingInteractionHandler))]
     public class CraftingTable : MonoBehaviour
     {
         [SerializeField] protected float timeToPrepareItem = 10f;

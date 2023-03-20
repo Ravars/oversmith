@@ -41,6 +41,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7235632121707494264}
+  - component: {fileID: 8315062324706154385}
   m_Layer: 0
   m_Name: Wagon
   m_TagString: Untagged
@@ -62,8 +63,27 @@ Transform:
   m_Children:
   - {fileID: 694126539996016158}
   m_Father: {fileID: 0}
-  m_RootOrder: 10
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &8315062324706154385
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8684547010020027899}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7708572e25be4dcb898b807775e898f9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  availableItems:
+  - {fileID: 11400000, guid: 81beddd216069c342a238ac6a5a01c10, type: 2}
+  - {fileID: 11400000, guid: b6f01908b6344594490ea165b06d3924, type: 2}
+  requiredItems: []
+  maxItems: 0
+  timeRemaining: 0
+  pointsToSpawn: []
 --- !u!1001 &3490136082400986189
 PrefabInstance:
   m_ObjectHideFlags: 0

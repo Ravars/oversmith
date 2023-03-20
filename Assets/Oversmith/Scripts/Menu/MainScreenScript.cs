@@ -9,12 +9,13 @@ namespace Oversmith.Scripts.Menu
     {
         public PlayerInput input;
         public Button initBtt;
-        private FadeUI _fade;
+        private FadeUI fade;
+
         void OnEnable ()
         {
             input.SwitchCurrentActionMap("UI");
-            _fade = GetComponent<FadeUI>();
-            _fade.BeginFadeIn();
+            fade = GetComponent<FadeUI>();
+            fade.BeginFadeIn();
         }
 
         public void OnFadedIn()
@@ -25,8 +26,8 @@ namespace Oversmith.Scripts.Menu
         public void OnClickPlay()
         {
             input.DeactivateInput();
-            _fade = GetComponent<FadeUI>();
-            _fade.BeginFadeOut();
+            fade = GetComponent<FadeUI>();
+            fade.BeginFadeOut();
         }
 
         public void LoadNewGame()

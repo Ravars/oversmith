@@ -15,7 +15,7 @@ namespace _Developers.Vitor
             set => _numberOfPlayer = Math.Max(0, value);
         }
         private float _timeToPrepareItem;
-        [field: SerializeField] public float CurrentTimeToPrepareItem { get; private set; }
+        // [field: SerializeField] public float CurrentTimeToPrepareItem { get; private set; }
         [field: SerializeField] private float _speed;
         [field: SerializeField]  public bool isRunning { get; private set; }
 
@@ -48,7 +48,7 @@ namespace _Developers.Vitor
                 _timeToPrepareItem = timeToPrepareItem;
                 
                 // Item itemScript = _table.item.
-                CurrentTimeToPrepareItem = _table.itemScript.currentProcessTimeNormalized;
+                // CurrentTimeToPrepareItem = _table.itemScript.currentProcessTimeNormalized;
                 _numberOfPlayer = numberOfPlayer;
                 _speed = speed;
                 isRunning = true;

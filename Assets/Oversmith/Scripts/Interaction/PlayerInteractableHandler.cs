@@ -49,9 +49,9 @@ namespace Test1.Scripts.Prototype
 
                 if (closestInteractable != CurrentInteractable)
                 {
-                    CurrentInteractable?.Interactable.SetStatusInteract(false);
+                    CurrentInteractable?.InteractableHolder.SetStatusInteract(false);
                     CurrentInteractable = closestInteractable;
-                    CurrentInteractable?.Interactable.SetStatusInteract(true);
+                    CurrentInteractable?.InteractableHolder.SetStatusInteract(true);
                 }
                 
                 yield return new WaitForFixedUpdate();
@@ -61,7 +61,7 @@ namespace Test1.Scripts.Prototype
 
         private void OnTriggerEnter(Collider other)
         {
-            if (!other.transform.root.TryGetComponent(out Interactable interactable)) return;
+            if (!other.transform.root.TryGetComponent(out InteractableHolder interactable)) return;
             ObjectInteractable objectInteractable = new ObjectInteractable(other.transform.root,interactable);
             if (!_interactableList.Contains(objectInteractable))
             {
@@ -71,13 +71,13 @@ namespace Test1.Scripts.Prototype
 
         private void OnTriggerExit(Collider other)
         {
-            if (!other.transform.root.TryGetComponent(out Interactable interactable)) return;
+            if (!other.transform.root.TryGetComponent(out InteractableHolder interactable)) return;
             ObjectInteractable objectInteractable = new ObjectInteractable(other.transform.root,interactable);
-            var index = _interactableList.FindIndex(a => a.Interactable == interactable);
+            var index = _interactableList.FindIndex(a => a.InteractableHolder == interactable);
             if (index != -1)
             {
                 _interactableList.RemoveAt(index);
-                if (CurrentInteractable != null && objectInteractable.Interactable == CurrentInteractable.Interactable)
+                if (CurrentInteractable != null && objectInteractable.InteractableHolder == CurrentInteractable.InteractableHolder)
                 {
                     CurrentInteractable = null;
                     interactable.SetStatusInteract(false);
@@ -95,12 +95,12 @@ namespace Test1.Scripts.Prototype
     public class  ObjectInteractable
     {
         public readonly Transform ObjectTransform;
-        public readonly Interactable Interactable;
+        public readonly InteractableHolder InteractableHolder;
 
-        public ObjectInteractable(Transform objectTransform, Interactable interactable)
+        public ObjectInteractable(Transform objectTransform, InteractableHolder interactableHolder)
         {
             ObjectTransform = objectTransform;
-            Interactable = interactable;
+            InteractableHolder = interactableHolder;
         }
     }
 }

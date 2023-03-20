@@ -2,7 +2,7 @@
 
 namespace _Developers.Vitor
 {
-    [RequireComponent(typeof(Interactable),typeof(Table))]
+    [RequireComponent(typeof(InteractableHolder),typeof(Table))]
     public class Furnace : CraftingTable
     {
         
