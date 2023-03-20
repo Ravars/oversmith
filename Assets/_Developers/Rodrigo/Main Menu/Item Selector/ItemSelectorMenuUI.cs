@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace Menu
+namespace Oversmith.Script.Menu
 {
     public class ItemSelectorMenuUI : MonoBehaviour
     {

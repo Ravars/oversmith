@@ -5,7 +5,7 @@ using UnityEngine.Events;
 using UnityEngine.InputSystem;
 using UnityEngine.UI;
 
-namespace Menu
+namespace Oversmith.Script.Menu
 {
 	public class MainScreenScript : MonoBehaviour
 	{

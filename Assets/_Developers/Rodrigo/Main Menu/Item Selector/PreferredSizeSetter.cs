@@ -2,39 +2,42 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PreferredSizeSetter : MonoBehaviour
+namespace Oversmith.Script.Menu
 {
-    public bool usePreferredHeight = false;
-    public bool usePreferredWidth = false;
-
-
-    // Start is called before the first frame update
-    void Start()
+    public class PreferredSizeSetter : MonoBehaviour
     {
-        setSize();
-    }
+        public bool usePreferredHeight = false;
+        public bool usePreferredWidth = false;
 
-    public void setSize()
-    {
-        RectTransform rTransform = GetComponent<RectTransform>();
-        TMPro.TextMeshProUGUI textMesh = GetComponent<TMPro.TextMeshProUGUI>();
 
-        if(rTransform == null)
+        // Start is called before the first frame update
+        void Start()
         {
-            Debug.LogError("Objeto deve conter component RectTransform", this);
-            return;
+            setSize();
         }
 
-        if (textMesh == null)
+        public void setSize()
         {
-            Debug.LogError("Objeto deve conter component Text Mesh Pro", this);
-            return;
+            RectTransform rTransform = GetComponent<RectTransform>();
+            TMPro.TextMeshProUGUI textMesh = GetComponent<TMPro.TextMeshProUGUI>();
+
+            if (rTransform == null)
+            {
+                Debug.LogError("Objeto deve conter component RectTransform", this);
+                return;
+            }
+
+            if (textMesh == null)
+            {
+                Debug.LogError("Objeto deve conter component Text Mesh Pro", this);
+                return;
+            }
+
+            if (usePreferredWidth)
+                rTransform.sizeDelta = new Vector2(textMesh.preferredWidth, rTransform.sizeDelta.y);
+
+            if (usePreferredHeight)
+                rTransform.sizeDelta = new Vector2(rTransform.sizeDelta.x, textMesh.preferredHeight);
         }
-
-        if (usePreferredWidth)
-            rTransform.sizeDelta = new Vector2(textMesh.preferredWidth, rTransform.sizeDelta.y);
-
-        if(usePreferredHeight)
-            rTransform.sizeDelta = new Vector2(rTransform.sizeDelta.x, textMesh.preferredHeight);
     }
 }

@@ -4,63 +4,66 @@ using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.InputSystem;
 
-public class StartScreenScript : MonoBehaviour
+namespace Oversmith.Script.Menu
 {
-	public PlayerInput input;
-	public UnityEvent onContinue;
-
-	private FadeUI fade;
-	private FadeUI Fade
+	public class StartScreenScript : MonoBehaviour
 	{
-		get
+		public PlayerInput input;
+		public UnityEvent onContinue;
+
+		private FadeUI fade;
+		private FadeUI Fade
 		{
-			if (fade == null)
-				fade = GetComponent<FadeUI>();
-			return fade;
+			get
+			{
+				if (fade == null)
+					fade = GetComponent<FadeUI>();
+				return fade;
+			}
 		}
-	}
 
-	// Start is called before the first frame update
-	void Start()
-	{
-		input.SwitchCurrentActionMap("StartUp");
-	}
-
-	void OnEnable()
-	{
-		Fade.BeginFadeIn();
-	}
-
-	void OnDisable()
-	{
-		if (input != null) 
-		{ 
-			input.actions["StartUp"].performed -= OnAnyPressed;
-		}
-	}
-
-	// Called when any button is pressed in start screen
-	public void OnAnyPressed(InputAction.CallbackContext ctx)
-	{
-		if (this != null)
+		// Start is called before the first frame update
+		void Start()
 		{
-			Fade.BeginFadeOut();
+			input.SwitchCurrentActionMap("StartUp");
 		}
-		ctx.action.performed -= OnAnyPressed;
-	}
 
-	// Enable press any button after fading in
-	public void EnablePress()
-	{
-		input.actions["StartUp"].performed += OnAnyPressed;
-	}
-
-	// Go to menu
-	public void Continue()
-	{
-		if (onContinue != null)
+		void OnEnable()
 		{
-			onContinue.Invoke();
+			Fade.BeginFadeIn();
+		}
+
+		void OnDisable()
+		{
+			if (input != null)
+			{
+				input.actions["StartUp"].performed -= OnAnyPressed;
+			}
+		}
+
+		// Called when any button is pressed in start screen
+		public void OnAnyPressed(InputAction.CallbackContext ctx)
+		{
+			if (this != null)
+			{
+				Fade.BeginFadeOut();
+			}
+			ctx.action.performed -= OnAnyPressed;
+		}
+
+		// Enable press any button after fading in
+		public void EnablePress()
+		{
+			input.actions["StartUp"].performed += OnAnyPressed;
+		}
+
+		// Go to menu
+		public void Continue()
+		{
+			if (onContinue != null)
+			{
+				onContinue.Invoke();
+			}
 		}
 	}
 }

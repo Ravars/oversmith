@@ -3,8 +3,9 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.InputSystem;
+using UnityEngine.Localization.Settings;
 
-namespace Menu
+namespace Oversmith.Script.Menu
 {
     public class ConfigScreenUI : MonoBehaviour
     {
@@ -31,6 +32,7 @@ namespace Menu
         {
             Fade.FadeIn(OnInitialize); // Call OnInitialize after fade in
             input.actions["Navigate"].performed += NavigateOptions;
+            input.actions["Submit"].performed += OnApply;
             input.actions["Cancel"].performed += OnCancel;
         }
 
@@ -39,6 +41,7 @@ namespace Menu
             if (input != null)
             {
                 input.actions["Navigate"].performed -= NavigateOptions;
+                input.actions["Submit"].performed -= OnApply;
                 input.actions["Cancel"].performed -= OnCancel;
             }
         }
@@ -74,7 +77,21 @@ namespace Menu
         // And return to main menu
         public void OnApply()
         {
+            int i;
+            // Apply language configuration.
+            switch(itemsList[0].GetComponent<MenuItemMenuUI>().Code)
+            {
+                case "en": i = 1; break;
+                case "pt-br": i = 0; break;
+                default: i = 1; break;
+            }
+            LocalizationSettings.SelectedLocale = LocalizationSettings.AvailableLocales.Locales[i];
 
+            Fade.FadeOut(OnExit.Invoke);
+        }
+        private void OnApply(InputAction.CallbackContext ctx)
+        {
+            OnApply();
         }
 
         // Cancel modifications, keep configs as before

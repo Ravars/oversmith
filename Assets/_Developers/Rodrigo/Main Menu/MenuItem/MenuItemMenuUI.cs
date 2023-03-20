@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace Menu
+namespace Oversmith.Script.Menu
 {
     public class MenuItemMenuUI : MonoBehaviour
     {
@@ -12,6 +12,7 @@ namespace Menu
         {
             public string name;
             public Sprite image;
+            public string code;
         }
 
         [Header("Property Title")]
@@ -23,6 +24,7 @@ namespace Menu
         public GameObject optionsParent;
         private GameObject[] selectors;
         private int selectorIndex;
+        public string Code { get; private set; }
 
         public GameObject selectorPrefab;
 
@@ -45,6 +47,7 @@ namespace Menu
                 {
                     selectors[i].SetActive(true);
                     selectorIndex = i;
+                    Code = options[i].code;
                 }
                 else
                     selectors[i].SetActive(false);
@@ -71,6 +74,7 @@ namespace Menu
             selectorIndex--;
             if (selectorIndex < 0) selectorIndex = selectors.Length - 1;
             selectors[selectorIndex].SetActive(true);
+            Code = options[selectorIndex].code;
         }
 
         public void onSwitchRight()
@@ -79,6 +83,7 @@ namespace Menu
             selectorIndex++;
             if (selectorIndex >= selectors.Length) selectorIndex = 0;
             selectors[selectorIndex].SetActive(true);
+            Code = options[selectorIndex].code;
         }
     }
 }
