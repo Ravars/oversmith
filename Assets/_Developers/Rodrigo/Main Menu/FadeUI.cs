@@ -12,10 +12,11 @@ public class FadeUI : MonoBehaviour
     private bool isFadingIn = false;
     private bool isFadingOut = false;
     private CanvasGroup canvasGr;
-    [Space(20)]
+    [Space(10)]
     [Header("Events")]
     public UnityEvent onFadeInEnd;
     public UnityEvent onFadeOutEnd;
+    private delegate void OnFadeHandler();
 
     // Start is called before the first frame update
     void Start()
@@ -28,27 +29,53 @@ public class FadeUI : MonoBehaviour
     {
         if (isFadingIn)
         {
-            FadeIn();
+            _FadeIn();
             if(!isFadingIn) onFadeInEnd.Invoke();
         }
         else if (isFadingOut)
         {
-            FadeOut();
+            _FadeOut();
             if(!isFadingOut) onFadeOutEnd.Invoke();
         }
     }
 
     public void BeginFadeIn()
     {
+        isFadingOut = false;
         isFadingIn = true;
     }
 
+    public void FadeIn(float time, UnityAction ender)
+    {
+        duration = time;
+        onFadeInEnd.RemoveAllListeners();
+        if(ender != null) onFadeInEnd.AddListener(ender);
+        isFadingOut = false;
+        isFadingIn = true;
+    }
+    public void FadeIn(float time) { FadeIn(time, null); }
+    public void FadeIn(UnityAction ender) { FadeIn(duration, ender); }
+    public void FadeIn() { FadeIn(duration, null); }
+
     public void BeginFadeOut()
     {
+        isFadingIn = false;
         isFadingOut = true;
     }
 
-    private void FadeIn()
+    public void FadeOut(float time, UnityAction ender)
+    {
+        duration = time;
+        onFadeOutEnd.RemoveAllListeners();
+        if (ender != null) onFadeOutEnd.AddListener(ender);
+        isFadingIn = false;
+        isFadingOut = true;
+    }
+    public void FadeOut(float time) { FadeOut(time, null); }
+    public void FadeOut(UnityAction ender) { FadeOut(duration, ender); }
+    public void FadeOut() { FadeOut(duration, null); }
+
+    private void _FadeIn()
     {
         if (counter >= duration)
         {
@@ -64,7 +91,7 @@ public class FadeUI : MonoBehaviour
         }
     }
 
-    private void FadeOut()
+    private void _FadeOut()
     {
         if (counter >= duration)
         {

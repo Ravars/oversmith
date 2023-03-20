@@ -1,57 +1,53 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.InputSystem;
 using UnityEngine.UI;
-using UnityEngine.SceneManagement;
 
-public class MainScreenScript : MonoBehaviour
+namespace Menu
 {
-    public PlayerInput input;
-    public Button initBtt;
-    private FadeUI fade;
-    [Space(10)]
+	public class MainScreenScript : MonoBehaviour
+	{
+		public PlayerInput input;
+		public Button initBtt;
+		private FadeUI fade;
+		private FadeUI Fade
+		{
+			get
+			{
+				if (fade == null)
+					fade = GetComponent<FadeUI>();
+				return fade;
+			}
+		}
+		[Space(10)]
 
-    public string newGameSceneName;
+		public UnityEvent OnNewGameClick;
+		public UnityEvent OnOptionClick;
 
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+		void OnEnable()
+		{
+			input.SwitchCurrentActionMap("UI");
+			initBtt.Select();
+			Fade.FadeIn();
+		}
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
+		public void OnClickPlay()
+		{
+			input.DeactivateInput();
+			Fade.FadeOut(OnNewGameClick.Invoke);
+		}
 
-    void OnEnable ()
-    {
-        input.SwitchCurrentActionMap("UI");
-        fade = GetComponent<FadeUI>();
-        fade.BeginFadeIn();
-    }
+		public void OnClickOption()
+		{
+			Fade.FadeOut(OnOptionClick.Invoke);
+		}
 
-    public void OnFadedIn()
-    {
-        initBtt.Select();
-    }
-
-    public void OnClickPlay()
-    {
-        input.DeactivateInput();
-        fade = GetComponent<FadeUI>();
-        fade.BeginFadeOut();
-    }
-
-    public void LoadNewGame()
-    {
-        SceneManager.LoadScene(newGameSceneName);
-    }
-
-    public void QuitGame()
-    {
-        Application.Quit();
-    }
+		public void QuitGame()
+		{
+			Debug.Log("Quit game");
+			Application.Quit();
+		}
+	}
 }

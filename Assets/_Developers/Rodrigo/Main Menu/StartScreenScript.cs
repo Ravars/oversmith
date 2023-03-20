@@ -10,6 +10,15 @@ public class StartScreenScript : MonoBehaviour
 	public UnityEvent onContinue;
 
 	private FadeUI fade;
+	private FadeUI Fade
+	{
+		get
+		{
+			if (fade == null)
+				fade = GetComponent<FadeUI>();
+			return fade;
+		}
+	}
 
 	// Start is called before the first frame update
 	void Start()
@@ -19,8 +28,7 @@ public class StartScreenScript : MonoBehaviour
 
 	void OnEnable()
 	{
-		fade = GetComponent<FadeUI>();
-		fade.BeginFadeIn();
+		Fade.BeginFadeIn();
 	}
 
 	void OnDisable()
@@ -36,8 +44,7 @@ public class StartScreenScript : MonoBehaviour
 	{
 		if (this != null)
 		{
-			fade = GetComponent<FadeUI>();
-			fade.BeginFadeOut();
+			Fade.BeginFadeOut();
 		}
 		ctx.action.performed -= OnAnyPressed;
 	}
