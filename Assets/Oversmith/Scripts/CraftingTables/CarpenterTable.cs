@@ -2,7 +2,7 @@ using UnityEngine;
 
 namespace _Developers.Vitor
 {
-    [RequireComponent(typeof(Interactable),typeof(Table))]
+    [RequireComponent(typeof(InteractableHolder),typeof(Table))]
     public class CarpenterTable : CraftingTable
     {
         

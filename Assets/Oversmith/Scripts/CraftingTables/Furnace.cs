@@ -1,10 +1,8 @@
-﻿using System;
-using System.Linq;
-using UnityEngine;
+﻿using UnityEngine;
 
 namespace _Developers.Vitor
 {
-    [RequireComponent(typeof(Interactable),typeof(Table))]
+    [RequireComponent(typeof(InteractableHolder),typeof(Table))]
     public class Furnace : CraftingTable
     {
         

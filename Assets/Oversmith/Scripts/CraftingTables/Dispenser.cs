@@ -1,5 +1,4 @@
-﻿using Oversmith.Scripts;
-using UnityEngine;
+﻿using UnityEngine;
 
 namespace _Developers.Vitor
 {

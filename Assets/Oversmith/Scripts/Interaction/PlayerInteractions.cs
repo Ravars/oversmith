@@ -1,7 +1,5 @@
-﻿using System;
-using Oversmith.Scripts;
+﻿using Oversmith.Scripts;
 using Test1.Scripts.Prototype;
-using Unity.Mathematics;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -25,7 +23,7 @@ namespace _Developers.Vitor
         {
             if (_playerInteractableHandler.CurrentInteractable != null)
             {
-                var interactable = _playerInteractableHandler.CurrentInteractable.Interactable;
+                var interactable = _playerInteractableHandler.CurrentInteractable.InteractableHolder;
                 if (interactable.hasCraftingTable)
                 {
                     interactable.craftingTable.AddPlayer(this);
@@ -38,7 +36,7 @@ namespace _Developers.Vitor
         {
             if (_playerInteractableHandler.CurrentInteractable != null)
             {
-                var interactable = _playerInteractableHandler.CurrentInteractable.Interactable;
+                var interactable = _playerInteractableHandler.CurrentInteractable.InteractableHolder;
                 if (interactable.hasTable)
                 {
                     if (_holdingItem == null && interactable.table.HasItem())
@@ -60,7 +58,7 @@ namespace _Developers.Vitor
                 
                 if(interactable.hasDispenser && _holdingItem == null)
                 {
-                    _holdingItem = _playerInteractableHandler.CurrentInteractable.Interactable.dispenser.rawMaterialSo;
+                    _holdingItem = _playerInteractableHandler.CurrentInteractable.InteractableHolder.dispenser.rawMaterialSo;
                     _itemTransform = Instantiate(_holdingItem.prefab, itemHolder.position, Quaternion.identity,itemHolder).transform;
                     return;
                 }

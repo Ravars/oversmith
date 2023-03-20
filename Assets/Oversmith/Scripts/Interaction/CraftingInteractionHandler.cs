@@ -1,5 +1,4 @@
 ﻿using System;
-using UnityEditor;
 using UnityEngine;
 
 namespace _Developers.Vitor
@@ -16,7 +15,7 @@ namespace _Developers.Vitor
             set => _numberOfPlayer = Math.Max(0, value);
         }
         private float _timeToPrepareItem;
-        [field: SerializeField] public float CurrentTimeToPrepareItem { get; private set; }
+        // [field: SerializeField] public float CurrentTimeToPrepareItem { get; private set; }
         [field: SerializeField] private float _speed;
         [field: SerializeField]  public bool isRunning { get; private set; }
 
@@ -28,35 +27,60 @@ namespace _Developers.Vitor
 
         public void Init(float timeToPrepareItem, float speed, int numberOfPlayer = 1)
         {
-            if (!isRunning && _table.HasItem() && _table.item.processes.Length > 0 ) // has process
+            if (!isRunning && _table.HasItem() && _table.item.processes.Length > 0) // has process
             {
+                Process? a = null;
+                foreach (var process in _table.item.processes)
+                {
+                    if (process.craftingTable == _craftingTable.type)
+                    {
+                        a = process;
+                        break;
+                    }
+                }
+                
+                if (a == null)
+                {
+                    // error VFX
+                    return;
+                }
+                
                 _timeToPrepareItem = timeToPrepareItem;
-                CurrentTimeToPrepareItem = 0;
+                
+                // Item itemScript = _table.item.
+                // CurrentTimeToPrepareItem = _table.itemScript.currentProcessTimeNormalized;
                 _numberOfPlayer = numberOfPlayer;
                 _speed = speed;
                 isRunning = true;
+                enabled = true;
             }
-
         }
+        
         
         private void Update()
         {
             if (!isRunning) return;
-            if (CurrentTimeToPrepareItem >= _timeToPrepareItem)
+            if (_table.item == null)
+            {
+                isRunning = false;
+                enabled = false;
+                return;
+            }; // Change to event
+            if (_table.itemScript.currentProcessTimeNormalized >= _timeToPrepareItem)
             {
                 foreach (var process in _table.item.processes)
                 {
                     if (process.craftingTable == _craftingTable.type)
                     {
                         _table.SetItem(process.itemGenerated,true);
-                        CurrentTimeToPrepareItem = 0;
+                        // _table.item.currentProcessTimeNormalized = 0;
                         isRunning = false;
                         enabled = false;
                         return;
                     }
                 }
             }
-            CurrentTimeToPrepareItem += Time.deltaTime * _numberOfPlayer * _speed;
+            _table.itemScript.currentProcessTimeNormalized += Time.deltaTime * _numberOfPlayer * _speed;
         }
     }
 }

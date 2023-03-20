@@ -1,11 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Collections.Generic;
 using UnityEngine;
 
 namespace _Developers.Vitor
 {
-    [RequireComponent(typeof(Interactable),typeof(CraftingInteractionHandler))]
+    [RequireComponent(typeof(InteractableHolder),typeof(CraftingInteractionHandler))]
     public class CraftingTable : MonoBehaviour
     {
         [SerializeField] protected float timeToPrepareItem = 10f;
@@ -44,6 +42,7 @@ namespace _Developers.Vitor
             if (!_craftingInteractionHandler.isRunning)
             {
                 _craftingInteractionHandler.Init(timeToPrepareItem,2);
+                
             }
             else
             {
