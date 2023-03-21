@@ -28,6 +28,11 @@ namespace _Developers.Vitor
                 {
                     interactable.craftingTable.AddPlayer(this);
                 }
+                
+                if (interactable.hasInteractable)
+                {
+                    interactable.interactable.Interact();
+                }
             }
             
         }
@@ -62,6 +67,20 @@ namespace _Developers.Vitor
                     _itemTransform = Instantiate(_holdingItem.prefab, itemHolder.position, Quaternion.identity,itemHolder).transform;
                     return;
                 }
+
+                if (interactable.hasDelivery)
+                {
+                    if (interactable.delivery.CanSetItem() && _holdingItem != null)
+                    {
+                        interactable.delivery.SetItem(_holdingItem);
+                        _holdingItem = null;
+                        Destroy(_itemTransform.gameObject);
+                        _itemTransform = null;
+                        return;
+                    }
+                }
+
+                
             }
             // _playerInteractableHandler.CurrentInteractable.Interactable 
         }

@@ -1,4 +1,5 @@
 ﻿using Oversmith.Scripts.Interaction;
+using Oversmith.Scripts.Level;
 using UnityEngine;
 
 namespace _Developers.Vitor
@@ -9,11 +10,14 @@ namespace _Developers.Vitor
         public bool hasDispenser;
         public bool hasCraftingTable;
         public bool hasInteractable;
+        public bool hasDelivery;
+        
         
         public Table table;
         public Dispenser dispenser;
         public CraftingTable craftingTable;
         public Interactable interactable;
+        public Delivery delivery;
 
         public GameObject visual;
         public GameObject visualSelected;
@@ -31,6 +35,9 @@ namespace _Developers.Vitor
 
             interactable = GetComponent<Interactable>();
             hasInteractable = interactable != null;
+
+            delivery = GetComponent<Delivery>();
+            hasDelivery = delivery != null;
         }
 
         public void SetStatusInteract(bool b)
