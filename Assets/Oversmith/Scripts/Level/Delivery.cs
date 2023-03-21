@@ -37,6 +37,9 @@ namespace Oversmith.Scripts.Level
 
         public AlertMessage alertMessagePrefab;
         public GameObject alertMessageHolder;
+
+        public GameObject nextWagon;
+        
         int totalItems = 0;
         
         private void Start()
@@ -143,6 +146,18 @@ namespace Oversmith.Scripts.Level
         private void FinishTimer()
         {
             SetVisual(false);
+            AlertMessage alertMessage = Instantiate(alertMessagePrefab, alertMessageHolder.transform).GetComponent<AlertMessage>();
+            alertMessage.text.text = "O entregador foi embora com os items";
+
+            if (nextWagon != null)
+            {
+                nextWagon.SetActive(true);
+            }
+            else
+            {
+                alertMessage = Instantiate(alertMessagePrefab, alertMessageHolder.transform).GetComponent<AlertMessage>();
+                alertMessage.text.text = "Fim do prototipo.";
+            }
             
             //  Avisar pro game manager que foi finalizado
             
