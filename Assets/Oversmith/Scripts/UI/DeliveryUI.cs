@@ -1,4 +1,5 @@
 using _Developers.Vitor;
+using Oversmith.Scripts.Level;
 using TMPro;
 using UnityEngine;
 
@@ -8,7 +9,7 @@ namespace Oversmith.Scripts.UI
     {
         public TextMeshProUGUI[] texts;
 
-        public void SetItems(BaseItem[] itemsToShow)
+        public void SetItems(ItemStruct[] itemsToShow)
         {
             Debug.Log(itemsToShow.Length);
             
@@ -19,8 +20,7 @@ namespace Oversmith.Scripts.UI
             }
             for (int i = 0; i < itemsToShow.Length; i++)
             {
-                Debug.Log(itemsToShow[i].itemName);
-                texts[i].text = itemsToShow[i].itemName;
+                texts[i].text = itemsToShow[i].BaseItem.itemName + " x" + itemsToShow[i].Amount;
             }
         }
 
