@@ -73,7 +73,6 @@ namespace _Developers.Vitor
                     if (process.craftingTable == _craftingTable.type)
                     {
                         _table.SetItem(process.itemGenerated,true);
-                        // _table.item.currentProcessTimeNormalized = 0;
                         isRunning = false;
                         enabled = false;
                         return;

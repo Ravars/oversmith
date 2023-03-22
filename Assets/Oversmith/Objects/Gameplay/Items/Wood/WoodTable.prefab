@@ -10,8 +10,8 @@ GameObject:
   m_Component:
   - component: {fileID: 1301805039}
   - component: {fileID: 1301805040}
-  m_Layer: 6
-  m_Name: ColliderInteract
+  m_Layer: 0
+  m_Name: Collider
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -42,12 +42,12 @@ BoxCollider:
   m_Material: {fileID: 0}
   m_IncludeLayers:
     serializedVersion: 2
-    m_Bits: 64
+    m_Bits: 0
   m_ExcludeLayers:
     serializedVersion: 2
-    m_Bits: 55
+    m_Bits: 0
   m_LayerOverridePriority: 0
-  m_IsTrigger: 1
+  m_IsTrigger: 0
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
@@ -65,7 +65,7 @@ GameObject:
   - component: {fileID: 2137087877}
   - component: {fileID: 2137087876}
   - component: {fileID: 3631492576396194807}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: WoodTable
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -87,7 +87,7 @@ Transform:
   - {fileID: 6209790123605339447}
   - {fileID: 1301805039}
   m_Father: {fileID: 0}
-  m_RootOrder: 35
+  m_RootOrder: 31
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &2137087877
 MonoBehaviour:
@@ -105,9 +105,12 @@ MonoBehaviour:
   hasDispenser: 0
   hasCraftingTable: 0
   hasInteractable: 0
+  hasDelivery: 0
   table: {fileID: 0}
   dispenser: {fileID: 0}
   craftingTable: {fileID: 0}
+  interactable: {fileID: 0}
+  delivery: {fileID: 0}
   visual: {fileID: 7455694114282849418}
   visualSelected: {fileID: 8952509661506687413}
 --- !u!114 &2137087876
@@ -138,7 +141,7 @@ BoxCollider:
     serializedVersion: 2
     m_Bits: 0
   m_LayerOverridePriority: 0
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3

@@ -146,8 +146,8 @@ GameObject:
   m_Component:
   - component: {fileID: 1629538707003400269}
   - component: {fileID: 8817973592248302468}
-  m_Layer: 6
-  m_Name: ColliderInteract
+  m_Layer: 0
+  m_Name: Collider
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -178,12 +178,12 @@ BoxCollider:
   m_Material: {fileID: 0}
   m_IncludeLayers:
     serializedVersion: 2
-    m_Bits: 64
+    m_Bits: 0
   m_ExcludeLayers:
     serializedVersion: 2
-    m_Bits: 55
+    m_Bits: 0
   m_LayerOverridePriority: 0
-  m_IsTrigger: 1
+  m_IsTrigger: 0
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
@@ -286,7 +286,7 @@ GameObject:
   - component: {fileID: 6273766464673046856}
   - component: {fileID: 6273766464673046863}
   - component: {fileID: 9020923744088267856}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: SwordMold
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -309,7 +309,7 @@ Transform:
   - {fileID: 1629538707003400269}
   - {fileID: 6694666624560232231}
   m_Father: {fileID: 0}
-  m_RootOrder: 36
+  m_RootOrder: -1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &6273766464673046858
 MonoBehaviour:
@@ -327,9 +327,12 @@ MonoBehaviour:
   hasDispenser: 0
   hasCraftingTable: 0
   hasInteractable: 0
+  hasDelivery: 0
   table: {fileID: 0}
   dispenser: {fileID: 0}
   craftingTable: {fileID: 0}
+  interactable: {fileID: 0}
+  delivery: {fileID: 0}
   visual: {fileID: 6273766465097772006}
   visualSelected: {fileID: 0}
 --- !u!114 &6273766464673046857
@@ -357,7 +360,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: db600fcc0de84d1f851e24222bda3f2e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  <CurrentTimeToPrepareItem>k__BackingField: 0
   _speed: 0
   <isRunning>k__BackingField: 0
 --- !u!114 &6273766464673046863
@@ -372,7 +374,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 25016f3834484eb2859a5d2c4dbd46c2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  timeToPrepareItem: 5
+  timeToPrepareItem: 2
   currentTimeToPrepareItem: 0
   type: 4
 --- !u!65 &9020923744088267856
@@ -390,7 +392,7 @@ BoxCollider:
     serializedVersion: 2
     m_Bits: 0
   m_LayerOverridePriority: 0
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3

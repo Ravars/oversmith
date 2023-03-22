@@ -35,8 +35,7 @@ namespace Oversmith.Scripts.Level
         public GameObject visualItems;
         public GameObject wagonMan;
 
-        public AlertMessage alertMessagePrefab;
-        public GameObject alertMessageHolder;
+        
 
         public GameObject nextWagon;
         
@@ -80,24 +79,27 @@ namespace Oversmith.Scripts.Level
         {
             if (CanSetItem())
             {
+                ItemStruct itemStruct;
                 int itemIndex = currentItems.FindIndex(x => x.BaseItem.itemName == newItem.itemName);
                 if (itemIndex != -1)
                 {
-                    ItemStruct itemStruct = currentItems[itemIndex];
+                    
+                    itemStruct = currentItems[itemIndex];
                     itemStruct.Amount++;
                     currentItems[itemIndex] = itemStruct;
                 }
                 else
                 {
-                    currentItems.Add(new ItemStruct()
+                    itemStruct = new ItemStruct()
                     {
                         Amount = 1,
                         BaseItem = newItem
-                    });
+                    };
+                    currentItems.Add(itemStruct);
                 }
                 SpawnItem(newItem, itemsDelivered);
                 itemsDelivered++;
-                SpawnTextStatus(newItem);
+                SpawnTextStatus(itemStruct);
                 
                 
                 if (itemsDelivered >= totalItems)
@@ -107,29 +109,24 @@ namespace Oversmith.Scripts.Level
             }
         }
 
-        private void SpawnTextStatus(BaseItem newItem)
+        private void SpawnTextStatus(ItemStruct itemStruct)
         {
             bool correctItem = false;
+            bool correctAmount = false;
             for (int i = 0; i < requiredItems.Length; i++)
             {
-                if (requiredItems[i].BaseItem.itemName == newItem.itemName)
+                if (requiredItems[i].BaseItem.itemName == itemStruct.BaseItem.itemName)
                 {
+                    correctAmount = requiredItems[i].Amount >= itemStruct.Amount;
                     correctItem = true;
                 }
             }
 
-            string message;
-            if (correctItem)
-            {
-                message = "Voce entregou um item correto!";
-            }
-            else
-            {
-                message = "Voce entregou um item errado!";
-            }
-            
-            AlertMessage alertMessage = Instantiate(alertMessagePrefab, alertMessageHolder.transform).GetComponent<AlertMessage>();
-            alertMessage.text.text = message;
+            string message = correctItem ? 
+                correctAmount ? "Voce entregou um item correto" : "Voce entregou mais itens do que solicitado"  : 
+                "Voce entregou um item errado!";
+            AlertMessageManager.Instance.SpawnAlertMessage(message,correctItem && correctAmount? MessageType.Success : MessageType.Error);
+
 
         }
         private void SpawnItem(BaseItem item, int index)
@@ -146,8 +143,7 @@ namespace Oversmith.Scripts.Level
         private void FinishTimer()
         {
             SetVisual(false);
-            AlertMessage alertMessage = Instantiate(alertMessagePrefab, alertMessageHolder.transform).GetComponent<AlertMessage>();
-            alertMessage.text.text = "O entregador foi embora com os items";
+            AlertMessageManager.Instance.SpawnAlertMessage("O entregador foi embora com os items", MessageType.Normal);
 
             if (nextWagon != null)
             {
@@ -155,8 +151,7 @@ namespace Oversmith.Scripts.Level
             }
             else
             {
-                alertMessage = Instantiate(alertMessagePrefab, alertMessageHolder.transform).GetComponent<AlertMessage>();
-                alertMessage.text.text = "Fim do prototipo.";
+                AlertMessageManager.Instance.SpawnAlertMessage("Fim do prototipo.", MessageType.Alert);
             }
             
             //  Avisar pro game manager que foi finalizado

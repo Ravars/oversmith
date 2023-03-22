@@ -45,7 +45,7 @@ GameObject:
   - component: {fileID: 2884461000275461294}
   - component: {fileID: 2884461000275461295}
   - component: {fileID: 3861953902056780015}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Furnace
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -68,7 +68,7 @@ Transform:
   - {fileID: 7245110966747377778}
   - {fileID: 8044968450703114161}
   m_Father: {fileID: 0}
-  m_RootOrder: 40
+  m_RootOrder: 37
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &7245110967649868840
 MonoBehaviour:
@@ -86,9 +86,12 @@ MonoBehaviour:
   hasDispenser: 0
   hasCraftingTable: 0
   hasInteractable: 0
+  hasDelivery: 0
   table: {fileID: 0}
   dispenser: {fileID: 0}
   craftingTable: {fileID: 0}
+  interactable: {fileID: 0}
+  delivery: {fileID: 0}
   visual: {fileID: 767207595983603124}
   visualSelected: {fileID: 6950305700344983524}
 --- !u!114 &2884461000275461293
@@ -131,7 +134,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: db600fcc0de84d1f851e24222bda3f2e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  <CurrentTimeToPrepareItem>k__BackingField: 0
   _speed: 0
   <isRunning>k__BackingField: 0
 --- !u!65 &3861953902056780015
@@ -149,7 +151,7 @@ BoxCollider:
     serializedVersion: 2
     m_Bits: 0
   m_LayerOverridePriority: 0
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
@@ -165,8 +167,8 @@ GameObject:
   m_Component:
   - component: {fileID: 7245110966747377778}
   - component: {fileID: 7245110966747377781}
-  m_Layer: 6
-  m_Name: ColliderInteract
+  m_Layer: 0
+  m_Name: Collider
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -197,10 +199,10 @@ BoxCollider:
   m_Material: {fileID: 0}
   m_IncludeLayers:
     serializedVersion: 2
-    m_Bits: 64
+    m_Bits: 0
   m_ExcludeLayers:
     serializedVersion: 2
-    m_Bits: 55
+    m_Bits: 0
   m_LayerOverridePriority: 0
   m_IsTrigger: 0
   m_ProvidesContacts: 0

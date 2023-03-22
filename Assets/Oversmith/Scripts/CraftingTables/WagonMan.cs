@@ -12,7 +12,6 @@ namespace _Developers.Vitor
         
         public override void Interact()
         {
-            Debug.Log("wagon man");
             deliveryUI.gameObject.SetActive(true);
             deliveryUI.SetItems(delivery.requiredItems);
         }

@@ -61,7 +61,7 @@ namespace Test1.Scripts.Prototype
 
         private void OnTriggerEnter(Collider other)
         {
-            if (!other.transform.root.TryGetComponent(out InteractableHolder interactable)) return;
+            if (!other.TryGetComponent(out InteractableHolder interactable)) return;
             ObjectInteractable objectInteractable = new ObjectInteractable(other.transform.root,interactable);
             if (!_interactableList.Contains(objectInteractable))
             {
@@ -71,7 +71,7 @@ namespace Test1.Scripts.Prototype
 
         private void OnTriggerExit(Collider other)
         {
-            if (!other.transform.root.TryGetComponent(out InteractableHolder interactable)) return;
+            if (!other.TryGetComponent(out InteractableHolder interactable)) return;
             ObjectInteractable objectInteractable = new ObjectInteractable(other.transform.root,interactable);
             var index = _interactableList.FindIndex(a => a.InteractableHolder == interactable);
             if (index != -1)

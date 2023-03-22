@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 5991736062884703057}
   - component: {fileID: 5991736062884703056}
   - component: {fileID: 4382527322288772360}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Anvil
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -37,7 +37,7 @@ Transform:
   - {fileID: 5374768502810169882}
   - {fileID: 5293948593260417901}
   m_Father: {fileID: 0}
-  m_RootOrder: 39
+  m_RootOrder: -1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &4284192851440761663
 MonoBehaviour:
@@ -55,9 +55,12 @@ MonoBehaviour:
   hasDispenser: 0
   hasCraftingTable: 0
   hasInteractable: 0
+  hasDelivery: 0
   table: {fileID: 0}
   dispenser: {fileID: 0}
   craftingTable: {fileID: 0}
+  interactable: {fileID: 0}
+  delivery: {fileID: 0}
   visual: {fileID: 5873441226364207924}
   visualSelected: {fileID: 3697133062829537926}
 --- !u!114 &1259813702970687671
@@ -85,7 +88,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: db600fcc0de84d1f851e24222bda3f2e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  <CurrentTimeToPrepareItem>k__BackingField: 0
   _speed: 0
   <isRunning>k__BackingField: 0
 --- !u!114 &5991736062884703056
@@ -100,7 +102,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ab59f776b9704121972d4dd07bf08591, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  timeToPrepareItem: 10
+  timeToPrepareItem: 2
   currentTimeToPrepareItem: 0
   type: 5
 --- !u!65 &4382527322288772360
@@ -118,7 +120,7 @@ BoxCollider:
     serializedVersion: 2
     m_Bits: 0
   m_LayerOverridePriority: 0
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
@@ -134,8 +136,8 @@ GameObject:
   m_Component:
   - component: {fileID: 5374768502810169882}
   - component: {fileID: 8151407139953000741}
-  m_Layer: 6
-  m_Name: ColliderInteract
+  m_Layer: 0
+  m_Name: Collider
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -166,12 +168,12 @@ BoxCollider:
   m_Material: {fileID: 0}
   m_IncludeLayers:
     serializedVersion: 2
-    m_Bits: 64
+    m_Bits: 0
   m_ExcludeLayers:
     serializedVersion: 2
-    m_Bits: 55
+    m_Bits: 0
   m_LayerOverridePriority: 0
-  m_IsTrigger: 1
+  m_IsTrigger: 0
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3

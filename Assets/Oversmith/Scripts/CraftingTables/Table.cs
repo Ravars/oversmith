@@ -1,4 +1,5 @@
 ﻿using System.Linq;
+using Oversmith.Scripts.UI;
 using UnityEngine;
 
 namespace _Developers.Vitor
@@ -87,19 +88,17 @@ namespace _Developers.Vitor
         {
             if (craftingTable)
             {
-                Debug.Log("Crafting table");
+                AlertMessageManager.Instance.SpawnAlertMessage($"Item {newItem.itemName} construído com sucesso.", MessageType.Normal);
                 SpawnItem(newItem,true);
                 return;
             }
             
             if (item == null)
             {
-                Debug.Log("Item null");
                 SpawnItem(newItem,false);
             }
             else
             {
-                Debug.Log("merge item");
                 BaseItem[] itemsInUse = {
                     newItem,
                     item
@@ -115,7 +114,9 @@ namespace _Developers.Vitor
                     }
                     if (canMerge)
                     {
+                        AlertMessageManager.Instance.SpawnAlertMessage($"Item {process.itemGenerated.itemName} construído com sucesso.", MessageType.Normal);
                         SpawnItem(process.itemGenerated, true);
+                        break;
                     }
                 }
             }

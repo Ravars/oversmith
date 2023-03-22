@@ -10,8 +10,8 @@ GameObject:
   m_Component:
   - component: {fileID: 9114553503861396701}
   - component: {fileID: 5041209119134795746}
-  m_Layer: 6
-  m_Name: ColliderInteract
+  m_Layer: 0
+  m_Name: Collider
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -47,7 +47,7 @@ BoxCollider:
     serializedVersion: 2
     m_Bits: 0
   m_LayerOverridePriority: 0
-  m_IsTrigger: 1
+  m_IsTrigger: 0
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
@@ -67,7 +67,7 @@ GameObject:
   - component: {fileID: 7479504071605742998}
   - component: {fileID: 2572102204708054564}
   - component: {fileID: 1968345808689882381}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Sharpener
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -90,7 +90,7 @@ Transform:
   - {fileID: 9114553503861396701}
   - {fileID: 9051539626911684010}
   m_Father: {fileID: 0}
-  m_RootOrder: 33
+  m_RootOrder: 29
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1125591855537520120
 MonoBehaviour:
@@ -108,9 +108,12 @@ MonoBehaviour:
   hasDispenser: 0
   hasCraftingTable: 0
   hasInteractable: 0
+  hasDelivery: 0
   table: {fileID: 0}
   dispenser: {fileID: 0}
   craftingTable: {fileID: 0}
+  interactable: {fileID: 0}
+  delivery: {fileID: 0}
   visual: {fileID: 1399266927173997675}
   visualSelected: {fileID: 919132147905281472}
 --- !u!114 &2707125739156326000
@@ -138,7 +141,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: db600fcc0de84d1f851e24222bda3f2e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  <CurrentTimeToPrepareItem>k__BackingField: 0
   _speed: 0
   <isRunning>k__BackingField: 0
 --- !u!114 &2572102204708054564
@@ -171,7 +173,7 @@ BoxCollider:
     serializedVersion: 2
     m_Bits: 0
   m_LayerOverridePriority: 0
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3

@@ -74,8 +74,8 @@ GameObject:
   m_Component:
   - component: {fileID: 4170535798464433866}
   - component: {fileID: 173431280800357877}
-  m_Layer: 6
-  m_Name: ColliderInteract
+  m_Layer: 0
+  m_Name: Collider
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -106,10 +106,10 @@ BoxCollider:
   m_Material: {fileID: 0}
   m_IncludeLayers:
     serializedVersion: 2
-    m_Bits: 64
+    m_Bits: 0
   m_ExcludeLayers:
     serializedVersion: 2
-    m_Bits: 55
+    m_Bits: 0
   m_LayerOverridePriority: 0
   m_IsTrigger: 0
   m_ProvidesContacts: 0
@@ -131,7 +131,7 @@ GameObject:
   - component: {fileID: 2328738670423799681}
   - component: {fileID: 579738523632398111}
   - component: {fileID: 1269822107474507585}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Carpenter
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -154,7 +154,7 @@ Transform:
   - {fileID: 4170535798464433866}
   - {fileID: 4179438851246772157}
   m_Father: {fileID: 0}
-  m_RootOrder: 38
+  m_RootOrder: 35
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &5189054952472078319
 MonoBehaviour:
@@ -172,9 +172,12 @@ MonoBehaviour:
   hasDispenser: 0
   hasCraftingTable: 0
   hasInteractable: 0
+  hasDelivery: 0
   table: {fileID: 0}
   dispenser: {fileID: 0}
   craftingTable: {fileID: 0}
+  interactable: {fileID: 0}
+  delivery: {fileID: 0}
   visual: {fileID: 6122344574462332540}
   visualSelected: {fileID: 919132148251041637}
 --- !u!114 &7065156798647131239
@@ -202,7 +205,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: db600fcc0de84d1f851e24222bda3f2e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  <CurrentTimeToPrepareItem>k__BackingField: 0
   _speed: 0
   <isRunning>k__BackingField: 0
 --- !u!114 &579738523632398111
@@ -217,7 +219,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 491b4e9422e443e4a7b3bf3e0e8c256d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  timeToPrepareItem: 5
+  timeToPrepareItem: 2
   currentTimeToPrepareItem: 0
   type: 1
 --- !u!65 &1269822107474507585
@@ -235,7 +237,7 @@ BoxCollider:
     serializedVersion: 2
     m_Bits: 0
   m_LayerOverridePriority: 0
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
