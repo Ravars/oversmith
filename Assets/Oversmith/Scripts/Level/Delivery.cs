@@ -27,6 +27,7 @@ namespace Oversmith.Scripts.Level
         [Range(2,10)] 
         public int maxItems;
         public GameObject[] pointsToSpawn;
+        public GameObject itemsHolder;
         public float totalTime = 120;
         public float currentTime;
         public bool isRunning;
@@ -75,12 +76,12 @@ namespace Oversmith.Scripts.Level
             return itemsDelivered < totalItems; 
         }
         
-        public void SetItem(BaseItem newItem)
+        public void SetItem(Transform itemTransform, Item itemScript)
         {
-            if (CanSetItem())
-            {
+            // if (CanSetItem())
+            // {
                 ItemStruct itemStruct;
-                int itemIndex = currentItems.FindIndex(x => x.BaseItem.itemName == newItem.itemName);
+                int itemIndex = currentItems.FindIndex(x => x.BaseItem.itemName == itemScript.baseItem.itemName);
                 if (itemIndex != -1)
                 {
                     
@@ -93,11 +94,14 @@ namespace Oversmith.Scripts.Level
                     itemStruct = new ItemStruct()
                     {
                         Amount = 1,
-                        BaseItem = newItem
+                        BaseItem = itemScript.baseItem
                     };
+                    itemIndex = 0;
                     currentItems.Add(itemStruct);
                 }
-                SpawnItem(newItem, itemsDelivered);
+
+
+                SetParent(itemTransform, itemIndex);
                 itemsDelivered++;
                 SpawnTextStatus(itemStruct);
                 
@@ -106,7 +110,7 @@ namespace Oversmith.Scripts.Level
                 {
                     Finish();
                 }
-            }
+            // }
         }
 
         private void SpawnTextStatus(ItemStruct itemStruct)
@@ -129,9 +133,11 @@ namespace Oversmith.Scripts.Level
 
 
         }
-        private void SpawnItem(BaseItem item, int index)
+        private void SetParent(Transform itemTransform,int index)
         {
-            Instantiate(item.prefab, pointsToSpawn[index].transform.position, pointsToSpawn[index].transform.rotation, pointsToSpawn[index].transform.parent);
+            Debug.Log(index);
+            itemTransform.SetParent(pointsToSpawn[index].transform);
+            itemTransform.SetLocalPositionAndRotation(pointsToSpawn[index].transform.localPosition,pointsToSpawn[index].transform.localRotation);
         }
 
         private void Finish()

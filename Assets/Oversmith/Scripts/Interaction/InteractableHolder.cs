@@ -22,6 +22,7 @@ namespace _Developers.Vitor
         public GameObject visual;
         public GameObject visualSelected;
         
+        
         private void Awake()
         {
             table = GetComponent<Table>();
@@ -38,14 +39,15 @@ namespace _Developers.Vitor
 
             delivery = GetComponent<Delivery>();
             hasDelivery = delivery != null;
+            SetStatusInteract(false);
         }
 
-        public void SetStatusInteract(bool b)
+        public void SetStatusInteract(bool state)
         {
             if (visual != null && visualSelected != null)
             {
-                visualSelected.SetActive(b);
-                visual.SetActive(!b);
+                visualSelected.SetActive(state);
+                visual.SetActive(!state);
             }
         }
         

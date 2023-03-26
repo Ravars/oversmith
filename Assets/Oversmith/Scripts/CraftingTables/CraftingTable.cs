@@ -12,7 +12,7 @@ namespace _Developers.Vitor
         private Table _table;
         private CraftingInteractionHandler _craftingInteractionHandler;
         public CraftingTableType type;
-        
+        public ParticleSystem[] particleSystems;
 
         private void Awake()
         {
@@ -47,6 +47,14 @@ namespace _Developers.Vitor
             else
             {
                 _craftingInteractionHandler.NumberOfPlayers = PlayerInteractionsArray.Count;
+            }
+        }
+
+        public void SetParticlesState(bool state)
+        {
+            foreach (var particle in particleSystems)
+            {
+                particle.gameObject.SetActive(false);
             }
         }
 

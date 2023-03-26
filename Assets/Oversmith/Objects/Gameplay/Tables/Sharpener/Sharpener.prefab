@@ -90,7 +90,7 @@ Transform:
   - {fileID: 9114553503861396701}
   - {fileID: 9051539626911684010}
   m_Father: {fileID: 0}
-  m_RootOrder: 29
+  m_RootOrder: -1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1125591855537520120
 MonoBehaviour:
@@ -155,9 +155,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6c97058dc9bd4797aedc9e59648fdf08, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  timeToPrepareItem: 10
+  timeToPrepareItem: 2
   currentTimeToPrepareItem: 0
   type: 2
+  particleSystems: []
 --- !u!65 &1968345808689882381
 BoxCollider:
   m_ObjectHideFlags: 0

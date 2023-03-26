@@ -27,10 +27,10 @@ namespace _Developers.Vitor
 
         public void Init(float timeToPrepareItem, float speed, int numberOfPlayer = 1)
         {
-            if (!isRunning && _table.HasItem() && _table.item.processes.Length > 0) // has process
+            if (!isRunning && _table.HasItem() && _table.ItemScript.baseItem.processes.Length > 0) // has process
             {
                 Process? a = null;
-                foreach (var process in _table.item.processes)
+                foreach (var process in _table.ItemScript.baseItem.processes)
                 {
                     if (process.craftingTable == _craftingTable.type)
                     {
@@ -53,6 +53,7 @@ namespace _Developers.Vitor
                 _speed = speed;
                 isRunning = true;
                 enabled = true;
+                _craftingTable.SetParticlesState(true);
             }
         }
         
@@ -60,26 +61,27 @@ namespace _Developers.Vitor
         private void Update()
         {
             if (!isRunning) return;
-            if (_table.item == null)
+            if (_table.ItemScript == null)
             {
                 isRunning = false;
                 enabled = false;
                 return;
             }; // Change to event
-            if (_table.itemScript.currentProcessTimeNormalized >= _timeToPrepareItem)
+            if (_table.ItemScript.CurrentProcessTimeNormalized >= 1)
             {
-                foreach (var process in _table.item.processes)
+                foreach (var process in _table.ItemScript.baseItem.processes)
                 {
                     if (process.craftingTable == _craftingTable.type)
                     {
-                        _table.SetItem(process.itemGenerated,true);
+                        _table.CraftItem(process.itemGenerated); // Nao sei se consigo enviar o Item aqui
                         isRunning = false;
                         enabled = false;
+                        _craftingTable.SetParticlesState(false);
                         return;
                     }
                 }
             }
-            _table.itemScript.currentProcessTimeNormalized += Time.deltaTime * _numberOfPlayer * _speed;
+            _table.ItemScript.CurrentProcessTimeNormalized += (Time.deltaTime * _numberOfPlayer * _speed) / _timeToPrepareItem;
         }
     }
 }

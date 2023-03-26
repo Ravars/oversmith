@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using Oversmith.Scripts.UI;
 using UnityEngine;
 
@@ -7,12 +8,13 @@ namespace _Developers.Vitor
     [RequireComponent(typeof(InteractableHolder))]
     public class Table : MonoBehaviour
     {
-        public BaseItem item { get; private set; }
+        public Item ItemScript { get; private set; }
+        // public BaseItem BaseItem { get; private set; }
         private Transform _itemTransform;
-        [SerializeField] private Transform pointToSpawnItem;
+        
         private InteractableHolder _interactableHolder;
+        [SerializeField] private Transform pointToSpawnItem;
 
-        public Item itemScript { get; private set; }
         //ideia
         // public Base
 
@@ -23,30 +25,48 @@ namespace _Developers.Vitor
 
         public bool HasItem()
         {
-            return item != null;
+            return ItemScript != null;
         }
 
-        public BaseItem GetItem()
+        // public BaseItem GetItem()
+        // {
+        //     var tempItem = BaseItem;
+        //     Destroy(_itemTransform.gameObject);
+        //     BaseItem = null;
+        //     _itemTransform = null;
+        //     ItemScript = null;
+        //     return tempItem;
+        // }
+
+        public Tuple<Transform,Item> RemoveFromTable(Transform newParent)
         {
-            var tempItem = item;
-            Destroy(_itemTransform.gameObject);
-            item = null;
+            Transform tempTransform = _itemTransform;
+            Item tempItem = ItemScript;
+            _itemTransform.SetParent(newParent);
             _itemTransform = null;
-            itemScript = null;
-            return tempItem;
+            ItemScript = null;
+            return new Tuple<Transform,Item>(tempTransform,tempItem);
         }
 
-        public bool CanSetItem(BaseItem newItem)
+        public void PutOnTable(Transform itemTransform, Item itemScript)
+        {
+            ItemScript = itemScript;
+            _itemTransform = itemTransform;
+            _itemTransform.SetParent(pointToSpawnItem);
+            _itemTransform.SetLocalPositionAndRotation(pointToSpawnItem.localPosition,pointToSpawnItem.localRotation);
+        }
+
+        public bool CanSetItem(Item newItem)
         {
             if (_interactableHolder.hasCraftingTable)
             {
-                if (item != null)
+                if (ItemScript != null)
                 {
                     return false;
                 }
                 
                 
-                foreach (var process in newItem.processes)
+                foreach (var process in newItem.baseItem.processes)
                 {
                     if (process.craftingTable == _interactableHolder.craftingTable.type && process.craftingTable != CraftingTableType.Table)
                     {
@@ -55,83 +75,87 @@ namespace _Developers.Vitor
                 }
                 return false;
             }
-            
-            if (item == null)
-            {
-                return true;
-            }
-            else
-            {
-                BaseItem[] itemsInUse = {
-                    newItem,
-                    item
-                };
-                Process[] processes = newItem.processes.Concat(item.processes).ToArray();
-                foreach (var process in processes)
-                {
-                    var canMerge = false;
-                    if (process.itemsNeeded.Length > 0)
-                    {
-                        canMerge = process.itemsNeeded.All(itemNeeded => itemsInUse.Contains(itemNeeded));
-                    }
-                    if (canMerge)
-                    {
-                        return true;
-                    }
-                }
 
+            return ItemScript == null;
+        }
+
+        public bool CanMergeItem(Item newItem)
+        {
+            if (ItemScript == null)
+            {
                 return false;
             }
+            
+            BaseItem[] itemsInUse = {
+                newItem.baseItem,
+                ItemScript.baseItem
+            };
+            Process[] processes = newItem.baseItem.processes.Concat(ItemScript.baseItem.processes).ToArray();
+            foreach (var process in processes)
+            {
+                var canMerge = false;
+                if (process.itemsNeeded.Length > 0)
+                {
+                    canMerge = process.itemsNeeded.All(itemNeeded => itemsInUse.Contains(itemNeeded));
+                }
+                if (canMerge)
+                {
+                    return true;
+                }
+            }
+
+            return false;
         }
 
-        public void SetItem(BaseItem newItem, bool craftingTable = false)
+        public void CraftItem(BaseItem newBaseItem)
         {
-            if (craftingTable)
-            {
-                AlertMessageManager.Instance.SpawnAlertMessage($"Item {newItem.itemName} construído com sucesso.", MessageType.Normal);
-                SpawnItem(newItem,true);
-                return;
-            }
+            DestroyItem();
+            SpawnNewItem(newBaseItem);
             
-            if (item == null)
+        }
+
+        public void MergeItem(Item newItem)
+        {
+            BaseItem[] itemsInUse = {
+                newItem.baseItem,
+                ItemScript.baseItem
+            };
+            Process[] processes = newItem.baseItem.processes.Concat(ItemScript.baseItem.processes).ToArray();
+            
+            foreach (var process in processes)
             {
-                SpawnItem(newItem,false);
-            }
-            else
-            {
-                BaseItem[] itemsInUse = {
-                    newItem,
-                    item
-                };
-                Process[] processes = newItem.processes.Concat(item.processes).ToArray();
-                
-                foreach (var process in processes)
+                var canMerge = false;
+                if (process.itemsNeeded.Length > 0)
                 {
-                    var canMerge = false;
-                    if (process.itemsNeeded.Length > 0)
-                    {
-                        canMerge = process.itemsNeeded.All(itemNeeded => itemsInUse.Contains(itemNeeded));
-                    }
-                    if (canMerge)
-                    {
-                        AlertMessageManager.Instance.SpawnAlertMessage($"Item {process.itemGenerated.itemName} construído com sucesso.", MessageType.Normal);
-                        SpawnItem(process.itemGenerated, true);
-                        break;
-                    }
+                    canMerge = process.itemsNeeded.All(itemNeeded => itemsInUse.Contains(itemNeeded));
+                }
+                if (canMerge)
+                {
+                    
+                    AlertMessageManager.Instance.SpawnAlertMessage($"Item {process.itemGenerated.itemName} construído com sucesso.", MessageType.Normal);
+                    DestroyItem();
+                    // Destroy(newItem.transform);
+                    SpawnNewItem(process.itemGenerated);
+                    break;
                 }
             }
         }
 
-        private void SpawnItem(BaseItem newItem, bool hasToDestroy)
+        private void DestroyItem()
         {
-            item = newItem;
-            if (hasToDestroy)
+            if (_itemTransform != null)
             {
                 Destroy(_itemTransform.gameObject);
             }
-            _itemTransform = Instantiate(item.prefab, pointToSpawnItem.position, pointToSpawnItem.rotation,
+            _itemTransform = null;
+            ItemScript = null;
+        }
+        private void SpawnNewItem(BaseItem newItem) // Provavelmente quebrado
+        {
+            _itemTransform = Instantiate(newItem.prefab, pointToSpawnItem.position, pointToSpawnItem.rotation,
                 pointToSpawnItem).transform;
-            itemScript = _itemTransform.GetComponent<Item>();
+            ItemScript = _itemTransform.GetComponent<Item>();
+            AlertMessageManager.Instance.SpawnAlertMessage($"Item {ItemScript.baseItem.itemName} construído com sucesso.", MessageType.Normal);
         }
     }
 }
