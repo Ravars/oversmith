@@ -52,9 +52,6 @@ namespace _Developers.Vitor
                         _itemTransform = item.Item1;
                         _itemScript = item.Item2;
                         _itemTransform.SetLocalPositionAndRotation(itemHolder.localPosition, itemHolder.localRotation);
-                        // _itemTransform.localPosition = itemHolder.position;
-                        // _holdingItem = interactable.table.GetItem();
-                        // _itemTransform = Instantiate(_holdingItem.prefab, itemHolder.position, Quaternion.identity,itemHolder).transform;
                         return;
                     }
                     
@@ -63,10 +60,6 @@ namespace _Developers.Vitor
                         interactable.table.PutOnTable(_itemTransform,_itemScript);
                         _itemTransform = null;
                         _itemScript = null;
-                        // interactable.table.SetItem(_holdingItem);
-                        // _holdingItem = null;
-                        // Destroy(_itemTransform.gameObject);
-                        // _itemTransform = null;
                         return;
                     }
 
@@ -97,10 +90,7 @@ namespace _Developers.Vitor
                         return;
                     }
                 }
-
-                
             }
-            // _playerInteractableHandler.CurrentInteractable.Interactable 
         }
     }
 }

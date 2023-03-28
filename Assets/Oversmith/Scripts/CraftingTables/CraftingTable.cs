@@ -42,7 +42,6 @@ namespace _Developers.Vitor
             if (!_craftingInteractionHandler.isRunning)
             {
                 _craftingInteractionHandler.Init(timeToPrepareItem,2);
-                
             }
             else
             {
@@ -52,9 +51,10 @@ namespace _Developers.Vitor
 
         public void SetParticlesState(bool state)
         {
+            Debug.Log(state + " state" + particleSystems.Length);
             foreach (var particle in particleSystems)
             {
-                particle.gameObject.SetActive(false);
+                particle.gameObject.SetActive(state);
             }
         }
 

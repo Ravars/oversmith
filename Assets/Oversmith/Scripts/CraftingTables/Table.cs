@@ -53,7 +53,7 @@ namespace _Developers.Vitor
             ItemScript = itemScript;
             _itemTransform = itemTransform;
             _itemTransform.SetParent(pointToSpawnItem);
-            _itemTransform.SetLocalPositionAndRotation(pointToSpawnItem.localPosition,pointToSpawnItem.localRotation);
+            _itemTransform.SetLocalPositionAndRotation(Vector3.zero, pointToSpawnItem.localRotation);
         }
 
         public bool CanSetItem(Item newItem)
