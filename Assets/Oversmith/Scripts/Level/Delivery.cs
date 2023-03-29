@@ -6,6 +6,7 @@ using Oversmith.Scripts.UI;
 using Unity.VisualScripting;
 using UnityEngine;
 using Random = UnityEngine.Random;
+using UnityEngine.UI;
 
 namespace Oversmith.Scripts.Level
 {
@@ -39,6 +40,7 @@ namespace Oversmith.Scripts.Level
         
 
         public GameObject nextWagon;
+        public Slider slider;
         
         int totalItems = 0;
         
@@ -68,6 +70,7 @@ namespace Oversmith.Scripts.Level
                 };   
             }
             SetVisual(false);
+            slider.value = 1 - (currentTime / totalTime);
             Invoke(nameof(StartTimer),5);
         }
 
@@ -176,12 +179,14 @@ namespace Oversmith.Scripts.Level
             visual.SetActive(state);            
             visualItems.SetActive(state);            
             wagonMan.SetActive(state);
+
         }
 
         private void FixedUpdate()
         {
             if (!isRunning) return;
             currentTime += Time.fixedDeltaTime;
+            slider.value = 1 - (currentTime / totalTime);
             if (currentTime >= totalTime)
             {
                 Finish();

@@ -51,7 +51,6 @@ namespace _Developers.Vitor
 
         public void SetParticlesState(bool state)
         {
-            Debug.Log(state + " state" + particleSystems.Length);
             foreach (var particle in particleSystems)
             {
                 particle.gameObject.SetActive(state);

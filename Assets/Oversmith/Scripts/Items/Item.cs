@@ -5,7 +5,7 @@ namespace _Developers.Vitor
 {
     public class Item : MonoBehaviour
     {
-        [SerializeField] private Slider slider;
+        public Slider slider;
         private float _currentProcessTimeNormalized;
         public BaseItem baseItem;
         public float CurrentProcessTimeNormalized
