@@ -54,6 +54,10 @@ namespace _Developers.Vitor
                 isRunning = true;
                 enabled = true;
                 _craftingTable.SetParticlesState(true);
+                if(_table.ItemScript.slider != null)
+                {
+                    _table.ItemScript.slider.gameObject.SetActive(true);
+                }
             }
         }
         
@@ -65,6 +69,7 @@ namespace _Developers.Vitor
             {
                 isRunning = false;
                 enabled = false;
+                _craftingTable.SetParticlesState(false);
                 return;
             }; // Change to event
             if (_table.ItemScript.CurrentProcessTimeNormalized >= 1)
