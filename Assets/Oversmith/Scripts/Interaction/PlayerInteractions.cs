@@ -12,7 +12,7 @@ namespace _Developers.Vitor
         [SerializeField] private Transform itemHolder;
         private Transform _itemTransform;
         // private BaseItem _baseItemHolding;
-        private Item _itemScript;
+        public Item ItemScript { get; set; }
         
         private void Start()
         {
@@ -46,47 +46,47 @@ namespace _Developers.Vitor
                 var interactable = _playerInteractableHandler.CurrentInteractable.InteractableHolder;
                 if (interactable.hasTable)
                 {
-                    if (_itemScript == null && interactable.table.HasItem())
+                    if (ItemScript == null && interactable.table.HasItem())
                     {
                         Tuple<Transform,Item> item = interactable.table.RemoveFromTable(itemHolder);
                         _itemTransform = item.Item1;
-                        _itemScript = item.Item2;
+                        ItemScript = item.Item2;
                         _itemTransform.SetLocalPositionAndRotation(itemHolder.localPosition, itemHolder.localRotation);
                         return;
                     }
                     
-                    if (_itemScript != null && interactable.table.CanSetItem(_itemScript))
+                    if (ItemScript != null && interactable.table.CanSetItem(ItemScript))
                     {
-                        interactable.table.PutOnTable(_itemTransform,_itemScript);
+                        interactable.table.PutOnTable(_itemTransform,ItemScript);
                         _itemTransform = null;
-                        _itemScript = null;
+                        ItemScript = null;
                         return;
                     }
 
-                    if (_itemScript != null && interactable.table.CanMergeItem(_itemScript))
+                    if (ItemScript != null && interactable.table.CanMergeItem(ItemScript))
                     {
-                        interactable.table.MergeItem(_itemScript);
-                        _itemScript = null;
+                        interactable.table.MergeItem(ItemScript);
+                        ItemScript = null;
                         Destroy(_itemTransform.gameObject);
                         _itemTransform = null;
                     }
                 }
                 
-                if(interactable.hasDispenser && _itemScript == null)
+                if(interactable.hasDispenser && ItemScript == null)
                 {
                     var baseItem = _playerInteractableHandler.CurrentInteractable.InteractableHolder.dispenser.rawMaterialSo;
                     _itemTransform = Instantiate(baseItem.prefab, itemHolder.position, Quaternion.identity,itemHolder).transform;
-                    _itemScript = _itemTransform.GetComponent<Item>();
+                    ItemScript = _itemTransform.GetComponent<Item>();
                     return;
                 }
 
                 if (interactable.hasDelivery)
                 {
-                    if (interactable.delivery.CanSetItem() && _itemScript != null)
+                    if (interactable.delivery.CanSetItem() && ItemScript != null)
                     {
-                        interactable.delivery.SetItem(_itemTransform,_itemScript);
+                        interactable.delivery.SetItem(_itemTransform,ItemScript);
                         _itemTransform = null;
-                        _itemScript = null;
+                        ItemScript = null;
                         return;
                     }
                 }

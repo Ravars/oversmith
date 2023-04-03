@@ -1,4 +1,6 @@
+using _Developers.Vitor;
 using Oversmith.Scripts;
+using Test1.Scripts.Prototype;
 using UnityEngine;
 
 public class PlayerMovement : MonoBehaviour
@@ -8,6 +10,8 @@ public class PlayerMovement : MonoBehaviour
     private Quaternion _targetRotation;
     public float smoothing = 5f;
     private Vector2 _previousInput;
+    [SerializeField] private Animator _animator; // temporary
+    [SerializeField] private PlayerInteractions _playerInteractions; // temporary
 
     void Start()
     {
@@ -35,5 +39,10 @@ public class PlayerMovement : MonoBehaviour
         transform.rotation = Quaternion.Slerp(transform.rotation, _targetRotation, Time.deltaTime * smoothing);
         movementDirection.Normalize();
         _cc.SimpleMove(movementDirection * moveSpeed);
+        
+        
+        
+        _animator.SetBool("Run",movementDirection.magnitude > 0f);
+        _animator.SetBool("Carry",!ReferenceEquals(_playerInteractions.ItemScript,null));
     }
 }
