@@ -1,5 +1,6 @@
 ﻿using System;
 using Oversmith.Scripts;
+using Oversmith.Scripts.Managers;
 using Test1.Scripts.Prototype;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -19,8 +20,38 @@ namespace _Developers.Vitor
             _playerInteractableHandler = GetComponent<PlayerInteractableHandler>();
             InputManager.Controls.Gameplay.Grab.performed += GrabOnPerformed;  
             InputManager.Controls.Gameplay.Interact.performed += InteractOnPerformed;  
+            InputManager.Controls.Gameplay.Pause.performed += PauseOnPerformed;  
+            InputManager.Controls.Pause.Resume.performed += ResumeOnPerformed;  
         }
-        
+
+        private void ResumeOnPerformed(InputAction.CallbackContext obj)
+        {
+            if (GameManager.InstanceExists)
+            {
+                GameManager.Instance.ResumeGame();
+                InputManager.Controls.Gameplay.Enable();
+                InputManager.Controls.Pause.Disable();
+            }
+            else
+            {
+                Debug.LogError("Game Manager not instanced");
+            }
+        }
+
+        private void PauseOnPerformed(InputAction.CallbackContext obj)
+        {
+            if (GameManager.InstanceExists)
+            {
+                GameManager.Instance.PauseGame();
+                InputManager.Controls.Gameplay.Disable();
+                InputManager.Controls.Pause.Enable();
+            }
+            else
+            {
+                Debug.LogError("Game Manager not instanced");
+            }
+        }
+
         private void InteractOnPerformed(InputAction.CallbackContext obj)
         {
             if (_playerInteractableHandler.CurrentInteractable != null)
@@ -51,7 +82,8 @@ namespace _Developers.Vitor
                         Tuple<Transform,Item> item = interactable.table.RemoveFromTable(itemHolder);
                         _itemTransform = item.Item1;
                         ItemScript = item.Item2;
-                        _itemTransform.SetLocalPositionAndRotation(itemHolder.localPosition, itemHolder.localRotation);
+                        _itemTransform.SetPositionAndRotation(itemHolder.position, Quaternion.identity);
+                        // _itemTransform.SetLocalPositionAndRotation(itemHolder.localPosition, itemHolder.localRotation);
                         return;
                     }
                     

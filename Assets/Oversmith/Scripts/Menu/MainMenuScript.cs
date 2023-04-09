@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Oversmith.Scripts.Managers;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.InputSystem.UI;
@@ -12,27 +13,23 @@ namespace Oversmith.Scripts.Menu
 		public GameObject startScr;
 		public GameObject menuScr;
 		public GameObject configScr;
-
-		private PlayerInput input;
 		private GameObject curScr;
-		[Space(10)]
-		public LevelNames NewGameLevel;
 
 		// Start is called before the first frame update
 		void Start()
 		{
-			input = GetComponent<PlayerInput>();
-			curScr = menuScr;
+			curScr = startScr;
 			curScr.SetActive(true);
 		}
 
-		public void LoadNewGame()
+		public void LoadHomePage()
 		{
-			SceneManager.LoadScene((int)NewGameLevel);
+			GameManager.Instance.LoadHomePage();
 		}
 
 		public void ReturnToMainScreen()
 		{
+			startScr.SetActive(false);
 			curScr.SetActive(false);
 			curScr = menuScr;
 			menuScr.SetActive(true);
@@ -40,6 +37,7 @@ namespace Oversmith.Scripts.Menu
 
 		public void SwitchToConfigScreen()
 		{
+			startScr.SetActive(false);
 			curScr.SetActive(false);
 			curScr = configScr;
 			configScr.SetActive(true);

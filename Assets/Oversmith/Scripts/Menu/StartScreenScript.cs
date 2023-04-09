@@ -11,14 +11,14 @@ namespace Oversmith.Scripts.Menu
 		public PlayerInput input;
 		public UnityEvent onContinue;
 
-		private FadeUI fade;
+		private FadeUI _fade;
 		private FadeUI Fade
 		{
 			get
 			{
-				if (fade == null)
-					fade = GetComponent<FadeUI>();
-				return fade;
+				if (_fade == null)
+					_fade = GetComponent<FadeUI>();
+				return _fade;
 			}
 		}
 
@@ -26,6 +26,7 @@ namespace Oversmith.Scripts.Menu
 		void Start()
 		{
 			input.SwitchCurrentActionMap("StartUp");
+			EnablePress();
 		}
 
 		void OnEnable()

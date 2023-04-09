@@ -28,6 +28,7 @@ namespace Oversmith.Scripts.Menu
 
 		void OnEnable()
 		{
+			Debug.Log("On enable");
 			input.SwitchCurrentActionMap("UI");
 			initBtt.Select();
 			Fade.FadeIn();

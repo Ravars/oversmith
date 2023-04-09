@@ -1,9 +1,7 @@
 using System;
 using System.Collections.Generic;
-using System.Threading;
 using _Developers.Vitor;
 using Oversmith.Scripts.UI;
-using Unity.VisualScripting;
 using UnityEngine;
 using Random = UnityEngine.Random;
 using UnityEngine.UI;

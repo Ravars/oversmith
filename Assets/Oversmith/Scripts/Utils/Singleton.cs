@@ -1,3 +1,5 @@
+using Oversmith.Scripts.Managers;
+using Unity.VisualScripting;
 using UnityEngine;
 
 namespace Oversmith.Scripts.Utils
@@ -5,8 +7,7 @@ namespace Oversmith.Scripts.Utils
     public abstract class Singleton<T> : MonoBehaviour where T : Singleton<T>
     {
         public static T Instance { get; protected set; }
-
-        public static bool InstanceExists => Instance != null;
+        public static bool InstanceExists => !ReferenceEquals(Instance, null);
 
         protected virtual void Awake()
         {
