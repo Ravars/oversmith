@@ -23,7 +23,15 @@ namespace Oversmith.Scripts.Menu
         }
         [Space(10)]
 
-        public PlayerInput input;
+        public PlayerInput input;      // Player Input component on player
+        public InputActionAsset inputActions; // Player input asset
+        private InputActionAsset Actions {
+            get {
+                if(inputActions != null) return inputActions;
+                else if(input != null) return input.actions;
+                return null;
+            }
+        }
 
         public UnityEvent OnExit;
         
@@ -31,18 +39,19 @@ namespace Oversmith.Scripts.Menu
         void OnEnable()
         {
             Fade.FadeIn(OnInitialize); // Call OnInitialize after fade in
-            input.actions["Navigate"].performed += NavigateOptions;
-            input.actions["Submit"].performed += OnApply;
-            input.actions["Cancel"].performed += OnCancel;
+            if(!Actions) return;
+            Actions["Navigate"].performed += NavigateOptions;
+            Actions["Submit"].performed += OnApply;
+            Actions["Cancel"].performed += OnCancel;
         }
 
         void OnDisable()
         {
-            if (input != null)
+            if (Actions != null)
             {
-                input.actions["Navigate"].performed -= NavigateOptions;
-                input.actions["Submit"].performed -= OnApply;
-                input.actions["Cancel"].performed -= OnCancel;
+                Actions["Navigate"].performed -= NavigateOptions;
+                Actions["Submit"].performed -= OnApply;
+                Actions["Cancel"].performed -= OnCancel;
             }
         }
 
