@@ -28,6 +28,7 @@ namespace _Developers.Vitor
         {
             if (GameManager.InstanceExists)
             {
+                Debug.Log("ResumeOnPerformed");
                 GameManager.Instance.ResumeGame();
                 InputManager.Controls.Gameplay.Enable();
                 InputManager.Controls.Pause.Disable();

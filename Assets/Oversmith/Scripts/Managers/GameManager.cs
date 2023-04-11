@@ -53,12 +53,12 @@ namespace Oversmith.Scripts.Managers
 
         public void PauseGame()
         {
-            Time.timeScale = 0;
+            // Time.timeScale = 0;
             OnPauseGame?.Invoke();
         }
         public void ResumeGame()
         {
-            Time.timeScale = 1;
+            // Time.timeScale = 1;
             OnResumeGame?.Invoke();
         }
 

@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Oversmith.Scripts.Managers;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.InputSystem;
@@ -7,48 +8,34 @@ using UnityEngine.UI;
 
 namespace Oversmith.Scripts.Menu
 {
+	[RequireComponent(typeof(FadeUI))]
 	public class MainScreenScript : MonoBehaviour
 	{
-		public PlayerInput input;
-		public Button initBtt;
-		private FadeUI fade;
-		private FadeUI Fade
+		private FadeUI _fade;
+		[SerializeField] private MainMenuScript mainMenuScript;
+		
+		public void PlayButton()
 		{
-			get
-			{
-				if (fade == null)
-					fade = GetComponent<FadeUI>();
-				return fade;
-			}
-		}
-		[Space(10)]
-
-		public UnityEvent OnNewGameClick;
-		public UnityEvent OnOptionClick;
-
-		void OnEnable()
-		{
-			Debug.Log("On enable");
-			input.SwitchCurrentActionMap("UI");
-			initBtt.Select();
-			Fade.FadeIn();
+			mainMenuScript.LoadHomePageButton();
 		}
 
-		public void OnClickPlay()
+		public void OptionsButton()
 		{
-			input.DeactivateInput();
-			Fade.FadeOut(OnNewGameClick.Invoke);
+			mainMenuScript.OpenConfigScreen();
 		}
-
-		public void OnClickOption()
-		{
-			Fade.FadeOut(OnOptionClick.Invoke);
-		}
-
+		
+		
+		
 		public void QuitGame()
 		{
-			Debug.Log("Quit game");
-			Application.Quit();
+			if (GameManager.InstanceExists)
+			{
+				GameManager.Instance.QuitGame();
+			}
+			else
+			{
+				Debug.LogError("Game Manager not instanced");
+			}
 		}
 	}
 }

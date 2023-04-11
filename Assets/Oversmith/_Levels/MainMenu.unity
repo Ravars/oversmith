@@ -208,7 +208,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 1632088333}
-        m_TargetAssemblyTypeName: MainScreenScript, Assembly-CSharp
+        m_TargetAssemblyTypeName: Oversmith.Scripts.Menu.MainScreenScript, Assembly-CSharp
         m_MethodName: QuitGame
         m_Mode: 1
         m_Arguments:
@@ -269,6 +269,8 @@ GameObject:
   - component: {fileID: 182371137}
   - component: {fileID: 182371136}
   - component: {fileID: 182371135}
+  - component: {fileID: 182371140}
+  - component: {fileID: 182371139}
   m_Layer: 5
   m_Name: Canvas
   m_TagString: Untagged
@@ -362,6 +364,53 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 0}
+--- !u!114 &182371139
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 182371134}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 62899f850307741f2a39c98a8b639597, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Actions: {fileID: -944628639613478452, guid: a4aa536edb666374997536e1a1864817,
+    type: 3}
+  m_NotificationBehavior: 0
+  m_UIInputModule: {fileID: 357689884}
+  m_DeviceLostEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  m_DeviceRegainedEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  m_ControlsChangedEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  m_ActionEvents: []
+  m_NeverAutoSwitchControlSchemes: 0
+  m_DefaultControlScheme: 
+  m_DefaultActionMap: StartUp
+  m_SplitScreenIndex: -1
+  m_Camera: {fileID: 0}
+--- !u!114 &182371140
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 182371134}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5628eb6a12b4f614eba0e94c7b5fd67e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  startScr: {fileID: 1568224370}
+  menuScr: {fileID: 1632088334}
+  configScr: {fileID: 2242444547999030863}
+  initBtt: {fileID: 373675305}
 --- !u!1 &184754230
 GameObject:
   m_ObjectHideFlags: 0
@@ -672,8 +721,8 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 1632088333}
-        m_TargetAssemblyTypeName: MainScreenScript, Assembly-CSharp
-        m_MethodName: OnClickPlay
+        m_TargetAssemblyTypeName: Oversmith.Scripts.Menu.MainScreenScript, Assembly-CSharp
+        m_MethodName: PlayButton
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -1122,7 +1171,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   buttonClicked: 0
   sceneLoadLoaded: 0
-  time: 3
 --- !u!4 &682236877
 Transform:
   m_ObjectHideFlags: 0
@@ -1136,7 +1184,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 6
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &694337409
 GameObject:
@@ -1729,13 +1777,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5a40fb0c01ae2664ea08c348a18dd551, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  input: {fileID: 1650272134}
+  input: {fileID: 182371139}
   onContinue:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1650272133}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: Oversmith.Scripts.Menu.MainMenuScript, Assembly-CSharp
-        m_MethodName: ReturnToMainScreen
+        m_MethodName: 
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -1745,6 +1793,7 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+  mainMenuScript: {fileID: 0}
 --- !u!114 &1568224370
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1764,18 +1813,49 @@ MonoBehaviour:
   onFadeOutEnd:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1632088328}
-        m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
-        m_MethodName: SetActive
-        m_Mode: 6
+      - m_Target: {fileID: 182371140}
+        m_TargetAssemblyTypeName: Oversmith.Scripts.Menu.MainMenuScript, Assembly-CSharp
+        m_MethodName: OpenMainScreen
+        m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
-          m_BoolArgument: 1
+          m_BoolArgument: 0
         m_CallState: 2
+--- !u!1 &1610133910
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1610133911}
+  m_Layer: 0
+  m_Name: UiInputManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1610133911
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1610133910}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 362.84372, y: 136.2884, z: -27.144121}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 6
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1632088328
 GameObject:
   m_ObjectHideFlags: 0
@@ -1882,38 +1962,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8819ccde1d5ba134db51058bc7b20b59, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  input: {fileID: 1650272134}
-  initBtt: {fileID: 373675305}
-  OnNewGameClick:
-    m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 1650272133}
-        m_TargetAssemblyTypeName: Oversmith.Script.Menu.MainMenuScript, Assembly-CSharp
-        m_MethodName: LoadHomePage
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-  OnOptionClick:
-    m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 1650272133}
-        m_TargetAssemblyTypeName: Oversmith.Script.Menu.MainMenuScript, Assembly-CSharp
-        m_MethodName: SwitchToConfigScreen
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+  mainMenuScript: {fileID: 182371140}
 --- !u!114 &1632088334
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2018,8 +2067,8 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 1632088333}
-        m_TargetAssemblyTypeName: MainScreenScript, Assembly-CSharp
-        m_MethodName: OnClickOption
+        m_TargetAssemblyTypeName: Oversmith.Scripts.Menu.MainScreenScript, Assembly-CSharp
+        m_MethodName: OptionsButton
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -2067,85 +2116,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1642364003}
   m_CullTransparentMesh: 1
---- !u!1 &1650272132
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1650272135}
-  - component: {fileID: 1650272134}
-  - component: {fileID: 1650272133}
-  m_Layer: 0
-  m_Name: MenuManager
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &1650272133
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1650272132}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5628eb6a12b4f614eba0e94c7b5fd67e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  startScr: {fileID: 1568224364}
-  menuScr: {fileID: 1632088328}
-  configScr: {fileID: 2242444547999030860}
---- !u!114 &1650272134
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1650272132}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 62899f850307741f2a39c98a8b639597, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_Actions: {fileID: -944628639613478452, guid: a4aa536edb666374997536e1a1864817,
-    type: 3}
-  m_NotificationBehavior: 3
-  m_UIInputModule: {fileID: 0}
-  m_DeviceLostEvent:
-    m_PersistentCalls:
-      m_Calls: []
-  m_DeviceRegainedEvent:
-    m_PersistentCalls:
-      m_Calls: []
-  m_ControlsChangedEvent:
-    m_PersistentCalls:
-      m_Calls: []
-  m_ActionEvents: []
-  m_NeverAutoSwitchControlSchemes: 0
-  m_DefaultControlScheme: 
-  m_DefaultActionMap: UI
-  m_SplitScreenIndex: -1
-  m_Camera: {fileID: 0}
---- !u!4 &1650272135
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1650272132}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 542.0204, y: 264.53345, z: -1.8461369}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_RootOrder: 5
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1748903851
 GameObject:
   m_ObjectHideFlags: 0
@@ -2520,12 +2490,23 @@ PrefabInstance:
         type: 3}
       propertyPath: input
       value: 
-      objectReference: {fileID: 1650272134}
+      objectReference: {fileID: 182371139}
     - target: {fileID: 2919837472336555764, guid: 182cf18d88f927c439592ef55920127b,
         type: 3}
       propertyPath: m_Enabled
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 2919837472336555764, guid: 182cf18d88f927c439592ef55920127b,
+        type: 3}
+      propertyPath: inputActions
+      value: 
+      objectReference: {fileID: -944628639613478452, guid: a4aa536edb666374997536e1a1864817,
+        type: 3}
+    - target: {fileID: 2919837472336555764, guid: 182cf18d88f927c439592ef55920127b,
+        type: 3}
+      propertyPath: mainMenuScript
+      value: 
+      objectReference: {fileID: 182371140}
     - target: {fileID: 2919837472336555764, guid: 182cf18d88f927c439592ef55920127b,
         type: 3}
       propertyPath: OnExit.m_PersistentCalls.m_Calls.Array.size
@@ -2540,7 +2521,7 @@ PrefabInstance:
         type: 3}
       propertyPath: OnExit.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
-      objectReference: {fileID: 1650272133}
+      objectReference: {fileID: 182371140}
     - target: {fileID: 2919837472336555764, guid: 182cf18d88f927c439592ef55920127b,
         type: 3}
       propertyPath: OnExit.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
@@ -2549,12 +2530,17 @@ PrefabInstance:
     - target: {fileID: 2919837472336555764, guid: 182cf18d88f927c439592ef55920127b,
         type: 3}
       propertyPath: OnExit.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: ReturnToMainScreen
+      value: OpenMainScreen
       objectReference: {fileID: 0}
     - target: {fileID: 2919837472336555764, guid: 182cf18d88f927c439592ef55920127b,
         type: 3}
       propertyPath: OnExit.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
-      value: MainMenuScript, Assembly-CSharp
+      value: Oversmith.Scripts.Menu.MainMenuScript, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 2919837472336555764, guid: 182cf18d88f927c439592ef55920127b,
+        type: 3}
+      propertyPath: OnExit.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_BoolArgument
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2919837472336555764, guid: 182cf18d88f927c439592ef55920127b,
         type: 3}
@@ -2686,15 +2672,21 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 182cf18d88f927c439592ef55920127b, type: 3}
---- !u!1 &2242444547999030860 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 3383677758634180305, guid: 182cf18d88f927c439592ef55920127b,
-    type: 3}
-  m_PrefabInstance: {fileID: 2242444547999030859}
-  m_PrefabAsset: {fileID: 0}
 --- !u!224 &2242444547999030861 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 5551734890804177611, guid: 182cf18d88f927c439592ef55920127b,
     type: 3}
   m_PrefabInstance: {fileID: 2242444547999030859}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &2242444547999030863 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 4600146215811520512, guid: 182cf18d88f927c439592ef55920127b,
+    type: 3}
+  m_PrefabInstance: {fileID: 2242444547999030859}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 62a3933b5592062458932f1503154455, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

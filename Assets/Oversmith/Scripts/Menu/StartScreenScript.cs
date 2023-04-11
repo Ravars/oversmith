@@ -1,37 +1,36 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.InputSystem;
 
+// Ok 10/04/2023
+
 namespace Oversmith.Scripts.Menu
 {
+	[RequireComponent(typeof(FadeUI))]
 	public class StartScreenScript : MonoBehaviour
 	{
 		public PlayerInput input;
 		public UnityEvent onContinue;
-
 		private FadeUI _fade;
-		private FadeUI Fade
+		[SerializeField] private MainMenuScript mainMenuScript;
+
+		private void Awake()
 		{
-			get
-			{
-				if (_fade == null)
-					_fade = GetComponent<FadeUI>();
-				return _fade;
-			}
+			_fade = GetComponent<FadeUI>();
 		}
 
 		// Start is called before the first frame update
 		void Start()
 		{
-			input.SwitchCurrentActionMap("StartUp");
 			EnablePress();
 		}
-
-		void OnEnable()
+		// Enable press any button after fading in
+		public void EnablePress()
 		{
-			Fade.BeginFadeIn();
+			input.actions["StartUp"].performed += OnAnyPressed;
 		}
 
 		void OnDisable()
@@ -43,28 +42,14 @@ namespace Oversmith.Scripts.Menu
 		}
 
 		// Called when any button is pressed in start screen
-		public void OnAnyPressed(InputAction.CallbackContext ctx)
+		private void OnAnyPressed(InputAction.CallbackContext ctx)
 		{
 			if (this != null)
 			{
-				Fade.BeginFadeOut();
+				Debug.Log("OnAnyPressed");
+				_fade.BeginFadeOut();
 			}
 			ctx.action.performed -= OnAnyPressed;
-		}
-
-		// Enable press any button after fading in
-		public void EnablePress()
-		{
-			input.actions["StartUp"].performed += OnAnyPressed;
-		}
-
-		// Go to menu
-		public void Continue()
-		{
-			if (onContinue != null)
-			{
-				onContinue.Invoke();
-			}
 		}
 	}
 }
