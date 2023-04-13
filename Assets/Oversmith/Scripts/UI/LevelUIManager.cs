@@ -1,5 +1,6 @@
 using System;
 using Oversmith.Scripts.Managers;
+using Oversmith.Scripts.Menu;
 using UnityEngine;
 
 namespace Oversmith.Scripts.UI
@@ -8,12 +9,14 @@ namespace Oversmith.Scripts.UI
     {
         Hud,
         Pause,
+        Config,
     }
     public class LevelUIManager : MonoBehaviour
     {
         
-        [SerializeField] private GameObject hudMenuCanvas;
-        [SerializeField] private GameObject pauseMenuCanvas;
+        [SerializeField] private FadeUI hudMenuCanvas;
+        [SerializeField] private FadeUI pauseMenuCanvas;
+        [SerializeField] private FadeUI configMenuCanvas;
         private ScreenType _currentScreenType;
         
         private void Start()
@@ -28,36 +31,49 @@ namespace Oversmith.Scripts.UI
 
         private void OnResumeGame()
         {
-            ChangeScreen(ScreenType.Hud);
+            switch (_currentScreenType)
+            {
+                case ScreenType.Hud:
+                    //Teoricamente nao acontece
+                    break;
+                case ScreenType.Pause:
+                    ChangeScreen(ScreenType.Hud);
+                    break;
+                case ScreenType.Config:
+                    //TODO: confirm screen
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException();
+            }
         }
 
         private void OnPauseGame()
         {
+            
             ChangeScreen(ScreenType.Pause);
         }
 
         private void ChangeScreen(ScreenType newScreenType)
         {
+            hudMenuCanvas.gameObject.SetActive(false);
+            pauseMenuCanvas.gameObject.SetActive(false);
+            configMenuCanvas.gameObject.SetActive(false);
+
+            _currentScreenType = newScreenType;
             
             switch (_currentScreenType)
             {
                 case ScreenType.Hud:
-                    hudMenuCanvas.SetActive(false);
+                    hudMenuCanvas.gameObject.SetActive(true);
+                    hudMenuCanvas.BeginFadeIn();
                     break;
                 case ScreenType.Pause:
-                    pauseMenuCanvas.SetActive(false);
+                    pauseMenuCanvas.gameObject.SetActive(true);
+                    pauseMenuCanvas.BeginFadeIn();
                     break;
-            }
-
-            _currentScreenType = newScreenType;
-            
-            switch (newScreenType)
-            {
-                case ScreenType.Hud:
-                    hudMenuCanvas.SetActive(true);
-                    break;
-                case ScreenType.Pause:
-                    pauseMenuCanvas.SetActive(true);
+                case ScreenType.Config:
+                    configMenuCanvas.gameObject.SetActive(true);
+                    configMenuCanvas.BeginFadeIn();
                     break;
             }
         }
@@ -72,6 +88,15 @@ namespace Oversmith.Scripts.UI
             {
                 Debug.LogError("Game Manager not instanced");
             }
+        }
+        public void ConfigButton()
+        {
+            ChangeScreen(ScreenType.Config);
+        }
+
+        public void CloseConfigButton()
+        {
+            ChangeScreen(ScreenType.Pause);
         }
         public void QuitButton()
         {

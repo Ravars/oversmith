@@ -5,6 +5,7 @@ using UnityEngine.Events;
 
 namespace Oversmith.Scripts.Menu
 {
+    [RequireComponent(typeof(CanvasGroup))]
     public class FadeUI : MonoBehaviour
     {
         [Header("Fade Control")]
@@ -32,12 +33,20 @@ namespace Oversmith.Scripts.Menu
             if (isFadingIn)
             {
                 _FadeIn();
-                if (!isFadingIn) onFadeInEnd.Invoke();
+                if (!isFadingIn)
+                {
+                    onFadeInEnd.Invoke();
+                    Debug.Log(gameObject.name + ": Fade in end");
+                }
             }
             else if (isFadingOut)
             {
                 _FadeOut();
-                if (!isFadingOut) onFadeOutEnd.Invoke();
+                if (!isFadingOut)
+                {
+                    onFadeOutEnd.Invoke();
+                    Debug.Log(gameObject.name + ": Fade out end");
+                }
             }
         }
 
@@ -45,6 +54,7 @@ namespace Oversmith.Scripts.Menu
         {
             isFadingOut = false;
             isFadingIn = true;
+            Debug.Log(gameObject.name + ": Fade in begin");
         }
 
         public void FadeIn(float time, UnityAction ender)
@@ -63,6 +73,7 @@ namespace Oversmith.Scripts.Menu
         {
             isFadingIn = false;
             isFadingOut = true;
+            Debug.Log(gameObject.name + ": Fade out begin");
         }
 
         public void FadeOut(float time, UnityAction ender)

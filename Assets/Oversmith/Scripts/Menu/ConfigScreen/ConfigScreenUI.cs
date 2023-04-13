@@ -1,5 +1,8 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using Oversmith.Scripts.Managers;
+using Oversmith.Scripts.Utils;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.InputSystem;
@@ -7,42 +10,49 @@ using UnityEngine.Localization.Settings;
 
 namespace Oversmith.Scripts.Menu
 {
+    [RequireComponent(typeof(FadeUI))]
     public class ConfigScreenUI : MonoBehaviour
     {
         public GameObject[] itemsList;
         private MenuItemMenuUI itemUI;
-        private FadeUI fade;
-        private FadeUI Fade
-        { 
-            get
-            {
-                if (fade == null)
-                    fade = GetComponent<FadeUI>();
-                return fade;
-            } 
-        }
+        [SerializeField] private MainMenuScript mainMenuScript;
+        private FadeUI _fade;
         [Space(10)]
 
-        public PlayerInput input;
+        public PlayerInput input;      // Player Input component on player
+        public InputActionAsset inputActions; // Player input asset
+        private InputActionAsset Actions {
+            get {
+                if(inputActions != null) return inputActions;
+                else if(input != null) return input.actions;
+                return null;
+            }
+        }
+
+        private void Awake()
+        {
+            _fade = GetComponent<FadeUI>();
+        }
 
         public UnityEvent OnExit;
         
         // When enable, set effect of fade in
         void OnEnable()
         {
-            Fade.FadeIn(OnInitialize); // Call OnInitialize after fade in
-            input.actions["Navigate"].performed += NavigateOptions;
-            input.actions["Submit"].performed += OnApply;
-            input.actions["Cancel"].performed += OnCancel;
+            _fade.FadeIn(OnInitialize); // Call OnInitialize after fade in
+            if(!Actions) return;
+            Actions["Navigate"].performed += NavigateOptions;
+            Actions["Submit"].performed += OnApply;
+            Actions["Cancel"].performed += OnCancel;
         }
 
         void OnDisable()
         {
-            if (input != null)
+            if (Actions != null)
             {
-                input.actions["Navigate"].performed -= NavigateOptions;
-                input.actions["Submit"].performed -= OnApply;
-                input.actions["Cancel"].performed -= OnCancel;
+                Actions["Navigate"].performed -= NavigateOptions;
+                Actions["Submit"].performed -= OnApply;
+                Actions["Cancel"].performed -= OnCancel;
             }
         }
 
@@ -58,6 +68,7 @@ namespace Oversmith.Scripts.Menu
         // And horizontally modify its properties
         public void NavigateOptions(InputAction.CallbackContext ctx)
         {
+            Debug.Log("NavigateOptions");
             float horizontal = ctx.ReadValue<Vector2>().x;
             try
             {
@@ -86,8 +97,10 @@ namespace Oversmith.Scripts.Menu
                 default: i = 1; break;
             }
             LocalizationSettings.SelectedLocale = LocalizationSettings.AvailableLocales.Locales[i];
-
-            Fade.FadeOut(OnExit.Invoke);
+            // Debug.Log(LocalizationSettings.AvailableLocales.Locales[i].ToString());
+            PlayerPrefsManager.SetString(PlayerPrefsKeys.Language,LocalizationSettings.AvailableLocales.Locales[i].ToString());
+            _fade.FadeOut(OnExit.Invoke);
+            // mainMenuScript.OpenMainScreen();
         }
         private void OnApply(InputAction.CallbackContext ctx)
         {
@@ -105,7 +118,8 @@ namespace Oversmith.Scripts.Menu
         // And return to main menu
         public void OnCancel()
         {
-            Fade.FadeOut(OnExit.Invoke);
+            // mainMenuScript.OpenMainScreen();
+            _fade.FadeOut(OnExit.Invoke);
         }
         private void OnCancel(InputAction.CallbackContext ctx)
         {

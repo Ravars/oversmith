@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using Oversmith.Scripts.Managers;
@@ -5,42 +6,77 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.InputSystem.UI;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 namespace Oversmith.Scripts.Menu
 {
+	public enum MainMenuCanvas
+	{
+		StartScreen,
+		MenuScreen,
+		ConfigScreen
+	}
+	
 	public class MainMenuScript : MonoBehaviour
 	{
-		public GameObject startScr;
-		public GameObject menuScr;
-		public GameObject configScr;
-		private GameObject curScr;
+		public FadeUI startScr;
+		public FadeUI menuScr;
+		public FadeUI configScr;
+		private MainMenuCanvas _currentScreen;
+		
+		// public PlayerInput input;
+		public Button initBtt;
 
 		// Start is called before the first frame update
 		void Start()
 		{
-			curScr = startScr;
-			curScr.SetActive(true);
+			ChangeScreen(MainMenuCanvas.StartScreen);
+			initBtt.Select();
 		}
 
-		public void LoadHomePage()
+		public void LoadHomePageButton()
 		{
 			GameManager.Instance.LoadHomePage();
 		}
 
-		public void ReturnToMainScreen()
+		public void OpenMainScreen()
 		{
-			startScr.SetActive(false);
-			curScr.SetActive(false);
-			curScr = menuScr;
-			menuScr.SetActive(true);
+			ChangeScreen(MainMenuCanvas.MenuScreen);
 		}
 
-		public void SwitchToConfigScreen()
+		public void OpenConfigScreen()
 		{
-			startScr.SetActive(false);
-			curScr.SetActive(false);
-			curScr = configScr;
-			configScr.SetActive(true);
+			ChangeScreen(MainMenuCanvas.ConfigScreen);
+		}
+
+		private void ChangeScreen(MainMenuCanvas mainMenuCanvas)
+		{
+			UnableAll();
+			_currentScreen = mainMenuCanvas;
+			switch (_currentScreen)
+			{
+				case MainMenuCanvas.StartScreen:
+					startScr.gameObject.SetActive(true);
+					startScr.BeginFadeIn();
+					break;
+				case MainMenuCanvas.MenuScreen:
+					menuScr.gameObject.SetActive(true);
+					menuScr.BeginFadeIn();
+					break;
+				case MainMenuCanvas.ConfigScreen:
+					configScr.gameObject.SetActive(true);
+					configScr.BeginFadeIn();
+					break;
+				default:
+					throw new ArgumentOutOfRangeException(nameof(mainMenuCanvas), mainMenuCanvas, null);
+			}
+		}
+
+		private void UnableAll()
+		{
+			startScr.gameObject.SetActive(false);
+			menuScr.gameObject.SetActive(false); 
+			configScr.gameObject.SetActive(false);
 		}
 	}
 }
