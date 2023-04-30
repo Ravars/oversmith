@@ -1,0 +1,71 @@
+using Mirror;
+using Oversmith.Scripts.Multiplayer.Managers;
+using Steamworks;
+using UnityEngine;
+
+namespace Oversmith.Scripts.Multiplayer.Player
+{
+    public class PlayerObjectController : NetworkBehaviour
+    {
+        [SyncVar] public int ConnectionID;
+        [SyncVar] public int PlayerIdNumber;
+        [SyncVar] public ulong PlayerSteamID;
+
+        [SyncVar(hook = nameof(PlayerNameUpdate))]
+        public string PlayerName;
+
+        private CustomNetworkManager _manager;
+
+        public CustomNetworkManager Manager
+        {
+            get
+            {
+                if (!ReferenceEquals(_manager, null))
+                {
+                    return _manager;
+                }
+
+                return _manager = CustomNetworkManager.singleton as CustomNetworkManager;
+            }
+        } 
+        
+        public void PlayerNameUpdate(string oldValue, string newValue)
+        {
+            if (isServer)
+            {
+                this.PlayerName = newValue;
+            }
+
+            if (isClient)
+            {
+                SteamLobbyController.Instance.UpdatePlayerList();
+            }
+        }
+
+        public override void OnStartAuthority()
+        {
+            CmdSetPlayerName(SteamFriends.GetPersonaName().ToString());
+            gameObject.name = "LocalGamePlayer"; 
+            SteamLobbyController.Instance.FindLocalPlayer();
+            SteamLobbyController.Instance.UpdateLobbyName();
+        }
+
+        public override void OnStartClient()
+        {
+            Manager.GamePlayers.Add(this);
+            SteamLobbyController.Instance.UpdateLobbyName();
+            SteamLobbyController.Instance.UpdatePlayerList();
+        }
+
+        public override void OnStopClient()
+        {
+            Manager.GamePlayers.Remove(this);
+            SteamLobbyController.Instance.UpdatePlayerList();
+        }
+        [Command]
+        private void CmdSetPlayerName(string PlayerName)
+        {
+            this.PlayerNameUpdate(this.PlayerName,PlayerName);
+        }
+    }
+}
