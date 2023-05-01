@@ -34,8 +34,8 @@ namespace Oversmith.Scripts.Multiplayer
             JoinRequest = Callback<GameLobbyJoinRequested_t>.Create(OnJoinRequest);
             LobbyEntered = Callback<LobbyEnter_t>.Create(OnLobbyEntered);
         
-            // LobbyList = Callback<LobbyMatchList_t>.Create(OnGetLobbyList);
-            // LobbyDataUpdated = Callback<LobbyDataUpdate_t>.Create(OnGetLobbyData);
+            LobbyList = Callback<LobbyMatchList_t>.Create(OnGetLobbyList);
+            LobbyDataUpdated = Callback<LobbyDataUpdate_t>.Create(OnGetLobbyData);
         }
         [ContextMenu("Host Steam Lobby")]
         public void HostLobby()
@@ -49,7 +49,6 @@ namespace Oversmith.Scripts.Multiplayer
         }
         public void GetLobbiesList()
         {
-            Debug.Log("get lobbie list");
             if(lobbyIDs.Count > 0) lobbyIDs.Clear();
         
             SteamMatchmaking.AddRequestLobbyListResultCountFilter(60);
@@ -83,6 +82,26 @@ namespace Oversmith.Scripts.Multiplayer
             if (NetworkServer.active) { return; }
             _manager.networkAddress = SteamMatchmaking.GetLobbyData(new CSteamID(callback.m_ulSteamIDLobby), HostAddressKey);
             _manager.StartClient();
+        }
+
+        private void OnGetLobbyList(LobbyMatchList_t result)
+        {
+            if (LobbiesListManager.Instance.listOfLobbies.Count > 0)
+            {
+                LobbiesListManager.Instance.DestroyLobbies();
+            }
+
+            for (int i = 0; i < result.m_nLobbiesMatching; i++)
+            {
+                CSteamID lobbyID = SteamMatchmaking.GetLobbyByIndex(i);
+                lobbyIDs.Add(lobbyID);
+                SteamMatchmaking.RequestLobbyData(lobbyID);
+            }
+        }
+
+        private void OnGetLobbyData(LobbyDataUpdate_t result)
+        {
+            LobbiesListManager.Instance.DisplayLobbies(lobbyIDs, result);
         }
     }
 }
