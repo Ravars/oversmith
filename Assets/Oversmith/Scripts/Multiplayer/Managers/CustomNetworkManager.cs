@@ -14,8 +14,10 @@ namespace Oversmith.Scripts.Multiplayer.Managers
         public List<PlayerObjectController> GamePlayers { get; } = new();
         public override void OnServerAddPlayer(NetworkConnectionToClient conn)
         {
+            Debug.Log("OnServerAddPlayer a");
             if (SceneManager.GetActiveScene().name == MultiplayerLevelNames.SteamLobby.ToString())
             {
+                Debug.Log("OnServerAddPlayer b");
                 PlayerObjectController gamePlayerInstance = Instantiate(GamePlayerPrefab);
                 gamePlayerInstance.ConnectionID = conn.connectionId;
                 gamePlayerInstance.PlayerIdNumber = GamePlayers.Count + 1;

@@ -15,6 +15,8 @@ namespace Oversmith.Scripts.Multiplayer.UI
 
         public TextMeshProUGUI PlayerNameText;
         public RawImage PlayerIcon;
+        public TextMeshProUGUI PlayerReadyText;
+        public bool Ready;
 
         protected Callback<AvatarImageLoaded_t> ImageLoaded;
 
@@ -49,6 +51,7 @@ namespace Oversmith.Scripts.Multiplayer.UI
         public void SetPlayerValues()
         {
             PlayerNameText.text = PlayerName;
+            ChangeReadyStatus();
             if(!AvatarReceived) {GetPlayerIcon();}
         }
         private Texture2D GetSteamImageAsTexture(int iImage)
@@ -71,6 +74,21 @@ namespace Oversmith.Scripts.Multiplayer.UI
             }
             AvatarReceived = true;
             return texture;
+        }
+
+        public void ChangeReadyStatus()
+        {
+            if (Ready)
+            {
+                PlayerReadyText.text = "Ready";
+                PlayerReadyText.color = Color.green;
+            }
+            else
+            {
+                PlayerReadyText.text = "Unready";
+                PlayerReadyText.color = Color.red;
+                
+            }
         }
     }
 }

@@ -29,6 +29,11 @@ namespace Oversmith.Scripts.Multiplayer
         private List<PlayerListItem> PlayerListItems = new();
         public PlayerObjectController LocalplayerController;
         
+        //Ready
+        public Button StartGameButton;
+        public TextMeshProUGUI ReadyButtonText;
+        
+        
         //Manager
         private CustomNetworkManager _manager;
 
@@ -73,6 +78,7 @@ namespace Oversmith.Scripts.Multiplayer
                 NewPlayerItemScript.PlayerName = player.PlayerName;
                 NewPlayerItemScript.ConnectionID = player.ConnectionID;
                 NewPlayerItemScript.PlayerSteamID = player.PlayerSteamID;
+                NewPlayerItemScript.Ready = player.ready;
                 NewPlayerItemScript.SetPlayerValues();
                 
                 NewPlayerItem.transform.SetParent(PlayerListViewContent.transform);
@@ -95,7 +101,7 @@ namespace Oversmith.Scripts.Multiplayer
                     NewPlayerItemScript.PlayerName = player.PlayerName;
                     NewPlayerItemScript.ConnectionID = player.ConnectionID;
                     NewPlayerItemScript.PlayerSteamID = player.PlayerSteamID;
-                    // NewPlayerItemScript.Ready = player.Ready;
+                    NewPlayerItemScript.Ready = player.ready;
                     NewPlayerItemScript.SetPlayerValues();
             
                     NewPlayerItem.transform.SetParent(PlayerListViewContent.transform);
@@ -115,10 +121,16 @@ namespace Oversmith.Scripts.Multiplayer
                     if (playerListItemScript.ConnectionID == player.ConnectionID)
                     {
                         playerListItemScript.PlayerName = player.PlayerName;
+                        playerListItemScript.Ready = player.ready;
                         playerListItemScript.SetPlayerValues();
+                        if (player == LocalplayerController)
+                        {
+                            UpdateButton();
+                        }
                     }
                 }
             }
+            CheckIfAllReady();
         }
 
         public void RemovePlayerItem()
@@ -145,7 +157,54 @@ namespace Oversmith.Scripts.Multiplayer
                     }
                 }
             }
+        }
+
+        public void ReadyPlayer()
+        {
+            LocalplayerController.ChangeReady();
+        }
+
+        public void UpdateButton()
+        {
+            ReadyButtonText.text = LocalplayerController.ready? "Unready" : "Ready";
+        }
+
+        public void CheckIfAllReady()
+        {
+            bool allReady = false;
+            Debug.Log(Manager != null);
+            Debug.Log(Manager.GamePlayers != null);
             
+            foreach (PlayerObjectController playerObjectController in Manager.GamePlayers)
+            {
+                if (playerObjectController.ready)
+                {
+                    allReady = true;
+                }
+                else
+                {
+                    allReady = false;
+                    break;
+                }
+            }
+            Debug.Log("after foreach");
+
+            if (allReady)
+            {
+                if (LocalplayerController.PlayerIdNumber == 1)
+                {
+                    StartGameButton.interactable = true;
+                }
+                else
+                {
+                    StartGameButton.interactable = false;
+                }
+            }
+            else
+            {
+                StartGameButton.interactable = false;
+            }
+            Debug.Log("after else if");
         }
     }
 }

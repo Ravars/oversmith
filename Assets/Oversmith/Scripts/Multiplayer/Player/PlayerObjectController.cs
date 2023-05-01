@@ -10,9 +10,8 @@ namespace Oversmith.Scripts.Multiplayer.Player
         [SyncVar] public int ConnectionID;
         [SyncVar] public int PlayerIdNumber;
         [SyncVar] public ulong PlayerSteamID;
-
-        [SyncVar(hook = nameof(PlayerNameUpdate))]
-        public string PlayerName;
+        [SyncVar(hook = nameof(PlayerNameUpdate))] public string PlayerName;
+        [SyncVar(hook = nameof(PlayerReadyUpdate))] public bool ready;
 
         private CustomNetworkManager _manager;
 
@@ -44,7 +43,7 @@ namespace Oversmith.Scripts.Multiplayer.Player
 
         public override void OnStartAuthority()
         {
-            CmdSetPlayerName(SteamFriends.GetPersonaName().ToString());
+            CmdSetPlayerName(SteamFriends.GetPersonaName());
             gameObject.name = "LocalGamePlayer"; 
             SteamLobbyController.Instance.FindLocalPlayer();
             SteamLobbyController.Instance.UpdateLobbyName();
@@ -66,6 +65,36 @@ namespace Oversmith.Scripts.Multiplayer.Player
         private void CmdSetPlayerName(string PlayerName)
         {
             this.PlayerNameUpdate(this.PlayerName,PlayerName);
+        }
+
+        private void PlayerReadyUpdate(bool oldValue, bool newValue)
+        {
+            if (isServer)
+            {
+                this.ready = newValue;
+            }
+
+            
+            if (isClient)
+            {
+                Debug.Log("PlayerReadyUpdate: " + SteamLobbyController.InstanceExists);
+                SteamLobbyController.Instance.UpdatePlayerItem();
+            }
+        }
+
+        [Command]
+        private void CmdSetPlayerReady()
+        {
+            this.PlayerReadyUpdate(this.ready, !this.ready);
+        }
+
+
+        public void ChangeReady()
+        {
+            if (hasAuthority)
+            {
+                CmdSetPlayerReady();
+            }
         }
     }
 }
