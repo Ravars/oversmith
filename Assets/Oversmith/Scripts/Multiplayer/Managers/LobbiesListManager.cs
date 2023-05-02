@@ -37,7 +37,7 @@ namespace Oversmith.Scripts.Multiplayer.Managers
                     GameObject createdItem = Instantiate(lobbyDataItemPrefab, lobbyListContent.transform, true);
                     LobbyDataEntry lobbyDataEntry = createdItem.GetComponent<LobbyDataEntry>();
                     lobbyDataEntry.lobbyName = SteamMatchmaking.GetLobbyData((CSteamID)lobbyIDs[i].m_SteamID, "name");
-                    // lobbyDataEntry.lobbyId = (CSteamID)lobbyIDs[i].m_SteamID;
+                    lobbyDataEntry.lobbyId = (CSteamID)lobbyIDs[i].m_SteamID;
                     lobbyDataEntry.SetLobbyData();
                     createdItem.transform.localScale = Vector3.one;
                     listOfLobbies.Add(createdItem);
