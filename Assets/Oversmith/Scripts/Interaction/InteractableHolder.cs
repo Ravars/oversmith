@@ -11,8 +11,7 @@ namespace _Developers.Vitor
         public bool hasCraftingTable;
         public bool hasInteractable;
         public bool hasDelivery;
-        
-        
+
         public Table table;
         public Dispenser dispenser;
         public CraftingTable craftingTable;
@@ -21,8 +20,7 @@ namespace _Developers.Vitor
 
         public GameObject visual;
         public GameObject visualSelected;
-        
-        
+
         private void Awake()
         {
             table = GetComponent<Table>();

@@ -13,7 +13,7 @@ namespace _Developers.Vitor
         [SerializeField] private Transform itemHolder;
         private Transform _itemTransform;
         // private BaseItem _baseItemHolding;
-        public Item ItemScript { get; set; }
+        public static Item ItemScript { get; set; }
         
         private void Start()
         {
@@ -83,14 +83,15 @@ namespace _Developers.Vitor
                         Tuple<Transform,Item> item = interactable.table.RemoveFromTable(itemHolder);
                         _itemTransform = item.Item1;
                         ItemScript = item.Item2;
+                        ItemScript.PlaySound(SoundType.SoundOut);
                         _itemTransform.SetPositionAndRotation(itemHolder.position, Quaternion.identity);
-                        // _itemTransform.SetLocalPositionAndRotation(itemHolder.localPosition, itemHolder.localRotation);
                         return;
                     }
                     
                     if (ItemScript != null && interactable.table.CanSetItem(ItemScript))
                     {
                         interactable.table.PutOnTable(_itemTransform,ItemScript);
+                        ItemScript.PlaySound(SoundType.SoundIn);
                         _itemTransform = null;
                         ItemScript = null;
                         return;
@@ -99,13 +100,14 @@ namespace _Developers.Vitor
                     if (ItemScript != null && interactable.table.CanMergeItem(ItemScript))
                     {
                         interactable.table.MergeItem(ItemScript);
+                        ItemScript.PlaySound(SoundType.CraftSound);
                         ItemScript = null;
                         Destroy(_itemTransform.gameObject);
                         _itemTransform = null;
                     }
                 }
                 
-                if(interactable.hasDispenser && ItemScript == null)
+                if (interactable.hasDispenser && ItemScript == null)
                 {
                     var baseItem = _playerInteractableHandler.CurrentInteractable.InteractableHolder.dispenser.rawMaterialSo;
                     _itemTransform = Instantiate(baseItem.prefab, itemHolder.position, Quaternion.identity,itemHolder).transform;

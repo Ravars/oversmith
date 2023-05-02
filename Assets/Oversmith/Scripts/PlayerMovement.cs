@@ -42,7 +42,7 @@ public class PlayerMovement : MonoBehaviour
         
         
         
-        _animator.SetBool("Run",movementDirection.magnitude > 0f);
-        _animator.SetBool("Carry",!ReferenceEquals(_playerInteractions.ItemScript,null));
+        //_animator.SetBool("Run",movementDirection.magnitude > 0f);
+        //_animator.SetBool("Carry",!ReferenceEquals(_playerInteractions.ItemScript,null));
     }
 }
