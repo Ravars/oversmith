@@ -3,6 +3,7 @@ using Mirror;
 using Oversmith.Scripts.Multiplayer.Managers;
 using Steamworks;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 namespace Oversmith.Scripts.Multiplayer.Player
 {
@@ -15,6 +16,7 @@ namespace Oversmith.Scripts.Multiplayer.Player
         [SyncVar(hook = nameof(PlayerReadyUpdate))] public bool ready;
 
         private CustomNetworkManager _manager;
+        public GameObject playerModel;
 
         public CustomNetworkManager Manager
         {
@@ -32,6 +34,7 @@ namespace Oversmith.Scripts.Multiplayer.Player
         private void Start()
         {
             DontDestroyOnLoad(this.gameObject);
+            playerModel.SetActive(false);
         }
 
         public void PlayerNameUpdate(string oldValue, string newValue)
@@ -116,13 +119,16 @@ namespace Oversmith.Scripts.Multiplayer.Player
         [Command]
         public void CmdCanStartGame(string sceneName)
         {
+            
             _manager.StartGame(sceneName);
         }
         
         [Server]
         public void UpdatePlayerVisual()
         {
-            Debug.Log("Update visual");    
+            
+            Debug.Log("Update visual " + SceneManager.GetActiveScene().name);
+            playerModel.SetActive(SceneManager.GetActiveScene().name == "Game");
         }
     }
 }

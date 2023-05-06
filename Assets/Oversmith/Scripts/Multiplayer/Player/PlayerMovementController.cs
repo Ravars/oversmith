@@ -13,14 +13,14 @@ namespace Oversmith.Scripts.Multiplayer.Player
         private Vector2 _previousInput;
         private Quaternion _targetRotation;
 
-        public GameObject playerModel;
+        
         private void Start()
         {
             Debug.Log("Start player");
             _cc = GetComponent<CharacterController>(); // Get the character controller component
             InputManager.Controls.Gameplay.Move.performed += ctx => SetMovement(ctx.ReadValue<Vector2>());
             InputManager.Controls.Gameplay.Move.canceled += ctx => ResetMovement();
-            playerModel.SetActive(false);
+            // playerModel.SetActive(false);
             // InputManager.Controls.Gameplay.Dash.performed += DashOnPerformed;
         }
         private void SetMovement(Vector2 movement)
