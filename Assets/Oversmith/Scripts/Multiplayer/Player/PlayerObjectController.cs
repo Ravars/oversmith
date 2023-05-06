@@ -4,9 +4,11 @@ using Oversmith.Scripts.Multiplayer.Managers;
 using Steamworks;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using Random = UnityEngine.Random;
 
 namespace Oversmith.Scripts.Multiplayer.Player
 {
+    [RequireComponent(typeof(PlayerMovementController))]
     public class PlayerObjectController : NetworkBehaviour
     {
         [SyncVar] public int ConnectionID;
@@ -17,6 +19,7 @@ namespace Oversmith.Scripts.Multiplayer.Player
 
         private CustomNetworkManager _manager;
         public GameObject playerModel;
+        private PlayerMovementController _playerMovementController;
 
         public CustomNetworkManager Manager
         {
@@ -36,6 +39,8 @@ namespace Oversmith.Scripts.Multiplayer.Player
             DontDestroyOnLoad(this.gameObject);
             playerModel.SetActive(false);
             SceneManager.sceneLoaded += SceneManagerOnSceneLoaded;
+            _playerMovementController = GetComponent<PlayerMovementController>();
+            _playerMovementController.enabled = false;
         }
 
         public void PlayerNameUpdate(string oldValue, string newValue)
@@ -126,12 +131,35 @@ namespace Oversmith.Scripts.Multiplayer.Player
 
         private void SceneManagerOnSceneLoaded(Scene arg0, LoadSceneMode arg1)
         {
+            SetInitialPosition();
             UpdatePlayerVisual();
+            UpdatePlayerControls();
+        }
+
+        private void SetInitialPosition()
+        {
+            if (IsGameScene())
+            {
+                transform.position = new Vector3(Random.Range(-5, 5), 0f, Random.Range(-5, 5));
+            }
         }
 
         private void UpdatePlayerVisual()
         {
-            playerModel.SetActive(SceneManager.GetActiveScene().name == "Game");
+            playerModel.SetActive(IsGameScene());
+        }
+
+        private void UpdatePlayerControls()
+        {
+            if (hasAuthority && IsGameScene())
+            {
+                _playerMovementController.enabled = true;
+            }
+        }
+
+        private bool IsGameScene()
+        {
+            return SceneManager.GetActiveScene().name == "Game";
         }
     }
 }
