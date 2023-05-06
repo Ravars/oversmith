@@ -45,7 +45,6 @@ namespace Oversmith.Scripts.Multiplayer
         }
         public void JoinLobby(CSteamID lobbyID)
         {
-            Debug.Log("Join called");
             SteamMatchmaking.JoinLobby(lobbyID);   
         }
         public void GetLobbiesList()
@@ -58,9 +57,7 @@ namespace Oversmith.Scripts.Multiplayer
 
         private void OnLobbyCreated(LobbyCreated_t callback)
         {
-            Debug.Log("OnLobbyCreated trying");
             if (callback.m_eResult != EResult.k_EResultOK) { return; }
-            Debug.Log("Lobby created successfully.");
             _manager.StartHost();
             SteamMatchmaking.SetLobbyData(new CSteamID(callback.m_ulSteamIDLobby), HostAddressKey,
                 SteamUser.GetSteamID().ToString());
@@ -69,13 +66,11 @@ namespace Oversmith.Scripts.Multiplayer
         }
         private void OnJoinRequest(GameLobbyJoinRequested_t callback)
         {
-            Debug.Log("Request to join lobby");
             SteamMatchmaking.JoinLobby(callback.m_steamIDLobby);
         }
 
         private void OnLobbyEntered(LobbyEnter_t callback)
         {
-            Debug.Log("Lobby entered");
             //Everyone
             CurrentLobbyID = callback.m_ulSteamIDLobby;
             
@@ -102,7 +97,6 @@ namespace Oversmith.Scripts.Multiplayer
 
         private void OnGetLobbyData(LobbyDataUpdate_t result)
         {
-            Debug.Log("A: " + LobbiesListManager.InstanceExists);
             if (LobbiesListManager.InstanceExists)
             {
                 LobbiesListManager.Instance.DisplayLobbies(lobbyIDs, result);

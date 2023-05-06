@@ -57,7 +57,6 @@ namespace Oversmith.Scripts.Multiplayer
         
         public void UpdatePlayerList()
         {
-            Debug.Log("UpdatePlayerList");
             if (!PlayerItemCreated) { CreateHostPlayerItem(); } // Host
             if (PlayerListItems.Count < Manager.GamePlayers.Count){ CreateClientPlayerItem();}
             if (PlayerListItems.Count > Manager.GamePlayers.Count) { RemovePlayerItem();}
@@ -160,6 +159,7 @@ namespace Oversmith.Scripts.Multiplayer
             }
         }
 
+        
         public void ReadyPlayer()
         {
             LocalplayerController.ChangeReady();
@@ -173,8 +173,6 @@ namespace Oversmith.Scripts.Multiplayer
         public void CheckIfAllReady()
         {
             bool allReady = false;
-            Debug.Log(Manager != null);
-            Debug.Log(Manager.GamePlayers != null);
             
             foreach (PlayerObjectController playerObjectController in Manager.GamePlayers)
             {
@@ -188,8 +186,6 @@ namespace Oversmith.Scripts.Multiplayer
                     break;
                 }
             }
-            Debug.Log("after foreach");
-
             if (allReady)
             {
                 if (LocalplayerController.PlayerIdNumber == 1)
@@ -205,7 +201,6 @@ namespace Oversmith.Scripts.Multiplayer
             {
                 StartGameButton.interactable = false;
             }
-            Debug.Log("after else if");
         }
 
         public void StartGame(string sceneName)

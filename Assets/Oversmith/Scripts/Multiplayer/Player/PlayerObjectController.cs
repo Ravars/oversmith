@@ -118,5 +118,11 @@ namespace Oversmith.Scripts.Multiplayer.Player
         {
             _manager.StartGame(sceneName);
         }
+        
+        [Server]
+        public void UpdatePlayerVisual()
+        {
+            Debug.Log("Update visual");    
+        }
     }
 }

@@ -14,11 +14,8 @@ namespace Oversmith.Scripts.Multiplayer.Managers
         public List<PlayerObjectController> GamePlayers { get; } = new();
         public override void OnServerAddPlayer(NetworkConnectionToClient conn)
         {
-            Debug.Log("OnServerAddPlayer a");
-            
             if (SceneManager.GetActiveScene().name == MultiplayerLevelNames.SteamLobby.ToString())
             {
-                Debug.Log("OnServerAddPlayer b");
                 PlayerObjectController gamePlayerInstance = Instantiate(GamePlayerPrefab);
                 gamePlayerInstance.ConnectionID = conn.connectionId;
                 gamePlayerInstance.PlayerIdNumber = GamePlayers.Count + 1;
@@ -33,7 +30,17 @@ namespace Oversmith.Scripts.Multiplayer.Managers
         public void StartGame(string sceneName)
         {
             ServerChangeScene(sceneName);
+            
         }
 
+        public override void OnServerChangeScene(string newSceneName)
+        {
+            base.OnServerChangeScene(newSceneName);
+            Debug.Log("Mudou de cena");
+            foreach (var gamePlayer in GamePlayers)
+            {
+                gamePlayer.UpdatePlayerVisual();
+            }
+        }
     }
 }
