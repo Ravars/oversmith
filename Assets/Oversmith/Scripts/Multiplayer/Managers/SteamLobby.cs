@@ -28,7 +28,8 @@ namespace Oversmith.Scripts.Multiplayer
         private void Start()
         {
             if (!SteamManager.Initialized) return;
-            _manager = GetComponent<CustomNetworkManager>();
+            GameObject a = CustomNetworkManager.singleton.gameObject;
+            _manager = a.GetComponent<CustomNetworkManager>();
             
             LobbyCreated = Callback<LobbyCreated_t>.Create(OnLobbyCreated);
             JoinRequest = Callback<GameLobbyJoinRequested_t>.Create(OnJoinRequest);
