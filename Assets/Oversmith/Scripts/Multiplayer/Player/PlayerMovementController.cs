@@ -15,7 +15,7 @@ namespace Oversmith.Scripts.Multiplayer.Player
         private Quaternion _targetRotation;
 
         
-        private void Start()
+        private void Awake()
         {
             Debug.Log("Start player");
             _cc = GetComponent<CharacterController>(); // Get the character controller component
@@ -28,6 +28,13 @@ namespace Oversmith.Scripts.Multiplayer.Player
         {
             Debug.Log(movement);
             _previousInput = movement;
+        }
+
+        public void SetInitialPosition(Vector3 position)
+        {
+            _cc.enabled = false;
+            transform.position = position;
+            _cc.enabled = true;
         }
 
         private void ResetMovement()

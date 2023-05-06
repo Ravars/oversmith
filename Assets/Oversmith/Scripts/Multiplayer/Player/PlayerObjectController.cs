@@ -140,7 +140,7 @@ namespace Oversmith.Scripts.Multiplayer.Player
         {
             if (IsGameScene())
             {
-                transform.position = new Vector3(Random.Range(-5, 5), 0f, Random.Range(-5, 5));
+                _playerMovementController.SetInitialPosition(new Vector3(Random.Range(-5, 5), 0.8f, Random.Range(-5, 5)));
             }
         }
 
