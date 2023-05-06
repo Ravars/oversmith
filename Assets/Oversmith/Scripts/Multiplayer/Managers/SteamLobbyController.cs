@@ -57,6 +57,7 @@ namespace Oversmith.Scripts.Multiplayer
         
         public void UpdatePlayerList()
         {
+            Debug.Log("UpdatePlayerList");
             if (!PlayerItemCreated) { CreateHostPlayerItem(); } // Host
             if (PlayerListItems.Count < Manager.GamePlayers.Count){ CreateClientPlayerItem();}
             if (PlayerListItems.Count > Manager.GamePlayers.Count) { RemovePlayerItem();}

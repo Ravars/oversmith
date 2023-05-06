@@ -102,7 +102,10 @@ namespace Oversmith.Scripts.Multiplayer
         private void OnGetLobbyData(LobbyDataUpdate_t result)
         {
             Debug.Log("A: " + LobbiesListManager.InstanceExists);
-            LobbiesListManager.Instance.DisplayLobbies(lobbyIDs, result);
+            if (LobbiesListManager.InstanceExists)
+            {
+                LobbiesListManager.Instance.DisplayLobbies(lobbyIDs, result);
+            }
         }
     }
 }
