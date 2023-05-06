@@ -35,6 +35,7 @@ namespace Oversmith.Scripts.Multiplayer.Player
         {
             DontDestroyOnLoad(this.gameObject);
             playerModel.SetActive(false);
+            SceneManager.sceneLoaded += SceneManagerOnSceneLoaded;
         }
 
         public void PlayerNameUpdate(string oldValue, string newValue)
@@ -72,6 +73,7 @@ namespace Oversmith.Scripts.Multiplayer.Player
             {
                 SteamLobbyController.Instance.UpdatePlayerList();
             }
+            SceneManager.sceneLoaded -= SceneManagerOnSceneLoaded;
         }
         [Command]
         private void CmdSetPlayerName(string PlayerName)
@@ -89,7 +91,6 @@ namespace Oversmith.Scripts.Multiplayer.Player
             
             if (isClient)
             {
-                Debug.Log("PlayerReadyUpdate: " + SteamLobbyController.InstanceExists);
                 SteamLobbyController.Instance.UpdatePlayerItem();
             }
         }
@@ -122,12 +123,14 @@ namespace Oversmith.Scripts.Multiplayer.Player
             
             _manager.StartGame(sceneName);
         }
-        
-        [Server]
-        public void UpdatePlayerVisual()
+
+        private void SceneManagerOnSceneLoaded(Scene arg0, LoadSceneMode arg1)
         {
-            
-            Debug.Log("Update visual " + SceneManager.GetActiveScene().name);
+            UpdatePlayerVisual();
+        }
+
+        private void UpdatePlayerVisual()
+        {
             playerModel.SetActive(SceneManager.GetActiveScene().name == "Game");
         }
     }

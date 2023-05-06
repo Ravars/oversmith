@@ -36,16 +36,7 @@ namespace Oversmith.Scripts.Multiplayer.Managers
         public override void OnServerChangeScene(string newSceneName)
         {
             base.OnServerChangeScene(newSceneName);
-            SceneManager.sceneLoaded += SceneManagerOnsceneLoaded;
             Debug.Log("Mudou de cena");
-        }
-
-        private void SceneManagerOnsceneLoaded(Scene arg0, LoadSceneMode arg1)
-        {
-            foreach (var gamePlayer in GamePlayers)
-            {
-                gamePlayer.UpdatePlayerVisual();
-            }
         }
     }
 }
