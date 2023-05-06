@@ -15,6 +15,7 @@ namespace Oversmith.Scripts.Multiplayer.Managers
         public override void OnServerAddPlayer(NetworkConnectionToClient conn)
         {
             Debug.Log("OnServerAddPlayer a");
+            
             if (SceneManager.GetActiveScene().name == MultiplayerLevelNames.SteamLobby.ToString())
             {
                 Debug.Log("OnServerAddPlayer b");
@@ -28,5 +29,11 @@ namespace Oversmith.Scripts.Multiplayer.Managers
 
             }
         }
+
+        public void StartGame(string sceneName)
+        {
+            ServerChangeScene(sceneName);
+        }
+
     }
 }

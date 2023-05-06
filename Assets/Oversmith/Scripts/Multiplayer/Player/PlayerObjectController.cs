@@ -1,3 +1,4 @@
+using System;
 using Mirror;
 using Oversmith.Scripts.Multiplayer.Managers;
 using Steamworks;
@@ -26,8 +27,13 @@ namespace Oversmith.Scripts.Multiplayer.Player
 
                 return _manager = CustomNetworkManager.singleton as CustomNetworkManager;
             }
-        } 
-        
+        }
+
+        private void Start()
+        {
+            DontDestroyOnLoad(this.gameObject);
+        }
+
         public void PlayerNameUpdate(string oldValue, string newValue)
         {
             if (isServer)
@@ -59,7 +65,10 @@ namespace Oversmith.Scripts.Multiplayer.Player
         public override void OnStopClient()
         {
             Manager.GamePlayers.Remove(this);
-            SteamLobbyController.Instance.UpdatePlayerList();
+            if (SteamLobbyController.InstanceExists)
+            {
+                SteamLobbyController.Instance.UpdatePlayerList();
+            }
         }
         [Command]
         private void CmdSetPlayerName(string PlayerName)
@@ -95,6 +104,19 @@ namespace Oversmith.Scripts.Multiplayer.Player
             {
                 CmdSetPlayerReady();
             }
+        }
+
+        public void CanStartGame(string sceneName)
+        {
+            if (hasAuthority)
+            {
+                CmdCanStartGame(sceneName);
+            }
+        }
+        [Command]
+        public void CmdCanStartGame(string sceneName)
+        {
+            _manager.StartGame(sceneName);
         }
     }
 }

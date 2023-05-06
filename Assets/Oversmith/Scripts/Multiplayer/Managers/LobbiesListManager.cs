@@ -6,7 +6,7 @@ using Steamworks;
 
 namespace Oversmith.Scripts.Multiplayer.Managers
 {
-    public class LobbiesListManager : Singleton<LobbiesListManager>
+    public class LobbiesListManager : PersistentSingleton<LobbiesListManager>
     {
         public GameObject lobbiesMenu;
         public GameObject lobbyDataItemPrefab;

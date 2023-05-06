@@ -11,6 +11,8 @@ namespace _Developers.Vitor
         public bool hasCraftingTable;
         public bool hasInteractable;
         public bool hasDelivery;
+        public bool isItem;
+        
         
         
         public Table table;
@@ -18,7 +20,7 @@ namespace _Developers.Vitor
         public CraftingTable craftingTable;
         public Interactable interactable;
         public Delivery delivery;
-
+    
         public GameObject visual;
         public GameObject visualSelected;
         

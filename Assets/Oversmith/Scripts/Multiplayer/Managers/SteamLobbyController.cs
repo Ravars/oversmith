@@ -206,5 +206,10 @@ namespace Oversmith.Scripts.Multiplayer
             }
             Debug.Log("after else if");
         }
+
+        public void StartGame(string sceneName)
+        {
+            LocalplayerController.CanStartGame(sceneName);
+        }
     }
 }
