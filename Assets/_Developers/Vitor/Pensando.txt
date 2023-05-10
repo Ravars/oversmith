@@ -1,4 +1,49 @@
-﻿Fazer um sistema de Definir quais items preciso entregar para o José da carroça
+﻿
+
+
+Um fase terá um numero fixo de Clientes para serem atendido.
+Um numero máximo de cliente podem ser atendidos simultaneamente
+    Devido ao HUD. 
+    Atualmente o numero máximo é de 3 clientes.
+Quando um Cliente chega à loja, voce precisa interagir com ele para pegar com ele o pedido.
+    Fazendo isso você vai pegar com ele uma Caixa vazia e deve posicionar ela no Palete posicionado no Level.
+Essa caixa será onde o Player vai depositar os itens, e ao completar deverá entregar ela em um Local de Entrega.
+Ao adicionar itens na caixa, a HUD deverá ser atualizada indicando se um item correto foi depositado.
+    Caso sim, o "Checkbox" da HUD deverá ser marcado.
+        Essa marcação vai ser uma animação de um PNG aparecendo bem grande na tela e diminuindo até encaixar no checkbox. 
+    Caso não deveriamos indicar um erro, mas nao sei ainda como fazer isso.
+A caixa deve aceitar todos os itens. Caso o player coloque um item errado ele acaba recebendo uma punição indireta.
+    Perdeu tempo fazendo um Item que foi entregue errado
+    
+    
+PlayerInteractions.GrabOnPerformed
+    É nessa função que verifico com qual item está sendo feita a interação.
+    
+InteractableHolder é o script que fica em todos os items interagiveis e tem a referencia para os scripts.
+    A ideia é adicionar um "bool hasItem" aqui e no awake pegar o Item.
+
+O GameObject dos itens ficam Spawnados na cena e colocar ou tirar ele da mesa eu mudo o Parent dele.
+    Acredito que vai ser necessário criar um "ItemHolder" com o InteractableHolder e o Item sendo filho dele.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Fazer um sistema de Definir quais items preciso entregar para o José da carroça
 Sistema de entregar o item para o José da carroça
 
 ok - Mostrar qual Interactable está ativo
