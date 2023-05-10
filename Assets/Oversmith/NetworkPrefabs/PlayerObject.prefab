@@ -17,6 +17,7 @@ GameObject:
   - component: {fileID: 2310228432593781859}
   - component: {fileID: 4091546293157851838}
   - component: {fileID: 2482601705161404649}
+  - component: {fileID: 3674457218305121100}
   m_Layer: 0
   m_Name: PlayerObject
   m_TagString: Untagged
@@ -93,6 +94,7 @@ MonoBehaviour:
   syncInterval: 0.1
   moveSpeed: 10
   smoothing: 10
+  _playerInteractions: {fileID: 3674457218305121100}
 --- !u!143 &5688670877385291982
 CharacterController:
   m_ObjectHideFlags: 0
@@ -144,7 +146,7 @@ Rigidbody:
   m_UseGravity: 1
   m_IsKinematic: 0
   m_Interpolate: 0
-  m_Constraints: 112
+  m_Constraints: 116
   m_CollisionDetection: 0
 --- !u!114 &2310228432593781859
 MonoBehaviour:
@@ -214,6 +216,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9d4719e8a6414824adfed6ba9813f778, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &3674457218305121100
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2419914544680753821}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 32e9482dba8c4d0b9f80cc2e30992949, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  itemHolder: {fileID: 0}
 --- !u!1 &7673916453435377149
 GameObject:
   m_ObjectHideFlags: 0
@@ -224,6 +239,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5103077352058282029}
   - component: {fileID: 5651170588691634962}
+  - component: {fileID: 586629743136500289}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -270,6 +286,26 @@ CapsuleCollider:
   m_Height: 2
   m_Direction: 1
   m_Center: {x: 0, y: 1, z: 0}
+--- !u!95 &586629743136500289
+Animator:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7673916453435377149}
+  m_Enabled: 1
+  m_Avatar: {fileID: 9000000, guid: 4c01e9f8ad996ea44ae7a7fb323ae7c9, type: 3}
+  m_Controller: {fileID: 9100000, guid: 9915793572e459641b84b0baa6b07dbf, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
 --- !u!1001 &7460325642501676057
 PrefabInstance:
   m_ObjectHideFlags: 0
