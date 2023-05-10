@@ -4,25 +4,25 @@ using UnityEngine;
 
 public class CameraPosition : MonoBehaviour
 {
-    
-    public float CameraSpeed = 5f
 
-    public Transform Position1
-    public Transform Position2
-    public transform Position3
-    public Transform Position4
-    
-    private int AtualPosition
+    public float CameraSpeed = 5f;
+
+    public Transform Position1;
+    public Transform Position2;
+    public Transform Position3;
+    public Transform Position4;
+
+    private int AtualPosition;
 
 
 
     void Start()
     {
-        AtualPosition = 1
+        AtualPosition = 1;
         
         
-        Position1 get transform.localposition = transform.localPosition;
-        if (Position1 != Position2)
+        // Position1 get transform.localposition = transform.localPosition;
+        // if (Position1 != Position2)
 
     }
 
