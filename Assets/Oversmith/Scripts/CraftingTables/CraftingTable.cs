@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace _Developers.Vitor
 {
-    [RequireComponent(typeof(InteractableHolder),typeof(CraftingInteractionHandler))]
+    [RequireComponent(typeof(InteractableHolder),typeof(CraftingInteractionHandler), typeof(AudioSource))]
     public class CraftingTable : MonoBehaviour
     {
         [SerializeField] protected float timeToPrepareItem = 10f;
@@ -14,10 +14,13 @@ namespace _Developers.Vitor
         public CraftingTableType type;
         public ParticleSystem[] particleSystems;
 
-        private void Awake()
+        [HideInInspector] public AudioSource _audioSource;
+        
+            private void Awake()
         {
             _table = GetComponent<Table>();
             _craftingInteractionHandler = GetComponent<CraftingInteractionHandler>();
+            _audioSource = GetComponent<AudioSource>();
         }
 
         private void OnTriggerExit(Collider other)

@@ -14,8 +14,10 @@ namespace _Developers.Vitor
         
         private InteractableHolder _interactableHolder;
         [SerializeField] private Transform pointToSpawnItem;
-
         //ideia
+
+        //[SerializeField] private AudioSource catchSound;
+
         // public Base
 
         private void Awake()
@@ -50,6 +52,7 @@ namespace _Developers.Vitor
 
         public void PutOnTable(Transform itemTransform, Item itemScript)
         {
+            //catchSound.Play();
             ItemScript = itemScript;
             _itemTransform = itemTransform;
             _itemTransform.SetParent(pointToSpawnItem);

@@ -54,6 +54,7 @@ namespace _Developers.Vitor
                 isRunning = true;
                 enabled = true;
                 _craftingTable.SetParticlesState(true);
+                _craftingTable._audioSource.Play();
                 if(_table.ItemScript.slider != null)
                 {
                     _table.ItemScript.slider.gameObject.SetActive(true);
@@ -70,6 +71,7 @@ namespace _Developers.Vitor
                 isRunning = false;
                 enabled = false;
                 _craftingTable.SetParticlesState(false);
+                _craftingTable._audioSource.Stop();
                 return;
             }; // Change to event
             if (_table.ItemScript.CurrentProcessTimeNormalized >= 1)
@@ -82,6 +84,7 @@ namespace _Developers.Vitor
                         isRunning = false;
                         enabled = false;
                         _craftingTable.SetParticlesState(false);
+                        _craftingTable._audioSource.Stop();
                         return;
                     }
                 }

@@ -68,9 +68,11 @@ public class PlayerMovement : MonoBehaviour
         movementDirection.Normalize();
         
         _cc.SimpleMove(movementDirection * moveSpeed);
-
-        _animator.SetBool("Run",movementDirection.magnitude > 0f);
-        _animator.SetBool("Carry",!ReferenceEquals(_playerInteractions.ItemScript,null));
+        
+        
+        
+        //_animator.SetBool("Run",movementDirection.magnitude > 0f);
+        //_animator.SetBool("Carry",!ReferenceEquals(_playerInteractions.ItemScript,null));
     }
 
     IEnumerator DashTimer(float dashTimer)
