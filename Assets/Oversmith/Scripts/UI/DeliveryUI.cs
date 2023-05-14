@@ -24,6 +24,21 @@ namespace Oversmith.Scripts.UI
             }
         }
 
+        public void SetItems(ItemDeliveryList list)
+        {
+            foreach (var text in texts)
+            {
+                text.text = string.Empty;
+            }
+
+            int i = 0;
+            foreach (var item in list.Items)
+            {
+                texts[i].text = item.BaseItem.itemName + " x" + item.Amount;
+                i++;
+            }
+        }
+
         public void Close()
         {
             gameObject.SetActive(false);

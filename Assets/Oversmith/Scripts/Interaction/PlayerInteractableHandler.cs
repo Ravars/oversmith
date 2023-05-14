@@ -62,7 +62,7 @@ namespace Test1.Scripts.Prototype
         private void OnTriggerEnter(Collider other)
         {
             if (!other.TryGetComponent(out InteractableHolder interactable)) return;
-            ObjectInteractable objectInteractable = new ObjectInteractable(other.transform.root,interactable);
+            ObjectInteractable objectInteractable = new ObjectInteractable(other.transform,interactable);
             if (!_interactableList.Contains(objectInteractable))
             {
                 _interactableList.Add(objectInteractable);
@@ -72,7 +72,7 @@ namespace Test1.Scripts.Prototype
         private void OnTriggerExit(Collider other)
         {
             if (!other.TryGetComponent(out InteractableHolder interactable)) return;
-            ObjectInteractable objectInteractable = new ObjectInteractable(other.transform.root,interactable);
+            ObjectInteractable objectInteractable = new ObjectInteractable(other.transform,interactable);
             var index = _interactableList.FindIndex(a => a.InteractableHolder == interactable);
             if (index != -1)
             {
@@ -89,6 +89,17 @@ namespace Test1.Scripts.Prototype
         {
             _interactableList.Remove(CurrentInteractable);
             CurrentInteractable = null;
+        }
+
+        public void ClearList()
+        {
+            Reset();
+            var count = _interactableList.Count;
+
+            for (int i = count; i > 0; i--)
+            {
+                _interactableList.RemoveAt(i - 1);
+            }
         }
     }
     
