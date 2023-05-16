@@ -11,12 +11,14 @@ namespace _Developers.Vitor
         public bool hasCraftingTable;
         public bool hasInteractable;
         public bool hasDelivery;
+        public bool hasPallet;
 
         public Table table;
         public Dispenser dispenser;
         public CraftingTable craftingTable;
         public Interactable interactable;
-        public Delivery delivery;
+        public DeliveryBox delivery;
+        public Pallet pallet;
 
         public GameObject visual;
         public GameObject visualSelected;
@@ -35,8 +37,11 @@ namespace _Developers.Vitor
             interactable = GetComponent<Interactable>();
             hasInteractable = interactable != null;
 
-            delivery = GetComponent<Delivery>();
+            delivery = GetComponent<DeliveryBox>();
             hasDelivery = delivery != null;
+
+            pallet = GetComponent<Pallet>();
+            hasPallet = pallet != null;
             SetStatusInteract(false);
         }
 
@@ -48,10 +53,5 @@ namespace _Developers.Vitor
                 visual.SetActive(!state);
             }
         }
-        
-        
-
-
-
     }
 }

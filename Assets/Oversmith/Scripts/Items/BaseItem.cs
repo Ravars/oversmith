@@ -9,6 +9,7 @@ namespace _Developers.Vitor
         public string itemName;
         public GameObject prefab;
         public Process[] processes;
+        public Texture image;
     }
 
     [Serializable]
