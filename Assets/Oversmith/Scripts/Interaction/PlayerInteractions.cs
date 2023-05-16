@@ -4,7 +4,6 @@ using Oversmith.Scripts.Managers;
 using Test1.Scripts.Prototype;
 using UnityEngine;
 using UnityEngine.InputSystem;
-using static UnityEditor.Progress;
 
 namespace _Developers.Vitor
 {

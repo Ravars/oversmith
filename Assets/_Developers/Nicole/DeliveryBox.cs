@@ -41,6 +41,7 @@ namespace Oversmith.Scripts.Level
 
         int totalItems = 5;
         private BoxCollider trigger;
+        public string wagonName;
 
         private void Start()
         {
@@ -53,6 +54,7 @@ namespace Oversmith.Scripts.Level
             SetVisual(false);
             slider.value = 1 - (currentTime / totalTime);
             Invoke(nameof(StartTimer), 5);
+            wagonName = wagonMan.gameObject.name;
         }
 
         public bool CanSetItem()
@@ -68,6 +70,7 @@ namespace Oversmith.Scripts.Level
                 remainingItems[itemIndex]--;
 
                 SpawnTextStatus(true);
+                HudController.Instance.SetItemCollected(requiredItems.Items[itemIndex].BaseItem,wagonName);
             }
             else
             {

@@ -10,7 +10,7 @@ namespace _Developers.Vitor
     {
         public DeliveryBox deliveryBox;
         public DeliveryUI deliveryUI;
-
+        public bool alreadyGet;
         
         public override void Interact(GameObject player)
         {
@@ -25,9 +25,16 @@ namespace _Developers.Vitor
                 PlayerInteractions.ItemScript = deliveryBox.GetComponent<Item>();
                 deliveryBox.isActive = true;
                 deliveryBox.visual.SetActive(true);
+
+                if (!alreadyGet)
+                {
+                    HudController.Instance.AddOrder(deliveryBox.requiredItems.Items.ToArray(), gameObject.name);
+                }
+                
+                alreadyGet = true;
             }
 
-            // Spawnar caixa nas mãos do player
+            // Spawnar caixa nas mï¿½os do player
         }
     }
 }

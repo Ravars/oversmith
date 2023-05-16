@@ -1,6 +1,7 @@
 using _Developers.Vitor;
 using Oversmith.Scripts.Level;
 using System;
+using Oversmith.Scripts.UI;
 using UnityEngine;
 using UnityEngine.UIElements;
 
@@ -33,12 +34,13 @@ public class Pallet : MonoBehaviour
     public bool PutOnPallet(Transform itemTransform)
     {
         var deliveryBoxScript = itemTransform.GetComponent<DeliveryBox>();
-
+        
         if (isDeliveryPlace)
         {
             if (deliveryBoxScript.CheckCompletion())
             {
                 deliveryBoxScript.Finish();
+                HudController.Instance.RemoveOrder(deliveryBoxScript.wagonName);
             }
             else
             {
