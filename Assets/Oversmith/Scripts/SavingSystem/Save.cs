@@ -2,7 +2,7 @@ using System;
 using Oversmith.Scripts.Systems.Settings;
 using UnityEngine;
 
-namespace Oversmith.Scripts.SaveSystem
+namespace Oversmith.Scripts.SavingSystem
 {
     [Serializable]
     public class Save
@@ -23,6 +23,11 @@ namespace Oversmith.Scripts.SaveSystem
         public string ToJson()
         {
             return JsonUtility.ToJson(this);
+        }
+
+        public void LoadFromJson(string json)
+        {
+            JsonUtility.FromJsonOverwrite(json, this);
         }
     }
 }

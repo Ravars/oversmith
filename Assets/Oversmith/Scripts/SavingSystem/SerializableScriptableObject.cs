@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEditor;
 #endif
 
-namespace Oversmith.Scripts.SaveSystem
+namespace Oversmith.Scripts.SavingSystem
 {
     public class SerializableScriptableObject : ScriptableObject
     {

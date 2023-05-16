@@ -13,6 +13,7 @@ namespace Oversmith.Scripts.Events.ScriptableObjects
 
         public void RaiseEvent(float value)
         {
+            Debug.Log("RaiseEvent:" + value);
             OnEventRaised?.Invoke(value);
         }
     }

@@ -3,7 +3,7 @@ using Oversmith.Scripts.Events.ScriptableObjects;
 using Oversmith.Scripts.Systems.Settings;
 using UnityEngine;
 
-namespace Oversmith.Scripts.SaveSystem
+namespace Oversmith.Scripts.SavingSystem
 
 {
     [CreateAssetMenu(fileName = "Settings", menuName = "Settings/Save")]
@@ -30,8 +30,6 @@ namespace Oversmith.Scripts.SaveSystem
 
         public void SaveDataToDisk()
         {
-
-
             if (FileManager.MoveFile(saveFilename, backupSaveFilename))
             {
                 if (FileManager.WriteToFile(saveFilename, saveData.ToJson()))
@@ -39,6 +37,17 @@ namespace Oversmith.Scripts.SaveSystem
                     Debug.Log("Success save");
                 }
             }
+        }
+        public bool LoadSaveDataFromDisk()
+        {
+            if (FileManager.LoadFromFile(saveFilename, out var json))
+            {
+                Debug.Log("loading");
+                saveData.LoadFromJson(json);
+                return true;
+            }
+
+            return false;
         }
     }
 }

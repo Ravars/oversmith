@@ -17,13 +17,7 @@ namespace Oversmith.Scripts.Managers
         [SerializeField] private FloatEventChannelSO masterVolumeChannel;
         [SerializeField] private FloatEventChannelSO musicVolumeChannel;
         [SerializeField] private FloatEventChannelSO sfxVolumeChannel;
-        
-        private void Start()
-        {
-            Debug.Log(LogarithmicDbTransform(1));
-            Debug.Log(LogarithmicDbTransform(0));
-        }
-
+        public static readonly int MaxVolume = 10;
         private void OnEnable()
         {
             masterVolumeChannel.OnEventRaised += SetMasterVolume;
@@ -41,7 +35,7 @@ namespace Oversmith.Scripts.Managers
 
         public void SetMasterVolume(float newVolume)
         {
-            Debug.Log("SetMasterVolume");
+            Debug.Log("SetMasterVolume: " + newVolume);
             SetGroupVolume(AudioGroups.MasterVolume.ToString(),newVolume);
         }
         public void SetMusicVolume(float newVolume)
@@ -55,6 +49,9 @@ namespace Oversmith.Scripts.Managers
 
         private void SetGroupVolume(string groupName, float volume)
         {
+            volume /= MaxVolume;
+            // Debug.Log("Volume real: " + volume  + " " + LogarithmicDbTransform(volume) + " " + groupName);
+            
             bool volumeSet = audioMixer.SetFloat(groupName, LogarithmicDbTransform(volume));
             if (!volumeSet)
             {
@@ -67,7 +64,8 @@ namespace Oversmith.Scripts.Managers
         {
             volume = Mathf.Clamp01(volume);
             volume = (Mathf.Log(89 * volume + 1) / Mathf.Log(90)) * 80;
-            return volume - 80;
+            float retorno = volume - 80;
+            return retorno;
         }
     }
 }
