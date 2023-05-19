@@ -10,10 +10,10 @@ namespace _Developers.Vitor
     public class PlayerInteractions : MonoBehaviour
     {
         private PlayerInteractableHandler _playerInteractableHandler;
-        [SerializeField] private Transform itemHolder;
         private Transform _itemTransform;
         // private BaseItem _baseItemHolding;
         public static Item ItemScript { get; set; }
+        public Transform itemHolder;
         
         private void Start()
         {
@@ -65,7 +65,7 @@ namespace _Developers.Vitor
                 
                 if (interactable.hasInteractable)
                 {
-                    interactable.interactable.Interact();
+                    interactable.interactable.Interact(this.gameObject);
                 }
             }
             
@@ -115,14 +115,40 @@ namespace _Developers.Vitor
                     return;
                 }
 
-                if (interactable.hasDelivery)
+                if (interactable.hasPallet && ItemScript?.baseItem.itemName == "Delivery Box")
                 {
+                    if (interactable.pallet.CanSetBox())
+                    {
+                        if (interactable.pallet.PutOnPallet(ItemScript.transform))
+                        {
+                            _itemTransform = null;
+                            ItemScript = null;
+                        }
+                        return;
+                    }
+                }
+
+                if (interactable.hasDelivery && interactable.delivery.isActive)
+                {
+                    if (ItemScript == null)
+                    {
+                        interactable.transform.SetParent(transform);
+                        _itemTransform = interactable.transform;
+                        ItemScript = interactable.delivery.GetComponent<Item>();
+                        _itemTransform.SetPositionAndRotation(itemHolder.position, Quaternion.identity);
+                        interactable.delivery.SetTrigger(false);
+                        _playerInteractableHandler.ClearList();
+                    }
+
                     if (interactable.delivery.CanSetItem() && ItemScript != null)
                     {
-                        interactable.delivery.SetItem(_itemTransform,ItemScript);
-                        _itemTransform = null;
-                        ItemScript = null;
-                        return;
+                        if (ItemScript?.baseItem.itemName != "Delivery Box")
+                        {
+                            interactable.delivery.SetItem(_itemTransform, ItemScript);
+                            _itemTransform = null;
+                            ItemScript = null;
+                            return;
+                        }
                     }
                 }
             }

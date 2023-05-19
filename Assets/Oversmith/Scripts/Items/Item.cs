@@ -25,6 +25,8 @@ namespace _Developers.Vitor
 
         public void PlaySound(SoundType soundType)
         {
+            if (sound == null) return;
+            
             switch (soundType)
             {
                 case SoundType.SoundIn:

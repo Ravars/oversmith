@@ -10,5 +10,10 @@ namespace Oversmith.Scripts.Interaction
         {
             Debug.Log("interact");
         }
+
+        public virtual void Interact(GameObject obj)
+        {
+            Debug.Log("gameobject interact");
+        }
     }
 }
