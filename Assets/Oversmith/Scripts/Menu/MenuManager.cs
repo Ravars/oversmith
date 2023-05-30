@@ -40,13 +40,13 @@ namespace Oversmith.Scripts.Menu
             if (IsHandlerRun(handler)) return;
             if (i < 0 || i >= canvases.Count)
                 throw new System.ArgumentOutOfRangeException("i", i, "Out of range of the canvases list.");
-            Debug.Log("Change from " + canvases[current].name + " to " + canvases[i].name);
             handler = fader.FadeOut(canvases[current], () =>
             {
-                canvases[i].enabled = false;
+                canvases[current].enabled = false;
                 history.Push(current);
                 current = i;
                 canvases[i].enabled = true;
+                
                 handler = fader.FadeIn(canvases[i], canvases[i].Begin);
             });
         }
@@ -72,7 +72,6 @@ namespace Oversmith.Scripts.Menu
         public void ReturnCanvas(System.Action action)
         {
             if (IsHandlerRun(handler)) return;
-            Debug.Log("Return from " + canvases[current].name + " to " + canvases[history.Peek()].name);
             handler = fader.FadeOut(canvases[current], () =>
             {
                 canvases[current].enabled = false;

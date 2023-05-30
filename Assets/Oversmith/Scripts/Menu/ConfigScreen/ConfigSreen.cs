@@ -43,10 +43,10 @@ namespace Oversmith.Scripts.Menu
         ///</summary>
         public void NavigateOptions(InputAction.CallbackContext ctx)
         {
-            if (!enabled) return;
-            float horizontal = ctx.ReadValue<Vector2>().x;
             try
             {
+                if (!enabled) return;
+                float horizontal = ctx.ReadValue<Vector2>().x;
                 if (horizontal < 0) itemUI?.onSwitchLeft();
                 else if (horizontal > 0) itemUI?.onSwitchRight();
             }
