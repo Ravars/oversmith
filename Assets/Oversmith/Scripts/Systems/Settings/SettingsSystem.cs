@@ -17,7 +17,13 @@ namespace Oversmith.Scripts.Systems.Settings
 
         private void Awake()
         {
-            saveSystem.LoadSaveDataFromDisk();
+            bool loaded = saveSystem.LoadSaveDataFromDisk();
+            Debug.Log("Loaded: " + loaded);
+            if (!loaded)
+            {
+                currentSettings.LoadDefaultSettings();
+                // currentSettings.SaveAudioSettings();
+            }
             currentSettings.LoadSavedSettings(saveSystem.saveData);
             Debug.Log("Awake Settings system: Master: " + currentSettings.MasterVolume);
             SetCurrentSettings();

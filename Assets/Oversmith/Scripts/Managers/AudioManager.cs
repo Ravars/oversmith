@@ -5,7 +5,8 @@ using UnityEngine.Audio;
 
 namespace Oversmith.Scripts.Managers
 {
-    enum AudioGroups
+    [Serializable]
+    public enum AudioGroups
     {
         MasterVolume,
         MusicVolume,
@@ -13,11 +14,25 @@ namespace Oversmith.Scripts.Managers
     }
     public class AudioManager : MonoBehaviour
     {
-        [SerializeField] private AudioMixer audioMixer;
+        [Header("Audio control")]
+        [SerializeField] private AudioMixer audioMixer = default;
+        [Range(0f, 1f)]
+        [SerializeField] private float masterVolume = 1f;
+        [Range(0f, 1f)]
+        [SerializeField] private float musicVolume = 1f;
+        [Range(0f, 1f)]
+        [SerializeField] private float sfxVolume = 1f;
+        
+        
+        [Header("Listening on channels")]
+        [Tooltip("The SoundManager listens to this event, fired by objects in any scene, to change Master volume")]
         [SerializeField] private FloatEventChannelSO masterVolumeChannel;
+        [Tooltip("The SoundManager listens to this event, fired by objects in any scene, to change Music volume")]
         [SerializeField] private FloatEventChannelSO musicVolumeChannel;
+        [Tooltip("The SoundManager listens to this event, fired by objects in any scene, to change SFXs volume")]
         [SerializeField] private FloatEventChannelSO sfxVolumeChannel;
         public static readonly int MaxVolume = 10;
+        public static readonly int StepVolume = 1;
         private void OnEnable()
         {
             masterVolumeChannel.OnEventRaised += SetMasterVolume;
@@ -36,14 +51,17 @@ namespace Oversmith.Scripts.Managers
         public void SetMasterVolume(float newVolume)
         {
             Debug.Log("SetMasterVolume: " + newVolume);
+            masterVolume = newVolume;
             SetGroupVolume(AudioGroups.MasterVolume.ToString(),newVolume);
         }
         public void SetMusicVolume(float newVolume)
         {
+            musicVolume = newVolume;
             SetGroupVolume(AudioGroups.MusicVolume.ToString(),newVolume);
         }
         public void SetSfxVolume(float newVolume)
         {
+            sfxVolume = newVolume;
             SetGroupVolume(AudioGroups.SFXVolume.ToString(),newVolume);
         }
 

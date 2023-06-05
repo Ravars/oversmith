@@ -8,9 +8,14 @@ namespace Oversmith.Scripts.SavingSystem
     public class Save
     {
         public string _locationID;
+        //Audio Settings
         public float masterVolume = default;
         public float musicVolume = default;
         public float sfxVolume = default;
+        //Video Settings
+        public int widthValue = default;
+        public int heightValue = default;
+        public string displayTypeValue = default;
 
 
         public void SaveSetting(SettingsSO settingsSo)
@@ -18,6 +23,9 @@ namespace Oversmith.Scripts.SavingSystem
             masterVolume = settingsSo.MasterVolume;
             musicVolume = settingsSo.MusicVolume;
             sfxVolume = settingsSo.SfxVolume;
+            widthValue = settingsSo.WidthValue;
+            heightValue = settingsSo.HeightValue;
+            displayTypeValue = settingsSo.DisplayTypeValue;
         }
 
         public string ToJson()
@@ -27,6 +35,7 @@ namespace Oversmith.Scripts.SavingSystem
 
         public void LoadFromJson(string json)
         {
+            Debug.Log("Json: " + json);
             JsonUtility.FromJsonOverwrite(json, this);
         }
     }

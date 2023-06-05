@@ -42,12 +42,28 @@ namespace Oversmith.Scripts.SavingSystem
         {
             if (FileManager.LoadFromFile(saveFilename, out var json))
             {
-                Debug.Log("loading");
+                Debug.Log("loading LoadSaveDataFromDisk");
+                if (string.IsNullOrEmpty(json))
+                {
+                    return false;
+                }
                 saveData.LoadFromJson(json);
                 return true;
             }
 
             return false;
+        }
+        public void WriteEmptySaveFile()
+        {
+            FileManager.WriteToFile(saveFilename, "");
+        }
+
+        public void SetNewGameData()
+        {
+            FileManager.WriteToFile(saveFilename, "");
+            //TODO: init save data
+            SaveDataToDisk();
+
         }
     }
 }

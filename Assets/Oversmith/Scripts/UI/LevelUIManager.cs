@@ -11,7 +11,7 @@ namespace Oversmith.Scripts.UI
         Pause,
         Config,
     }
-    public class LevelUIManager : MonoBehaviour
+    public class LevelUIManager : MonoBehaviour //TODO: Remover
     {
         
         [SerializeField] private FadeUI hudMenuCanvas;
