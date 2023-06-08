@@ -9,14 +9,14 @@ public class PlayerMovementInputSystem : MonoBehaviour
     public float smoothing = 5f;
     private Vector2 _previousInput;
     private PlayerInput _playerInput;
-    private PlayerInputAction _inputAction;
+    // private PlayerInputAction _inputAction;
     public GameObject menu;
 
     void Start()
     {
         _cc = GetComponent<CharacterController>(); // Get the character controller component
         _playerInput = GetComponent<PlayerInput>();
-        _inputAction = new PlayerInputAction();
+        // _inputAction = new PlayerInputAction();
     }
 
     private void SetMovement(Vector2 movement)

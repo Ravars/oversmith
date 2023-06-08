@@ -82,5 +82,12 @@ namespace Oversmith.Scripts.Systems.Settings
             MusicVolume = newMusicVolume;
             SfxVolume = newSfxVolume;
         }
+
+        public void SaveVideoSettings(string newDisplayType, int newWidthValue, int newHeightValue)
+        {
+            DisplayTypeValue = newDisplayType;
+            WidthValue = newWidthValue;
+            HeightValue = newHeightValue;
+        }
     }
 }
