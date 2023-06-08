@@ -23,6 +23,7 @@ namespace _Developers.Vitor
                 deliveryBox.transform.SetParent(pI.itemHolder.transform, true);
                 deliveryBox.transform.SetPositionAndRotation(pI.itemHolder.position, Quaternion.identity);
                 PlayerInteractions.ItemScript = deliveryBox.GetComponent<Item>();
+                pI._itemTransform = deliveryBox.transform;
                 deliveryBox.isActive = true;
                 deliveryBox.visual.SetActive(true);
 

@@ -10,7 +10,7 @@ namespace _Developers.Vitor
     public class PlayerInteractions : MonoBehaviour
     {
         private PlayerInteractableHandler _playerInteractableHandler;
-        private Transform _itemTransform;
+        public Transform _itemTransform;
         // private BaseItem _baseItemHolding;
         public static Item ItemScript { get; set; }
         public Transform itemHolder;
@@ -76,7 +76,7 @@ namespace _Developers.Vitor
             if (_playerInteractableHandler.CurrentInteractable != null)
             {
                 var interactable = _playerInteractableHandler.CurrentInteractable.InteractableHolder;
-                if (interactable.hasTable)
+                if (interactable.hasTable && ItemScript?.baseItem.itemName != "Delivery Box")
                 {
                     if (ItemScript == null && interactable.table.HasItem())
                     {
@@ -140,7 +140,7 @@ namespace _Developers.Vitor
                         _playerInteractableHandler.ClearList();
                     }
 
-                    if (interactable.delivery.CanSetItem() && ItemScript != null)
+                    if (interactable.delivery.CanSetItem(ItemScript) && ItemScript != null)
                     {
                         if (ItemScript?.baseItem.itemName != "Delivery Box")
                         {

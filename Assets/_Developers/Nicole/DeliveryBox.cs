@@ -23,7 +23,6 @@ namespace Oversmith.Scripts.Level
     {
         public ItemDeliveryList requiredItems;
         public List<int> remainingItems;
-        public int itemsDelivered;
         public BaseItem boxItem;
         public Transform[] pointsToSpawn;
         //public GameObject itemsHolder;
@@ -39,9 +38,14 @@ namespace Oversmith.Scripts.Level
         public GameObject nextWagon;
         public Slider slider;
 
-        int totalItems = 5;
+        int maxItems = 5;
         private BoxCollider trigger;
         public string wagonName;
+
+        int numOfCorrectItems = 0;
+        int totalItems = 0;
+
+        private CustomerManager customerManager;
 
         private void Start()
         {
@@ -51,15 +55,27 @@ namespace Oversmith.Scripts.Level
             }
             trigger = GetComponent<BoxCollider>();
             SetTrigger(false);
-            SetVisual(false);
+            //SetVisual(false);
+
             slider.value = 1 - (currentTime / totalTime);
-            Invoke(nameof(StartTimer), 5);
+
             wagonName = wagonMan.gameObject.name;
+
+            isRunning = true;
         }
 
-        public bool CanSetItem()
+        public bool CanSetItem(Item itemScript)
         {
-            return itemsDelivered < totalItems;
+            int itemIndex = requiredItems.Items.FindIndex(x => x.BaseItem.itemName == itemScript.baseItem.itemName);
+            if (itemIndex != -1 && remainingItems[itemIndex] == 0)
+            {
+                AlertMessageManager.Instance.SpawnAlertMessage("Você já entregou todos os items deste tipo.", MessageType.Error);
+                return false;
+            }
+            else
+            {
+                return totalItems < maxItems;
+            }
         }
 
         public void SetItem(Transform itemTransform, Item itemScript)
@@ -71,6 +87,7 @@ namespace Oversmith.Scripts.Level
 
                 SpawnTextStatus(true);
                 HudController.Instance.SetItemCollected(requiredItems.Items[itemIndex].BaseItem,wagonName);
+                numOfCorrectItems++;
             }
             else
             {
@@ -80,6 +97,8 @@ namespace Oversmith.Scripts.Level
             }
             
             SetParent(itemTransform, itemIndex);
+
+            totalItems++;
 
             if (CheckCompletion())
             {
@@ -135,34 +154,21 @@ namespace Oversmith.Scripts.Level
 
         private void FinishTimer()
         {
+            int boxScore = Mathf.RoundToInt((numOfCorrectItems / (float)totalItems) * 100);
+            Debug.Log($"{numOfCorrectItems}, {totalItems}");
             SetVisual(false);
-            AlertMessageManager.Instance.SpawnAlertMessage("O entregador foi embora com os items", MessageType.Normal);
+            AlertMessageManager.Instance.SpawnAlertMessage($"O entregador foi embora com os items. Nota: {boxScore}%", MessageType.Normal);
 
-            if (nextWagon != null)
-            {
-                nextWagon.SetActive(true);
-            }
-            else
-            {
-                AlertMessageManager.Instance.SpawnAlertMessage("Fim do prototipo.", MessageType.Alert);
-            }
-
-            //  Avisar pro game manager que foi finalizado
-
+            customerManager.DisableCustomer(wagonMan, boxScore);
+            gameObject.SetActive(false);
             // Enviar para ele a lista currentItem e a Required items e deixa ele se virar
         }
 
-        public void StartTimer()
-        {
-            wagonMan.SetActive(true);
-            isRunning = true;
-        }
 
         private void SetVisual(bool state) // This is just to simulate the Wagon delivery to the Store
         {
             visual.SetActive(state);
             wagonMan.SetActive(state);
-
         }
 
         public void SetTrigger(bool state)
@@ -179,6 +185,10 @@ namespace Oversmith.Scripts.Level
             {
                 Finish();
             }
+        }
+        public void SetCustomerManager(CustomerManager cm)
+        {
+            customerManager = cm;
         }
     }
 }
