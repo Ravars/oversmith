@@ -12,6 +12,7 @@ public class Settings : MonoBehaviour // Agora se chama UISettingsVideoComponent
     private FullScreenMode _screenMode;
     private int _countRes;
     
+    [Obsolete("Obsolete")]
     void Start()
     {
         Resolution[] resolutions = Screen.resolutions;
@@ -28,6 +29,7 @@ public class Settings : MonoBehaviour // Agora se chama UISettingsVideoComponent
     }
 
     #region Resolution and Display
+    [Obsolete("Obsolete")]
     private void AddResolution(Resolution[] res)
     {
         _countRes = 0;

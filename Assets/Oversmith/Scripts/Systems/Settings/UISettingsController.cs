@@ -21,14 +21,10 @@ namespace Oversmith.Scripts.Systems.Settings
             videoComponent._save += VideoComponentOn_save;
         }
 
-        private void VideoComponentOn_save(string arg0, int arg1, int arg2)
+        private void VideoComponentOn_save(string displayTypeValue, int widthValue, int heightValue)
         {
-            throw new NotImplementedException();
-        }
-
-        private void CentralizedComponentOn_save(float arg0, float arg1, float arg2)
-        {
-            throw new NotImplementedException();
+            currentSetting.SaveVideoSettings(displayTypeValue, widthValue, heightValue);
+            saveSettingsEvent.RaiseEvent();
         }
 
         private void SaveAudioSettings(float masterVolume, float musicVolume, float sfxVolume)

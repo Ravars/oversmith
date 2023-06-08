@@ -21,7 +21,7 @@ namespace _Developers.Vitor
             InputManager.Controls.Gameplay.Grab.performed += GrabOnPerformed;  
             InputManager.Controls.Gameplay.Interact.performed += InteractOnPerformed;  
             InputManager.Controls.Gameplay.Pause.performed += PauseOnPerformed;  
-            InputManager.Controls.Pause.Resume.performed += ResumeOnPerformed;  
+            InputManager.Controls.Menus.Unpause.performed += ResumeOnPerformed;  
         }
 
         private void ResumeOnPerformed(InputAction.CallbackContext obj)
@@ -31,7 +31,7 @@ namespace _Developers.Vitor
                 Debug.Log("ResumeOnPerformed");
                 GameManager.Instance.ResumeGame();
                 InputManager.Controls.Gameplay.Enable();
-                InputManager.Controls.Pause.Disable();
+                InputManager.Controls.Menus.Disable();
             }
             else
             {
@@ -45,7 +45,7 @@ namespace _Developers.Vitor
             {
                 GameManager.Instance.PauseGame();
                 InputManager.Controls.Gameplay.Disable();
-                InputManager.Controls.Pause.Enable();
+                InputManager.Controls.Menus.Enable();
             }
             else
             {
