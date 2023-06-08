@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using Oversmith.Scripts.Events.ScriptableObjects;
 using Oversmith.Scripts.SavingSystem;
 using Oversmith.Scripts.Systems.Settings;
@@ -19,8 +20,10 @@ namespace Oversmith.Scripts.UI.Managers
         [Header("Broadcasting on")]
         [SerializeField] private VoidEventChannelSO _startNewGameEvent = default;
         [SerializeField] private VoidEventChannelSO _continueGameEvent = default;
-        private void Start()
+        private IEnumerator Start()
         {
+            // _inputReader.EnableMenuInput();
+            yield return new WaitForSeconds(0.4f); //waiting time for all scenes to be loaded
             SetMenuScreen();
         }
         
@@ -32,7 +35,7 @@ namespace Oversmith.Scripts.UI.Managers
             _mainMenuPanel.NewGameButtonAction += ButtonStartNewGameClicked;
             _mainMenuPanel.SettingsButtonAction += OpenSettingsScreen;
             _mainMenuPanel.CreditsButtonAction += OpenCreditsScreen;
-            // _mainMenuPanel.ExitButtonAction += ShowExitConfirmationPopup;
+            _mainMenuPanel.ExitButtonAction += ShowExitConfirmationPopup;
 
         }
         
@@ -67,7 +70,6 @@ namespace Oversmith.Scripts.UI.Managers
             if (!_hasSaveData)
             {
                 ConfirmStartNewGame();
-
             }
             else
             {
@@ -88,6 +90,15 @@ namespace Oversmith.Scripts.UI.Managers
             //
             // _popupPanel.gameObject.SetActive(true);
             // _popupPanel.SetPopup(PopupType.NewGame);
+
+        }
+        public void ShowExitConfirmationPopup()
+        {
+            // _popupPanel.ConfirmationResponseAction += HideExitConfirmationPopup;
+            // _popupPanel.gameObject.SetActive(true);
+            // _popupPanel.SetPopup(PopupType.Quit);
+
+
 
         }
         

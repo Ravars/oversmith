@@ -37,6 +37,7 @@ namespace Oversmith.Scripts.Systems.Settings
         private Resolution[] _storeResolutions;
         public event UnityAction<string, int, int> _save = delegate { };
 
+        [Obsolete("Obsolete")]
         void Start()
         {
             Resolution[] resolutions = Screen.resolutions;
@@ -53,7 +54,7 @@ namespace Oversmith.Scripts.Systems.Settings
             _width = _width = settingsSo.WidthValue;
             _height = _height = settingsSo.HeightValue;
             _displayTypeValue = _displayTypeValue = settingsSo.DisplayTypeValue;
-            popUp.SetActive(false);
+            // popUp.SetActive(false);
             
             display.onValueChanged.AddListener(delegate { ScreenOptions(display.options[display.value].text); });
             resolutionDimension.onValueChanged.AddListener(delegate{Screen.SetResolution(_storeResolutions[resolutionDimension.value].width,
@@ -64,7 +65,7 @@ namespace Oversmith.Scripts.Systems.Settings
         {
             display.onValueChanged.RemoveAllListeners();
             resolutionDimension.onValueChanged.RemoveAllListeners();
-            popUp.SetActive(false);
+            // popUp.SetActive(false);
         }
 
         public void Save()
@@ -87,6 +88,7 @@ namespace Oversmith.Scripts.Systems.Settings
 
         #region Resolution and Display
 
+        [Obsolete("Obsolete")]
         private void AddResolution(Resolution[] res)
         {
             _countRes = 0;
