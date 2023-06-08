@@ -1,8 +1,11 @@
 using System;
+using System.Collections;
 using Oversmith.Scripts.Events.ScriptableObjects;
 using Oversmith.Scripts.SavingSystem;
 using Oversmith.Scripts.SceneManagement.ScriptableObjects;
 using UnityEngine;
+using UnityEngine.AddressableAssets;
+using UnityEngine.ResourceManagement.AsyncOperations;
 
 namespace Oversmith.Scripts.SceneManagement
 {
@@ -18,20 +21,43 @@ namespace Oversmith.Scripts.SceneManagement
         [SerializeField] private VoidEventChannelSO onNewGameButton;
         [SerializeField] private VoidEventChannelSO onContinueButton;
 
-        private bool _hasSaveData;
-
         private void Start()
         {
-            _hasSaveData = saveSystem.LoadSaveDataFromDisk();
             onNewGameButton.OnEventRaised += StartNewGame;
+            onContinueButton.OnEventRaised += ContinuePreviousGame;
+        }
+
+        private void OnDestroy()
+        {
+            onNewGameButton.OnEventRaised -= StartNewGame;
+            onContinueButton.OnEventRaised -= ContinuePreviousGame;
+        }
+        private void ContinuePreviousGame()
+        {
+            StartCoroutine(LoadSaveGame());
         }
 
         private void StartNewGame()
         {
-            _hasSaveData = false;
             saveSystem.WriteEmptySaveFile();
             saveSystem.SetNewGameData();
             _loadLocation.RaiseEvent(_locationsToLoad, _showLoadScreen);
+        }
+        private IEnumerator LoadSaveGame()
+        {
+            // yield return StartCoroutine(saveSystem.LoadSavedInventory());
+
+            // _saveSystem.LoadSavedQuestlineStatus();
+            var locationGuid = saveSystem.saveData._locationID;
+            var asyncOperationHandle = Addressables.LoadAssetAsync<LocationSO>(locationGuid);
+
+            yield return asyncOperationHandle;
+
+            if (asyncOperationHandle.Status == AsyncOperationStatus.Succeeded)
+            {
+                LocationSO locationSO = asyncOperationHandle.Result;
+                _loadLocation.RaiseEvent(locationSO, _showLoadScreen);
+            }
         }
         
     }   

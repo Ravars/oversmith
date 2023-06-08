@@ -14,12 +14,14 @@ namespace Oversmith.Scripts.Systems.Settings
         [SerializeField] private FloatEventChannelSO masterVolumeChannel;
         [SerializeField] private FloatEventChannelSO musicVolumeChannel;
         [SerializeField] private FloatEventChannelSO sfxVolumeChannel;
+        
+        public bool Loaded { get; private set; }
 
         private void Awake()
         {
-            bool loaded = saveSystem.LoadSaveDataFromDisk();
-            Debug.Log("Loaded: " + loaded);
-            if (!loaded)
+            Loaded = saveSystem.LoadSaveDataFromDisk();
+            Debug.Log("Loaded: " + Loaded);
+            if (!Loaded)
             {
                 currentSettings.LoadDefaultSettings();
                 // currentSettings.SaveAudioSettings();

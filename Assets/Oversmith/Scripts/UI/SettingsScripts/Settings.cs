@@ -2,7 +2,7 @@ using System;
 using TMPro;
 using UnityEngine;
 
-public class Settings : MonoBehaviour
+public class Settings : MonoBehaviour // Agora se chama UISettingsVideoComponent
 {
     [Header("DropDowns")] 
     public TMP_Dropdown resolutionDimension;

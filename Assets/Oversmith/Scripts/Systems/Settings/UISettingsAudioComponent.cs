@@ -8,7 +8,7 @@ using UnityEngine.Events;
 
 namespace Oversmith.Scripts.Systems.Settings
 {
-    public class UISettingsAudioComponent : MonoBehaviour
+    public class UISettingsAudioComponent : MonoBehaviour //Sera usado no caso de usarmos abas
     {
         [SerializeField] private SettingsSO settingsSo;
         
@@ -17,8 +17,11 @@ namespace Oversmith.Scripts.Systems.Settings
         [SerializeField] private FloatEventChannelSO musicVolumeChannel;
         [SerializeField] private FloatEventChannelSO sfxVolumeChannel;
         private int _masterVolume;
+        private int _masterVolumeSaved;
         private int _musicVolume;
+        private int _musicVolumeSaved;
         private int _sfxVolume;
+        private int _sfxVolumeSaved;
 
         [Header("Texts")] 
         [SerializeField] private TextMeshProUGUI masterVolumeText;
@@ -29,9 +32,9 @@ namespace Oversmith.Scripts.Systems.Settings
 
         private void OnEnable()
         {
-            _masterVolume = (int)settingsSo.MasterVolume;
-            _musicVolume = (int)settingsSo.MusicVolume;
-            _sfxVolume = (int)settingsSo.SfxVolume;
+            _masterVolume = _masterVolumeSaved = (int)settingsSo.MasterVolume;
+            _musicVolume = _musicVolumeSaved = (int)settingsSo.MusicVolume;
+            _sfxVolume = _sfxVolumeSaved = (int)settingsSo.SfxVolume;
             masterVolumeText.text = settingsSo.MasterVolume.ToString(CultureInfo.InvariantCulture);
             musicVolumeText.text = settingsSo.MusicVolume.ToString(CultureInfo.InvariantCulture);
             sfxVolumeText.text = settingsSo.SfxVolume.ToString(CultureInfo.InvariantCulture);
@@ -103,7 +106,12 @@ namespace Oversmith.Scripts.Systems.Settings
 
         public void Reset()
         {
-            
+            _masterVolume = _masterVolumeSaved;
+            _musicVolume = _musicVolumeSaved;
+            _sfxVolume = _sfxVolumeSaved; //TODO: mudar para uma chamada só a eventos
+            SetValue(AudioGroups.MasterVolume,_masterVolume);
+            SetValue(AudioGroups.MusicVolume,_musicVolume);
+            SetValue(AudioGroups.SFXVolume,_sfxVolume);
         }
         
     }

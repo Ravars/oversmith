@@ -15,6 +15,7 @@ namespace Oversmith.Scripts.SceneManagement
         [SerializeField] private GameSceneSO gameplayScene = default;
 
         [Header("Listening To")] 
+        [SerializeField] private LoadEventChannelSO loadLocation = default;
         [SerializeField] private LoadEventChannelSO loadMenu;
 
         [Header("Broadcasting on")] 
@@ -35,11 +36,13 @@ namespace Oversmith.Scripts.SceneManagement
 
         private void OnEnable()
         {
+            loadLocation.OnLoadingRequested += LoadLocation;
             loadMenu.OnLoadingRequested += LoadMenu;
         }
 
         private void OnDisable()
         {
+            loadLocation.OnLoadingRequested -= LoadLocation;
             loadMenu.OnLoadingRequested -= LoadMenu;
         }
 
@@ -106,6 +109,37 @@ namespace Oversmith.Scripts.SceneManagement
         private void StartGameplay()
         {
             _onSceneReady.RaiseEvent(); //Spawn system will spawn the PigChef in a gameplay scene
+        }
+        /// <summary>
+        /// This function loads the location scenes passed as array parameter
+        /// </summary>
+        private void LoadLocation(GameSceneSO locationToLoad, bool showLoadingScreen, bool fadeScreen)
+        {
+            //Prevent a double-loading, for situations where the player falls in two Exit colliders in one frame
+            if (_isLoading)
+                return;
+
+            _sceneToLoad = locationToLoad;
+            _showLoadingScreen = showLoadingScreen;
+            _isLoading = true;
+
+            //In case we are coming from the main menu, we need to load the Gameplay manager scene first
+            if (_gameplayManagerSceneInstance.Scene == null
+                || !_gameplayManagerSceneInstance.Scene.isLoaded)
+            {
+                _gameplayManagerLoadingOpHandle = gameplayScene.sceneReference.LoadSceneAsync(LoadSceneMode.Additive, true);
+                _gameplayManagerLoadingOpHandle.Completed += OnGameplayManagersLoaded;
+            }
+            else
+            {
+                StartCoroutine(UnloadPreviousScene());
+            }
+        }
+        private void OnGameplayManagersLoaded(AsyncOperationHandle<SceneInstance> obj)
+        {
+            _gameplayManagerSceneInstance = _gameplayManagerLoadingOpHandle.Result;
+
+            StartCoroutine(UnloadPreviousScene());
         }
 
     }

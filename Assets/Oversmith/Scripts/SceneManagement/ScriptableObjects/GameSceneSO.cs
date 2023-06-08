@@ -16,6 +16,7 @@ namespace Oversmith.Scripts.SceneManagement.ScriptableObjects
         Initialization,
         PersistentManager,
         Gameplay,
-        Menu
+        Menu,
+        Location
     }
 }

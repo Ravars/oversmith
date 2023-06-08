@@ -15,6 +15,7 @@ namespace Oversmith.Scripts.SavingSystem
         [SerializeField] private SettingsSO _currentSettings;
         public string saveFilename = "save.mad";
         public string backupSaveFilename = "save.mad.bak";
+        public bool Loaded { get; private set; }
         private void OnEnable()
         {
             saveSettingsEvent.OnEventRaised += OnSaveSettings;
@@ -42,15 +43,16 @@ namespace Oversmith.Scripts.SavingSystem
         {
             if (FileManager.LoadFromFile(saveFilename, out var json))
             {
-                Debug.Log("loading LoadSaveDataFromDisk");
                 if (string.IsNullOrEmpty(json))
                 {
+                    Loaded = false;
                     return false;
                 }
                 saveData.LoadFromJson(json);
+                Loaded = true;
                 return true;
             }
-
+            Loaded = false;
             return false;
         }
         public void WriteEmptySaveFile()
