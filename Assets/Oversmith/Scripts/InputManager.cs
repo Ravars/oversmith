@@ -6,21 +6,21 @@ namespace Oversmith.Scripts
     public class InputManager : MonoBehaviour
     {
         private static readonly IDictionary<string, int> mapStates = new Dictionary<string, int>();
-        private static InputActions controls;
+        private static GameInput controls;
 
-        public static InputActions Controls
+        public static GameInput Controls
         {
             get
             {
                 if (controls != null) return controls;
-                return controls = new InputActions();
+                return controls = new GameInput();
             }
         }
 
         private void Awake()
         {
             if(controls != null) return;
-            controls = new InputActions();
+            controls = new GameInput();
         }
  
         private void OnEnable()
