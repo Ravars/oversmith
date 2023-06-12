@@ -1,5 +1,6 @@
 ﻿using System;
 using Oversmith.Scripts;
+using Oversmith.Scripts.Input;
 using Oversmith.Scripts.Managers;
 using Test1.Scripts.Prototype;
 using UnityEngine;
@@ -9,6 +10,7 @@ namespace _Developers.Vitor
 {
     public class PlayerInteractions : MonoBehaviour
     {
+        [SerializeField] private InputReader _inputReader;
         private PlayerInteractableHandler _playerInteractableHandler;
         public Transform _itemTransform;
         // private BaseItem _baseItemHolding;
@@ -18,42 +20,20 @@ namespace _Developers.Vitor
         private void Start()
         {
             _playerInteractableHandler = GetComponent<PlayerInteractableHandler>();
-            InputManager.Controls.Gameplay.Grab.performed += GrabOnPerformed;  
-            InputManager.Controls.Gameplay.Interact.performed += InteractOnPerformed;  
-            InputManager.Controls.Gameplay.Pause.performed += PauseOnPerformed;  
-            InputManager.Controls.Menus.Unpause.performed += ResumeOnPerformed;  
         }
 
-        private void ResumeOnPerformed(InputAction.CallbackContext obj)
+        private void OnEnable()
         {
-            if (GameManager.InstanceExists)
-            {
-                Debug.Log("ResumeOnPerformed");
-                GameManager.Instance.ResumeGame();
-                InputManager.Controls.Gameplay.Enable();
-                InputManager.Controls.Menus.Disable();
-            }
-            else
-            {
-                Debug.LogError("Game Manager not instanced");
-            }
+            _inputReader.GrabEvent += Grab; 
+            _inputReader.InteractEvent += Interact;
         }
 
-        private void PauseOnPerformed(InputAction.CallbackContext obj)
+        private void OnDisable()
         {
-            if (GameManager.InstanceExists)
-            {
-                GameManager.Instance.PauseGame();
-                InputManager.Controls.Gameplay.Disable();
-                InputManager.Controls.Menus.Enable();
-            }
-            else
-            {
-                Debug.LogError("Game Manager not instanced");
-            }
+            _inputReader.GrabEvent -= Grab; 
+            _inputReader.InteractEvent -= Interact;
         }
-
-        private void InteractOnPerformed(InputAction.CallbackContext obj)
+        private void Interact()
         {
             if (_playerInteractableHandler.CurrentInteractable != null)
             {
@@ -71,7 +51,7 @@ namespace _Developers.Vitor
             
         }
 
-        private void GrabOnPerformed(InputAction.CallbackContext obj)
+        private void Grab()
         {
             if (_playerInteractableHandler.CurrentInteractable != null)
             {
