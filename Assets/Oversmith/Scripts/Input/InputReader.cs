@@ -68,13 +68,19 @@ namespace Oversmith.Scripts.Input
         
         //Menus
         public event UnityAction MenuPauseEvent = delegate { };
+        public event UnityAction MenuUnpauseEvent = delegate { };
         public event UnityAction MenuCloseEvent = delegate { };
         public event UnityAction MenuMouseMoveEvent = delegate { };
+        public event UnityAction MenuClickButtonEvent = delegate { };
+        public event UnityAction<float> TabSwitched = delegate { };
+        
+        
+        public event UnityAction<Vector2> MoveEvent = delegate { };
         #endregion
         #region GameInputCallbacks
         public void OnMove(InputAction.CallbackContext context)
         {
-            throw new NotImplementedException();
+            MoveEvent.Invoke(context.ReadValue<Vector2>());
         }
 
         public void OnInteract(InputAction.CallbackContext context)
@@ -89,6 +95,7 @@ namespace Oversmith.Scripts.Input
 
         public void OnPause(InputAction.CallbackContext context)
         {
+            Debug.Log("Pause"); 
             if (context.phase == InputActionPhase.Performed)
             {
                 MenuPauseEvent.Invoke();
@@ -120,7 +127,8 @@ namespace Oversmith.Scripts.Input
 
         public void OnConfirm(InputAction.CallbackContext context)
         {
-            throw new NotImplementedException();
+            if (context.phase == InputActionPhase.Performed)
+                MenuClickButtonEvent.Invoke();
         }
 
         public void OnCancel(InputAction.CallbackContext context)
@@ -141,32 +149,30 @@ namespace Oversmith.Scripts.Input
 
         public void OnUnpause(InputAction.CallbackContext context)
         {
-            throw new NotImplementedException();
+            if (context.phase == InputActionPhase.Performed)
+                MenuUnpauseEvent.Invoke();
         }
 
         public void OnChangeTab(InputAction.CallbackContext context)
         {
-            throw new NotImplementedException();
+            if (context.phase == InputActionPhase.Performed)
+                TabSwitched.Invoke(context.ReadValue<float>());
         }
 
         public void OnClick(InputAction.CallbackContext context)
         {
-            throw new NotImplementedException();
         }
 
         public void OnPoint(InputAction.CallbackContext context)
         {
-            throw new NotImplementedException();
         }
         
         public void OnAdvanceDialogue(InputAction.CallbackContext context)
         {
-            throw new NotImplementedException();
         }
 
         public void OnOpenCheatMenu(InputAction.CallbackContext context)
         {
-            throw new NotImplementedException();
         }
         #endregion
     }

@@ -11,7 +11,8 @@ namespace Oversmith.Scripts.SceneManagement
 {
     public class StartGame : MonoBehaviour
     {
-        [SerializeField] private GameSceneSO _locationsToLoad;
+        [SerializeField] private GameSceneSO _locationToLoadGame;
+        [SerializeField] private GameSceneSO _locationToNewGame;
         [SerializeField] private SaveSystem saveSystem;
         [SerializeField] private bool _showLoadScreen = default;
         
@@ -41,9 +42,9 @@ namespace Oversmith.Scripts.SceneManagement
         {
             saveSystem.WriteEmptySaveFile();
             saveSystem.SetNewGameData();
-            _loadLocation.RaiseEvent(_locationsToLoad, _showLoadScreen);
+            _loadLocation.RaiseEvent(_locationToNewGame, _showLoadScreen);
         }
-        private IEnumerator LoadSaveGame()
+        private IEnumerator LoadSaveGame() //TODO: verificar se funciona
         {
             // yield return StartCoroutine(saveSystem.LoadSavedInventory());
 

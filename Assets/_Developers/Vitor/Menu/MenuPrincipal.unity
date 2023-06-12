@@ -97,8 +97,10 @@ LightmapSettings:
     m_ExportTrainingData: 0
     m_TrainingDataDestination: TrainingData
     m_LightProbeSampleCountMultiplier: 4
-  m_LightingDataAsset: {fileID: 0}
-  m_LightingSettings: {fileID: 0}
+  m_LightingDataAsset: {fileID: 112000000, guid: 748a76e8d8215a247afb80c90a8859f0,
+    type: 2}
+  m_LightingSettings: {fileID: 4890085278179872738, guid: 1f810881c8ad96e43ace83805cebdeda,
+    type: 2}
 --- !u!196 &4
 NavMeshSettings:
   serializedVersion: 2
@@ -3313,7 +3315,7 @@ Light:
   m_Type: 2
   m_Shape: 0
   m_Color: {r: 1, g: 0.42857146, b: 0, a: 1}
-  m_Intensity: 10
+  m_Intensity: 166.2
   m_Range: 3.54
   m_SpotAngle: 30
   m_InnerSpotAngle: 21.80208
@@ -3355,7 +3357,7 @@ Light:
   m_Lightmapping: 4
   m_LightShadowCasterMode: 0
   m_AreaSize: {x: 1, y: 1}
-  m_BounceIntensity: 1
+  m_BounceIntensity: 12.53
   m_ColorTemperature: 6570
   m_UseColorTemperature: 0
   m_BoundingSphereOverride: {x: 0, y: 0, z: 0, w: 0}
@@ -3371,7 +3373,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 307541757}
   m_LocalRotation: {x: 0.11869656, y: -0.27676865, z: -0.9529543, w: -0.034473307}
-  m_LocalPosition: {x: 0.372, y: -1.86, z: 4.122}
+  m_LocalPosition: {x: 0.93, y: -1.86, z: 3.92}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -20959,7 +20961,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 59a535af9d084be8a540c03458bd4564, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _locationsToLoad: {fileID: 11400000, guid: e3e7f019a1d0520438683606f42468c0, type: 2}
+  _locationToLoadGame: {fileID: 11400000, guid: e3e7f019a1d0520438683606f42468c0,
+    type: 2}
+  _locationToNewGame: {fileID: 11400000, guid: 1e8ca08c25bb68944a0bb0bae20d6eef, type: 2}
   saveSystem: {fileID: 11400000, guid: 2b15ecd60be148f43aff11a8e48649a1, type: 2}
   _showLoadScreen: 1
   _loadLocation: {fileID: 11400000, guid: c991a83e63337eb4f9962f1d4ed3fdc4, type: 2}

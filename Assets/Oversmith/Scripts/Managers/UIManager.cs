@@ -1,5 +1,6 @@
 using System;
 using Oversmith.Scripts.Events.ScriptableObjects;
+using Oversmith.Scripts.Gameplay;
 using Oversmith.Scripts.Input;
 using Oversmith.Scripts.Menu;
 using Oversmith.Scripts.SceneManagement.ScriptableObjects;
@@ -14,6 +15,7 @@ namespace Oversmith.Scripts.Managers
     {
         [Header("Gameplay")] 
         [SerializeField] private InputReader _inputReader = default;
+        [SerializeField] private GameStateSO _gameStateManager = default;
         [SerializeField] private GameSceneSO _mainMenu = default; // MenuSO
         
         [Header("Scene UI")] 
@@ -30,6 +32,7 @@ namespace Oversmith.Scripts.Managers
 
         private void OnEnable()
         {
+            Debug.Log("UI Manager OnEnable");
             _onSceneReady.OnEventRaised += ResetUI;
             _inputReader.MenuPauseEvent += OpenUIPause;
 
@@ -52,6 +55,7 @@ namespace Oversmith.Scripts.Managers
         [ContextMenu("Open Config")]
         private void OpenUIPause()
         {
+            Debug.Log("Open UI");
             _inputReader.MenuPauseEvent -= OpenUIPause; // you can open UI pause menu again, if it's closed
             
             pauseScreen.SettingsScreenOpened += OpenSettingScreen;//once the UI Pause popup is open, listen to open Settings 
@@ -61,7 +65,7 @@ namespace Oversmith.Scripts.Managers
             pauseScreen.gameObject.SetActive(true);
 
             _inputReader.EnableMenuInput();
-            // _gameStateManager.UpdateGameState(GameState.Pause);
+            _gameStateManager.UpdateGameState(GameState.Pause);
         }
         void CloseUIPause()
         {
@@ -76,15 +80,13 @@ namespace Oversmith.Scripts.Managers
 
             pauseScreen.gameObject.SetActive(false);
 
-            // _gameStateManager.ResetToPreviousGameState();
+            _gameStateManager.ResetToPreviousGameState();
 		
-            // if (_gameStateManager.CurrentGameState == GameState.Gameplay
-            //     || _gameStateManager.CurrentGameState == GameState.Combat)
-            // {
-            //     _inputReader.EnableGameplayInput();
-            // }
-            //
-            // _selectionHandler.Unselect();
+            if (_gameStateManager.CurrentGameState == GameState.Gameplay)
+            {
+                _inputReader.EnableGameplayInput();
+            }
+            _selectionHandler.Unselect();
         }
         
         void OpenSettingScreen()
@@ -116,11 +118,11 @@ namespace Oversmith.Scripts.Managers
 
             _popupPanel.ClosePopupAction += HideBackToMenuConfirmationPopup;
             //
-            // _popupPanel.ConfirmationResponseAction += BackToMainMenu;
+            _popupPanel.ConfirmationResponseAction += BackToMainMenu;
 
-            // _inputReader.EnableMenuInput();
-            pauseScreen.gameObject.SetActive(true);
-            // pauseScreen.SetPopup(PopupType.BackToMenu);
+            _inputReader.EnableMenuInput();
+            _popupPanel.gameObject.SetActive(true);
+            _popupPanel.SetPopup(PopupType.BackToMenu);
         }
         void HideBackToMenuConfirmationPopup()
         {

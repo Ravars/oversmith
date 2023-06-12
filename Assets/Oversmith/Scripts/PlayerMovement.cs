@@ -1,6 +1,8 @@
+using System;
 using _Developers.Vitor;
 using Oversmith.Scripts;
 using System.Collections;
+using Oversmith.Scripts.Input;
 using Test1.Scripts.Prototype;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -20,14 +22,27 @@ public class PlayerMovement : MonoBehaviour
     private bool _canDash = true;
     [SerializeField] private Animator _animator; // temporary
     [SerializeField] private PlayerInteractions _playerInteractions; // temporary
-
+    [SerializeField] private InputReader _inputReader;
     void Start()
     {
         _cc = GetComponent<CharacterController>(); // Get the character controller component
-        InputManager.Controls.Gameplay.Move.performed += ctx => SetMovement(ctx.ReadValue<Vector2>());
-        InputManager.Controls.Gameplay.Move.canceled += ctx => ResetMovement();
-        InputManager.Controls.Gameplay.Dash.performed += DashOnPerformed;
+        // InputManager.Controls.Gameplay.Move.performed += ctx => SetMovement(ctx.ReadValue<Vector2>());
+        // InputManager.Controls.Gameplay.Move.canceled += ctx => ResetMovement();
+        // InputManager.Controls.Gameplay.Dash.performed += DashOnPerformed;
+        
+        
     }
+
+    private void OnEnable()
+    {
+        _inputReader.MoveEvent += SetMovement;
+    }
+
+    private void OnDisable()
+    {
+        _inputReader.MoveEvent -= SetMovement;
+    }
+
     private void SetMovement(Vector2 movement)
     {
         _previousInput = movement;

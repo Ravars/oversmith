@@ -1,5 +1,6 @@
 using System;
 using Oversmith.Scripts.Events.ScriptableObjects;
+using Oversmith.Scripts.Input;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.UI;
@@ -8,9 +9,10 @@ namespace Oversmith.Scripts.UI.Canvas
 {
     public class UIPause : MonoBehaviour
     {
-        [SerializeField] private Button resumeButton;
-        [SerializeField] private Button settingsButton;
-        [SerializeField] private Button backToMenuButton;
+        [SerializeField] private InputReader _inputReader;
+        [SerializeField] private UIGenericButton resumeButton;
+        [SerializeField] private UIGenericButton settingsButton;
+        [SerializeField] private UIGenericButton backToMenuButton;
 
         [Header("Listening to")]
         [SerializeField] private BoolEventChannelSO onPauseOpened;
@@ -23,24 +25,38 @@ namespace Oversmith.Scripts.UI.Canvas
         private void OnEnable()
         {
             onPauseOpened.RaiseEvent(true);
-            // _inputReader.MenuCloseEvent += Resume;
-            resumeButton.onClick.AddListener(Resume);
-            settingsButton.onClick.AddListener(OpenSettingsScreen);
-
+            
+            resumeButton.SetButton(true);
+            _inputReader.MenuCloseEvent += Resume;
+            resumeButton.Clicked += Resume;
+            settingsButton.Clicked += OpenSettingsScreen;
+            backToMenuButton.Clicked += BackToMainMenuConfirmation;
         }
-
-        private void Resume()
-        {
-            Resumed.Invoke();
-        }
-        private void OpenSettingsScreen()
-        {
-            SettingsScreenOpened.Invoke();
-        }
-
         private void OnDisable()
         {
             onPauseOpened.RaiseEvent(false);
+            _inputReader.MenuCloseEvent -= Resume;
         }
+        
+        private void Resume()
+        {
+            Resumed?.Invoke();
+        }
+        private void OpenSettingsScreen()
+        {
+            SettingsScreenOpened?.Invoke();
+        }
+
+        private void BackToMainMenuConfirmation()
+        {
+            BackToMainRequested?.Invoke();
+        }
+
+        public void CloseScreen()
+        {
+            Resumed.Invoke();
+        }
+
+
     }
 }
