@@ -149,6 +149,7 @@ namespace Oversmith.Scripts.Level
         public void Finish()
         {
             isRunning = false;
+            //FinishTimer();
             Invoke(nameof(FinishTimer), 1);
         }
 
