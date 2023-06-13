@@ -26,21 +26,20 @@ public class PlayerMovement : MonoBehaviour
     void Start()
     {
         _cc = GetComponent<CharacterController>(); // Get the character controller component
-        // InputManager.Controls.Gameplay.Move.performed += ctx => SetMovement(ctx.ReadValue<Vector2>());
-        // InputManager.Controls.Gameplay.Move.canceled += ctx => ResetMovement();
-        // InputManager.Controls.Gameplay.Dash.performed += DashOnPerformed;
-        
-        
     }
 
     private void OnEnable()
     {
         _inputReader.MoveEvent += SetMovement;
+        _inputReader.MoveCanceledEvent += ResetMovement;
+        _inputReader.DashEvent += DashOnPerformed;
     }
 
     private void OnDisable()
     {
         _inputReader.MoveEvent -= SetMovement;
+        _inputReader.MoveCanceledEvent -= ResetMovement;
+        _inputReader.DashEvent -= DashOnPerformed;
     }
 
     private void SetMovement(Vector2 movement)
@@ -53,7 +52,7 @@ public class PlayerMovement : MonoBehaviour
         _previousInput = Vector2.zero;
     }
 
-    private void DashOnPerformed(InputAction.CallbackContext obj)
+    private void DashOnPerformed()
     {
         if (!_canDash || _dashDirection == Vector3.zero)
             return;

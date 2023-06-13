@@ -74,23 +74,41 @@ namespace Oversmith.Scripts.Input
         public event UnityAction MenuClickButtonEvent = delegate { };
         public event UnityAction<float> TabSwitched = delegate { };
         
-        
+        //Gameplay
         public event UnityAction<Vector2> MoveEvent = delegate { };
+        public event UnityAction MoveCanceledEvent = delegate { };
+        public event UnityAction DashEvent = delegate { };
+        public event UnityAction GrabEvent = delegate { };
+        public event UnityAction InteractEvent = delegate { };
+        
         #endregion
+        
         #region GameInputCallbacks
         public void OnMove(InputAction.CallbackContext context)
         {
-            MoveEvent.Invoke(context.ReadValue<Vector2>());
+            if (context.performed)
+            {
+                MoveEvent.Invoke(context.ReadValue<Vector2>());
+            }else if (context.canceled)
+            {
+                MoveCanceledEvent.Invoke();
+            }
         }
 
         public void OnInteract(InputAction.CallbackContext context)
         {
-            throw new NotImplementedException();
+            if (context.phase == InputActionPhase.Performed)
+            {
+                InteractEvent.Invoke();
+            }
         }
 
         public void OnGrab(InputAction.CallbackContext context)
         {
-            throw new NotImplementedException();
+            if (context.phase == InputActionPhase.Performed)
+            {
+                GrabEvent.Invoke();
+            }
         }
 
         public void OnPause(InputAction.CallbackContext context)
@@ -104,7 +122,10 @@ namespace Oversmith.Scripts.Input
 
         public void OnDash(InputAction.CallbackContext context)
         {
-            throw new NotImplementedException();
+            if (context.phase == InputActionPhase.Performed)
+            {
+                DashEvent.Invoke();
+            }
         }
 
         public void OnMoveSelection(InputAction.CallbackContext context)

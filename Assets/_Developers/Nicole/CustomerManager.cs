@@ -13,6 +13,8 @@ public class CustomerManager : MonoBehaviour
     public List<GameObject> customers = new List<GameObject>();
     public List<Transform> spawnPoints = new List<Transform> ();
 
+    public Pallet deliveryPoint;
+
     private List<int> spawnedCustomers = new List<int> ();
     private List<bool> activeSpawnPoints = new List<bool>();
 
@@ -83,6 +85,8 @@ public class CustomerManager : MonoBehaviour
         int customerSpawnPoint = spawnedCustomers[customerIndex];
         activeSpawnPoints[customerSpawnPoint] = false;
         totalScore += boxScore;
+
+        deliveryPoint.DestroyFromPallet(customer.GetComponent<WagonMan>().deliveryBox.transform);
 
         customer.SetActive(false);
         customersLeft--;

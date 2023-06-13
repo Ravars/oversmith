@@ -71,7 +71,7 @@ MeshFilter:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4984207476721579476}
-  m_Mesh: {fileID: 1650461533967439958, guid: 957e709607e6b7845a1c3ef5e983d88c, type: 3}
+  m_Mesh: {fileID: -4158701701695819917, guid: 6e0a6ab2f8e395b4a8dcbdef23012c01, type: 3}
 --- !u!23 &1219120375201266892
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -358,11 +358,13 @@ MonoBehaviour:
   hasCraftingTable: 0
   hasInteractable: 0
   hasDelivery: 0
+  hasPallet: 0
   table: {fileID: 0}
   dispenser: {fileID: 0}
   craftingTable: {fileID: 0}
   interactable: {fileID: 0}
   delivery: {fileID: 0}
+  pallet: {fileID: 0}
   visual: {fileID: 7547158872452307127}
   visualSelected: {fileID: 4984207476721579476}
 --- !u!114 &4139199023098115113
@@ -378,5 +380,3 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   pointToSpawnItem: {fileID: 3145827632015218834}
-  catchSound: {fileID: 6255875393142961906, guid: 01b184ed4c3ab94478bf833850c59d21,
-    type: 3}

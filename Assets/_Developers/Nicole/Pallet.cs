@@ -35,6 +35,18 @@ public class Pallet : MonoBehaviour
     {
         var deliveryBoxScript = itemTransform.GetComponent<DeliveryBox>();
         
+        int emptySpace = -1;
+        for (int i = 0; i < pointsToPlaceBox.Length; i++)
+        {
+            if (pointsToPlaceBox[i].childCount == 0)
+            {
+                emptySpace = i;
+                break;
+            }
+        }
+        if (emptySpace == -1)
+            return false;
+
         if (isDeliveryPlace)
         {
             if (deliveryBoxScript.CheckCompletion())
@@ -48,19 +60,6 @@ public class Pallet : MonoBehaviour
             }
         }
 
-        int emptySpace = -1;
-        for (int i = 0; i < pointsToPlaceBox.Length; i++)
-        {
-            if (pointsToPlaceBox[i].childCount == 0)
-            {
-                emptySpace = i;
-                break;
-            }
-        }
-        if (emptySpace == -1)
-            return false;
-
-        
         //_itemTransform = itemTransform;
         itemTransform.SetParent(pointsToPlaceBox[emptySpace]);
         itemTransform.SetLocalPositionAndRotation(Vector3.zero, pointsToPlaceBox[emptySpace].localRotation);
@@ -86,5 +85,23 @@ public class Pallet : MonoBehaviour
 
         boxTransform.SetParent(playerTransform);
         return;
+    }
+
+    public void DestroyFromPallet(Transform boxTransform)
+    {
+        int boxIndex = -1;
+
+        for (int i = 0; i < pointsToPlaceBox.Length; i++)
+        {
+            if (pointsToPlaceBox[i].GetChild(0) == boxTransform)
+            {
+                boxIndex = i;
+                break;
+            }
+        }
+        if (boxIndex == -1)
+            return;
+
+        Destroy(boxTransform.gameObject);
     }
 }

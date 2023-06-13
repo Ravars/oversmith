@@ -212,6 +212,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c092c3f97e69d40489b513fa45df8471, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isDeliveryPlace: 0
   pointsToPlaceBox:
   - {fileID: 40640600}
 --- !u!1001 &447822863125647447
@@ -227,6 +228,12 @@ PrefabInstance:
       propertyPath: m_Name
       value: pallet
       objectReference: {fileID: 0}
+    - target: {fileID: 3778577484098484065, guid: d9319aa39d0209b46aa8cf8cdccff1ee,
+        type: 3}
+      propertyPath: m_Mesh
+      value: 
+      objectReference: {fileID: -4671278708621213541, guid: 155a7385e9ac99a448a78b672aba79f0,
+        type: 3}
     - target: {fileID: 8698890353158706844, guid: d9319aa39d0209b46aa8cf8cdccff1ee,
         type: 3}
       propertyPath: m_RootOrder
@@ -250,12 +257,12 @@ PrefabInstance:
     - target: {fileID: 8698890353158706844, guid: d9319aa39d0209b46aa8cf8cdccff1ee,
         type: 3}
       propertyPath: m_LocalRotation.w
-      value: 1
+      value: 0.7071068
       objectReference: {fileID: 0}
     - target: {fileID: 8698890353158706844, guid: d9319aa39d0209b46aa8cf8cdccff1ee,
         type: 3}
       propertyPath: m_LocalRotation.x
-      value: 0
+      value: -0.7071068
       objectReference: {fileID: 0}
     - target: {fileID: 8698890353158706844, guid: d9319aa39d0209b46aa8cf8cdccff1ee,
         type: 3}
@@ -270,7 +277,7 @@ PrefabInstance:
     - target: {fileID: 8698890353158706844, guid: d9319aa39d0209b46aa8cf8cdccff1ee,
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
+      value: -90
       objectReference: {fileID: 0}
     - target: {fileID: 8698890353158706844, guid: d9319aa39d0209b46aa8cf8cdccff1ee,
         type: 3}
