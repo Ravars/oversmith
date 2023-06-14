@@ -1,34 +1,36 @@
 using Oversmith.Scripts.SavingSystem;
 using UnityEngine;
+using UnityEngine.Localization;
 
 namespace Oversmith.Scripts.Systems.Settings
 {
     [CreateAssetMenu(fileName = "Settings", menuName = "Settings/Create new settings")]
     public class SettingsSO : ScriptableObject
     {
-        [SerializeField] private float masterVolume;
-        [SerializeField] private float musicVolume;
-        [SerializeField] private float sfxVolume;
+        [SerializeField] private int masterVolume;
+        [SerializeField] private int musicVolume;
+        [SerializeField] private int sfxVolume;
         //TODO: adicinar dados das configurações de tela
 
         [SerializeField] private int widthValue;
         [SerializeField] private int heightValue;
         [SerializeField] private string displayTypeValue;
+        [SerializeField] Locale _currentLocale = default;
 
 
-        public float MasterVolume
+        public int MasterVolume
         {
             get => masterVolume;
             set => masterVolume = value;
         }
 
-        public float MusicVolume
+        public int MusicVolume
         {
             get => musicVolume;
             set => musicVolume = value;
         }
 
-        public float SfxVolume
+        public int SfxVolume
         {
             get => sfxVolume;
             set => sfxVolume = value;
@@ -51,6 +53,7 @@ namespace Oversmith.Scripts.Systems.Settings
             get => displayTypeValue;
             set => displayTypeValue = value;
         }
+        public Locale CurrentLocale => _currentLocale;
 
         public SettingsSO() { }
 
@@ -76,7 +79,7 @@ namespace Oversmith.Scripts.Systems.Settings
             displayTypeValue = "";
         }
 
-        public void SaveAudioSettings(float newMasterVolume, float newMusicVolume, float newSfxVolume)
+        public void SaveAudioSettings(int newMasterVolume, int newMusicVolume, int newSfxVolume)
         {
             MasterVolume = newMasterVolume;
             MusicVolume = newMusicVolume;
@@ -88,6 +91,10 @@ namespace Oversmith.Scripts.Systems.Settings
             DisplayTypeValue = newDisplayType;
             WidthValue = newWidthValue;
             HeightValue = newHeightValue;
+        }
+        public void SaveLanguageSettings(Locale local)
+        {
+            _currentLocale = local;
         }
     }
 }

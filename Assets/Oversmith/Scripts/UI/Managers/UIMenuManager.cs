@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using Oversmith.Scripts.Events.ScriptableObjects;
+using Oversmith.Scripts.Input;
 using Oversmith.Scripts.SavingSystem;
 using Oversmith.Scripts.Systems.Settings;
 using Oversmith.Scripts.UI.Canvas;
@@ -16,13 +17,13 @@ namespace Oversmith.Scripts.UI.Managers
         [SerializeField] private UICredits _creditsPanel = default;
         [SerializeField] private SaveSystem _saveSystem = default;
         
-        
+        [SerializeField] private InputReader _inputReader = default;
         [Header("Broadcasting on")]
         [SerializeField] private VoidEventChannelSO _startNewGameEvent = default;
         [SerializeField] private VoidEventChannelSO _continueGameEvent = default;
         private IEnumerator Start()
         {
-            // _inputReader.EnableMenuInput();
+            _inputReader.EnableMenuInput(); //TODO active this
             yield return new WaitForSeconds(0.4f); //waiting time for all scenes to be loaded
             SetMenuScreen();
         }
