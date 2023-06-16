@@ -1,56 +1,34 @@
 using Oversmith.Scripts.SavingSystem;
 using UnityEngine;
+using UnityEngine.Localization;
 
 namespace Oversmith.Scripts.Systems.Settings
 {
     [CreateAssetMenu(fileName = "Settings", menuName = "Settings/Create new settings")]
     public class SettingsSO : ScriptableObject
     {
-        [SerializeField] private float masterVolume;
-        [SerializeField] private float musicVolume;
-        [SerializeField] private float sfxVolume;
-        //TODO: adicinar dados das configurações de tela
+        [SerializeField] private int masterVolume;
+        [SerializeField] private int musicVolume;
+        [SerializeField] private int sfxVolume;
 
         [SerializeField] private int widthValue;
         [SerializeField] private int heightValue;
         [SerializeField] private string displayTypeValue;
-
-
-        public float MasterVolume
-        {
-            get => masterVolume;
-            set => masterVolume = value;
-        }
-
-        public float MusicVolume
-        {
-            get => musicVolume;
-            set => musicVolume = value;
-        }
-
-        public float SfxVolume
-        {
-            get => sfxVolume;
-            set => sfxVolume = value;
-        }
-
-        public int WidthValue
-        {
-            get => widthValue;
-            set => widthValue = value;
-        }
-
-        public int HeightValue
-        {
-            get => heightValue;
-            set => heightValue = value;
-        }
-
-        public string DisplayTypeValue
-        {
-            get => displayTypeValue;
-            set => displayTypeValue = value;
-        }
+        [SerializeField] Locale _currentLocale = default;
+        
+        //Graphics
+        [SerializeField] int _resolutionsIndex = default;
+        [SerializeField] bool _isFullscreen = default;
+        
+        public int MasterVolume => masterVolume;
+        public int MusicVolume => musicVolume;
+        public int SfxVolume => sfxVolume;
+        public int WidthValue => widthValue;
+        public int HeightValue => heightValue;
+        public string DisplayTypeValue => displayTypeValue;
+        public Locale CurrentLocale => _currentLocale;
+        public int ResolutionsIndex => _resolutionsIndex;
+        public bool IsFullscreen => _isFullscreen;
 
         public SettingsSO() { }
 
@@ -68,26 +46,37 @@ namespace Oversmith.Scripts.Systems.Settings
         public void LoadDefaultSettings()
         {
             Debug.Log("Load default");
-            MasterVolume = 50;
-            MusicVolume = 100;
-            SfxVolume = 100;
-            WidthValue = 1920;
-            HeightValue = 1080;
+            masterVolume = 50;
+            musicVolume = 100;
+            sfxVolume = 100;
+            widthValue = 1920;
+            heightValue = 1080;
             displayTypeValue = "";
         }
 
-        public void SaveAudioSettings(float newMasterVolume, float newMusicVolume, float newSfxVolume)
+        public void SaveAudioSettings(int newMasterVolume, int newMusicVolume, int newSfxVolume)
         {
-            MasterVolume = newMasterVolume;
-            MusicVolume = newMusicVolume;
-            SfxVolume = newSfxVolume;
+            masterVolume = newMasterVolume;
+            musicVolume = newMusicVolume;
+            sfxVolume = newSfxVolume;
         }
 
-        public void SaveVideoSettings(string newDisplayType, int newWidthValue, int newHeightValue)
+        // public void SaveVideoSettings(string newDisplayType, int newWidthValue, int newHeightValue)
+        // {
+        //     DisplayTypeValue = newDisplayType;
+        //     WidthValue = newWidthValue;
+        //     HeightValue = newHeightValue;
+        // }
+        public void SaveGraphicsSettings(int newResolutionsIndex, int newAntiAliasingIndex, float newShadowDistance, bool fullscreenState)
         {
-            DisplayTypeValue = newDisplayType;
-            WidthValue = newWidthValue;
-            HeightValue = newHeightValue;
+            _resolutionsIndex = newResolutionsIndex;
+            // _antiAliasingIndex = newAntiAliasingIndex;
+            // _shadowDistance = newShadowDistance;
+            _isFullscreen = fullscreenState;
+        }
+        public void SaveLanguageSettings(Locale local)
+        {
+            _currentLocale = local;
         }
     }
 }
