@@ -32,60 +32,60 @@ namespace Oversmith.Scripts.UI
         public event UnityAction<bool> ConfirmationResponseAction;
         public event UnityAction ClosePopupAction;
 
-        public void SetPopup(PopupType popupType)
+         public void SetPopup(PopupType popupType)
+    {
+        _actualType = popupType;
+        bool isConfirmation = false;
+        bool hasExitButton = false;
+        titleText.StringReference.TableEntryReference = _actualType.ToString() + "_Popup_Title";
+        descriptionText.StringReference.TableEntryReference = _actualType.ToString() + "_Popup_Description";
+        string tableEntryReferenceConfirm = PopupButtonType.Confirm + "_" + _actualType;
+        string tableEntryReferenceCancel = PopupButtonType.Cancel + "_" + _actualType;
+        switch (_actualType)
         {
-            _actualType = popupType;
-            bool isConfirmation = false;
-            bool hasExitButton = false;
+            case PopupType.NewGame:
+            case PopupType.BackToMenu:
+                isConfirmation = true;
 
-            titleText.StringReference.TableEntryReference = _actualType.ToString() + "_Popup_title";
-            descriptionText.StringReference.TableEntryReference = _actualType.ToString() + "_Popup_Description";
-            string tableEntryReferenceConfirm = PopupButtonType.Confirm + "_" + _actualType;
-            string tableEntryReferenceCancel = PopupButtonType.Cancel + "_" + _actualType;
-            switch (_actualType)
-            {
-                case PopupType.NewGame:
-                case PopupType.BackToMenu:
-                    isConfirmation = true;
-                    
-                    popupButton1.SetButton(tableEntryReferenceConfirm, true);
-                    popupButton1.SetButton(tableEntryReferenceCancel,false);
-                    hasExitButton = true;
-                    break;
-                case PopupType.Quit:
-                    isConfirmation = true;
-                    popupButton1.SetButton(tableEntryReferenceConfirm, true);
-                    popupButton2.SetButton(tableEntryReferenceCancel, false);
-                    hasExitButton = false;
-                    break;
-                default:
-                    isConfirmation = false;
-                    hasExitButton = false;
-                    break;
-            }
-            if (isConfirmation) // needs two button : Is a decision 
-            {
-                popupButton1.gameObject.SetActive(true);
-                popupButton2.gameObject.SetActive(true);
-
-                popupButton2.Clicked += CancelButtonClicked;
-                popupButton1.Clicked += ConfirmButtonClicked;
-            }
-            else // needs only one button : Is an information 
-            {
-                popupButton1.gameObject.SetActive(true);
-                popupButton2.gameObject.SetActive(false);
-
-                popupButton1.Clicked += ConfirmButtonClicked;
-            }
-
-            buttonClose.gameObject.SetActive(hasExitButton);
-
-            if (hasExitButton) // can exit : Has to take the decision or aknowledge the information
-            {
-                _inputReader.MenuCloseEvent += ClosePopupButtonClicked;
-            }
+                popupButton1.SetButton(tableEntryReferenceConfirm, true);
+                popupButton2.SetButton(tableEntryReferenceCancel, false);
+                hasExitButton = true;
+                break;
+            case PopupType.Quit:
+                isConfirmation = true;
+                popupButton1.SetButton(tableEntryReferenceConfirm, true);
+                popupButton2.SetButton(tableEntryReferenceCancel, false);
+                hasExitButton = false;
+                break;
+            default:
+                isConfirmation = false;
+                hasExitButton = false;
+                break;
         }
+
+        if (isConfirmation) // needs two button : Is a decision 
+        {
+            popupButton1.gameObject.SetActive(true);
+            popupButton2.gameObject.SetActive(true);
+
+            popupButton2.Clicked += CancelButtonClicked;
+            popupButton1.Clicked += ConfirmButtonClicked;
+        }
+        else // needs only one button : Is an information 
+        {
+            popupButton1.gameObject.SetActive(true);
+            popupButton2.gameObject.SetActive(false);
+
+            popupButton1.Clicked += ConfirmButtonClicked;
+        }
+
+        buttonClose.gameObject.SetActive(hasExitButton);
+
+        if (hasExitButton) // can exit : Has to take the decision or aknowledge the information
+        {
+            _inputReader.MenuCloseEvent += ClosePopupButtonClicked;
+        }
+    }
         
         
         
@@ -97,17 +97,17 @@ namespace Oversmith.Scripts.UI
         }
         public void ClosePopupButtonClicked()
         {
-            ClosePopupAction.Invoke();
+            ClosePopupAction?.Invoke();
         }
 
         void ConfirmButtonClicked()
         {
-            ConfirmationResponseAction.Invoke(true);
+            ConfirmationResponseAction?.Invoke(true);
         }
 
         void CancelButtonClicked()
         {
-            ConfirmationResponseAction.Invoke(false);
+            ConfirmationResponseAction?.Invoke(false);
         }
         
     }
