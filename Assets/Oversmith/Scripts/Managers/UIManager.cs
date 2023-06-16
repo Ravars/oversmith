@@ -55,13 +55,14 @@ namespace Oversmith.Scripts.Managers
         [ContextMenu("Open Config")]
         private void OpenUIPause()
         {
-            Debug.Log("Open UI");
+            if (pauseScreen == null) return; 
             _inputReader.MenuPauseEvent -= OpenUIPause; // you can open UI pause menu again, if it's closed
             
             pauseScreen.SettingsScreenOpened += OpenSettingScreen;//once the UI Pause popup is open, listen to open Settings 
             pauseScreen.BackToMainRequested += ShowBackToMenuConfirmationPopup;//once the UI Pause popup is open, listen to back to menu button
             pauseScreen.Resumed += CloseUIPause;//once the UI Pause popup is open, listen to unpause event
 
+            
             pauseScreen.gameObject.SetActive(true);
 
             _inputReader.EnableMenuInput();

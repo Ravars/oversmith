@@ -12,6 +12,7 @@ namespace Oversmith.Scripts.UI.Managers
     public class UIMenuManager : MonoBehaviour
     {
         private bool _hasSaveData;
+        [SerializeField] private UIPopup _popupPanel = default;
         [SerializeField] private UISettingsController _settingsPanel = default;
         [SerializeField] private UIMainMenu _mainMenuPanel = default;
         [SerializeField] private UICredits _creditsPanel = default;
@@ -39,13 +40,13 @@ namespace Oversmith.Scripts.UI.Managers
             _mainMenuPanel.ExitButtonAction += ShowExitConfirmationPopup;
 
         }
-        
+
+        #region Settings
         public void OpenSettingsScreen()
         {
             _settingsPanel.gameObject.SetActive(true);
             _mainMenuPanel.gameObject.SetActive(false);
             _settingsPanel.Closed += CloseSettingsScreen;
-
         }
         public void CloseSettingsScreen()
         {
@@ -53,7 +54,9 @@ namespace Oversmith.Scripts.UI.Managers
             _settingsPanel.gameObject.SetActive(false);
             _mainMenuPanel.SetMenuScreen(_hasSaveData);
         }
-        
+        #endregion
+
+        #region Credits
         public void OpenCreditsScreen()
         {
             _creditsPanel.gameObject.SetActive(true);
@@ -66,6 +69,8 @@ namespace Oversmith.Scripts.UI.Managers
             _creditsPanel.gameObject.SetActive(false);
             _mainMenuPanel.SetMenuScreen(_hasSaveData);
         }
+        #endregion
+        
         void ButtonStartNewGameClicked()
         {
             if (!_hasSaveData)
@@ -95,12 +100,24 @@ namespace Oversmith.Scripts.UI.Managers
         }
         public void ShowExitConfirmationPopup()
         {
-            // _popupPanel.ConfirmationResponseAction += HideExitConfirmationPopup;
-            // _popupPanel.gameObject.SetActive(true);
-            // _popupPanel.SetPopup(PopupType.Quit);
-
-
-
+            _popupPanel.ConfirmationResponseAction += HideExitConfirmationPopup;
+            _popupPanel.gameObject.SetActive(true);
+            _popupPanel.SetPopup(PopupType.Quit);
+        }
+        void HideExitConfirmationPopup(bool quitConfirmed)
+        {
+            _popupPanel.ConfirmationResponseAction -= HideExitConfirmationPopup;
+            _popupPanel.gameObject.SetActive(false);
+            if (quitConfirmed)
+            {
+                Application.Quit();
+            }
+            _mainMenuPanel.SetMenuScreen(_hasSaveData);
+        }
+        private void OnDestroy()
+        {
+            _popupPanel.ConfirmationResponseAction -= HideExitConfirmationPopup;
+            // _popupPanel.ConfirmationResponseAction -= StartNewGamePopupResponse;
         }
         
         

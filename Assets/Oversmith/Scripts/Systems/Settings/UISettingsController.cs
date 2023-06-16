@@ -44,7 +44,8 @@ namespace Oversmith.Scripts.Systems.Settings
     public class UISettingsController : MonoBehaviour
     {
         [SerializeField] private UISettingsAudioComponent audioComponent;
-        [SerializeField] private UISettingsVideoComponent videoComponent;
+        // [SerializeField] private UISettingsVideoComponent videoComponent;
+        [SerializeField] private UISettingsGraphicsComponent _graphicsComponent;
         [SerializeField] private UISettingsTabsFiller _settingTabFiller = default;
         [SerializeField] private SettingsSO currentSetting;
         [SerializeField] private VoidEventChannelSO saveSettingsEvent = default;
@@ -57,7 +58,8 @@ namespace Oversmith.Scripts.Systems.Settings
         {
             // centralizedComponent._save += CentralizedComponentOn_save;
             audioComponent._save += SaveAudioSettings;
-            videoComponent._save += VideoComponentOn_save;
+            // videoComponent._save += VideoComponentOn_save;
+            _graphicsComponent._save += SaveGraphicsSettings;
             _inputReader.MenuCloseEvent += CloseScreen;
             _inputReader.TabSwitched += SwitchTab;
             _settingTabFiller.FillTabs(_settingTabsList);
@@ -69,17 +71,23 @@ namespace Oversmith.Scripts.Systems.Settings
         private void OnDisable()
         {
             audioComponent._save -= SaveAudioSettings;
-            videoComponent._save -= VideoComponentOn_save;
+            // videoComponent._save -= VideoComponentOn_save;
+            _graphicsComponent._save -= SaveGraphicsSettings;
             _inputReader.MenuCloseEvent -= CloseScreen;
             _inputReader.TabSwitched -= SwitchTab;
             _settingTabFiller.ChooseTab -= OpenSetting; //TODO: Verificar
         }
-
-        private void VideoComponentOn_save(string displayTypeValue, int widthValue, int heightValue)
+        public void SaveGraphicsSettings(int newResolutionsIndex, int newAntiAliasingIndex, float newShadowDistance, bool fullscreenState)
         {
-            currentSetting.SaveVideoSettings(displayTypeValue, widthValue, heightValue);
+            currentSetting.SaveGraphicsSettings(newResolutionsIndex, newAntiAliasingIndex, newShadowDistance, fullscreenState);
             saveSettingsEvent.RaiseEvent();
         }
+
+        // private void VideoComponentOn_save(string displayTypeValue, int widthValue, int heightValue)
+        // {
+        //     currentSetting.SaveVideoSettings(displayTypeValue, widthValue, heightValue);
+        //     saveSettingsEvent.RaiseEvent();
+        // }
 
         private void SaveAudioSettings(int masterVolume, int musicVolume, int sfxVolume)
         {
@@ -124,7 +132,7 @@ namespace Oversmith.Scripts.Systems.Settings
                     currentSetting.SaveLanguageSettings(currentSetting.CurrentLocale);
                     break;
                 case SettingsType.Video:
-                    // _graphicsComponent.Setup();
+                    _graphicsComponent.Setup();
                     break;
                 case SettingsType.Audio:
                     audioComponent.Setup(currentSetting.MusicVolume, currentSetting.SfxVolume, currentSetting.MasterVolume);
@@ -134,7 +142,7 @@ namespace Oversmith.Scripts.Systems.Settings
             }
 
             // _languageComponent.gameObject.SetActive(settingType == SettingsType.Language);
-            // _graphicsComponent.gameObject.SetActive((settingType == SettingsType.Graphics));
+            _graphicsComponent.gameObject.SetActive((settingType == SettingsType.Video));
             audioComponent.gameObject.SetActive(settingType == SettingsType.Audio);
             _settingTabFiller.SelectTab(settingType);
         }
