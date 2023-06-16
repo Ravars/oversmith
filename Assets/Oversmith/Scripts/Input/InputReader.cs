@@ -113,7 +113,6 @@ namespace Oversmith.Scripts.Input
 
         public void OnPause(InputAction.CallbackContext context)
         {
-            Debug.Log("Pause"); 
             if (context.phase == InputActionPhase.Performed)
             {
                 MenuPauseEvent.Invoke();
@@ -138,12 +137,10 @@ namespace Oversmith.Scripts.Input
 
         public void OnNavigate(InputAction.CallbackContext context)
         {
-            throw new NotImplementedException();
         }
 
         public void OnSubmit(InputAction.CallbackContext context)
         {
-            throw new NotImplementedException();
         }
 
         public void OnConfirm(InputAction.CallbackContext context)
