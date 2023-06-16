@@ -9,9 +9,9 @@ namespace Oversmith.Scripts.SavingSystem
     {
         public string _locationID;
         //Audio Settings
-        public float masterVolume = default;
-        public float musicVolume = default;
-        public float sfxVolume = default;
+        public int masterVolume = default;
+        public int musicVolume = default;
+        public int sfxVolume = default;
         //Video Settings
         public int widthValue = default;
         public int heightValue = default;
