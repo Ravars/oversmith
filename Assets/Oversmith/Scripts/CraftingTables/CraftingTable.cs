@@ -10,13 +10,14 @@ namespace _Developers.Vitor
         [SerializeField] protected float currentTimeToPrepareItem;
         protected List<PlayerInteractions> PlayerInteractionsArray = new();
         private Table _table;
-        private CraftingInteractionHandler _craftingInteractionHandler;
+        protected CraftingInteractionHandler _craftingInteractionHandler;
         public CraftingTableType type;
         public ParticleSystem[] particleSystems;
+        public bool CanAddPlayer { get; protected set; }
 
         [HideInInspector] public AudioSource _audioSource;
         
-            private void Awake()
+        protected virtual void Awake()
         {
             _table = GetComponent<Table>();
             _craftingInteractionHandler = GetComponent<CraftingInteractionHandler>();
@@ -60,9 +61,9 @@ namespace _Developers.Vitor
             }
         }
 
-        // private void Update()
-        // {
-        //     if()
-        // }
+        public virtual void ItemAddedToTable()
+        {
+            Debug.Log("Item added");
+        }
     }
 }

@@ -4,6 +4,7 @@ using Oversmith.Scripts.UI;
 using Oversmith.Scripts.UI.SettingsScripts;
 using UnityEngine;
 using UnityEngine.Events;
+using UnityEngine.Rendering.Universal;
 
 namespace Oversmith.Scripts.Systems.Settings
 {
@@ -11,14 +12,21 @@ namespace Oversmith.Scripts.Systems.Settings
     {
         [SerializeField] private UISettingItemFiller resolutionField;
         [SerializeField] private UISettingItemFiller _fullscreenField = default;
+        [SerializeField] private UISettingItemFiller _antiAliasingField = default;
         
         [SerializeField] private List<Resolution> resolutionsList;
         private Resolution _currentResolution;
+        [SerializeField] private UniversalRenderPipelineAsset _uRPAsset = default;
         
         private bool _isFullscreen;
         private bool _savedFullscreenState;
+        
         private int _currentResolutionIndex = default;
         private int _savedResolutionIndex = default;
+        
+        private int _currentAntiAliasingIndex = default;
+        private int _savedAntiAliasingIndex = default;
+        private List<string> _currentAntiAliasingList = default;
         
         public event UnityAction<int, int, float, bool> _save = delegate { };
         [SerializeField] private UIGenericButton _saveButton;
@@ -32,6 +40,9 @@ namespace Oversmith.Scripts.Systems.Settings
             _fullscreenField.OnNextOption += NextFullscreenState;
             _fullscreenField.OnPreviousOption += PreviousFullscreenState;
             
+            _antiAliasingField.OnNextOption += NextAntiAliasingTier;
+            _antiAliasingField.OnPreviousOption += PreviousAntiAliasingTier;
+            
             _saveButton.Clicked += SaveSettings;
             _resetButton.Clicked += ResetSettings;
         }
@@ -44,6 +55,9 @@ namespace Oversmith.Scripts.Systems.Settings
             _fullscreenField.OnNextOption -= NextFullscreenState;
             _fullscreenField.OnPreviousOption -= PreviousFullscreenState;
             
+            _antiAliasingField.OnNextOption -= NextAntiAliasingTier;
+            _antiAliasingField.OnPreviousOption -= PreviousAntiAliasingTier;
+            
             _saveButton.Clicked -= SaveSettings;
             _resetButton.Clicked -= ResetSettings;
         }
@@ -51,15 +65,16 @@ namespace Oversmith.Scripts.Systems.Settings
         {
             resolutionsList = GetResolutionsList();
             // _currentShadowDistanceTier = GetCurrentShadowDistanceTier();
-            // _currentAntiAliasingList = GetDropdownData(Enum.GetNames(typeof(MsaaQuality)));
+            
+            _currentAntiAliasingList = GetDropdownData(Enum.GetNames(typeof(MsaaQuality)));
 
             _currentResolution = Screen.currentResolution;
             _currentResolutionIndex = GetCurrentResolutionIndex();
             _isFullscreen = GetCurrentFullscreenState();
-            // _currentAntiAliasingIndex = GetCurrentAntialiasing();
+            _currentAntiAliasingIndex = GetCurrentAntialiasing();
 
             _savedResolutionIndex = _currentResolutionIndex;
-            // _savedAntiAliasingIndex = _currentAntiAliasingIndex;
+            _savedAntiAliasingIndex = _currentAntiAliasingIndex;
             // _savedShadowDistanceTier = _currentShadowDistanceTier;
             _savedFullscreenState = _isFullscreen;
         }
@@ -69,27 +84,43 @@ namespace Oversmith.Scripts.Systems.Settings
             Init();
             SetResolutionField();
             SetFullscreen();
+            SetAntiAliasingField();
         }
         public void SaveSettings()
         {
             _savedResolutionIndex = _currentResolutionIndex;
-            // _savedAntiAliasingIndex = _currentAntiAliasingIndex;
+            _savedAntiAliasingIndex = _currentAntiAliasingIndex;
             // _savedShadowDistanceTier = _currentShadowDistanceTier;
             _savedFullscreenState = _isFullscreen;
             // float shadowDistance = _shadowDistanceTierList[_currentShadowDistanceTier].Distance;
             // _save.Invoke(_currentResolutionIndex, _currentAntiAliasingIndex, shadowDistance, _isFullscreen);
-            _save.Invoke(_currentResolutionIndex, 0, 0, _isFullscreen);
+            _save.Invoke(_currentResolutionIndex, _currentAntiAliasingIndex, 0, _isFullscreen);
         }
         public void ResetSettings()
         {
             _currentResolutionIndex = _savedResolutionIndex;
             OnResolutionChange();
-            // _currentAntiAliasingIndex = _savedAntiAliasingIndex;
-            // OnAntiAliasingChange();
+            _currentAntiAliasingIndex = _savedAntiAliasingIndex;
+            OnAntiAliasingChange();
             // _currentShadowDistanceTier = _savedShadowDistanceTier;
             // OnShadowDistanceChange();
             _isFullscreen = _savedFullscreenState;
             OnFullscreenChange();
+        }
+        
+        private List<string> GetDropdownData(string[] optionNames, params string[] customOptions)
+        {
+            List<string> options = new List<string>();
+            foreach (string option in optionNames)
+            {
+                options.Add(option);
+            }
+
+            foreach (string option in customOptions)
+            {
+                options.Add(option);
+            }
+            return options;
         }
 
         #region Fullscreen
@@ -177,6 +208,40 @@ namespace Oversmith.Scripts.Systems.Settings
             string displayText = resolutionsList[_currentResolutionIndex].ToString();
             Debug.Log(displayText);
             resolutionField.FillSettingField(resolutionsList.Count, _currentResolutionIndex, displayText);
+        }
+        #endregion
+        #region Anti Aliasing
+        void SetAntiAliasingField()
+        {
+            Debug.Log(_currentAntiAliasingIndex);
+            _currentAntiAliasingIndex = 0;
+            string optionDisplay = _currentAntiAliasingList[_currentAntiAliasingIndex].Replace("_", "");
+            _antiAliasingField.FillSettingField(_currentAntiAliasingList.Count, _currentAntiAliasingIndex, optionDisplay);
+
+        }
+        int GetCurrentAntialiasing()
+        {
+            return _uRPAsset.msaaSampleCount;
+
+        }
+        void NextAntiAliasingTier()
+        {
+            _currentAntiAliasingIndex++;
+            _currentAntiAliasingIndex = Mathf.Clamp(_currentAntiAliasingIndex, 0, _currentAntiAliasingList.Count - 1);
+            OnAntiAliasingChange();
+        }
+        void PreviousAntiAliasingTier()
+        {
+            _currentAntiAliasingIndex--;
+            _currentAntiAliasingIndex = Mathf.Clamp(_currentAntiAliasingIndex, 0, _currentAntiAliasingList.Count - 1);
+            OnAntiAliasingChange();
+        }
+
+        void OnAntiAliasingChange()
+        {
+            _uRPAsset.msaaSampleCount = _currentAntiAliasingIndex;
+            SetAntiAliasingField();
+
         }
         #endregion
     }

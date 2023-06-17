@@ -1,13 +1,30 @@
+using System;
 using _Developers.Vitor;
+using Oversmith.Scripts.Input;
 using Oversmith.Scripts.Level;
+using Oversmith.Scripts.Utils;
 using TMPro;
 using UnityEngine;
 
 namespace Oversmith.Scripts.UI
 {
-    public class DeliveryUI : MonoBehaviour
+    public class DeliveryUI : Singleton<DeliveryUI>
     {
         public TextMeshProUGUI[] texts;
+        [SerializeField] private InputReader inputReader;
+
+        private void OnEnable()
+        {
+            // inputReader.Menu
+            
+        }
+
+        private void OnDisable()
+        {
+            
+            
+        }
+
 
         public void SetItems(ItemStruct[] itemsToShow)
         {
