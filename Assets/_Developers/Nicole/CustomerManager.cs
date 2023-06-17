@@ -2,6 +2,7 @@ using _Developers.Vitor;
 using Oversmith.Scripts.UI;
 using System.Collections;
 using System.Collections.Generic;
+using Oversmith.Scripts.Events.ScriptableObjects;
 using UnityEngine;
 
 public class CustomerManager : MonoBehaviour
@@ -9,7 +10,7 @@ public class CustomerManager : MonoBehaviour
     public float timerToFirstCustomer = 5f;
     public float timerToNextCustomer = 5f;
 
-    //Lista de itens é configurada em cada customer
+    //Lista de itens ï¿½ configurada em cada customer
     public List<GameObject> customers = new List<GameObject>();
     public List<Transform> spawnPoints = new List<Transform> ();
 
@@ -20,9 +21,20 @@ public class CustomerManager : MonoBehaviour
 
     private int customersLeft;
     private int totalScore;
+    [Header("Scene Ready Event")] 
+    [SerializeField] private VoidEventChannelSO _onSceneReady;
+    
+    private void OnEnable()
+    {
+        _onSceneReady.OnEventRaised += Init;
+    }
 
-    // Start is called before the first frame update
-    void Start()
+    private void OnDisable()
+    {
+        _onSceneReady.OnEventRaised -= Init;
+    }
+    
+    private void Init()
     {
         customersLeft = customers.Count;
         for (int i = 0; i < customers.Count; i++)
@@ -95,7 +107,7 @@ public class CustomerManager : MonoBehaviour
         {
             int finalScore = Mathf.RoundToInt((float) totalScore / customers.Count);
             AlertMessageManager.Instance.SpawnAlertMessage("Fim do prototipo.", MessageType.Alert);
-            AlertMessageManager.Instance.SpawnAlertMessage($"Pontuação: {finalScore}%", MessageType.Alert);
+            AlertMessageManager.Instance.SpawnAlertMessage($"Pontuaï¿½ï¿½o: {finalScore}%", MessageType.Alert);
         }
         else
         {
