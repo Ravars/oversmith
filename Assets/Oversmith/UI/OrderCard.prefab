@@ -85,6 +85,7 @@ GameObject:
   - component: {fileID: 6892254698301724360}
   - component: {fileID: 6892254698301724361}
   - component: {fileID: 5482052550890042756}
+  - component: {fileID: 1761464748901616107}
   m_Layer: 5
   m_Name: OrderCard
   m_TagString: Untagged
@@ -168,6 +169,27 @@ MonoBehaviour:
   prefabCard: {fileID: 5793931008121798161, guid: aee4fc531a0a05c4f92feda94e10bc64,
     type: 3}
   itemsHolder: {fileID: 6892254698655983571}
+  wagonName: 
+--- !u!95 &1761464748901616107
+Animator:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6892254698301724358}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 3db9a4ad1d33d73419aa810f65a0a243, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
 --- !u!1 &6892254698655983570
 GameObject:
   m_ObjectHideFlags: 0
