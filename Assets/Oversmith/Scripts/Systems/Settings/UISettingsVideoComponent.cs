@@ -51,9 +51,9 @@ namespace Oversmith.Scripts.Systems.Settings
 
         private void OnEnable()
         {
-            _width = _width = settingsSo.WidthValue;
-            _height = _height = settingsSo.HeightValue;
-            _displayTypeValue = _displayTypeValue = settingsSo.DisplayTypeValue;
+            // _width = _width = settingsSo.WidthValue;
+            // _height = _height = settingsSo.HeightValue;
+            // _displayTypeValue = _displayTypeValue = settingsSo.DisplayTypeValue;
             // popUp.SetActive(false);
             
             display.onValueChanged.AddListener(delegate { ScreenOptions(display.options[display.value].text); });

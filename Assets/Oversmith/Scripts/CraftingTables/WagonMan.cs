@@ -9,13 +9,14 @@ namespace _Developers.Vitor
     public class WagonMan : Interactable
     {
         public DeliveryBox deliveryBox;
-        public DeliveryUI deliveryUI;
+        // public DeliveryUI deliveryUI;
         public bool alreadyGet;
         
         public override void Interact(GameObject player)
         {
-            deliveryUI.gameObject.SetActive(true);
-            deliveryUI.SetItems(deliveryBox.requiredItems);
+            // DeliveryUI.Instance.gameObject.SetActive(true);
+            
+            DeliveryUI.Instance.SetItems(deliveryBox.requiredItems);
 
             if (PlayerInteractions.ItemScript == null && !deliveryBox.isActive)
             {

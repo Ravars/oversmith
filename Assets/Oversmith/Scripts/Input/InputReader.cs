@@ -61,6 +61,7 @@ namespace Oversmith.Scripts.Input
         }
 
         #endregion
+        
         #region Unity Action events
         
         //Shared between Menus And Dialogues

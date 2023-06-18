@@ -38,7 +38,7 @@ namespace _Developers.Vitor
             if (_playerInteractableHandler.CurrentInteractable != null)
             {
                 var interactable = _playerInteractableHandler.CurrentInteractable.InteractableHolder;
-                if (interactable.hasCraftingTable)
+                if (interactable.hasCraftingTable && interactable.craftingTable.CanAddPlayer)
                 {
                     interactable.craftingTable.AddPlayer(this);
                 }

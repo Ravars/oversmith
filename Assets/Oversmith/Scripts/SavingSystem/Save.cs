@@ -1,6 +1,7 @@
 using System;
 using Oversmith.Scripts.Systems.Settings;
 using UnityEngine;
+using UnityEngine.Localization;
 
 namespace Oversmith.Scripts.SavingSystem
 {
@@ -12,10 +13,10 @@ namespace Oversmith.Scripts.SavingSystem
         public int masterVolume = default;
         public int musicVolume = default;
         public int sfxVolume = default;
-        //Video Settings
-        public int widthValue = default;
-        public int heightValue = default;
-        public string displayTypeValue = default;
+        public int resolutionsIndex = default;
+        public int antiAliasingIndex = default;
+        public bool isFullscreen = default;
+        public Locale currentLocale = default;
 
 
         public void SaveSetting(SettingsSO settingsSo)
@@ -23,9 +24,10 @@ namespace Oversmith.Scripts.SavingSystem
             masterVolume = settingsSo.MasterVolume;
             musicVolume = settingsSo.MusicVolume;
             sfxVolume = settingsSo.SfxVolume;
-            widthValue = settingsSo.WidthValue;
-            heightValue = settingsSo.HeightValue;
-            displayTypeValue = settingsSo.DisplayTypeValue;
+            resolutionsIndex = settingsSo.ResolutionsIndex;
+            antiAliasingIndex = settingsSo.AntiAliasingIndex;
+            isFullscreen = settingsSo.IsFullscreen;
+            currentLocale = settingsSo.CurrentLocale;
         }
 
         public string ToJson()
@@ -35,7 +37,6 @@ namespace Oversmith.Scripts.SavingSystem
 
         public void LoadFromJson(string json)
         {
-            Debug.Log("Json: " + json);
             JsonUtility.FromJsonOverwrite(json, this);
         }
     }

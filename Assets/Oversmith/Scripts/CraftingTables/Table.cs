@@ -57,6 +57,11 @@ namespace _Developers.Vitor
             _itemTransform = itemTransform;
             _itemTransform.SetParent(pointToSpawnItem);
             _itemTransform.SetLocalPositionAndRotation(Vector3.zero, pointToSpawnItem.localRotation);
+
+            if (_interactableHolder.hasCraftingTable)
+            {
+                _interactableHolder.craftingTable.ItemAddedToTable();
+            }
         }
 
         public bool CanSetItem(Item newItem)
