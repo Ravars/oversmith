@@ -1,6 +1,7 @@
 using System;
 using Oversmith.Scripts.Events.ScriptableObjects;
 using Oversmith.Scripts.Input;
+using Oversmith.Scripts.Managers;
 using UnityEngine;
 
 namespace Oversmith.Scripts.Gameplay
@@ -8,7 +9,6 @@ namespace Oversmith.Scripts.Gameplay
     public class SpawnSystem : MonoBehaviour
     {
         [SerializeField] private InputReader _inputReader;
-        [SerializeField] private PlayerMovement _playerPrefab;
 
         [Header("Scene Ready Event")] 
         [SerializeField] private VoidEventChannelSO _onSceneReady;
@@ -27,7 +27,8 @@ namespace Oversmith.Scripts.Gameplay
 
         private void SpawnPlayer()
         {
-            var player = Instantiate(_playerPrefab, spawnLocation.position, Quaternion.identity, spawnLocation);
+            var index = GameManager.Instance.characterIndex;
+            var player = Instantiate(GameManager.Instance.charactersPrefabs[index], spawnLocation.position, Quaternion.identity, spawnLocation);
             _inputReader.EnableGameplayInput();
         }
     }
