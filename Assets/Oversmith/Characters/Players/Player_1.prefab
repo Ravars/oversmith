@@ -145,7 +145,7 @@ Transform:
   - {fileID: 2314882141822583135}
   - {fileID: 1431890432185278072}
   m_Father: {fileID: 0}
-  m_RootOrder: 4
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!143 &2314882142507523517
 CharacterController:
@@ -379,11 +379,31 @@ PrefabInstance:
       propertyPath: m_ConstrainProportionsScale
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: -7823293702887809713, guid: 3db506afb664b7d468a9929fc8da52f7,
+        type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: a6c81becfd7ab154383a15cb6943ff5b, type: 2}
+    - target: {fileID: -2843909369972686622, guid: 3db506afb664b7d468a9929fc8da52f7,
+        type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 3c51401ea91ae6d43abd98532b898484, type: 2}
     - target: {fileID: 919132149155446097, guid: 3db506afb664b7d468a9929fc8da52f7,
         type: 3}
       propertyPath: m_Name
       value: Player_1
       objectReference: {fileID: 0}
+    - target: {fileID: 1287542132067729854, guid: 3db506afb664b7d468a9929fc8da52f7,
+        type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: a6c81becfd7ab154383a15cb6943ff5b, type: 2}
+    - target: {fileID: 2321523695958950486, guid: 3db506afb664b7d468a9929fc8da52f7,
+        type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: a6c81becfd7ab154383a15cb6943ff5b, type: 2}
     - target: {fileID: 5866666021909216657, guid: 3db506afb664b7d468a9929fc8da52f7,
         type: 3}
       propertyPath: m_Avatar
