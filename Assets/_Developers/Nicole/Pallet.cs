@@ -1,6 +1,7 @@
 using _Developers.Vitor;
 using Oversmith.Scripts.Level;
 using System;
+using System.Collections.Generic;
 using Oversmith.Scripts.UI;
 using UnityEngine;
 using UnityEngine.UIElements;
@@ -17,6 +18,7 @@ public class Pallet : MonoBehaviour
 
     private InteractableHolder _interactableHolder;
     [SerializeField] private Transform[] pointsToPlaceBox;
+    [SerializeField] private List<GameObject> itemsPlaced = new();
 
     private void Awake()
     {
@@ -61,6 +63,7 @@ public class Pallet : MonoBehaviour
         }
 
         //_itemTransform = itemTransform;
+        itemsPlaced.Add(itemTransform.gameObject);
         itemTransform.SetParent(pointsToPlaceBox[emptySpace]);
         itemTransform.SetLocalPositionAndRotation(Vector3.zero, pointsToPlaceBox[emptySpace].localRotation);
         deliveryBoxScript.SetTrigger(true);

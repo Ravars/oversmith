@@ -13,7 +13,7 @@ namespace _Developers.Vitor
         protected CraftingInteractionHandler _craftingInteractionHandler;
         public CraftingTableType type;
         public ParticleSystem[] particleSystems;
-        public bool CanAddPlayer { get; protected set; }
+        public bool CanAddPlayer { get; protected set; } = true;
 
         [HideInInspector] public AudioSource _audioSource;
         

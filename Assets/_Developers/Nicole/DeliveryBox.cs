@@ -45,7 +45,8 @@ namespace Oversmith.Scripts.Level
         int numOfCorrectItems = 0;
         int totalItems = 0;
 
-        private CustomerManager customerManager;
+        private CustomerManager _customerManager;
+        private int _costumerIndex;
 
         private void Start()
         {
@@ -160,7 +161,7 @@ namespace Oversmith.Scripts.Level
             SetVisual(false);
             AlertMessageManager.Instance.SpawnAlertMessage($"O entregador foi embora com os items. Nota: {boxScore}%", MessageType.Normal);
 
-            customerManager.DisableCustomer(wagonMan, boxScore);
+            _customerManager.DisableCustomer(wagonMan, boxScore);
             gameObject.SetActive(false);
             // Enviar para ele a lista currentItem e a Required items e deixa ele se virar
         }
@@ -169,7 +170,7 @@ namespace Oversmith.Scripts.Level
         private void SetVisual(bool state) // This is just to simulate the Wagon delivery to the Store
         {
             visual.SetActive(state);
-            wagonMan.SetActive(state);
+            wagonMan.gameObject.SetActive(state);
         }
 
         public void SetTrigger(bool state)
@@ -187,9 +188,10 @@ namespace Oversmith.Scripts.Level
                 Finish();
             }
         }
-        public void SetCustomerManager(CustomerManager cm)
+        public void SetCustomerManager(CustomerManager cm, int index)
         {
-            customerManager = cm;
+            _costumerIndex = index;
+            _customerManager = cm;
         }
     }
 }

@@ -20,14 +20,14 @@ namespace Oversmith.Scripts.Systems.Settings
         private void Awake()
         {
             Loaded = saveSystem.LoadSaveDataFromDisk();
-            Debug.Log("Loaded: " + Loaded);
+            // Debug.Log("Loaded: " + Loaded);
             if (!Loaded)
             {
                 currentSettings.LoadDefaultSettings();
                 // currentSettings.SaveAudioSettings();
             }
             currentSettings.LoadSavedSettings(saveSystem.saveData);
-            Debug.Log("Awake Settings system: Master: " + currentSettings.MasterVolume);
+            // Debug.Log("Awake Settings system: Master: " + currentSettings.MasterVolume);
             SetCurrentSettings();
         }
 
@@ -43,7 +43,7 @@ namespace Oversmith.Scripts.Systems.Settings
 
         private void SetCurrentSettings()
         {
-            Debug.Log("SetCurrentSettings: " + currentSettings.MasterVolume);
+            // Debug.Log("SetCurrentSettings: " + currentSettings.MasterVolume);
             masterVolumeChannel.RaiseEvent(currentSettings.MasterVolume);
             musicVolumeChannel.RaiseEvent(currentSettings.MusicVolume);
             sfxVolumeChannel.RaiseEvent(currentSettings.SfxVolume);
