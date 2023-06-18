@@ -27,7 +27,7 @@ namespace Oversmith.Scripts.Gameplay
 
         private void SpawnPlayer()
         {
-            var player = Instantiate(_playerPrefab, spawnLocation);
+            var player = Instantiate(_playerPrefab, spawnLocation.position, Quaternion.identity, spawnLocation);
             _inputReader.EnableGameplayInput();
         }
     }
