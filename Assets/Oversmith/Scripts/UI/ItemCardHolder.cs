@@ -17,7 +17,7 @@ namespace Oversmith.Scripts.UI
             for (int i = 0; i < itemStructs.Length; i++)
             {
                 itemCards[i] = Instantiate(prefabCard, itemsHolder).GetComponent<ItemCard>();
-                itemCards[i].SetItem(itemStructs[i]);
+                itemCards[i].SetItem(itemStructs[i], i);
             }
         }
 
