@@ -17,7 +17,10 @@ namespace Oversmith.Scripts.UI.Managers
         [SerializeField] private UIMainMenu _mainMenuPanel = default;
         [SerializeField] private UICredits _creditsPanel = default;
         [SerializeField] private SaveSystem _saveSystem = default;
-        
+        [SerializeField] private GameObject _mainMenuCamera;
+        [SerializeField] private GameObject _characterSelectCamera;
+        [SerializeField] private GameObject _characterSelectUI;
+
         [SerializeField] private InputReader _inputReader = default;
         [Header("Broadcasting on")]
         [SerializeField] private VoidEventChannelSO _startNewGameEvent = default;
@@ -34,7 +37,7 @@ namespace Oversmith.Scripts.UI.Managers
             _hasSaveData = _saveSystem.Loaded;
             _mainMenuPanel.SetMenuScreen(_hasSaveData);
             _mainMenuPanel.ContinueButtonAction += _continueGameEvent.RaiseEvent;
-            _mainMenuPanel.NewGameButtonAction += ButtonStartNewGameClicked;
+            _mainMenuPanel.NewGameButtonAction += OpenCharacterSelect;
             _mainMenuPanel.SettingsButtonAction += OpenSettingsScreen;
             _mainMenuPanel.CreditsButtonAction += OpenCreditsScreen;
             _mainMenuPanel.ExitButtonAction += ShowExitConfirmationPopup;
@@ -70,8 +73,22 @@ namespace Oversmith.Scripts.UI.Managers
             _mainMenuPanel.SetMenuScreen(_hasSaveData);
         }
         #endregion
+
+        public void OpenCharacterSelect()
+        {
+            _mainMenuCamera.SetActive(false);
+            _characterSelectCamera.SetActive(true);
+            _characterSelectUI.SetActive(true);
+        }
+
+        public void CloseCharacterSelect()
+        {
+            _characterSelectUI.SetActive(false);
+            _characterSelectCamera.SetActive(false);
+            _mainMenuCamera.SetActive(true);
+        }
         
-        void ButtonStartNewGameClicked()
+        public void ButtonStartNewGameClicked()
         {
             if (!_hasSaveData)
             {
@@ -80,9 +97,9 @@ namespace Oversmith.Scripts.UI.Managers
             else
             {
                 ShowStartNewGameConfirmationPopup();
-
             }
         }
+
         void ConfirmStartNewGame()
         {
             _startNewGameEvent.RaiseEvent();
