@@ -113646,8 +113646,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _inputReader: {fileID: 11400000, guid: 4fdb545f14be303468b5a23fe102e2e5, type: 2}
-  _playerPrefab: {fileID: 2314882142507523515, guid: d12980359cdb9b448a0b71047bd11de2,
-    type: 3}
   _onSceneReady: {fileID: 11400000, guid: df6aead758def0e408c9231e08fef990, type: 2}
   spawnLocation: {fileID: 1654385517}
 --- !u!4 &2000572550
@@ -123521,12 +123519,12 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 181768794, guid: 07762d450f07c4a46832216b6ac1656c, type: 3}
       propertyPath: pointsToPlaceBox.Array.size
-      value: 2
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 181768794, guid: 07762d450f07c4a46832216b6ac1656c, type: 3}
       propertyPath: pointsToPlaceBox.Array.data[1]
       value: 
-      objectReference: {fileID: 6553099800490444291}
+      objectReference: {fileID: 0}
     - target: {fileID: 3151886540866607645, guid: 07762d450f07c4a46832216b6ac1656c,
         type: 3}
       propertyPath: m_Name
@@ -123600,12 +123598,6 @@ PrefabInstance:
 --- !u!4 &6553099800490444290 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4130747926361708431, guid: 07762d450f07c4a46832216b6ac1656c,
-    type: 3}
-  m_PrefabInstance: {fileID: 6553099800490444289}
-  m_PrefabAsset: {fileID: 0}
---- !u!4 &6553099800490444291 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 40640600, guid: 07762d450f07c4a46832216b6ac1656c,
     type: 3}
   m_PrefabInstance: {fileID: 6553099800490444289}
   m_PrefabAsset: {fileID: 0}

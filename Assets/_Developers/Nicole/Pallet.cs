@@ -77,7 +77,7 @@ public class Pallet : MonoBehaviour
 
         for (int i = 0; i < pointsToPlaceBox.Length; i++)
         {
-            if (pointsToPlaceBox[i].GetChild(0) == boxTransform)
+            if (pointsToPlaceBox[i].childCount > 0 && pointsToPlaceBox[i].GetChild(0) == boxTransform)
             {
                 boxIndex = i;
                 break;
@@ -96,7 +96,7 @@ public class Pallet : MonoBehaviour
 
         for (int i = 0; i < pointsToPlaceBox.Length; i++)
         {
-            if (pointsToPlaceBox[i].GetChild(0) == boxTransform)
+            if (pointsToPlaceBox[i].childCount > 0 && pointsToPlaceBox[i].GetChild(0) == boxTransform)
             {
                 boxIndex = i;
                 break;
