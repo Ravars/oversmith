@@ -8,10 +8,10 @@ using UnityEngine;
 public class CustomerManager : MonoBehaviour
 {
     public float timerToFirstCustomer = 5f;
-    public float timerToNextCustomer = 5f;
+    public float timerToNextCustomer = 40f;
 
     //Lista de itens � configurada em cada customer
-    public List<GameObject> customers = new List<GameObject>();
+    public List<GameObject> customers = new();
     public List<Transform> spawnPoints = new List<Transform> ();
 
     public Pallet deliveryPoint;
@@ -19,8 +19,8 @@ public class CustomerManager : MonoBehaviour
     private List<int> spawnedCustomers = new List<int> ();
     private List<bool> activeSpawnPoints = new List<bool>();
 
-    private int customersLeft;
-    private int totalScore;
+    private int _customersLeft;
+    private int _totalScore;
     [Header("Scene Ready Event")] 
     [SerializeField] private VoidEventChannelSO _onSceneReady;
     
@@ -36,7 +36,7 @@ public class CustomerManager : MonoBehaviour
     
     private void Init()
     {
-        customersLeft = customers.Count;
+        _customersLeft = customers.Count;
         for (int i = 0; i < customers.Count; i++)
         {
             spawnedCustomers.Add(-1);
@@ -48,7 +48,7 @@ public class CustomerManager : MonoBehaviour
         }
         // Iniciar o timer e habilitar o primeiro
 
-        Invoke("SpawnCustomer", timerToFirstCustomer);
+        Invoke(nameof(SpawnCustomer), timerToFirstCustomer);
     }
 
 
@@ -75,19 +75,20 @@ public class CustomerManager : MonoBehaviour
             }
         }
 
-        if ( customerToSpawn == -1 || spawnPointToUse == -1)
-            return;
+        if ( customerToSpawn == -1 || spawnPointToUse == -1) return;
 
 
         spawnedCustomers[customerToSpawn] = spawnPointToUse;
         activeSpawnPoints[spawnPointToUse] = true;
 
-        customers[customerToSpawn].SetActive(true);
+        customers[customerToSpawn].gameObject.SetActive(true);
+        //Move to point
         customers[customerToSpawn].transform.position = spawnPoints[spawnPointToUse].position;
+        customers[customerToSpawn].GetComponent<WagonMan>().deliveryBox.SetCustomerManager(this,customerToSpawn);
+        
 
-        customers[customerToSpawn].GetComponent<WagonMan>().deliveryBox.SetCustomerManager(this);
 
-        Invoke("SpawnCustomer", timerToNextCustomer);
+        Invoke(nameof(SpawnCustomer), timerToNextCustomer);
         return;
     }
 
@@ -96,24 +97,24 @@ public class CustomerManager : MonoBehaviour
         int customerIndex = customers.IndexOf(customer);
         int customerSpawnPoint = spawnedCustomers[customerIndex];
         activeSpawnPoints[customerSpawnPoint] = false;
-        totalScore += boxScore;
+        _totalScore += boxScore;
 
         deliveryPoint.DestroyFromPallet(customer.GetComponent<WagonMan>().deliveryBox.transform);
 
-        customer.SetActive(false);
-        customersLeft--;
+        customer.gameObject.SetActive(false);
+        _customersLeft--;
 
-        if (customersLeft <= 0)
+        if (_customersLeft <= 0)
         {
-            int finalScore = Mathf.RoundToInt((float) totalScore / customers.Count);
-            AlertMessageManager.Instance.SpawnAlertMessage("Fim do prototipo.", MessageType.Alert);
-            AlertMessageManager.Instance.SpawnAlertMessage($"Pontua��o: {finalScore}%", MessageType.Alert);
+            //TODO: Função de calcular a pontuação final
+            int finalScore = Mathf.RoundToInt((float) _totalScore / customers.Count);
+            // AlertMessageManager.Instance.SpawnAlertMessage("Fim do prototipo.", MessageType.Alert);
+            AlertMessageManager.Instance.SpawnAlertMessage($"Pontuação: {finalScore}%", MessageType.Alert);
+            //TODO:  Avisar pro game manager que foi finalizado
         }
         else
         {
-            Invoke("SpawnCustomer", timerToFirstCustomer);
+            Invoke(nameof(SpawnCustomer), timerToFirstCustomer);
         }
-
-        //  Avisar pro game manager que foi finalizado
     }
 }

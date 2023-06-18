@@ -105,7 +105,7 @@ MonoBehaviour:
   baseItem: {fileID: 11400000, guid: 0d0465b76452fbf4ab818d91e73c0214, type: 2}
   soundIn: {fileID: 8300000, guid: 2a209e211e160554da4f5d48a0e5db83, type: 3}
   soundOut: {fileID: 8300000, guid: 2a209e211e160554da4f5d48a0e5db83, type: 3}
-  craftSound: {fileID: 8300000, guid: e870dbe6400ea084e86db0d12a68d12e, type: 3}
+  craftSound: {fileID: 8300000, guid: 2a209e211e160554da4f5d48a0e5db83, type: 3}
 --- !u!82 &6352795852649810258
 AudioSource:
   m_ObjectHideFlags: 0
@@ -115,7 +115,8 @@ AudioSource:
   m_GameObject: {fileID: 4772609299402988418}
   m_Enabled: 1
   serializedVersion: 4
-  OutputAudioMixerGroup: {fileID: 0}
+  OutputAudioMixerGroup: {fileID: -8866275919079790963, guid: 0d9ea00128b942845a8d377ddd422620,
+    type: 2}
   m_audioClip: {fileID: 8300000, guid: 2beec15d9d372f84d9f0236d9ec19282, type: 3}
   m_PlayOnAwake: 1
   m_Volume: 1
