@@ -145,7 +145,7 @@ Transform:
   - {fileID: 2343298898297369364}
   - {fileID: 1403456392219601971}
   m_Father: {fileID: 0}
-  m_RootOrder: 6
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!143 &2343298898952548342
 CharacterController:
@@ -389,11 +389,31 @@ PrefabInstance:
       propertyPath: m_LocalRotation.z
       value: 0.0036184993
       objectReference: {fileID: 0}
+    - target: {fileID: -7823293702887809713, guid: 89f818e1e63effb41a978399daceaa5f,
+        type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 4f9ea9ced25461446a1a8d6eb6db9b16, type: 2}
+    - target: {fileID: -2843909369972686622, guid: 89f818e1e63effb41a978399daceaa5f,
+        type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 1ac59ba7e2d0a2d428ba9b94c28fa280, type: 2}
     - target: {fileID: 919132149155446097, guid: 89f818e1e63effb41a978399daceaa5f,
         type: 3}
       propertyPath: m_Name
       value: Player_3
       objectReference: {fileID: 0}
+    - target: {fileID: 1287542132067729854, guid: 89f818e1e63effb41a978399daceaa5f,
+        type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 4f9ea9ced25461446a1a8d6eb6db9b16, type: 2}
+    - target: {fileID: 2321523695958950486, guid: 89f818e1e63effb41a978399daceaa5f,
+        type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 4f9ea9ced25461446a1a8d6eb6db9b16, type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
