@@ -20,6 +20,7 @@ namespace Oversmith.Scripts.UI.Managers
         [SerializeField] private GameObject _mainMenuCamera;
         [SerializeField] private GameObject _characterSelectCamera;
         [SerializeField] private GameObject _characterSelectUI;
+        [SerializeField] private GameObject _creditsCamera;
 
         [SerializeField] private InputReader _inputReader = default;
         [Header("Broadcasting on")]
@@ -62,12 +63,16 @@ namespace Oversmith.Scripts.UI.Managers
         #region Credits
         public void OpenCreditsScreen()
         {
+            _mainMenuCamera.SetActive(false);
+            _creditsCamera.SetActive(true);
             _creditsPanel.gameObject.SetActive(true);
             _mainMenuPanel.gameObject.SetActive(false);
             _creditsPanel.OnCloseCredits += CloseCreditsScreen;
         }
         public void CloseCreditsScreen()
         {
+            _creditsCamera.SetActive(false);
+            _mainMenuCamera.SetActive(true);
             _creditsPanel.OnCloseCredits -= CloseCreditsScreen;
             _creditsPanel.gameObject.SetActive(false);
             _mainMenuPanel.SetMenuScreen(_hasSaveData);
