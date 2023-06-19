@@ -9,6 +9,7 @@ namespace Oversmith.Scripts.SceneManagement.ScriptableObjects
     {
         public GameSceneType sceneType;
         public AssetReference sceneReference;
+        public GameSceneSO nextScene;
     }
 
     public enum GameSceneType

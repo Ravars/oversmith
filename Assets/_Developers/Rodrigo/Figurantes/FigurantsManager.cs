@@ -19,10 +19,11 @@ namespace Oversmith.Scripts.Figurants
 
         public void SetAgent (Figurant agent)
         {
-            int target;
-            target = Random.Range(0, points.Count);
+            if (agent == null) return;
+            var target = Random.Range(0, points.Count-1);
             agent.transform.position = points[target].position;
-            target = Random.Range(0, points.Count);
+            target = Random.Range(0, points.Count-1);
+            
             agent.SetDestination(points[target].position);
         }
     }

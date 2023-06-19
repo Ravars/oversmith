@@ -23,31 +23,55 @@ namespace Oversmith.Scripts.Managers
         [SerializeField] private UIPause pauseScreen;
         [SerializeField] private UISettingsController _settingScreen = default;
         [SerializeField] private UIPopup _popupPanel = default;
+        [SerializeField] private UIEndGame _endGameComponent = default;
 
         [Header("Listening on")] 
         [SerializeField] private VoidEventChannelSO _onSceneReady = default;
+        [SerializeField] private IntEventChannelSO _onLevelCompleted = default;
 
         [Header("Broadcasting on ")]
         [SerializeField] private LoadEventChannelSO _loadMenuEvent = default;
+        [SerializeField] private LoadEventChannelSO _loadNextLevel = default;
 
         private void OnEnable()
         {
             Debug.Log("UI Manager OnEnable");
             _onSceneReady.OnEventRaised += ResetUI;
+            _onLevelCompleted.OnEventRaised += OpenEndGameScreen;
             _inputReader.MenuPauseEvent += OpenUIPause;
 
+        }
+
+        private void OpenEndGameScreen(int finalScore)
+        {
+            ResetUI();
+            _endGameComponent.Setup(finalScore);
+            _endGameComponent.Continued += EndGameComponentOnContinued;
+            _endGameComponent.gameObject.SetActive(true);
+        }
+        
+
+        private void EndGameComponentOnContinued()
+        {
+            _endGameComponent.Continued -= EndGameComponentOnContinued;
+            if (GameManager.Instance._currentSceneSo.sceneType == GameSceneType.Gameplay && GameManager.Instance._currentSceneSo.nextScene != null)
+            {
+                _loadNextLevel.RaiseEvent(GameManager.Instance._currentSceneSo.nextScene,true);
+            }
+            // _onScreenEndGameClosed.RaiseEvent();
         }
 
         private void OnDisable()
         {
             _onSceneReady.OnEventRaised -= ResetUI;
+            _onLevelCompleted.OnEventRaised -= OpenEndGameScreen;
             _inputReader.MenuPauseEvent -= OpenUIPause;
         }
 
 
         private void ResetUI()
         {
-            // _dialogueController.gameObject.SetActive(false);
+            _inputReader.EnableMenuInput();
             
         }
 

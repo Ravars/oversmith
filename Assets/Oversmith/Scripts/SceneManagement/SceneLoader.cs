@@ -39,7 +39,7 @@ namespace Oversmith.Scripts.SceneManagement
             loadLocation.OnLoadingRequested += LoadLocation;
             loadMenu.OnLoadingRequested += LoadMenu;
         }
-
+        
         private void OnDisable()
         {
             loadLocation.OnLoadingRequested -= LoadLocation;

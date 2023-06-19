@@ -23,6 +23,7 @@ public class CustomerManager : MonoBehaviour
     private int _totalScore;
     [Header("Scene Ready Event")] 
     [SerializeField] private VoidEventChannelSO _onSceneReady;
+    [SerializeField] private IntEventChannelSO _onLevelCompleted;
     
     private void OnEnable()
     {
@@ -110,6 +111,7 @@ public class CustomerManager : MonoBehaviour
             int finalScore = Mathf.RoundToInt((float) _totalScore / customers.Count);
             // AlertMessageManager.Instance.SpawnAlertMessage("Fim do prototipo.", MessageType.Alert);
             AlertMessageManager.Instance.SpawnAlertMessage($"Pontuação: {finalScore}%", MessageType.Alert);
+            _onLevelCompleted.RaiseEvent(finalScore);
             //TODO:  Avisar pro game manager que foi finalizado
         }
         else
