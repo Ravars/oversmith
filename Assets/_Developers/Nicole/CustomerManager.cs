@@ -108,7 +108,7 @@ public class CustomerManager : MonoBehaviour
         if (_customersLeft <= 0)
         {
             //TODO: Função de calcular a pontuação final
-            int finalScore = Mathf.RoundToInt((float) _totalScore / customers.Count);
+            int finalScore = _totalScore > 0 ? Mathf.RoundToInt((float) _totalScore / customers.Count): 0;
             // AlertMessageManager.Instance.SpawnAlertMessage("Fim do prototipo.", MessageType.Alert);
             AlertMessageManager.Instance.SpawnAlertMessage($"Pontuação: {finalScore}%", MessageType.Alert);
             _onLevelCompleted.RaiseEvent(finalScore);

@@ -24,6 +24,7 @@ namespace Oversmith.Scripts.Managers
         [SerializeField] private UISettingsController _settingScreen = default;
         [SerializeField] private UIPopup _popupPanel = default;
         [SerializeField] private UIEndGame _endGameComponent = default;
+        [SerializeField] private HudController inGameComponent = default;
 
         [Header("Listening on")] 
         [SerializeField] private VoidEventChannelSO _onSceneReady = default;
@@ -45,6 +46,7 @@ namespace Oversmith.Scripts.Managers
         private void OpenEndGameScreen(int finalScore)
         {
             ResetUI();
+            inGameComponent.gameObject.SetActive(false);
             _endGameComponent.Setup(finalScore);
             _endGameComponent.Continued += EndGameComponentOnContinued;
             _endGameComponent.gameObject.SetActive(true);
@@ -54,8 +56,9 @@ namespace Oversmith.Scripts.Managers
         private void EndGameComponentOnContinued()
         {
             _endGameComponent.Continued -= EndGameComponentOnContinued;
-            if (GameManager.Instance._currentSceneSo.sceneType == GameSceneType.Gameplay && GameManager.Instance._currentSceneSo.nextScene != null)
+            if (GameManager.Instance._currentSceneSo.sceneType == GameSceneType.Location && GameManager.Instance._currentSceneSo.nextScene != null)
             {
+                _endGameComponent.gameObject.SetActive(false);
                 _loadNextLevel.RaiseEvent(GameManager.Instance._currentSceneSo.nextScene,true);
             }
             // _onScreenEndGameClosed.RaiseEvent();
@@ -72,7 +75,7 @@ namespace Oversmith.Scripts.Managers
         private void ResetUI()
         {
             _inputReader.EnableMenuInput();
-            
+            inGameComponent.gameObject.SetActive(true);
         }
 
 
@@ -86,7 +89,7 @@ namespace Oversmith.Scripts.Managers
             pauseScreen.BackToMainRequested += ShowBackToMenuConfirmationPopup;//once the UI Pause popup is open, listen to back to menu button
             pauseScreen.Resumed += CloseUIPause;//once the UI Pause popup is open, listen to unpause event
 
-            
+            inGameComponent.gameObject.SetActive(false);
             pauseScreen.gameObject.SetActive(true);
 
             _inputReader.EnableMenuInput();
@@ -104,6 +107,7 @@ namespace Oversmith.Scripts.Managers
             pauseScreen.Resumed -= CloseUIPause;//once the UI Pause popup is open, listen to unpause event
 
             pauseScreen.gameObject.SetActive(false);
+            inGameComponent.gameObject.SetActive(true);
 
             _gameStateManager.ResetToPreviousGameState();
 		

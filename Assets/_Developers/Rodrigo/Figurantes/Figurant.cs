@@ -40,8 +40,8 @@ namespace Oversmith.Scripts.Figurants
                 bb = agent.SetDestination(destination);
                 timeMoving = 0;
                 isMoving = true;
+                agent.speed = Random.Range(3f, 5f);
             }
-            agent.speed = Random.Range(3f, 5f);
             return bb;
         }
 

@@ -300,9 +300,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6637a99f0a4243a5b11e90f30c725637, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  titleText: {fileID: 0}
+  titleText: {fileID: 5577312505712564764}
   descriptionText: {fileID: 3019883572569577967}
-  buttonClose: {fileID: 0}
+  buttonClose: {fileID: 1199066607925243661}
   popupButton1: {fileID: 4286355365978899245}
   popupButton2: {fileID: 5192973147904614523}
   _inputReader: {fileID: 11400000, guid: 4fdb545f14be303468b5a23fe102e2e5, type: 2}
@@ -776,6 +776,7 @@ GameObject:
   - component: {fileID: 4231175078761276220}
   - component: {fileID: 6206670415132115740}
   - component: {fileID: 5195316267856475746}
+  - component: {fileID: 5577312505712564764}
   m_Layer: 5
   m_Name: PopUpTituloJ
   m_TagString: Untagged
@@ -901,6 +902,34 @@ MonoBehaviour:
   m_hasFontAssetChanged: 0
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
+--- !u!114 &5577312505712564764
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8233872841720511352}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 56eb0353ae6e5124bb35b17aff880f16, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_StringReference:
+    m_TableReference:
+      m_TableCollectionName: 
+    m_TableEntryReference:
+      m_KeyId: 0
+      m_Key: 
+    m_FallbackState: 0
+    m_WaitForCompletion: 0
+    m_LocalVariables: []
+  m_FormatArguments: []
+  m_UpdateString:
+    m_PersistentCalls:
+      m_Calls: []
+  references:
+    version: 2
+    RefIds: []
 --- !u!1001 &3019883572213212249
 PrefabInstance:
   m_ObjectHideFlags: 0
