@@ -22,6 +22,10 @@ namespace Oversmith.Scripts.UI.Managers
         [SerializeField] private GameObject _characterSelectUI;
         [SerializeField] private GameObject _creditsCamera;
 
+        //REMOVER
+        [SerializeField] private Transform _characterToRotate;
+        [SerializeField] private Transform _characterRotation;
+
         [SerializeField] private InputReader _inputReader = default;
         [Header("Broadcasting on")]
         [SerializeField] private VoidEventChannelSO _startNewGameEvent = default;
@@ -81,6 +85,7 @@ namespace Oversmith.Scripts.UI.Managers
 
         public void OpenCharacterSelect()
         {
+            _characterToRotate.rotation = _characterRotation.rotation;
             _mainMenuCamera.SetActive(false);
             _characterSelectCamera.SetActive(true);
             _characterSelectUI.SetActive(true);
