@@ -79,8 +79,8 @@ namespace Oversmith.Scripts.Systems.Settings
         public void Setup(int musicVolume, int sfxVolume, int masterVolume)
         {
             _masterVolume = masterVolume;
-            _musicVolume = sfxVolume;
-            _sfxVolume = musicVolume;
+            _musicVolume = musicVolume;
+            _sfxVolume = sfxVolume;
 
             _masterVolumeSaved = _masterVolume;
             _musicVolumeSaved = _musicVolume;

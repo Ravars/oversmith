@@ -15,6 +15,7 @@ namespace Oversmith.Scripts.SavingSystem
         public int sfxVolume = default;
         public int resolutionsIndex = default;
         public int antiAliasingIndex = default;
+        public int graphicsQuality = default;
         public bool isFullscreen = default;
         public Locale currentLocale = default;
 
@@ -26,6 +27,7 @@ namespace Oversmith.Scripts.SavingSystem
             sfxVolume = settingsSo.SfxVolume;
             resolutionsIndex = settingsSo.ResolutionsIndex;
             antiAliasingIndex = settingsSo.AntiAliasingIndex;
+            graphicsQuality = settingsSo.GraphicsQuality;
             isFullscreen = settingsSo.IsFullscreen;
             currentLocale = settingsSo.CurrentLocale;
         }

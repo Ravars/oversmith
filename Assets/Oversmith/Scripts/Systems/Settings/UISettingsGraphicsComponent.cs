@@ -8,11 +8,21 @@ using UnityEngine.Rendering.Universal;
 
 namespace Oversmith.Scripts.Systems.Settings
 {
+    struct GraphicsSettings
+    {
+        public int Resolution;
+        public int AntiAliasing;
+        public int ShadowDistance;
+        
+
+    }
+    
     public class UISettingsGraphicsComponent : MonoBehaviour
     {
         [SerializeField] private UISettingItemFiller resolutionField;
         [SerializeField] private UISettingItemFiller _fullscreenField = default;
         [SerializeField] private UISettingItemFiller _antiAliasingField = default;
+        [SerializeField] private UISettingItemFiller _graphicsQualityField = default;
         
         [SerializeField] private List<Resolution> resolutionsList;
         private Resolution _currentResolution;
@@ -21,6 +31,9 @@ namespace Oversmith.Scripts.Systems.Settings
         private bool _isFullscreen;
         private bool _savedFullscreenState;
         
+        private int _currentGraphicsQualityIndex;
+        private int _savedGraphicsQualityIndex;
+        
         private int _currentResolutionIndex = default;
         private int _savedResolutionIndex = default;
         
@@ -28,7 +41,7 @@ namespace Oversmith.Scripts.Systems.Settings
         private int _savedAntiAliasingIndex = default;
         private List<string> _currentAntiAliasingList = default;
         
-        public event UnityAction<int, int, float, bool> _save = delegate { };
+        public event UnityAction<int, int, int, bool> _save = delegate { };
         [SerializeField] private UIGenericButton _saveButton;
         [SerializeField] private UIGenericButton _resetButton;
         
@@ -40,11 +53,15 @@ namespace Oversmith.Scripts.Systems.Settings
             _fullscreenField.OnNextOption += NextFullscreenState;
             _fullscreenField.OnPreviousOption += PreviousFullscreenState;
             
-            _antiAliasingField.OnNextOption += NextAntiAliasingTier;
-            _antiAliasingField.OnPreviousOption += PreviousAntiAliasingTier;
+            // _antiAliasingField.OnNextOption += NextAntiAliasingTier;
+            // _antiAliasingField.OnPreviousOption += PreviousAntiAliasingTier;
+            
+            _graphicsQualityField.OnNextOption += NextGraphicsState;
+            _graphicsQualityField.OnPreviousOption += PreviousGraphicsState;
             
             _saveButton.Clicked += SaveSettings;
             _resetButton.Clicked += ResetSettings;
+            GetCurrentGraphicsState();
         }
 
         private void OnDisable()
@@ -71,10 +88,12 @@ namespace Oversmith.Scripts.Systems.Settings
             _currentResolution = Screen.currentResolution;
             _currentResolutionIndex = GetCurrentResolutionIndex();
             _isFullscreen = GetCurrentFullscreenState();
+            _currentGraphicsQualityIndex = GetCurrentGraphicsState();
             _currentAntiAliasingIndex = GetCurrentAntialiasing();
 
             _savedResolutionIndex = _currentResolutionIndex;
             _savedAntiAliasingIndex = _currentAntiAliasingIndex;
+            _savedGraphicsQualityIndex = _currentGraphicsQualityIndex;
             // _savedShadowDistanceTier = _currentShadowDistanceTier;
             _savedFullscreenState = _isFullscreen;
         }
@@ -85,16 +104,18 @@ namespace Oversmith.Scripts.Systems.Settings
             SetResolutionField();
             SetFullscreen();
             SetAntiAliasingField();
+            SetGraphicsField();
         }
         public void SaveSettings()
         {
             _savedResolutionIndex = _currentResolutionIndex;
             _savedAntiAliasingIndex = _currentAntiAliasingIndex;
+            _savedGraphicsQualityIndex = _currentGraphicsQualityIndex;
             // _savedShadowDistanceTier = _currentShadowDistanceTier;
             _savedFullscreenState = _isFullscreen;
             // float shadowDistance = _shadowDistanceTierList[_currentShadowDistanceTier].Distance;
             // _save.Invoke(_currentResolutionIndex, _currentAntiAliasingIndex, shadowDistance, _isFullscreen);
-            _save.Invoke(_currentResolutionIndex, _currentAntiAliasingIndex, 0, _isFullscreen);
+            _save.Invoke(_currentResolutionIndex, _currentAntiAliasingIndex, _currentGraphicsQualityIndex, _isFullscreen);
         }
         public void ResetSettings()
         {
@@ -106,6 +127,9 @@ namespace Oversmith.Scripts.Systems.Settings
             // OnShadowDistanceChange();
             _isFullscreen = _savedFullscreenState;
             OnFullscreenChange();
+
+            _currentGraphicsQualityIndex = _savedGraphicsQualityIndex;
+            OnGraphicsChange();
         }
         
         private List<string> GetDropdownData(string[] optionNames, params string[] customOptions)
@@ -243,6 +267,51 @@ namespace Oversmith.Scripts.Systems.Settings
             SetAntiAliasingField();
 
         }
+        #endregion
+
+        #region Graphics
+
+        private int GetCurrentGraphicsState()
+        {
+            return QualitySettings.GetQualityLevel();
+        }
+        private void OnGraphicsChange()
+        {
+            QualitySettings.SetQualityLevel(_currentGraphicsQualityIndex);
+            SetGraphicsField();
+        }
+        private void SetGraphicsField()
+        {
+            string qualityLevel = String.Empty;
+            switch (_currentGraphicsQualityIndex)
+            {
+                case 0:
+                    qualityLevel = "Low";
+                    break;
+                case 1:
+                    qualityLevel = "Medium";
+                    break;
+                case 2:
+                    qualityLevel = "High";
+                    break;
+            }
+            
+            _graphicsQualityField.FillSettingField_Localized(3, _currentGraphicsQualityIndex, qualityLevel);
+        }
+        private void NextGraphicsState()
+        {
+            _currentGraphicsQualityIndex++;
+            _currentGraphicsQualityIndex = Mathf.Clamp(_currentGraphicsQualityIndex, 0, 2);
+            OnGraphicsChange();
+        }
+
+        private void PreviousGraphicsState()
+        {
+            _currentGraphicsQualityIndex--;
+            _currentGraphicsQualityIndex = Mathf.Clamp(_currentGraphicsQualityIndex, 0, 2);
+            OnGraphicsChange();
+        }
+
         #endregion
     }
 }

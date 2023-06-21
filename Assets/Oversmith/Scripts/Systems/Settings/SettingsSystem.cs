@@ -2,6 +2,7 @@ using System;
 using Oversmith.Scripts.Events.ScriptableObjects;
 using Oversmith.Scripts.SavingSystem;
 using UnityEngine;
+using UnityEngine.Localization.Settings;
 
 namespace Oversmith.Scripts.Systems.Settings
 {
@@ -20,14 +21,12 @@ namespace Oversmith.Scripts.Systems.Settings
         private void Awake()
         {
             Loaded = saveSystem.LoadSaveDataFromDisk();
-            // Debug.Log("Loaded: " + Loaded);
+            Debug.Log("Loaded: " + Loaded);
             if (!Loaded)
             {
                 currentSettings.LoadDefaultSettings();
-                // currentSettings.SaveAudioSettings();
             }
             currentSettings.LoadSavedSettings(saveSystem.saveData);
-            // Debug.Log("Awake Settings system: Master: " + currentSettings.MasterVolume);
             SetCurrentSettings();
         }
 
@@ -43,10 +42,17 @@ namespace Oversmith.Scripts.Systems.Settings
 
         private void SetCurrentSettings()
         {
-            // Debug.Log("SetCurrentSettings: " + currentSettings.MasterVolume);
             masterVolumeChannel.RaiseEvent(currentSettings.MasterVolume);
             musicVolumeChannel.RaiseEvent(currentSettings.MusicVolume);
             sfxVolumeChannel.RaiseEvent(currentSettings.SfxVolume);
+            Resolution currentResolution = Screen.currentResolution; // get a default resolution in case saved resolution doesn't exist in the resolution List
+            if (currentSettings.ResolutionsIndex < Screen.resolutions.Length)
+            {
+                currentResolution = Screen.resolutions[currentSettings.ResolutionsIndex];
+            }
+            Screen.SetResolution(currentResolution.width, currentResolution.height, currentSettings.IsFullscreen);
+            QualitySettings.SetQualityLevel(currentSettings.GraphicsQuality);
+            LocalizationSettings.SelectedLocale = currentSettings.CurrentLocale;
             //TODO: Add other configs
         }
 

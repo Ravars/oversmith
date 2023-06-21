@@ -18,6 +18,7 @@ namespace Oversmith.Scripts.Systems.Settings
         //Graphics
         [SerializeField] private int resolutionsIndex = default;
         [SerializeField] private int antiAliasingIndex = default;
+        [SerializeField] private int graphicsQuality = default;
         [SerializeField] private bool isFullscreen = default;
 
         public int MasterVolume => masterVolume;
@@ -26,6 +27,7 @@ namespace Oversmith.Scripts.Systems.Settings
         public Locale CurrentLocale => currentLocale;
         public int ResolutionsIndex => resolutionsIndex;
         public int AntiAliasingIndex => antiAliasingIndex;
+        public int GraphicsQuality => graphicsQuality;
         public bool IsFullscreen => isFullscreen;
 
         public SettingsSO() { }
@@ -37,6 +39,7 @@ namespace Oversmith.Scripts.Systems.Settings
             sfxVolume = savedFile.sfxVolume;
             resolutionsIndex = savedFile.resolutionsIndex;
             antiAliasingIndex = savedFile.antiAliasingIndex;
+            graphicsQuality = savedFile.graphicsQuality;
             isFullscreen = savedFile.isFullscreen;
             currentLocale = savedFile.currentLocale;
         }
@@ -44,13 +47,15 @@ namespace Oversmith.Scripts.Systems.Settings
         public void LoadDefaultSettings()
         {
             Debug.Log("Load default");
-            // masterVolume = 50;
-            // musicVolume = 100;
-            // sfxVolume = 100;
-            
-            
-            
-            
+            masterVolume = 8;
+            musicVolume = 8;
+            sfxVolume = 10;
+            graphicsQuality = 1;
+
+            if (Application.systemLanguage == SystemLanguage.Portuguese)
+            {
+                // currentLocale = 
+            }
             // widthValue = 1920;
             // heightValue = 1080;
             // displayTypeValue = "";
@@ -69,11 +74,11 @@ namespace Oversmith.Scripts.Systems.Settings
         //     WidthValue = newWidthValue;
         //     HeightValue = newHeightValue;
         // }
-        public void SaveGraphicsSettings(int newResolutionsIndex, int newAntiAliasingIndex, float newShadowDistance, bool fullscreenState)
+        public void SaveGraphicsSettings(int newResolutionsIndex, int newAntiAliasingIndex, int newGraphicsQuality, bool fullscreenState)
         {
             resolutionsIndex = newResolutionsIndex;
             antiAliasingIndex = newAntiAliasingIndex;
-            // _shadowDistance = newShadowDistance;
+            graphicsQuality = newGraphicsQuality;
             isFullscreen = fullscreenState;
         }
         public void SaveLanguageSettings(Locale local)

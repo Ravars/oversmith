@@ -21,6 +21,7 @@ namespace Oversmith.Scripts.Systems.Settings
         AntiAliasing,
         ShadowQuality,
         Volume_Master,
+        GraphicsQuality
     }
     [System.Serializable]
     public class SettingTab
@@ -44,7 +45,7 @@ namespace Oversmith.Scripts.Systems.Settings
     public class UISettingsController : MonoBehaviour
     {
         [SerializeField] private UISettingsAudioComponent audioComponent;
-        // [SerializeField] private UISettingsVideoComponent videoComponent;
+        [SerializeField] private UISettingsLanguageComponent _languageComponent;
         [SerializeField] private UISettingsGraphicsComponent _graphicsComponent;
         [SerializeField] private UISettingsTabsFiller _settingTabFiller = default;
         [SerializeField] private SettingsSO currentSetting;
@@ -58,6 +59,7 @@ namespace Oversmith.Scripts.Systems.Settings
         {
             // centralizedComponent._save += CentralizedComponentOn_save;
             audioComponent._save += SaveAudioSettings;
+            _languageComponent._save += SaveLanguageSettings;
             // videoComponent._save += VideoComponentOn_save;
             _graphicsComponent._save += SaveGraphicsSettings;
             _inputReader.MenuCloseEvent += CloseScreen;
@@ -71,23 +73,22 @@ namespace Oversmith.Scripts.Systems.Settings
         private void OnDisable()
         {
             audioComponent._save -= SaveAudioSettings;
-            // videoComponent._save -= VideoComponentOn_save;
+            _languageComponent._save -= SaveLanguageSettings;
             _graphicsComponent._save -= SaveGraphicsSettings;
             _inputReader.MenuCloseEvent -= CloseScreen;
             _inputReader.TabSwitched -= SwitchTab;
-            _settingTabFiller.ChooseTab -= OpenSetting; //TODO: Verificar
+            // _settingTabFiller.ChooseTab -= OpenSetting; //TODO: Verificar
         }
-        public void SaveGraphicsSettings(int newResolutionsIndex, int newAntiAliasingIndex, float newShadowDistance, bool fullscreenState)
+        public void SaveGraphicsSettings(int newResolutionsIndex, int newAntiAliasingIndex, int newGraphicsQuality, bool fullscreenState)
         {
-            currentSetting.SaveGraphicsSettings(newResolutionsIndex, newAntiAliasingIndex, newShadowDistance, fullscreenState);
+            currentSetting.SaveGraphicsSettings(newResolutionsIndex, newAntiAliasingIndex, newGraphicsQuality, fullscreenState);
             saveSettingsEvent.RaiseEvent();
         }
-
-        // private void VideoComponentOn_save(string displayTypeValue, int widthValue, int heightValue)
-        // {
-        //     currentSetting.SaveVideoSettings(displayTypeValue, widthValue, heightValue);
-        //     saveSettingsEvent.RaiseEvent();
-        // }
+        public void SaveLanguageSettings(Locale local)
+        {
+            currentSetting.SaveLanguageSettings(local);
+            saveSettingsEvent.RaiseEvent();
+        }
 
         private void SaveAudioSettings(int masterVolume, int musicVolume, int sfxVolume)
         {
@@ -130,7 +131,7 @@ namespace Oversmith.Scripts.Systems.Settings
             {
                 case SettingsType.Language:
                     currentSetting.SaveLanguageSettings(currentSetting.CurrentLocale);
-                    break;
+                    break;  
                 case SettingsType.Video:
                     _graphicsComponent.Setup();
                     break;
@@ -141,7 +142,7 @@ namespace Oversmith.Scripts.Systems.Settings
                     break;
             }
 
-            // _languageComponent.gameObject.SetActive(settingType == SettingsType.Language);
+            _languageComponent.gameObject.SetActive(settingType == SettingsType.Language);
             _graphicsComponent.gameObject.SetActive((settingType == SettingsType.Video));
             audioComponent.gameObject.SetActive(settingType == SettingsType.Audio);
             _settingTabFiller.SelectTab(settingType);

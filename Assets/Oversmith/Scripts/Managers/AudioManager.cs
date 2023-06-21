@@ -40,7 +40,7 @@ namespace Oversmith.Scripts.Managers
             sfxVolumeChannel.OnEventRaised += SetSfxVolume;
         }
 
-        private void OnDisable()
+        private void OnDestroy()
         {
             masterVolumeChannel.OnEventRaised -= SetMasterVolume;
             musicVolumeChannel.OnEventRaised -= SetMusicVolume;
