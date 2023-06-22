@@ -1,9 +1,8 @@
-using System.Collections;
-using System.Collections.Generic;
+using MadSmith.Scripts.Menu.Item_Selector;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace MadSmith.Scripts.Menu
+namespace MadSmith.Scripts.Menu.Old.MenuItem
 {
     public class MenuItemMenuUI : MonoBehaviour
     {

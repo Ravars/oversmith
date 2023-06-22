@@ -1,7 +1,9 @@
 ﻿using System;
+using MadSmith.Scripts.CraftingTables;
+using MadSmith.Scripts.Items;
 using UnityEngine;
 
-namespace _Developers.Vitor
+namespace MadSmith.Scripts.Interaction
 {
     public class CraftingInteractionHandler : MonoBehaviour
     {

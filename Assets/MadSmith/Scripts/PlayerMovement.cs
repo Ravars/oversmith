@@ -1,102 +1,101 @@
-using System;
-using _Developers.Vitor;
-using MadSmith.Scripts;
 using System.Collections;
 using MadSmith.Scripts.Input;
-using Test1.Scripts.Prototype;
+using MadSmith.Scripts.Interaction;
 using UnityEngine;
-using UnityEngine.InputSystem;
 
-public class PlayerMovement : MonoBehaviour
+namespace MadSmith.Scripts
 {
-    [SerializeField] private float moveSpeed = 5f;
-    [SerializeField] private float dashSpeed = 20f;
-    [SerializeField] private float dashTime = .2f;
-    [SerializeField] private float dashCooldown = 1f;
-    private CharacterController _cc;
-    private Quaternion _targetRotation;
-    public float smoothing = 5f;
-    private Vector2 _previousInput;
-    private Vector3 _dashDirection;
-    private bool _isDashing = false;
-    private bool _canDash = true;
-    [SerializeField] private Animator _animator; // temporary
-    [SerializeField] private PlayerInteractions _playerInteractions; // temporary
-    [SerializeField] private InputReader _inputReader;
-    void Start()
+    public class PlayerMovement : MonoBehaviour
     {
-        _cc = GetComponent<CharacterController>(); // Get the character controller component
-    }
-
-    private void OnEnable()
-    {
-        _inputReader.MoveEvent += SetMovement;
-        _inputReader.MoveCanceledEvent += ResetMovement;
-        _inputReader.DashEvent += DashOnPerformed;
-    }
-
-    private void OnDisable()
-    {
-        _inputReader.MoveEvent -= SetMovement;
-        _inputReader.MoveCanceledEvent -= ResetMovement;
-        _inputReader.DashEvent -= DashOnPerformed;
-    }
-
-    private void SetMovement(Vector2 movement)
-    {
-        _previousInput = movement;
-    }
-
-    private void ResetMovement()
-    {
-        _previousInput = Vector2.zero;
-    }
-
-    private void DashOnPerformed()
-    {
-        if (!_canDash || _dashDirection == Vector3.zero)
-            return;
-
-        _canDash = false;
-        _isDashing = true;
-        transform.rotation = Quaternion.LookRotation(_dashDirection);
-        StartCoroutine(DashTimer(dashTime));
-    }
-
-    void Update()
-    {
-        if (_isDashing)
+        [SerializeField] private float moveSpeed = 5f;
+        [SerializeField] private float dashSpeed = 20f;
+        [SerializeField] private float dashTime = .2f;
+        [SerializeField] private float dashCooldown = 1f;
+        private CharacterController _cc;
+        private Quaternion _targetRotation;
+        public float smoothing = 5f;
+        private Vector2 _previousInput;
+        private Vector3 _dashDirection;
+        private bool _isDashing = false;
+        private bool _canDash = true;
+        [SerializeField] private Animator _animator; // temporary
+        [SerializeField] private PlayerInteractions _playerInteractions; // temporary
+        [SerializeField] private InputReader _inputReader;
+        void Start()
         {
-            _cc.SimpleMove(_dashDirection * dashSpeed);
-            //_animator.SetBool("Dash", true);
-            return;
+            _cc = GetComponent<CharacterController>(); // Get the character controller component
         }
-        
-        Vector3 movementDirection = new Vector3(_previousInput.x, 0, _previousInput.y);
-        _dashDirection = movementDirection;
-        if (movementDirection.magnitude > 0.01f)
+
+        private void OnEnable()
         {
-            _targetRotation = Quaternion.LookRotation(movementDirection);
+            _inputReader.MoveEvent += SetMovement;
+            _inputReader.MoveCanceledEvent += ResetMovement;
+            _inputReader.DashEvent += DashOnPerformed;
         }
-        transform.rotation = Quaternion.Slerp(transform.rotation, _targetRotation, Time.deltaTime * smoothing);
-        movementDirection.Normalize();
+
+        private void OnDisable()
+        {
+            _inputReader.MoveEvent -= SetMovement;
+            _inputReader.MoveCanceledEvent -= ResetMovement;
+            _inputReader.DashEvent -= DashOnPerformed;
+        }
+
+        private void SetMovement(Vector2 movement)
+        {
+            _previousInput = movement;
+        }
+
+        private void ResetMovement()
+        {
+            _previousInput = Vector2.zero;
+        }
+
+        private void DashOnPerformed()
+        {
+            if (!_canDash || _dashDirection == Vector3.zero)
+                return;
+
+            _canDash = false;
+            _isDashing = true;
+            transform.rotation = Quaternion.LookRotation(_dashDirection);
+            StartCoroutine(DashTimer(dashTime));
+        }
+
+        void Update()
+        {
+            if (_isDashing)
+            {
+                _cc.SimpleMove(_dashDirection * dashSpeed);
+                //_animator.SetBool("Dash", true);
+                return;
+            }
         
-        _cc.SimpleMove(movementDirection * moveSpeed);
+            Vector3 movementDirection = new Vector3(_previousInput.x, 0, _previousInput.y);
+            _dashDirection = movementDirection;
+            if (movementDirection.magnitude > 0.01f)
+            {
+                _targetRotation = Quaternion.LookRotation(movementDirection);
+            }
+            transform.rotation = Quaternion.Slerp(transform.rotation, _targetRotation, Time.deltaTime * smoothing);
+            movementDirection.Normalize();
+        
+            _cc.SimpleMove(movementDirection * moveSpeed);
 
-        _animator.SetBool("Run",movementDirection.magnitude > 0f);
-        //_animator.SetBool("Carry",!ReferenceEquals(_playerInteractions.ItemScript,null));
-    }
+            _animator.SetBool("Run",movementDirection.magnitude > 0f);
+            //_animator.SetBool("Carry",!ReferenceEquals(_playerInteractions.ItemScript,null));
+        }
 
-    IEnumerator DashTimer(float dashTimer)
-    {
-        yield return new WaitForSeconds(dashTimer);
-        _isDashing = false;
-        StartCoroutine(DashCooldownTimer(dashCooldown));
-    }
+        IEnumerator DashTimer(float dashTimer)
+        {
+            yield return new WaitForSeconds(dashTimer);
+            _isDashing = false;
+            StartCoroutine(DashCooldownTimer(dashCooldown));
+        }
 
-    IEnumerator DashCooldownTimer(float cooldown)
-    {
-        yield return new WaitForSeconds(cooldown);
-        _canDash = true;
+        IEnumerator DashCooldownTimer(float cooldown)
+        {
+            yield return new WaitForSeconds(cooldown);
+            _canDash = true;
+        }
     }
 }

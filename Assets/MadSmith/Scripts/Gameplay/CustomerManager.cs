@@ -1,5 +1,5 @@
 using System.Collections.Generic;
-using _Developers.Vitor;
+using MadSmith.Scripts.CraftingTables;
 using MadSmith.Scripts.Events.ScriptableObjects;
 using UnityEngine;
 

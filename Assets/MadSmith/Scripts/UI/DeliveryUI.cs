@@ -1,5 +1,4 @@
 using System;
-using _Developers.Vitor;
 using MadSmith.Scripts.Input;
 using MadSmith.Scripts.Level;
 using MadSmith.Scripts.Utils;

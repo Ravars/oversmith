@@ -2,7 +2,7 @@ using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.UI;
 
-namespace MadSmith.Scripts.Menu
+namespace MadSmith.Scripts.Menu.Old
 {
     [AddComponentMenu("Menu/Canvas/Main Menu")]
     public class MainMenu : MenuCanvas

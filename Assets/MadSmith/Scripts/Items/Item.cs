@@ -2,7 +2,7 @@ using System;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace _Developers.Vitor
+namespace MadSmith.Scripts.Items
 {
     public enum SoundType
     {

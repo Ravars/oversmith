@@ -1,6 +1,7 @@
+using MadSmith.Scripts.Interaction;
 using UnityEngine;
 
-namespace _Developers.Vitor
+namespace MadSmith.Scripts.CraftingTables
 {
     [RequireComponent(typeof(InteractableHolder),typeof(Table))]
     public class Sharpener : CraftingTable

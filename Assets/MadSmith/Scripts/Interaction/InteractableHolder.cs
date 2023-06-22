@@ -1,9 +1,8 @@
-﻿using MadSmith.Scripts.Gameplay;
-using MadSmith.Scripts.Interaction;
-using MadSmith.Scripts.Level;
+﻿using MadSmith.Scripts.CraftingTables;
+using MadSmith.Scripts.Gameplay;
 using UnityEngine;
 
-namespace _Developers.Vitor
+namespace MadSmith.Scripts.Interaction
 {
     public class InteractableHolder : MonoBehaviour
     {

@@ -1,6 +1,7 @@
-﻿using UnityEngine;
+﻿using MadSmith.Scripts.Items;
+using UnityEngine;
 
-namespace _Developers.Vitor
+namespace MadSmith.Scripts.CraftingTables
 {
     public class Dispenser : MonoBehaviour
     {

@@ -1,8 +1,6 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
-namespace MadSmith.Scripts.Menu
+namespace MadSmith.Scripts.Menu.Item_Selector
 {
     public class PreferredSizeSetter : MonoBehaviour
     {

@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace _Developers.Vitor.Scripts.Interaction
+namespace MadSmith.Scripts.Interaction
 {
     public class ProcessTimeHolder : MonoBehaviour
     {

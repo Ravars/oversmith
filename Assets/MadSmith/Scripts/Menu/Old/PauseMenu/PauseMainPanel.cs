@@ -1,7 +1,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace MadSmith.Scripts.Menu
+namespace MadSmith.Scripts.Menu.Old.PauseMenu
 {
     [RequireComponent(typeof(FadeUI))]
     public class PauseMainPanel : MonoBehaviour

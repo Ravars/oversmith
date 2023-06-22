@@ -1,9 +1,8 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
-using _Developers.Vitor;
 using UnityEngine;
 
-namespace Test1.Scripts.Prototype
+namespace MadSmith.Scripts.Interaction
 {
     public class PlayerInteractableHandler : MonoBehaviour
     {
