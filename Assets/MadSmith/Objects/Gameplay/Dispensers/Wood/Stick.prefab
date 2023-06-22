@@ -132,6 +132,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
+  - {fileID: 9062329060300816107}
   - {fileID: 7621503809680912674}
   m_Father: {fileID: 4757679033039885840}
   m_RootOrder: -1
@@ -214,6 +215,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: cabo-madeira
       objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: ada9b3b21be0b514babebaeed8a3e208,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -224,4 +230,98 @@ Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: ada9b3b21be0b514babebaeed8a3e208,
     type: 3}
   m_PrefabInstance: {fileID: 7948778751090513609}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1001 &8711069612180393356
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 8736533315437164002}
+    m_Modifications:
+    - target: {fileID: 369352261024592743, guid: 994903642b84b2a4f90f72bd8bf06d60,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: -1
+      objectReference: {fileID: 0}
+    - target: {fileID: 369352261024592743, guid: 994903642b84b2a4f90f72bd8bf06d60,
+        type: 3}
+      propertyPath: m_LocalScale.x
+      value: 0.4363528
+      objectReference: {fileID: 0}
+    - target: {fileID: 369352261024592743, guid: 994903642b84b2a4f90f72bd8bf06d60,
+        type: 3}
+      propertyPath: m_LocalScale.y
+      value: 0.4363528
+      objectReference: {fileID: 0}
+    - target: {fileID: 369352261024592743, guid: 994903642b84b2a4f90f72bd8bf06d60,
+        type: 3}
+      propertyPath: m_LocalScale.z
+      value: 0.4363528
+      objectReference: {fileID: 0}
+    - target: {fileID: 369352261024592743, guid: 994903642b84b2a4f90f72bd8bf06d60,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0.014
+      objectReference: {fileID: 0}
+    - target: {fileID: 369352261024592743, guid: 994903642b84b2a4f90f72bd8bf06d60,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0.02
+      objectReference: {fileID: 0}
+    - target: {fileID: 369352261024592743, guid: 994903642b84b2a4f90f72bd8bf06d60,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0.56199
+      objectReference: {fileID: 0}
+    - target: {fileID: 369352261024592743, guid: 994903642b84b2a4f90f72bd8bf06d60,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 369352261024592743, guid: 994903642b84b2a4f90f72bd8bf06d60,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 6.123233e-17
+      objectReference: {fileID: 0}
+    - target: {fileID: 369352261024592743, guid: 994903642b84b2a4f90f72bd8bf06d60,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0.00000019470718
+      objectReference: {fileID: 0}
+    - target: {fileID: 369352261024592743, guid: 994903642b84b2a4f90f72bd8bf06d60,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 6.123235e-17
+      objectReference: {fileID: 0}
+    - target: {fileID: 369352261024592743, guid: 994903642b84b2a4f90f72bd8bf06d60,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 369352261024592743, guid: 994903642b84b2a4f90f72bd8bf06d60,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 369352261024592743, guid: 994903642b84b2a4f90f72bd8bf06d60,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3183264644044892474, guid: 994903642b84b2a4f90f72bd8bf06d60,
+        type: 3}
+      propertyPath: m_Name
+      value: madeira-coletavel
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 994903642b84b2a4f90f72bd8bf06d60, type: 3}
+--- !u!4 &9062329060300816107 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 369352261024592743, guid: 994903642b84b2a4f90f72bd8bf06d60,
+    type: 3}
+  m_PrefabInstance: {fileID: 8711069612180393356}
   m_PrefabAsset: {fileID: 0}

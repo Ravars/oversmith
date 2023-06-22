@@ -11,8 +11,6 @@ GameObject:
   - component: {fileID: 4169168387777590}
   - component: {fileID: 33035324276429660}
   - component: {fileID: 23594291711623232}
-  - component: {fileID: 64351331449358260}
-  - component: {fileID: 205548538367759612}
   - component: {fileID: 136328532474461060}
   m_Layer: 0
   m_Name: Mobile_forestpack_tree_1_leaf_1
@@ -86,48 +84,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!64 &64351331449358260
-MeshCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1490343738201892}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 0
-  serializedVersion: 5
-  m_Convex: 0
-  m_CookingOptions: 30
-  m_Mesh: {fileID: 4300000, guid: f160a5f4bf877fe48b1233cfe8c39308, type: 3}
---- !u!205 &205548538367759612
-LODGroup:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1490343738201892}
-  serializedVersion: 2
-  m_LocalReferencePoint: {x: -0.010944158, y: 0.06055177, z: -0.0070296526}
-  m_Size: 0.32711244
-  m_FadeMode: 0
-  m_AnimateCrossFading: 0
-  m_LastLODIsBillboard: 0
-  m_LODs:
-  - screenRelativeHeight: 0.015112007
-    fadeTransitionWidth: 0
-    renderers:
-    - renderer: {fileID: 23554772125854770, guid: b2e600f943c41f34a89a2843ea98a353,
-        type: 3}
-  m_Enabled: 1
 --- !u!136 &136328532474461060
 CapsuleCollider:
   m_ObjectHideFlags: 0
