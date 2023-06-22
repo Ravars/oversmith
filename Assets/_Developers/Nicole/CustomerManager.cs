@@ -16,11 +16,16 @@ public class CustomerManager : MonoBehaviour
 
     public Pallet deliveryPoint;
 
+    public int requiredBonusPercentage = 5;
+
     private List<int> spawnedCustomers = new List<int> ();
     private List<bool> activeSpawnPoints = new List<bool>();
 
+    
+
     private int _customersLeft;
     private int _totalScore;
+    private float _timeRatiosSum;
     [Header("Scene Ready Event")] 
     [SerializeField] private VoidEventChannelSO _onSceneReady;
     [SerializeField] private IntEventChannelSO _onLevelCompleted;
@@ -93,11 +98,12 @@ public class CustomerManager : MonoBehaviour
         return;
     }
 
-    public void DisableCustomer(GameObject customer, int boxScore)
+    public void DisableCustomer(GameObject customer, int boxScore, float timeRatio)
     {
         int customerIndex = customers.IndexOf(customer);
         int customerSpawnPoint = spawnedCustomers[customerIndex];
         activeSpawnPoints[customerSpawnPoint] = false;
+        _timeRatiosSum += timeRatio;
         _totalScore += boxScore;
 
         deliveryPoint.DestroyFromPallet(customer.GetComponent<WagonMan>().deliveryBox.transform);
@@ -108,15 +114,47 @@ public class CustomerManager : MonoBehaviour
         if (_customersLeft <= 0)
         {
             //TODO: Função de calcular a pontuação final
-            int finalScore = _totalScore > 0 ? Mathf.RoundToInt((float) _totalScore / customers.Count): 0;
+
+            char grade = GetFinalGrade();
             // AlertMessageManager.Instance.SpawnAlertMessage("Fim do prototipo.", MessageType.Alert);
-            AlertMessageManager.Instance.SpawnAlertMessage($"Pontuação: {finalScore}%", MessageType.Alert);
-            _onLevelCompleted.RaiseEvent(finalScore);
+            AlertMessageManager.Instance.SpawnAlertMessage($"Pontuação: {grade}", MessageType.Alert);
+            Debug.Log($"{(int)grade}");
+            _onLevelCompleted.RaiseEvent(grade);
             //TODO:  Avisar pro game manager que foi finalizado
         }
         else
         {
             Invoke(nameof(SpawnCustomer), timerToFirstCustomer);
+        }
+    }
+
+    private char GetFinalGrade()
+    {
+        int baseScore = _totalScore > 0 ? Mathf.RoundToInt((float)_totalScore / customers.Count) : 0;
+        baseScore -= 10;
+
+        int finalRatio = Mathf.RoundToInt((_timeRatiosSum / customers.Count) * 10); //in percentage
+        int finalScore = finalRatio + baseScore;
+
+        if (finalScore < 60)
+        {
+            return 'F';
+        }
+        else if (finalScore < 70)
+        {
+            return 'D';
+        }
+        else if (finalScore < 80)
+        {
+            return 'B';
+        }
+        else if (finalScore < 100 - requiredBonusPercentage)
+        {
+            return 'A';
+        }
+        else
+        {
+            return 'S';
         }
     }
 }
