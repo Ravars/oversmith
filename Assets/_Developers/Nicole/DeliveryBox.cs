@@ -156,12 +156,12 @@ namespace Oversmith.Scripts.Level
 
         private void FinishTimer()
         {
-            int boxScore = Mathf.RoundToInt((numOfCorrectItems / (float)totalItems) * 100);
+            int boxScore = totalItems > 0 ? Mathf.RoundToInt((numOfCorrectItems / (float)totalItems) * 100) : 0;
             Debug.Log($"{numOfCorrectItems}, {totalItems}");
             SetVisual(false);
             AlertMessageManager.Instance.SpawnAlertMessage($"O entregador foi embora com os items. Nota: {boxScore}%", MessageType.Normal);
 
-            _customerManager.DisableCustomer(wagonMan, boxScore);
+            _customerManager.DisableCustomer(wagonMan, boxScore, (1 - (currentTime/totalTime)));
             gameObject.SetActive(false);
             // Enviar para ele a lista currentItem e a Required items e deixa ele se virar
         }
