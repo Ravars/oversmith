@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Linq;
+using MadSmith.Scripts.Interaction;
+using MadSmith.Scripts.Items;
 using MadSmith.Scripts.UI;
 using UnityEngine;
 
-namespace _Developers.Vitor
+namespace MadSmith.Scripts.CraftingTables
 {
     [RequireComponent(typeof(InteractableHolder))]
     public class Table : MonoBehaviour

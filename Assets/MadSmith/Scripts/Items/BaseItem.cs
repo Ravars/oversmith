@@ -1,7 +1,7 @@
 ﻿using System;
 using UnityEngine;
 
-namespace _Developers.Vitor
+namespace MadSmith.Scripts.Items
 {
     [CreateAssetMenu(fileName = "newItem", menuName = "Items/Item")]
     public class BaseItem : ScriptableObject

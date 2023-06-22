@@ -1,7 +1,8 @@
 using System.Collections.Generic;
+using MadSmith.Scripts.Items;
 using UnityEngine;
 
-namespace _Developers.Vitor
+namespace MadSmith.Scripts.Managers
 {
     public class RecipeManager : MonoBehaviour
     {

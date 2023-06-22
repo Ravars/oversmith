@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace MadSmith.Scripts.Menu
+namespace MadSmith.Scripts.Menu.Old
 {
     ///<summary>
     /// Manage fade in/out of canvas group.

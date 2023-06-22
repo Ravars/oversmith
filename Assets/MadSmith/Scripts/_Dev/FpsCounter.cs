@@ -1,35 +1,35 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 
-public class FpsCounter : MonoBehaviour
+namespace MadSmith.Scripts._Dev
 {
-    private int lastFrameIndex;
-    private float[] frameDeltaTimeArray;
-    [SerializeField] private TextMeshProUGUI uiText;
-
-    private void Awake()
+    public class FpsCounter : MonoBehaviour
     {
-        frameDeltaTimeArray = new float[50];
-        DontDestroyOnLoad(gameObject);
-    }
+        private int lastFrameIndex;
+        private float[] frameDeltaTimeArray;
+        [SerializeField] private TextMeshProUGUI uiText;
 
-    private void Update()
-    {
-        frameDeltaTimeArray[lastFrameIndex] = Time.deltaTime;
-        lastFrameIndex = (lastFrameIndex + 1) % frameDeltaTimeArray.Length;
-        uiText.text = Mathf.RoundToInt(CalculateFPS()).ToString();
-    }
-
-    private float CalculateFPS()
-    {
-        float total = 0f;
-        foreach (var deltaTime in frameDeltaTimeArray)
+        private void Awake()
         {
-            total += deltaTime;
+            frameDeltaTimeArray = new float[50];
+            DontDestroyOnLoad(gameObject);
         }
-        return frameDeltaTimeArray.Length / total;
+
+        private void Update()
+        {
+            frameDeltaTimeArray[lastFrameIndex] = Time.deltaTime;
+            lastFrameIndex = (lastFrameIndex + 1) % frameDeltaTimeArray.Length;
+            uiText.text = Mathf.RoundToInt(CalculateFPS()).ToString();
+        }
+
+        private float CalculateFPS()
+        {
+            float total = 0f;
+            foreach (var deltaTime in frameDeltaTimeArray)
+            {
+                total += deltaTime;
+            }
+            return frameDeltaTimeArray.Length / total;
+        }
     }
 }

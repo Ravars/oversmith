@@ -1,12 +1,10 @@
-using System;
 using System.Collections.Generic;
-using MadSmith.Scripts.Multiplayer.Managers;
 using MadSmith.Scripts.Utils;
-using UnityEngine;
 using Mirror;
 using Steamworks;
+using UnityEngine;
 
-namespace MadSmith.Scripts.Multiplayer
+namespace MadSmith.Scripts.Multiplayer.Managers
 {
     public class SteamLobby : Singleton<SteamLobby>
     {
