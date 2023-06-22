@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.InputSystem;
 
-namespace Oversmith.Scripts.Menu
+namespace MadSmith.Scripts.Menu
 {
 	public class PauserPlayer : MonoBehaviour
 	{

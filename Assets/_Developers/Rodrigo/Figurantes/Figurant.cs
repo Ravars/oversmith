@@ -2,7 +2,7 @@ using UnityEngine;
 using UnityEngine.AI;
 using UnityEngine.Events;
 
-namespace Oversmith.Scripts.Figurants
+namespace MadSmith.Scripts.Figurants
 {
     [RequireComponent(typeof(NavMeshAgent))]
     public class Figurant : MonoBehaviour

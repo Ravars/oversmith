@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace Oversmith.Scripts.Figurants
+namespace MadSmith.Scripts.Figurants
 {
     public class Target : MonoBehaviour
     {

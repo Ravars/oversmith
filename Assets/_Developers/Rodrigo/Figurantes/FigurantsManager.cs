@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 
-namespace Oversmith.Scripts.Figurants
+namespace MadSmith.Scripts.Figurants
 {
     public class FigurantsManager : MonoBehaviour
     {
