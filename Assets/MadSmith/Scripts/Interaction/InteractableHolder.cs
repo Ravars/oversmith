@@ -12,6 +12,7 @@ namespace MadSmith.Scripts.Interaction
         public bool hasInteractable;
         public bool hasDelivery;
         public bool hasPallet;
+        public bool hasTrashCan;
 
         public Table table;
         public Dispenser dispenser;
@@ -19,6 +20,7 @@ namespace MadSmith.Scripts.Interaction
         public Interactable interactable;
         public DeliveryBox delivery;
         public Pallet pallet;
+        public TrashCan trashCan;
 
         public GameObject visual;
         public GameObject visualSelected;
@@ -42,6 +44,10 @@ namespace MadSmith.Scripts.Interaction
 
             pallet = GetComponent<Pallet>();
             hasPallet = pallet != null;
+
+            trashCan = GetComponent<TrashCan>();
+            hasTrashCan = trashCan != null;
+            
             SetStatusInteract(false);
         }
 

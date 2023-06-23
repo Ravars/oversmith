@@ -103,30 +103,12 @@ namespace MadSmith.Scripts.UI.Managers
         public void ButtonStartNewGameClicked()
         {
             Debug.Log(_hasSaveData);
-            if (!_hasSaveData)
-            {
-                ConfirmStartNewGame();
-            }
-            else
-            {
-                ShowStartNewGameConfirmationPopup();
-            }
+            ConfirmStartNewGame();
         }
 
         void ConfirmStartNewGame()
         {
             _startNewGameEvent.RaiseEvent();
-        }
-        void ShowStartNewGameConfirmationPopup()
-        {
-            Debug.Log("Confirm new game");
-            _startNewGameEvent.RaiseEvent(); //TODO: remove
-            // _popupPanel.ConfirmationResponseAction += StartNewGamePopupResponse;
-            // _popupPanel.ClosePopupAction += HidePopup;
-            //
-            // _popupPanel.gameObject.SetActive(true);
-            // _popupPanel.SetPopup(PopupType.NewGame);
-
         }
         public void ShowExitConfirmationPopup()
         {

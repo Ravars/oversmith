@@ -2,6 +2,9 @@ using System;
 using Cinemachine;
 using MadSmith.Scripts.Events.ScriptableObjects;
 using MadSmith.Scripts.Managers;
+using MadSmith.Scripts.SavingSystem;
+using MadSmith.Scripts.Systems.Settings;
+using TMPro;
 using UnityEngine;
 
 namespace MadSmith.Scripts.UI.SettingsScripts
@@ -12,6 +15,10 @@ namespace MadSmith.Scripts.UI.SettingsScripts
         private CinemachineTrackedDolly dolly;
         [SerializeField] private CinemachineSmoothPath dollyPath;
         [SerializeField] private int currentLevelSelected = 0;
+
+        [SerializeField] private TextMeshProUGUI levelScoreText;
+        [SerializeField] private TextMeshProUGUI levelIndexText;
+        [SerializeField] private GameDataSO currentGameData;
         
         [Header("Listening on")] 
         [SerializeField] private VoidEventChannelSO _onSceneReady = default;
@@ -36,8 +43,23 @@ namespace MadSmith.Scripts.UI.SettingsScripts
 
         private void Setup()
         {
-            
             dolly.m_PathPosition = dollyPath.m_Waypoints[0].position.x;
+            SetLevelData();
+        }
+
+        public void SetLevelData()
+        {
+            SerializedLevelScore serializedLevelScore = currentGameData.LevelScores.Find(x => (int)x.Level == currentLevelSelected);
+            if (serializedLevelScore != null)
+            {
+                levelScoreText.text = GameManager.CalculateScore(serializedLevelScore.score);
+            }
+            else
+            {
+                levelScoreText.text = String.Empty;
+            }
+
+            levelIndexText.text = $"Level {currentLevelSelected + 1}";
         }
 
         public void Play()
@@ -57,6 +79,7 @@ namespace MadSmith.Scripts.UI.SettingsScripts
                 currentLevelSelected--;
             }
             dolly.m_PathPosition = dollyPath.m_Waypoints[currentLevelSelected].position.x;
+            SetLevelData();
         }
 
         public void RightButton()
@@ -71,6 +94,7 @@ namespace MadSmith.Scripts.UI.SettingsScripts
                 currentLevelSelected++;
             }
             dolly.m_PathPosition = dollyPath.m_Waypoints[currentLevelSelected].position.x;
+            SetLevelData();
         }
     }
 }

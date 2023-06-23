@@ -12,7 +12,6 @@ namespace MadSmith.Scripts._Dev
         private void Awake()
         {
             frameDeltaTimeArray = new float[50];
-            DontDestroyOnLoad(gameObject);
         }
 
         private void Update()

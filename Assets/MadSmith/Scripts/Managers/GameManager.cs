@@ -40,7 +40,6 @@ namespace MadSmith.Scripts.Managers
         {
             base.Awake();
             Loaded = saveSystem.LoadSaveDataFromDisk();
-            Debug.Log("Loaded: " + Loaded);
             if (Loaded)
             {
                 currentSettings.LoadSavedSettings(saveSystem.saveData);
@@ -50,12 +49,6 @@ namespace MadSmith.Scripts.Managers
             {
                 currentSettings.LoadDefaultSettings();
                 currentGameData.LoadDefaultSettings();
-            }
-
-            int[] a = new[] { 100, 96, 95, 80, 79, 70, 60, 66, 55, 50, 45, 40, 30 };
-            foreach (var i in a)
-            {
-                Debug.Log(CalculateScore(i));
             }
         }
 
