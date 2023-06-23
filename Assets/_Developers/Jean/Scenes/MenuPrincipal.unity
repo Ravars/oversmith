@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0, g: 0, b: 0, a: 1}
+  m_IndirectSpecularColor: {r: 0.000018256169, g: 0.000000032931673, b: 0, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -1550,6 +1550,12 @@ MonoBehaviour:
   _mainMenuPanel: {fileID: 1415724651}
   _creditsPanel: {fileID: 1028549168}
   _saveSystem: {fileID: 11400000, guid: 2b15ecd60be148f43aff11a8e48649a1, type: 2}
+  _mainMenuCamera: {fileID: 0}
+  _characterSelectCamera: {fileID: 0}
+  _characterSelectUI: {fileID: 0}
+  _creditsCamera: {fileID: 0}
+  _characterToRotate: {fileID: 0}
+  _characterRotation: {fileID: 0}
   _inputReader: {fileID: 11400000, guid: 4fdb545f14be303468b5a23fe102e2e5, type: 2}
   _startNewGameEvent: {fileID: 11400000, guid: aa64b893dd0bc7440accb19cb2d3604e, type: 2}
   _continueGameEvent: {fileID: 11400000, guid: 0f49e88c5d19e9d49b2a5aa9178b9acb, type: 2}
@@ -2851,7 +2857,7 @@ Mesh:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: pb_Mesh55556
+  m_Name: pb_Mesh129452
   serializedVersion: 11
   m_SubMeshes:
   - serializedVersion: 2
@@ -3963,8 +3969,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9bec703fe8b24b5092f93d399226ea88, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  buttonClicked: 0
-  sceneLoadLoaded: 0
+  _currentGameData: {fileID: 0}
+  characterIndex: 0
+  charactersPrefabs: []
+  saveSystem: {fileID: 0}
+  sceneSos: []
+  loadLocation: {fileID: 0}
+  _onLevelCompleted: {fileID: 0}
+  currentSettings: {fileID: 0}
+  currentGameData: {fileID: 0}
+  _saveGameData: {fileID: 0}
 --- !u!4 &557544883
 Transform:
   m_ObjectHideFlags: 0
@@ -13008,6 +13022,26 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 675142141131417421, guid: bbe05ac288358534b87ec7c647dd527c,
+        type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 675142141131417421, guid: bbe05ac288358534b87ec7c647dd527c,
+        type: 3}
+      propertyPath: m_AnchorMin.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 675142141131417421, guid: bbe05ac288358534b87ec7c647dd527c,
+        type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 249.4168
+      objectReference: {fileID: 0}
+    - target: {fileID: 675142141131417421, guid: bbe05ac288358534b87ec7c647dd527c,
+        type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: -263.1915
+      objectReference: {fileID: 0}
     - target: {fileID: 1775349364017053893, guid: bbe05ac288358534b87ec7c647dd527c,
         type: 3}
       propertyPath: m_Pivot.x
@@ -13142,6 +13176,26 @@ PrefabInstance:
         type: 3}
       propertyPath: m_IsActive
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5115322071138401041, guid: bbe05ac288358534b87ec7c647dd527c,
+        type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5115322071138401041, guid: bbe05ac288358534b87ec7c647dd527c,
+        type: 3}
+      propertyPath: m_AnchorMin.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5115322071138401041, guid: bbe05ac288358534b87ec7c647dd527c,
+        type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 603.68036
+      objectReference: {fileID: 0}
+    - target: {fileID: 5115322071138401041, guid: bbe05ac288358534b87ec7c647dd527c,
+        type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: -263.1915
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects:
