@@ -1,4 +1,3 @@
-    using _Developers.Vitor;
 using UnityEngine;
 
 namespace MadSmith.Scripts.Interaction

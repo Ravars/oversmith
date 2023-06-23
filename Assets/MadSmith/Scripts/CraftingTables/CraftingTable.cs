@@ -1,7 +1,9 @@
 ﻿using System.Collections.Generic;
+using MadSmith.Scripts.Interaction;
+using MadSmith.Scripts.Items;
 using UnityEngine;
 
-namespace _Developers.Vitor
+namespace MadSmith.Scripts.CraftingTables
 {
     [RequireComponent(typeof(InteractableHolder),typeof(CraftingInteractionHandler), typeof(AudioSource))]
     public class CraftingTable : MonoBehaviour

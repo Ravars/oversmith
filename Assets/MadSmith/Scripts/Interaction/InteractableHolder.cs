@@ -1,9 +1,8 @@
-﻿using MadSmith.Scripts.Gameplay;
-using MadSmith.Scripts.Interaction;
-using MadSmith.Scripts.Level;
+﻿using MadSmith.Scripts.CraftingTables;
+using MadSmith.Scripts.Gameplay;
 using UnityEngine;
 
-namespace _Developers.Vitor
+namespace MadSmith.Scripts.Interaction
 {
     public class InteractableHolder : MonoBehaviour
     {
@@ -13,6 +12,7 @@ namespace _Developers.Vitor
         public bool hasInteractable;
         public bool hasDelivery;
         public bool hasPallet;
+        public bool hasTrashCan;
 
         public Table table;
         public Dispenser dispenser;
@@ -20,6 +20,7 @@ namespace _Developers.Vitor
         public Interactable interactable;
         public DeliveryBox delivery;
         public Pallet pallet;
+        public TrashCan trashCan;
 
         public GameObject visual;
         public GameObject visualSelected;
@@ -43,6 +44,10 @@ namespace _Developers.Vitor
 
             pallet = GetComponent<Pallet>();
             hasPallet = pallet != null;
+
+            trashCan = GetComponent<TrashCan>();
+            hasTrashCan = trashCan != null;
+            
             SetStatusInteract(false);
         }
 

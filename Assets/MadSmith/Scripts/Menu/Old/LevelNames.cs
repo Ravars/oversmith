@@ -1,4 +1,4 @@
-namespace MadSmith.Scripts.Menu
+namespace MadSmith.Scripts.Menu.Old
 {
     public enum LevelNames
     {

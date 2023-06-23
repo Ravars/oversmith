@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using MadSmith.Scripts.Menu;
+using MadSmith.Scripts.Menu.Old;
 using MadSmith.Scripts.Multiplayer.Player;
 using Mirror;
 using Steamworks;

@@ -1,5 +1,5 @@
 using System;
-using _Developers.Vitor;
+using MadSmith.Scripts.Interaction;
 using Mirror;
 using UnityEngine;
 using UnityEngine.SceneManagement;

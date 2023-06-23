@@ -1,5 +1,6 @@
 using System.Collections.Generic;
-using _Developers.Vitor;
+using MadSmith.Scripts.Interaction;
+using MadSmith.Scripts.Items;
 using MadSmith.Scripts.UI;
 using UnityEngine;
 

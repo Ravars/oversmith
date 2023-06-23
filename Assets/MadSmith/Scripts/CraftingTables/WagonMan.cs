@@ -1,11 +1,10 @@
 using MadSmith.Scripts.Gameplay;
 using MadSmith.Scripts.Interaction;
-using MadSmith.Scripts.Level;
+using MadSmith.Scripts.Items;
 using MadSmith.Scripts.UI;
-using Test1.Scripts.Prototype;
 using UnityEngine;
 
-namespace _Developers.Vitor
+namespace MadSmith.Scripts.CraftingTables
 {
     public class WagonMan : Interactable
     {

@@ -1,6 +1,6 @@
 using System;
-using _Developers.Vitor;
-using Test1.Scripts.Prototype;
+using MadSmith.Scripts.Interaction;
+using MadSmith.Scripts.Items;
 using UnityEngine;
 
 namespace MadSmith.Scripts._Dev

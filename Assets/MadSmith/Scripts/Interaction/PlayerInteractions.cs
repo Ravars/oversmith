@@ -1,12 +1,9 @@
 ﻿using System;
-using MadSmith.Scripts;
 using MadSmith.Scripts.Input;
-using MadSmith.Scripts.Managers;
-using Test1.Scripts.Prototype;
+using MadSmith.Scripts.Items;
 using UnityEngine;
-using UnityEngine.InputSystem;
 
-namespace _Developers.Vitor
+namespace MadSmith.Scripts.Interaction
 {
     public class PlayerInteractions : MonoBehaviour
     {
@@ -82,7 +79,10 @@ namespace _Developers.Vitor
                         interactable.table.MergeItem(ItemScript);
                         ItemScript.PlaySound(SoundType.CraftSound);
                         ItemScript = null;
-                        Destroy(_itemTransform.gameObject);
+                        if (_itemTransform != null)
+                        {
+                            Destroy(_itemTransform.gameObject);
+                        }
                         _itemTransform = null;
                     }
                 }
@@ -130,6 +130,17 @@ namespace _Developers.Vitor
                             return;
                         }
                     }
+
+                }
+                if (interactable.hasTrashCan)
+                {
+                    interactable.trashCan.DestroyItem();
+                    ItemScript = null;
+                    if (_itemTransform != null)
+                    {
+                        Destroy(_itemTransform.gameObject);
+                    }
+                    _itemTransform = null;
                 }
             }
         }

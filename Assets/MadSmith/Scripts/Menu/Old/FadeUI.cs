@@ -1,9 +1,7 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 
-namespace MadSmith.Scripts.Menu
+namespace MadSmith.Scripts.Menu.Old
 {
     [RequireComponent(typeof(CanvasGroup))]
     public class FadeUI : MonoBehaviour

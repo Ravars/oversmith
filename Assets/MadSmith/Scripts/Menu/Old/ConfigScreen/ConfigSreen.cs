@@ -1,11 +1,12 @@
 using System.Collections.Generic;
 using MadSmith.Scripts.Managers;
+using MadSmith.Scripts.Menu.Old.MenuItem;
 using MadSmith.Scripts.Utils;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.Localization.Settings;
 
-namespace MadSmith.Scripts.Menu
+namespace MadSmith.Scripts.Menu.Old.ConfigScreen
 {
     [AddComponentMenu("Menu/Canvas/Configuration Screen")]
     public class ConfigSreen : MenuCanvas
