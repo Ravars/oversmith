@@ -13,6 +13,7 @@ namespace MadSmith.Scripts.UI.Canvas
         public UnityAction ContinueButtonAction;
         public UnityAction SettingsButtonAction;
         public UnityAction CreditsButtonAction;
+        public UnityAction TutorialButtonAction;
         public UnityAction ExitButtonAction;
 
         public void SetMenuScreen(bool hasSaveData)
@@ -47,6 +48,11 @@ namespace MadSmith.Scripts.UI.Canvas
         public void CreditsButton()
         {
             CreditsButtonAction.Invoke();
+        }
+
+        public void TutorialButton()
+        {
+            TutorialButtonAction.Invoke();
         }
 
         public void ExitButton()

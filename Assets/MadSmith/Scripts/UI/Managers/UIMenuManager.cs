@@ -4,6 +4,7 @@ using MadSmith.Scripts.Events.ScriptableObjects;
 using MadSmith.Scripts.Gameplay;
 using MadSmith.Scripts.Input;
 using MadSmith.Scripts.SavingSystem;
+using MadSmith.Scripts.SceneManagement.ScriptableObjects;
 using MadSmith.Scripts.Systems.Settings;
 using MadSmith.Scripts.UI.Canvas;
 using UnityEngine;
@@ -22,6 +23,8 @@ namespace MadSmith.Scripts.UI.Managers
         [SerializeField] private GameObject _characterSelectCamera;
         [SerializeField] private CharacterSelect _characterSelectUI;
         [SerializeField] private GameObject _creditsCamera;
+        
+        [SerializeField] private GameSceneSO _locationTutorial;
 
         //REMOVER
         [SerializeField] private Transform _characterToRotate;
@@ -29,6 +32,7 @@ namespace MadSmith.Scripts.UI.Managers
 
         [SerializeField] private InputReader _inputReader = default;
         [Header("Broadcasting on")]
+        [SerializeField] private LoadEventChannelSO _loadTutorialEvent = default;
         [SerializeField] private VoidEventChannelSO _startNewGameEvent = default;
         [SerializeField] private VoidEventChannelSO _continueGameEvent = default;
         private IEnumerator Start()
@@ -46,6 +50,7 @@ namespace MadSmith.Scripts.UI.Managers
             _mainMenuPanel.NewGameButtonAction += OpenCharacterSelect;
             _mainMenuPanel.SettingsButtonAction += OpenSettingsScreen;
             _mainMenuPanel.CreditsButtonAction += OpenCreditsScreen;
+            _mainMenuPanel.TutorialButtonAction += LoadTutorialLevel;
             _mainMenuPanel.ExitButtonAction += ShowExitConfirmationPopup;
 
         }
@@ -130,6 +135,11 @@ namespace MadSmith.Scripts.UI.Managers
         {
             _popupPanel.ConfirmationResponseAction -= HideExitConfirmationPopup;
             // _popupPanel.ConfirmationResponseAction -= StartNewGamePopupResponse;
+        }
+
+        private void LoadTutorialLevel()
+        {
+            _loadTutorialEvent.RaiseEvent(_locationTutorial);
         }
         
         
