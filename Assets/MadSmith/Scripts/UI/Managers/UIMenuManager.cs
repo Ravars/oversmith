@@ -27,8 +27,8 @@ namespace MadSmith.Scripts.UI.Managers
         [SerializeField] private GameSceneSO _locationTutorial;
 
         //REMOVER
-        [SerializeField] private Transform _characterToRotate;
-        [SerializeField] private Transform _characterRotation;
+        // [SerializeField] private Transform _characterToRotate;
+        // [SerializeField] private Transform _characterRotation;
 
         [SerializeField] private InputReader _inputReader = default;
         [Header("Broadcasting on")]
@@ -92,7 +92,7 @@ namespace MadSmith.Scripts.UI.Managers
         public void OpenCharacterSelect()
         {
             _characterSelectUI.Setup();
-            _characterToRotate.rotation = _characterRotation.rotation;
+            // _characterToRotate.rotation = _characterRotation.rotation;
             _mainMenuCamera.SetActive(false);
             _characterSelectCamera.SetActive(true);
             _characterSelectUI.gameObject.SetActive(true);
