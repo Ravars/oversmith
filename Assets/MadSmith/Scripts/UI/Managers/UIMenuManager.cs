@@ -139,7 +139,7 @@ namespace MadSmith.Scripts.UI.Managers
 
         private void LoadTutorialLevel()
         {
-            _loadTutorialEvent.RaiseEvent(_locationTutorial);
+            _loadTutorialEvent.RaiseEvent(_locationTutorial, true, true);
         }
         
         

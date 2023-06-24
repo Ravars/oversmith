@@ -83,7 +83,7 @@ namespace MadSmith.Scripts.UI.SettingsScripts
 
         public void BackToMenuButton()
         {
-            _onLoadScene.RaiseEvent(mainMenu);
+            _onLoadScene.RaiseEvent(mainMenu, true, true);
         }
     }
 }
