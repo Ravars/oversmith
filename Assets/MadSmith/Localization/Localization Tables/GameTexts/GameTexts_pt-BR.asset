@@ -16,32 +16,42 @@ MonoBehaviour:
     m_Code: pt-BR
   m_SharedData: {fileID: 11400000, guid: e49cc86339f01c144a878f81f2b82061, type: 2}
   m_Metadata:
-    m_Items: []
+    m_Items:
+    - rid: 1475685927248199680
   m_TableData:
   - m_Id: 7098019840
-    m_Localized: a pt
+    m_Localized: Pegue o lingote de ferro na pilha e leve para aquecer na fornalha.
     m_Metadata:
       m_Items: []
   - m_Id: 38060371968
-    m_Localized: b pt
+    m_Localized: "Ap\xF3s aquecer, o lingote deve ser levado para os moldes de machado
+      ou espada."
     m_Metadata:
       m_Items: []
   - m_Id: 56871825408
-    m_Localized: c pt
+    m_Localized: Com o lingote moldado, leve-o a bigorna para ele ser forjado.
     m_Metadata:
-      m_Items: []
+      m_Items:
+      - rid: 1475685927248199680
   - m_Id: 73519017984
-    m_Localized: d pt
+    m_Localized: "Para criar o cabo, pegue um peda\xE7o de madeira na pilha e leve-o
+      para a serra."
     m_Metadata:
       m_Items: []
   - m_Id: 86097735680
-    m_Localized: e pt
+    m_Localized: Agora precisamos juntar o cabo ao metal forjado. Para isso, leve-os
+      para uma bancada de trabalho.
     m_Metadata:
       m_Items: []
   - m_Id: 16297825087488
-    m_Localized: f pt
+    m_Localized: "Na etapa final de constru\xE7\xE3o da arma, precisamos amolar a
+      pe\xE7a. \nPara isso, leve-a para a pedra de amolar"
     m_Metadata:
       m_Items: []
   references:
     version: 2
-    RefIds: []
+    RefIds:
+    - rid: 1475685927248199680
+      type: {class: SmartFormatTag, ns: UnityEngine.Localization.Metadata, asm: Unity.Localization}
+      data:
+        m_Entries: 0030d33d0d000000
