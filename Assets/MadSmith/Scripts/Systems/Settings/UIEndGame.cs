@@ -10,6 +10,7 @@ namespace MadSmith.Scripts.Systems.Settings
     {
         [SerializeField] private TextMeshProUGUI scoreText;
         public event UnityAction Continued = default;
+        public event UnityAction BackToMenuClicked = default;
 
         public void Setup(int finalScore)
         {
@@ -21,7 +22,10 @@ namespace MadSmith.Scripts.Systems.Settings
         {
             Continued?.Invoke();
         }
-        
-        // public bu
+
+        public void BackToMenuButton()
+        {
+            BackToMenuClicked?.Invoke();
+        }
     }
 }

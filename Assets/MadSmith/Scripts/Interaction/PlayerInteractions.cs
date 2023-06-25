@@ -95,18 +95,18 @@ namespace MadSmith.Scripts.Interaction
                     return;
                 }
 
-                if (interactable.hasPallet && ItemScript?.baseItem.itemName == "Delivery Box")
-                {
-                    if (interactable.pallet.CanSetBox())
-                    {
-                        if (interactable.pallet.PutOnPallet(ItemScript.transform))
-                        {
-                            _itemTransform = null;
-                            ItemScript = null;
-                        }
-                        return;
-                    }
-                }
+                // if (interactable.hasPallet && ItemScript?.baseItem.itemName == "Delivery Box")
+                // {
+                //     if (interactable.pallet.CanSetBox())
+                //     {
+                //         if (interactable.pallet.PutOnPallet(ItemScript.transform))
+                //         {
+                //             _itemTransform = null;
+                //             ItemScript = null;
+                //         }
+                //         return;
+                //     }
+                // }
 
                 if (interactable.hasDelivery && interactable.delivery.isActive)
                 {
