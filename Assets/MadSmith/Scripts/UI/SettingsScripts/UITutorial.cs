@@ -9,7 +9,7 @@ namespace MadSmith.Scripts.UI.SettingsScripts
 {
     public class UITutorial : MonoBehaviour
     {
-        [SerializeField] private CinemachineVirtualCamera camera;
+        [SerializeField] private CinemachineVirtualCamera virtualCamera;
         private CinemachineTrackedDolly dolly;
         [SerializeField] private CinemachineSmoothPath dollyPath;
         [SerializeField] private int currentTutorialIndex = 0;
@@ -28,7 +28,7 @@ namespace MadSmith.Scripts.UI.SettingsScripts
         
         private void Awake()
         {
-            dolly = camera.GetCinemachineComponent<CinemachineTrackedDolly>();
+            dolly = virtualCamera.GetCinemachineComponent<CinemachineTrackedDolly>();
         }
         private void OnEnable()
         {

@@ -1,5 +1,5 @@
 using MadSmith.Scripts.Items;
-using MadSmith.Scripts.Level;
+using MadSmith.Scripts.OLD;
 using UnityEngine;
 
 namespace MadSmith.Scripts.UI
@@ -9,10 +9,11 @@ namespace MadSmith.Scripts.UI
         public ItemCard[] itemCards;
         public GameObject prefabCard;
         public Transform itemsHolder;
-        public string wagonName;
-        public void SetItems(ItemStruct[] itemStructs, string wagonName)
+        // public string wagonName;
+        public int npcId;
+        public void SetItems(ItemStruct[] itemStructs, int npcId)
         {
-            this.wagonName = wagonName;
+            this.npcId = npcId;
             itemCards = new ItemCard[itemStructs.Length];
             for (int i = 0; i < itemStructs.Length; i++)
             {

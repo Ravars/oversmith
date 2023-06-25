@@ -1,111 +1,113 @@
-using System.Collections.Generic;
-using MadSmith.Scripts.Interaction;
+using System;
+using System.Linq;
 using MadSmith.Scripts.Items;
-using MadSmith.Scripts.UI;
 using UnityEngine;
 
 namespace MadSmith.Scripts.Gameplay
 {
-    [RequireComponent(typeof(InteractableHolder))]
     public class Pallet : MonoBehaviour
     {
+        [SerializeField] private DeliveryBox blueBoxesPrefabs,browBoxesPrefabs, orangeBoxesPrefabs, pinkBoxesPrefabs;
+        [SerializeField] private DeliveryBox[] deliveryBoxesSpawned;
+        [SerializeField] private Transform[] pointsToSpawnBoxes;
 
-        private bool isFull = false;
-        public bool isDeliveryPlace = false;
-        public Item ItemScript { get; private set; }
-        // public BaseItem BaseItem { get; private set; }
-        private Transform _itemTransform;
-
-        private InteractableHolder _interactableHolder;
-        [SerializeField] private Transform[] pointsToPlaceBox;
-        [SerializeField] private List<GameObject> itemsPlaced = new();
 
         private void Awake()
         {
-            _interactableHolder = GetComponent<InteractableHolder>();
+            deliveryBoxesSpawned = new DeliveryBox[pointsToSpawnBoxes.Length];
         }
 
-        public bool CanSetBox()
+        public void SpawnBox(ItemDeliveryList deliveryList, BoxColor boxColor, int npcId)
         {
-            if (isFull)
-                return false;
-            else
-                return true;
+            if (!HasEmptyBox()) return;
+            int indexToSpawn = -1;
+            for (int i = 0; i < deliveryBoxesSpawned.Length; i++)
+            {
+                if (ReferenceEquals(deliveryBoxesSpawned[i], null))
+                {
+                    indexToSpawn = i;
+                    break;
+                }
+            }
+
+            DeliveryBox boxColorToUse;
+            switch (boxColor)
+            {
+                case BoxColor.Pink:
+                    boxColorToUse = pinkBoxesPrefabs;
+                    break;
+                case BoxColor.Orange:
+                    boxColorToUse = orangeBoxesPrefabs;
+                    break;
+                case BoxColor.Brown:
+                    boxColorToUse = browBoxesPrefabs;
+                    break;
+                case BoxColor.Blue:
+                    boxColorToUse = blueBoxesPrefabs;
+                    break;
+                default:
+                    boxColorToUse = blueBoxesPrefabs;
+                    break;
+            }
+
+
+            var deliveryBox = Instantiate(boxColorToUse, pointsToSpawnBoxes[indexToSpawn].position, Quaternion.identity, transform);
+            deliveryBox.Init(deliveryList,boxColor,npcId);
+            deliveryBoxesSpawned[indexToSpawn] = deliveryBox;
+
         }
 
-        public bool PutOnPallet(Transform itemTransform)
+        public bool HasEmptyBox()
         {
-            var deliveryBoxScript = itemTransform.GetComponent<DeliveryBox>();
+            return deliveryBoxesSpawned.Any(spawnBox => ReferenceEquals(spawnBox, null));
+        }
+
+        public BoxColor? GetUnusedBoxColor()
+        {
+            bool colorBlue = false, colorBrown = false, colorOrange = false, colorPink = false;
+            foreach (var deliveryBox in deliveryBoxesSpawned)
+            {
+                if (deliveryBox != null)
+                {
+                    switch (deliveryBox.boxColor)
+                    {
+                        case BoxColor.Pink:
+                            colorPink = true;
+                            break;
+                        case BoxColor.Orange:
+                            colorOrange = true;
+                            break;
+                        case BoxColor.Brown:
+                            colorBrown = true;
+                            break;
+                        case BoxColor.Blue:
+                            colorBlue = true;
+                            break;
+                    }
+                }
+            }
+
+            if (!colorBlue)
+            {
+                return BoxColor.Blue;
+            }
+            if (!colorBrown)
+            {
+                return BoxColor.Brown;
+            }
+            if (!colorOrange)
+            {
+                return BoxColor.Orange;
+            }
+            if (!colorPink)
+            {
+                return BoxColor.Pink;
+            }
+
+            return null;
+        }
         
-            int emptySpace = -1;
-            for (int i = 0; i < pointsToPlaceBox.Length; i++)
-            {
-                if (pointsToPlaceBox[i].childCount == 0)
-                {
-                    emptySpace = i;
-                    break;
-                }
-            }
-            if (emptySpace == -1)
-                return false;
+        
 
-            if (isDeliveryPlace)
-            {
-                if (deliveryBoxScript.CheckCompletion())
-                {
-                    deliveryBoxScript.Finish();
-                    HudController.Instance.RemoveOrder(deliveryBoxScript.wagonName);
-                }
-                else
-                {
-                    return false;
-                }
-            }
-
-            //_itemTransform = itemTransform;
-            itemsPlaced.Add(itemTransform.gameObject);
-            itemTransform.SetParent(pointsToPlaceBox[emptySpace]);
-            itemTransform.SetLocalPositionAndRotation(Vector3.zero, pointsToPlaceBox[emptySpace].localRotation);
-            deliveryBoxScript.SetTrigger(true);
-
-            return true;
-        }
-
-        public void RemoveFromPallet(Transform playerTransform, Transform boxTransform)
-        {
-            int boxIndex = -1;
-
-            for (int i = 0; i < pointsToPlaceBox.Length; i++)
-            {
-                if (pointsToPlaceBox[i].childCount > 0 && pointsToPlaceBox[i].GetChild(0) == boxTransform)
-                {
-                    boxIndex = i;
-                    break;
-                }
-            }
-            if (boxIndex == -1)
-                return;
-
-            boxTransform.SetParent(playerTransform);
-            return;
-        }
-
-        public void DestroyFromPallet(Transform boxTransform)
-        {
-            int boxIndex = -1;
-
-            for (int i = 0; i < pointsToPlaceBox.Length; i++)
-            {
-                if (pointsToPlaceBox[i].childCount > 0 && pointsToPlaceBox[i].GetChild(0) == boxTransform)
-                {
-                    boxIndex = i;
-                    break;
-                }
-            }
-            if (boxIndex == -1)
-                return;
-
-            Destroy(boxTransform.gameObject);
-        }
     }
 }

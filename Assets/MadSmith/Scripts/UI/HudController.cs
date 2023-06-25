@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using MadSmith.Scripts.Events.ScriptableObjects;
 using MadSmith.Scripts.Items;
-using MadSmith.Scripts.Level;
+using MadSmith.Scripts.OLD;
 using MadSmith.Scripts.Utils;
 using UnityEngine;
 
@@ -37,23 +37,27 @@ namespace MadSmith.Scripts.UI
             }
             ItemCardHolders.Clear();
         }
-        public void AddOrder(ItemStruct[] itemStructs, string wagonName)
+        public void AddOrder(ItemStruct[] itemStructs, int npcId)
         {
             ItemCardHolder itemCardHolder = Instantiate(orderCardPrefab, orderCardHolder).GetComponent<ItemCardHolder>();
-            itemCardHolder.SetItems(itemStructs,wagonName);
+            itemCardHolder.SetItems(itemStructs,npcId);
             ItemCardHolders.Add(itemCardHolder);
         }
 
-        public void SetItemCollected(BaseItem item, string wagonName )
+        public void SetItemCollected(BaseItem item, int npcId )
         {
-            var a =ItemCardHolders.Find(x => x.wagonName == wagonName);
+            
+            var a =ItemCardHolders.Find(x => x.npcId == npcId);
             a.SetItemChecked(item);
         }
 
-        public void RemoveOrder(string wagonName)
+        public void RemoveOrder(int npcId)
         {
-            var a = ItemCardHolders.Find(x => x.wagonName == wagonName);
-            Destroy(a.gameObject);
+            var a = ItemCardHolders.Find(x => x.npcId == npcId);
+            if (!ReferenceEquals(a, null))
+            {
+                Destroy(a.gameObject);
+            }
         }
     }
 }
