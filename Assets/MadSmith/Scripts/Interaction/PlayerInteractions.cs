@@ -11,7 +11,7 @@ namespace MadSmith.Scripts.Interaction
         private PlayerInteractableHandler _playerInteractableHandler;
         public Transform _itemTransform;
         // private BaseItem _baseItemHolding;
-        public static Item ItemScript { get; set; }
+        public Item ItemScript { get; set; }
         public Transform itemHolder;
         
         private void Start()
@@ -42,7 +42,7 @@ namespace MadSmith.Scripts.Interaction
                 
                 if (interactable.hasInteractable)
                 {
-                    interactable.interactable.Interact(this.gameObject);
+                    interactable.interactable.Interact(this);
                 }
             }
             

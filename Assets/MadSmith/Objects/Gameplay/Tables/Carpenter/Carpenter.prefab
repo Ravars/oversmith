@@ -14,7 +14,7 @@ GameObject:
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 2147483647
+  m_StaticEditorFlags: 0
   m_IsActive: 1
 --- !u!4 &4179438851246772157
 Transform:
@@ -512,7 +512,7 @@ Transform:
   - {fileID: 6169248780802187036}
   - {fileID: 8105636486235035903}
   m_Father: {fileID: 0}
-  m_RootOrder: -1
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &5189054952472078319
 MonoBehaviour:
@@ -532,12 +532,14 @@ MonoBehaviour:
   hasInteractable: 0
   hasDelivery: 0
   hasPallet: 0
+  hasTrashCan: 0
   table: {fileID: 0}
   dispenser: {fileID: 0}
   craftingTable: {fileID: 0}
   interactable: {fileID: 0}
   delivery: {fileID: 0}
   pallet: {fileID: 0}
+  trashCan: {fileID: 0}
   visual: {fileID: 886137096919117029}
   visualSelected: {fileID: 2886832530512700253}
 --- !u!114 &7065156798647131239

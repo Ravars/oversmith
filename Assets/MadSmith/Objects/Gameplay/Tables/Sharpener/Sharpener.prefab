@@ -93,7 +93,7 @@ Transform:
   - {fileID: 5710870230207242237}
   - {fileID: 3492425309124711817}
   m_Father: {fileID: 0}
-  m_RootOrder: -1
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1125591855537520120
 MonoBehaviour:
@@ -113,12 +113,14 @@ MonoBehaviour:
   hasInteractable: 0
   hasDelivery: 0
   hasPallet: 0
+  hasTrashCan: 0
   table: {fileID: 0}
   dispenser: {fileID: 0}
   craftingTable: {fileID: 0}
   interactable: {fileID: 0}
   delivery: {fileID: 0}
   pallet: {fileID: 0}
+  trashCan: {fileID: 0}
   visual: {fileID: 8314072078182860234}
   visualSelected: {fileID: 8388445821391255567}
 --- !u!114 &2707125739156326000
@@ -381,7 +383,7 @@ GameObject:
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 2147483647
+  m_StaticEditorFlags: 0
   m_IsActive: 1
 --- !u!4 &9051539626911684010
 Transform:
@@ -390,14 +392,14 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5083223959251125259}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0.83, y: 1.16, z: 1.8}
+  m_LocalRotation: {x: 0.25663558, y: -0.6588917, z: -0.25663558, w: 0.6588917}
+  m_LocalPosition: {x: 0.724, y: 1.217, z: 1.8}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 3696974074815081332}
   m_RootOrder: -1
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: -90, z: -42.561}
 --- !u!1 &6052953467215634390
 GameObject:
   m_ObjectHideFlags: 0

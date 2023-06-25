@@ -12,18 +12,18 @@ namespace MadSmith.Scripts.CraftingTables
         // public DeliveryUI deliveryUI;
         public bool alreadyGet;
         
-        public override void Interact(GameObject player)
+        public override void Interact(PlayerInteractions playerInteractions)
         {
             // DeliveryUI.Instance.gameObject.SetActive(true);
             
             DeliveryUI.Instance.SetItems(deliveryBox.requiredItems);
 
-            if (PlayerInteractions.ItemScript == null && !deliveryBox.isActive)
+            if (playerInteractions.ItemScript == null && !deliveryBox.isActive)
             {
-                var pI = player.GetComponent<PlayerInteractions>();
+                var pI = playerInteractions.GetComponent<PlayerInteractions>();
                 deliveryBox.transform.SetParent(pI.itemHolder.transform, true);
                 deliveryBox.transform.SetPositionAndRotation(pI.itemHolder.position, Quaternion.identity);
-                PlayerInteractions.ItemScript = deliveryBox.GetComponent<Item>();
+                playerInteractions.ItemScript = deliveryBox.GetComponent<Item>();
                 pI._itemTransform = deliveryBox.transform;
                 deliveryBox.isActive = true;
                 deliveryBox.visual.SetActive(true);

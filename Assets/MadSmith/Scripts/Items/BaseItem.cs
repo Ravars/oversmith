@@ -10,6 +10,7 @@ namespace MadSmith.Scripts.Items
         public GameObject prefab;
         public Process[] processes;
         public Texture image;
+        public bool isDoubleHand = true;
     }
 
     [Serializable]

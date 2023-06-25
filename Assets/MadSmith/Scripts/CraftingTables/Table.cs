@@ -58,7 +58,8 @@ namespace MadSmith.Scripts.CraftingTables
             ItemScript = itemScript;
             _itemTransform = itemTransform;
             _itemTransform.SetParent(pointToSpawnItem);
-            _itemTransform.SetLocalPositionAndRotation(Vector3.zero, pointToSpawnItem.localRotation);
+            // _itemTransform.SetLocalPositionAndRotation(Vector3.zero, pointToSpawnItem.localRotation);
+            _itemTransform.SetLocalPositionAndRotation(Vector3.zero, Quaternion.identity);
 
             if (_interactableHolder.hasCraftingTable)
             {

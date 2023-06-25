@@ -32,7 +32,7 @@ Transform:
   - {fileID: 6273233885916125210}
   - {fileID: 6424270813482600044}
   m_Father: {fileID: 0}
-  m_RootOrder: 0
+  m_RootOrder: -1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &7386790943726443958
 MonoBehaviour:
@@ -114,27 +114,27 @@ PrefabInstance:
     - target: {fileID: 2225169099976315289, guid: ef8cd84196c546d4a9b0e590ffce4591,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: 0.329
+      value: 0.657
       objectReference: {fileID: 0}
     - target: {fileID: 2225169099976315289, guid: ef8cd84196c546d4a9b0e590ffce4591,
         type: 3}
       propertyPath: m_LocalRotation.w
-      value: 0.70710784
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2225169099976315289, guid: ef8cd84196c546d4a9b0e590ffce4591,
         type: 3}
       propertyPath: m_LocalRotation.x
-      value: 0.70710576
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2225169099976315289, guid: ef8cd84196c546d4a9b0e590ffce4591,
         type: 3}
       propertyPath: m_LocalRotation.y
-      value: -0
+      value: -0.7071068
       objectReference: {fileID: 0}
     - target: {fileID: 2225169099976315289, guid: ef8cd84196c546d4a9b0e590ffce4591,
         type: 3}
       propertyPath: m_LocalRotation.z
-      value: -0
+      value: 0.7071068
       objectReference: {fileID: 0}
     - target: {fileID: 2225169099976315289, guid: ef8cd84196c546d4a9b0e590ffce4591,
         type: 3}
@@ -149,7 +149,7 @@ PrefabInstance:
     - target: {fileID: 2225169099976315289, guid: ef8cd84196c546d4a9b0e590ffce4591,
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
+      value: 180
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -279,6 +279,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8350686225194221548, guid: 1c48b4a51ef78a440b50631488f8baf5,
+        type: 3}
+      propertyPath: m_PresetInfoIsWorld
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
