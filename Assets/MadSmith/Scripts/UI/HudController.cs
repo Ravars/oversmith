@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using MadSmith.Scripts.Events.ScriptableObjects;
 using MadSmith.Scripts.Items;
 using MadSmith.Scripts.Level;
 using MadSmith.Scripts.Utils;
@@ -12,7 +13,30 @@ namespace MadSmith.Scripts.UI
         public GameObject orderCardPrefab;
         public Transform orderCardHolder;
         public List<ItemCardHolder> ItemCardHolders;
+        [Header("Listening on")] 
+        [SerializeField] private VoidEventChannelSO _onSceneReady = default;
 
+        private void OnEnable()
+        {
+            _onSceneReady.OnEventRaised += Clear;
+        }
+
+        private void OnDisable()
+        {
+            _onSceneReady.OnEventRaised -= Clear;
+        }
+
+        private void Clear()
+        {
+            foreach (var itemCardHolder in ItemCardHolders)
+            {
+                if (!ReferenceEquals(itemCardHolder, null))
+                {
+                    Destroy(itemCardHolder);
+                }
+            }
+            ItemCardHolders.Clear();
+        }
         public void AddOrder(ItemStruct[] itemStructs, string wagonName)
         {
             ItemCardHolder itemCardHolder = Instantiate(orderCardPrefab, orderCardHolder).GetComponent<ItemCardHolder>();
