@@ -21,9 +21,9 @@ namespace MadSmith.Scripts.Gameplay
         {
             if (!HasEmptyBox()) return;
             int indexToSpawn = -1;
-            for (int i = 0; i < pointsToSpawnBoxes.Length; i++)
+            for (int i = 0; i < deliveryBoxesSpawned.Length; i++)
             {
-                if (ReferenceEquals(pointsToSpawnBoxes[i], null))
+                if (ReferenceEquals(deliveryBoxesSpawned[i], null))
                 {
                     indexToSpawn = i;
                     break;

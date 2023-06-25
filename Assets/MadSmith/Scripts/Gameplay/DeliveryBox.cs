@@ -43,7 +43,7 @@ namespace MadSmith.Scripts.Gameplay
                 remainingItems.Add(requiredItems.Items[i].Amount);
             }
 
-            slider.value = 1 - (currentTime / totalTime);
+            // slider.value = 1 - (currentTime / totalTime);
             isRunning = true;
         }
         public bool CanSetItem(Item itemScript)
