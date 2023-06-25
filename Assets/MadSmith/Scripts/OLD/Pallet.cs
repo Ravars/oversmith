@@ -54,7 +54,7 @@ namespace MadSmith.Scripts.OLD
                 if (deliveryBoxScript.CheckCompletion())
                 {
                     deliveryBoxScript.Finish();
-                    HudController.Instance.RemoveOrder(deliveryBoxScript.wagonName);
+                    // HudController.Instance.RemoveOrder(deliveryBoxScript.wagonName);
                 }
                 else
                 {

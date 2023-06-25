@@ -15,7 +15,8 @@ namespace MadSmith.Scripts.Managers
         [SerializeField] private Client[] clients;
         [SerializeField] private ItemDeliveryList[] listOfDesiredItems;
         private List<Client> _clientsSpawned;
-        // [SerializeField] private voi
+        private List<DeliveryBox> _deliveryBoxes;
+        [SerializeField] private Pallet pallet;
         
         
         [Header("Listening to")]
@@ -31,8 +32,19 @@ namespace MadSmith.Scripts.Managers
 
         private void Startup()
         {
+            Debug.Log("Startup");
             _clientsSpawned = new();
-            SpawnNpc();
+            Debug.Log(CanSpawnNpc());
+            if (CanSpawnNpc())
+            {
+                Debug.Log("Spawned");
+                SpawnNpc();
+            }
+        }
+
+        private bool CanSpawnNpc()
+        {
+            return pallet.HasEmptyBox();
         }
 
         private void SpawnNpc()
@@ -43,16 +55,30 @@ namespace MadSmith.Scripts.Managers
             int desiredItemsIndex = Random.Range(0, listOfDesiredItems.Length);
             
             Client newClient = Instantiate(clients[clientIndex], pointsToSpawnNpc[pointToSpawnIndex].position,
-                quaternion.identity);
+                Quaternion.identity);
             _clientsSpawned.Add(newClient);
-            newClient.Init(pointsToMoveNpc[pointToMoveIndex].position,_clientsSpawned.Count, this);
+
+            var boxColor = pallet.GetUnusedBoxColor();
+            int npcId = _clientsSpawned.Count;
+            Debug.Log("npc" + npcId);
+            if (boxColor != null)
+            { 
+                pallet.SpawnBox(listOfDesiredItems[desiredItemsIndex],(BoxColor)boxColor,npcId);   
+            }
+            newClient.Init(pointsToMoveNpc[pointToMoveIndex].position, npcId, this);
         }
 
         public void ClientArrived(int clientIndex)
         {
             Debug.Log("Client Arrived: " + clientIndex);
+            SpawnBoxInPallet();
             // Spawn Box in unique color
             // Set items required
+            
+        }
+
+        public void SpawnBoxInPallet()
+        {
             
         }
         

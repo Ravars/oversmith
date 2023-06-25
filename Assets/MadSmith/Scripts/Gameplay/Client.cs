@@ -48,6 +48,8 @@ namespace MadSmith.Scripts.Gameplay
                 if (!_arrived)
                 {
                     _clientsManager.ClientArrived(_npcIndex);
+                    _animator.SetBool(Run, false);
+                    return;
                 }
             }
             _animator.SetBool(Run,_agent.velocity.magnitude > 0);

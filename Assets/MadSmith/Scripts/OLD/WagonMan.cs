@@ -29,7 +29,7 @@ namespace MadSmith.Scripts.OLD
 
                 if (!alreadyGet)
                 {
-                    HudController.Instance.AddOrder(deliveryBox.requiredItems.Items.ToArray(), gameObject.name);
+                    // HudController.Instance.AddOrder(deliveryBox.requiredItems.Items.ToArray(), gameObject.name);
                 }
                 
                 alreadyGet = true;

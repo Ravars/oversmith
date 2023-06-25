@@ -87,7 +87,7 @@ namespace MadSmith.Scripts.OLD
                 remainingItems[itemIndex]--;
 
                 SpawnTextStatus(true);
-                HudController.Instance.SetItemCollected(requiredItems.Items[itemIndex].BaseItem,wagonName);
+                // HudController.Instance.SetItemCollected(requiredItems.Items[itemIndex].BaseItem,wagonName);
                 numOfCorrectItems++;
             }
             else

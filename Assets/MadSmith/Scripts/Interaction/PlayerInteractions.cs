@@ -108,30 +108,30 @@ namespace MadSmith.Scripts.Interaction
                 //     }
                 // }
 
-                if (interactable.hasDelivery && interactable.delivery.isActive)
-                {
-                    if (ItemScript == null)
-                    {
-                        interactable.transform.SetParent(transform);
-                        _itemTransform = interactable.transform;
-                        ItemScript = interactable.delivery.GetComponent<Item>();
-                        _itemTransform.SetPositionAndRotation(itemHolder.position, Quaternion.identity);
-                        interactable.delivery.SetTrigger(false);
-                        _playerInteractableHandler.ClearList();
-                    }
-
-                    if (interactable.delivery.CanSetItem(ItemScript) && ItemScript != null)
-                    {
-                        if (ItemScript?.baseItem.itemName != "Delivery Box")
-                        {
-                            interactable.delivery.SetItem(_itemTransform, ItemScript);
-                            _itemTransform = null;
-                            ItemScript = null;
-                            return;
-                        }
-                    }
-
-                }
+                // if (interactable.hasDelivery && interactable.delivery.isActive)
+                // {
+                //     if (ItemScript == null)
+                //     {
+                //         interactable.transform.SetParent(transform);
+                //         _itemTransform = interactable.transform;
+                //         ItemScript = interactable.delivery.GetComponent<Item>();
+                //         _itemTransform.SetPositionAndRotation(itemHolder.position, Quaternion.identity);
+                //         interactable.delivery.SetTrigger(false);
+                //         _playerInteractableHandler.ClearList();
+                //     }
+                //
+                //     if (interactable.delivery.CanSetItem(ItemScript) && ItemScript != null)
+                //     {
+                //         if (ItemScript?.baseItem.itemName != "Delivery Box")
+                //         {
+                //             interactable.delivery.SetItem(_itemTransform, ItemScript);
+                //             _itemTransform = null;
+                //             ItemScript = null;
+                //             return;
+                //         }
+                //     }
+                //
+                // }
                 if (interactable.hasTrashCan)
                 {
                     interactable.trashCan.DestroyItem();

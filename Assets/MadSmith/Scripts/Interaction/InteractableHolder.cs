@@ -2,6 +2,7 @@
 using MadSmith.Scripts.Gameplay;
 using MadSmith.Scripts.OLD;
 using UnityEngine;
+using DeliveryBox = MadSmith.Scripts.Gameplay.DeliveryBox;
 
 namespace MadSmith.Scripts.Interaction
 {
