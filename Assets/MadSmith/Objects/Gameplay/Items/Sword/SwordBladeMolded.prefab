@@ -86,7 +86,7 @@ Transform:
   - {fileID: 928626319}
   - {fileID: 1319839217592996189}
   m_Father: {fileID: 0}
-  m_RootOrder: -1
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &4612983853752992604
 MonoBehaviour:
@@ -100,7 +100,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 94cf1676aec549909b2f41cbacf195c5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  slider: {fileID: 1250204631187224290}
+  slider: {fileID: 1210240912029152390}
   baseItem: {fileID: 11400000, guid: 437cc544ecdcf2f4b8d42f7b972ffffe, type: 2}
   soundIn: {fileID: 8300000, guid: f84656f8e994a7c4085b999788f0b568, type: 3}
   soundOut: {fileID: 8300000, guid: f84656f8e994a7c4085b999788f0b568, type: 3}
@@ -338,14 +338,29 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 8350686225194221548, guid: 1c48b4a51ef78a440b50631488f8baf5,
+        type: 3}
+      propertyPath: m_PresetInfoIsWorld
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8358505400095749220, guid: 1c48b4a51ef78a440b50631488f8baf5,
+        type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8358505400095749220, guid: 1c48b4a51ef78a440b50631488f8baf5,
+        type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 1c48b4a51ef78a440b50631488f8baf5, type: 3}
---- !u!114 &1250204631187224290 stripped
+--- !u!114 &1210240912029152390 stripped
 MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 3402310842337057688, guid: 1c48b4a51ef78a440b50631488f8baf5,
+  m_CorrespondingSourceObject: {fileID: 3361183274149337596, guid: 1c48b4a51ef78a440b50631488f8baf5,
     type: 3}
   m_PrefabInstance: {fileID: 4498798969257962874}
   m_PrefabAsset: {fileID: 0}
