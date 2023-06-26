@@ -62,9 +62,10 @@ namespace MadSmith.Scripts.Gameplay
         {
             for (int i = 0; i < deliveryBoxesSpawned.Length; i++)
             {
-                if (deliveryBoxesSpawned[i].npcId != npcId) continue;
+                if (ReferenceEquals(deliveryBoxesSpawned[i],null) || deliveryBoxesSpawned[i].npcId != npcId) continue;
                 //TODO: make box animation
-                Destroy(deliveryBoxesSpawned[i].gameObject);
+                deliveryBoxesSpawned[i].boxCollider.enabled = false;
+                Destroy(deliveryBoxesSpawned[i].gameObject,0.1f);
                 deliveryBoxesSpawned[i] = null;
                 break;
             }

@@ -23,6 +23,13 @@ namespace MadSmith.Scripts.Interaction
             while (isActive)
             {
                 ObjectInteractable closestInteractable = null;
+                // foreach (var interactable in _interactableList)
+                // {
+                //     if (ReferenceEquals(interactable.ObjectTransform.gameObject, null))
+                //     {
+                //         _interactableList.re''
+                //     }
+                // }
                 if (_interactableList.Count == 1)
                 {
                     closestInteractable = _interactableList[0];
@@ -36,17 +43,21 @@ namespace MadSmith.Scripts.Interaction
                     closestInteractable = _interactableList[0];
                     if (ReferenceEquals(closestInteractable.ObjectTransform, null))
                     {
+                        Debug.Log("Remove item" + closestInteractable);
                         Reset();
                         yield break;
                     }
-                    var closestDistance = Vector3.Distance(transform.position, closestInteractable.ObjectTransform.position);
-                    for (int i = 1; i < _interactableList.Count; i++)
+                    else
                     {
-                        var distance = Vector3.Distance(_interactableList[i].ObjectTransform.position, transform.position);
-                        if ( distance < closestDistance)
+                        var closestDistance = Vector3.Distance(transform.position, closestInteractable.ObjectTransform.position);
+                        for (int i = 1; i < _interactableList.Count; i++)
                         {
-                            closestInteractable = _interactableList[i];
-                            closestDistance = distance;
+                            var distance = Vector3.Distance(_interactableList[i].ObjectTransform.position, transform.position);
+                            if ( distance < closestDistance)
+                            {
+                                closestInteractable = _interactableList[i];
+                                closestDistance = distance;
+                            }
                         }
                     }
                 }

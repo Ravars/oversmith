@@ -34,6 +34,7 @@ namespace MadSmith.Scripts.Gameplay
         private int _numOfCorrectItems = 0;
         private int _totalItems = 0;
         private ClientsManager _clientsManager;
+        public BoxCollider boxCollider;
 
         public void Init(ItemDeliveryList requiredItems, BoxColor newBoxColor, int npcId, ClientsManager clientsManager)
         {
@@ -76,6 +77,8 @@ namespace MadSmith.Scripts.Gameplay
 
         private void Finish()
         {
+            if (!isRunning) return;
+            isRunning = false;
             _clientsManager.ClientFinish(npcId);
         }
         public void SetItem(Transform itemTransform, Item itemScript)

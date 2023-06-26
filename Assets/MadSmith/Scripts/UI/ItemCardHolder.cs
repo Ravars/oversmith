@@ -42,9 +42,6 @@ namespace MadSmith.Scripts.UI
                         a = blueImage;
                         break;
                 }
-                
-                
-                
                 itemCards[i].SetItem(itemStructs[i], i,a);
             }
         }

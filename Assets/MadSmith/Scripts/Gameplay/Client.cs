@@ -58,6 +58,7 @@ namespace MadSmith.Scripts.Gameplay
         public void MoveAway(Vector3 pointToMoveAway)
         {
             _agent.SetDestination(pointToMoveAway);
+            _agent.isStopped = false;
             _isMoving = true;
             
         }
