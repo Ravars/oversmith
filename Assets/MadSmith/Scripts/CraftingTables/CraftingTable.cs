@@ -18,12 +18,14 @@ namespace MadSmith.Scripts.CraftingTables
         public bool CanAddPlayer { get; protected set; } = true;
 
         [HideInInspector] public AudioSource _audioSource;
+        private Animator _animator;
         
         protected virtual void Awake()
         {
             _table = GetComponent<Table>();
             _craftingInteractionHandler = GetComponent<CraftingInteractionHandler>();
             _audioSource = GetComponent<AudioSource>();
+            _animator = GetComponentInChildren<Animator>();
         }
 
         private void OnTriggerExit(Collider other)
@@ -60,6 +62,11 @@ namespace MadSmith.Scripts.CraftingTables
             foreach (var particle in particleSystems)
             {
                 particle.gameObject.SetActive(state);
+            }
+
+            if (_animator != null)
+            {
+                _animator.SetBool("Rolling", state);
             }
         }
 
