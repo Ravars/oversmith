@@ -37,7 +37,6 @@ namespace MadSmith.Scripts.Managers
 
         private void OnEnable()
         {
-            Debug.Log("UI Manager OnEnable");
             _onSceneReady.OnEventRaised += ResetUI;
             _onLevelCompleted.OnEventRaised += OpenEndGameScreen;
             _inputReader.MenuPauseEvent += OpenUIPause;

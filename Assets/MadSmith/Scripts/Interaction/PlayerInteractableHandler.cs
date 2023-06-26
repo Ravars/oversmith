@@ -43,8 +43,8 @@ namespace MadSmith.Scripts.Interaction
                     closestInteractable = _interactableList[0];
                     if (ReferenceEquals(closestInteractable.ObjectTransform, null))
                     {
-                        Debug.Log("Remove item" + closestInteractable);
                         Reset();
+                        ClearList();
                         yield break;
                     }
                     else

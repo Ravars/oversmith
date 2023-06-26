@@ -169,7 +169,6 @@ GameObject:
   m_Component:
   - component: {fileID: 8379847422740087832}
   - component: {fileID: 413300357}
-  - component: {fileID: 3908228227116742946}
   - component: {fileID: 413300356}
   - component: {fileID: 413300358}
   m_Layer: 0
@@ -194,7 +193,7 @@ Transform:
   - {fileID: 2694110638999118442}
   - {fileID: 747548090}
   m_Father: {fileID: 0}
-  m_RootOrder: -1
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &413300357
 MonoBehaviour:
@@ -210,8 +209,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   requiredItems: {fileID: 11400000, guid: e540a521a87efc0409ddf35e88c7c2c6, type: 2}
   remainingItems: 
-  itemsDelivered: 0
-  boxItem: {fileID: 0}
   pointsToSpawn:
   - {fileID: 1987991631}
   - {fileID: 629404723}
@@ -225,23 +222,7 @@ MonoBehaviour:
   isActive: 0
   nextWagon: {fileID: 0}
   slider: {fileID: 2197824233295702776}
---- !u!114 &3908228227116742946
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6886491301316405951}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 94cf1676aec549909b2f41cbacf195c5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  slider: {fileID: 0}
-  baseItem: {fileID: 11400000, guid: 017ade32c9574fe448e8c03548740ead, type: 2}
-  soundIn: {fileID: 0}
-  soundOut: {fileID: 0}
-  craftSound: {fileID: 0}
+  wagonName: 
 --- !u!114 &413300356
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -260,12 +241,13 @@ MonoBehaviour:
   hasInteractable: 0
   hasDelivery: 1
   hasPallet: 0
+  hasTrashCan: 0
   table: {fileID: 0}
   dispenser: {fileID: 0}
   craftingTable: {fileID: 0}
   interactable: {fileID: 0}
   delivery: {fileID: 0}
-  pallet: {fileID: 0}
+  trashCan: {fileID: 0}
   visual: {fileID: 0}
   visualSelected: {fileID: 5476532541460232901}
 --- !u!65 &413300358

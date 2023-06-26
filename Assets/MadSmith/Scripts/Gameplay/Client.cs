@@ -12,7 +12,7 @@ namespace MadSmith.Scripts.Gameplay
         private static readonly int Run = Animator.StringToHash("Run");
         
         [Range(0.01f, 1f)] 
-        private const float Threshold = 0.1f;
+        private const float Threshold = 0.9f;
         private bool _isMoving;
         private NavMeshAgent _agent;
         private Animator _animator;
@@ -47,12 +47,13 @@ namespace MadSmith.Scripts.Gameplay
                 _agent.isStopped = true;
                 if (!_arrived)
                 {
+                    _arrived = true;
                     _clientsManager.ClientArrived(_npcIndex);
                     _animator.SetBool(Run, false);
                     return;
                 }
             }
-            _animator.SetBool(Run,_agent.velocity.magnitude > 0);
+            _animator.SetBool(Run,!_agent.isStopped);
         }
 
         public void MoveAway(Vector3 pointToMoveAway)

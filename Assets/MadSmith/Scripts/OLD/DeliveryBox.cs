@@ -23,7 +23,7 @@ namespace MadSmith.Scripts.OLD
     {
         public ItemDeliveryList requiredItems;
         public List<int> remainingItems;
-        public BaseItem boxItem;
+        // public BaseItem boxItem;
         public Transform[] pointsToSpawn;
         //public GameObject itemsHolder;
         public float totalTime = 120;

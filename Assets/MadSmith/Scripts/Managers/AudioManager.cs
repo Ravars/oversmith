@@ -50,7 +50,6 @@ namespace MadSmith.Scripts.Managers
 
         public void SetMasterVolume(float newVolume)
         {
-            Debug.Log("SetMasterVolume: " + newVolume);
             masterVolume = newVolume;
             SetGroupVolume(AudioGroups.MasterVolume.ToString(),newVolume);
         }

@@ -110,18 +110,17 @@ namespace MadSmith.Scripts.Interaction
 
                 if (interactable.hasDelivery && !interactable.delivery.CheckCompletion())
                 {
-                    if (ItemScript == null)
-                    {
-                        interactable.transform.SetParent(transform);
-                        _itemTransform = interactable.transform;
-                        ItemScript = interactable.delivery.GetComponent<Item>();
-                        Debug.Log("item script:" + ItemScript);
-                        _itemTransform.SetPositionAndRotation(itemHolder.position, Quaternion.identity);
-                        // interactable.delivery.SetTrigger(false);
-                        _playerInteractableHandler.ClearList();
-                    }
+                    // if (ItemScript == null)
+                    // {
+                    //     interactable.transform.SetParent(transform);
+                    //     _itemTransform = interactable.transform;
+                    //     ItemScript = interactable.delivery.GetComponent<Item>();
+                    //     _itemTransform.SetPositionAndRotation(itemHolder.position, Quaternion.identity);
+                    //     // interactable.delivery.SetTrigger(false);
+                    //     _playerInteractableHandler.ClearList();
+                    // }
                 
-                    if (interactable.delivery.CanSetItem(ItemScript) && ItemScript != null)
+                    if (ItemScript != null && interactable.delivery.CanSetItem(ItemScript))
                     {
                         // if (ItemScript?.baseItem.itemName != "Delivery Box")
                         // {

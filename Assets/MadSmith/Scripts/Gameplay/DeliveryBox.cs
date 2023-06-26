@@ -105,8 +105,7 @@ namespace MadSmith.Scripts.Gameplay
 
             if (CheckCompletion())
             {
-                Debug.Log("Ready to Deliver");
-                Invoke(nameof(Finish),2);
+                Invoke(nameof(Finish),1);
             }
         }
         public bool CheckCompletion()
