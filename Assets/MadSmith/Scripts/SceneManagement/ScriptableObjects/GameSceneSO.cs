@@ -20,6 +20,6 @@ namespace MadSmith.Scripts.SceneManagement.ScriptableObjects
         PersistentManager,
         Gameplay,
         Menu,
-        Location
+        Location,
     }
 }

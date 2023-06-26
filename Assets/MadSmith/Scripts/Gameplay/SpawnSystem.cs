@@ -27,7 +27,6 @@ namespace MadSmith.Scripts.Gameplay
 
         private void SpawnPlayer()
         {
-            Debug.Log(GameManager.InstanceExists);
             var index = GameManager.Instance.characterIndex;
             var player = Instantiate(GameManager.Instance.charactersPrefabs[index], spawnLocation.position, Quaternion.identity, spawnLocation);
             _inputReader.EnableGameplayInput();

@@ -21,6 +21,9 @@ namespace MadSmith.Scripts
         [SerializeField] private Animator _animator; // temporary
         [SerializeField] private PlayerInteractions _playerInteractions; // temporary
         [SerializeField] private InputReader _inputReader;
+        private static readonly int DoubleHand = Animator.StringToHash("DoubleHand");
+        private static readonly int Run = Animator.StringToHash("Run");
+
         void Start()
         {
             _cc = GetComponent<CharacterController>(); // Get the character controller component
@@ -81,8 +84,15 @@ namespace MadSmith.Scripts
         
             _cc.SimpleMove(movementDirection * moveSpeed);
 
-            _animator.SetBool("Run",movementDirection.magnitude > 0f);
-            //_animator.SetBool("Carry",!ReferenceEquals(_playerInteractions.ItemScript,null));
+            _animator.SetBool(Run,movementDirection.magnitude > 0f);
+            
+            bool isCarrying = !ReferenceEquals(_playerInteractions.ItemScript, null);
+            if (isCarrying)
+            {
+                bool doubleHand = _playerInteractions.ItemScript.baseItem.isDoubleHand;
+                _animator.SetBool(DoubleHand,doubleHand);
+            }
+            _animator.SetLayerWeight(1,isCarrying ? 1 : 0);
         }
 
         IEnumerator DashTimer(float dashTimer)

@@ -23,14 +23,14 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2346969192361077751}
-  m_LocalRotation: {x: 1, y: 0, z: 0, w: 0}
-  m_LocalPosition: {x: 0.964, y: 0.804, z: 0.834}
+  m_LocalRotation: {x: 0.7071068, y: -0, z: 0.7071068, w: 0}
+  m_LocalPosition: {x: 0.988, y: 0.804, z: 0.847}
   m_LocalScale: {x: 1.3, y: 1.3, z: 1.3}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 6273766464673046859}
   m_RootOrder: -1
-  m_LocalEulerAnglesHint: {x: 180, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 180, y: -90, z: 0}
 --- !u!1 &4136604704665009465
 GameObject:
   m_ObjectHideFlags: 0
@@ -143,12 +143,14 @@ MonoBehaviour:
   hasInteractable: 0
   hasDelivery: 0
   hasPallet: 0
+  hasTrashCan: 0
   table: {fileID: 0}
   dispenser: {fileID: 0}
   craftingTable: {fileID: 0}
   interactable: {fileID: 0}
   delivery: {fileID: 0}
   pallet: {fileID: 0}
+  trashCan: {fileID: 0}
   visual: {fileID: 5828242049246415656}
   visualSelected: {fileID: 4276677820481490174}
 --- !u!114 &6273766464673046857

@@ -37,7 +37,6 @@ namespace MadSmith.Scripts.Managers
 
         private void OnEnable()
         {
-            Debug.Log("UI Manager OnEnable");
             _onSceneReady.OnEventRaised += ResetUI;
             _onLevelCompleted.OnEventRaised += OpenEndGameScreen;
             _inputReader.MenuPauseEvent += OpenUIPause;
@@ -50,6 +49,7 @@ namespace MadSmith.Scripts.Managers
             inGameComponent.gameObject.SetActive(false);
             _endGameComponent.Setup(finalScore);
             _endGameComponent.Continued += EndGameComponentOnContinued;
+            _endGameComponent.BackToMenuClicked += ShowBackToMenuConfirmationPopup;
             _endGameComponent.gameObject.SetActive(true);
         }
         
@@ -57,6 +57,7 @@ namespace MadSmith.Scripts.Managers
         private void EndGameComponentOnContinued()
         {
             _endGameComponent.Continued -= EndGameComponentOnContinued;
+            _endGameComponent.BackToMenuClicked -= ShowBackToMenuConfirmationPopup;
             if (GameManager.Instance.CurrentSceneSo.sceneType == GameSceneType.Location && GameManager.Instance.CurrentSceneSo.nextScene != null)
             {
                 _endGameComponent.gameObject.SetActive(false);

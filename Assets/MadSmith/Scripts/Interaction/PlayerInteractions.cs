@@ -11,7 +11,7 @@ namespace MadSmith.Scripts.Interaction
         private PlayerInteractableHandler _playerInteractableHandler;
         public Transform _itemTransform;
         // private BaseItem _baseItemHolding;
-        public static Item ItemScript { get; set; }
+        public Item ItemScript { get; set; }
         public Transform itemHolder;
         
         private void Start()
@@ -42,7 +42,7 @@ namespace MadSmith.Scripts.Interaction
                 
                 if (interactable.hasInteractable)
                 {
-                    interactable.interactable.Interact(this.gameObject);
+                    interactable.interactable.Interact(this);
                 }
             }
             
@@ -95,42 +95,42 @@ namespace MadSmith.Scripts.Interaction
                     return;
                 }
 
-                if (interactable.hasPallet && ItemScript?.baseItem.itemName == "Delivery Box")
-                {
-                    if (interactable.pallet.CanSetBox())
-                    {
-                        if (interactable.pallet.PutOnPallet(ItemScript.transform))
-                        {
-                            _itemTransform = null;
-                            ItemScript = null;
-                        }
-                        return;
-                    }
-                }
+                // if (interactable.hasPallet && ItemScript?.baseItem.itemName == "Delivery Box")
+                // {
+                //     if (interactable.pallet.CanSetBox())
+                //     {
+                //         if (interactable.pallet.PutOnPallet(ItemScript.transform))
+                //         {
+                //             _itemTransform = null;
+                //             ItemScript = null;
+                //         }
+                //         return;
+                //     }
+                // }
 
-                if (interactable.hasDelivery && interactable.delivery.isActive)
+                if (interactable.hasDelivery && !interactable.delivery.CheckCompletion())
                 {
-                    if (ItemScript == null)
+                    // if (ItemScript == null)
+                    // {
+                    //     interactable.transform.SetParent(transform);
+                    //     _itemTransform = interactable.transform;
+                    //     ItemScript = interactable.delivery.GetComponent<Item>();
+                    //     _itemTransform.SetPositionAndRotation(itemHolder.position, Quaternion.identity);
+                    //     // interactable.delivery.SetTrigger(false);
+                    //     _playerInteractableHandler.ClearList();
+                    // }
+                
+                    if (ItemScript != null && interactable.delivery.CanSetItem(ItemScript))
                     {
-                        interactable.transform.SetParent(transform);
-                        _itemTransform = interactable.transform;
-                        ItemScript = interactable.delivery.GetComponent<Item>();
-                        _itemTransform.SetPositionAndRotation(itemHolder.position, Quaternion.identity);
-                        interactable.delivery.SetTrigger(false);
-                        _playerInteractableHandler.ClearList();
-                    }
-
-                    if (interactable.delivery.CanSetItem(ItemScript) && ItemScript != null)
-                    {
-                        if (ItemScript?.baseItem.itemName != "Delivery Box")
-                        {
+                        // if (ItemScript?.baseItem.itemName != "Delivery Box")
+                        // {
                             interactable.delivery.SetItem(_itemTransform, ItemScript);
                             _itemTransform = null;
                             ItemScript = null;
                             return;
-                        }
+                        // }
                     }
-
+                
                 }
                 if (interactable.hasTrashCan)
                 {

@@ -10,7 +10,7 @@ namespace MadSmith.Scripts.Interaction
             Debug.Log("interact");
         }
 
-        public virtual void Interact(GameObject obj)
+        public virtual void Interact(PlayerInteractions obj)
         {
             Debug.Log("gameobject interact");
         }
