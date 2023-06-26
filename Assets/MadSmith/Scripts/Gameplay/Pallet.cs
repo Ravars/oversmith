@@ -1,6 +1,7 @@
 using System;
 using System.Linq;
 using MadSmith.Scripts.Items;
+using MadSmith.Scripts.Managers;
 using UnityEngine;
 
 namespace MadSmith.Scripts.Gameplay
@@ -10,7 +11,7 @@ namespace MadSmith.Scripts.Gameplay
         [SerializeField] private DeliveryBox blueBoxesPrefabs,browBoxesPrefabs, orangeBoxesPrefabs, pinkBoxesPrefabs;
         [SerializeField] private DeliveryBox[] deliveryBoxesSpawned;
         [SerializeField] private Transform[] pointsToSpawnBoxes;
-
+        public ClientsManager clientsManager;
 
         private void Awake()
         {
@@ -52,9 +53,21 @@ namespace MadSmith.Scripts.Gameplay
 
 
             var deliveryBox = Instantiate(boxColorToUse, pointsToSpawnBoxes[indexToSpawn].position, Quaternion.identity, transform);
-            deliveryBox.Init(deliveryList,boxColor,npcId);
+            deliveryBox.Init(deliveryList,boxColor,npcId, clientsManager);
             deliveryBoxesSpawned[indexToSpawn] = deliveryBox;
 
+        }
+
+        public void DeSpawnBox(int npcId)
+        {
+            for (int i = 0; i < deliveryBoxesSpawned.Length; i++)
+            {
+                if (deliveryBoxesSpawned[i].npcId != npcId) continue;
+                //TODO: make box animation
+                Destroy(deliveryBoxesSpawned[i].gameObject);
+                deliveryBoxesSpawned[i] = null;
+                break;
+            }
         }
 
         public bool HasEmptyBox()

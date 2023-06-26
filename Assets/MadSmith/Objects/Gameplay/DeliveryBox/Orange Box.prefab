@@ -73,6 +73,7 @@ GameObject:
   - component: {fileID: 1476504692777149238}
   - component: {fileID: 7207335463013188396}
   - component: {fileID: 9195039579147892617}
+  - component: {fileID: 6244674407177200071}
   m_Layer: 6
   m_Name: Orange Box
   m_TagString: Untagged
@@ -95,7 +96,7 @@ Transform:
   - {fileID: 8663312048506747914}
   - {fileID: 7485319798171187642}
   m_Father: {fileID: 0}
-  m_RootOrder: 14
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &7207335463013188396
 MonoBehaviour:
@@ -153,6 +154,27 @@ MonoBehaviour:
   currentTime: 0
   isRunning: 0
   boxColor: 1
+--- !u!65 &6244674407177200071
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1141838856261028587}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 2, y: 1, z: 2}
+  m_Center: {x: 1, y: 0.5, z: 1}
 --- !u!1 &2302689951317248116
 GameObject:
   m_ObjectHideFlags: 0

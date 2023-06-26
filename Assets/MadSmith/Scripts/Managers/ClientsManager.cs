@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using MadSmith.Scripts.Events.ScriptableObjects;
 using MadSmith.Scripts.Gameplay;
+using MadSmith.Scripts.UI;
 using Unity.Mathematics;
 using UnityEngine;
 using Random = UnityEngine.Random;
@@ -17,10 +18,14 @@ namespace MadSmith.Scripts.Managers
         private List<Client> _clientsSpawned;
         private List<DeliveryBox> _deliveryBoxes;
         [SerializeField] private Pallet pallet;
-        
-        
+
+        private int _amountNpcActive = 0;
+        private int _maxNpcActive = 3;
+        [SerializeField] private int maxAmountNpc = 3;
         [Header("Listening to")]
         [SerializeField] private VoidEventChannelSO onSceneReady;
+
+        private bool _levelActive;
         private void OnEnable()
         {
             onSceneReady.OnEventRaised += Startup;
@@ -32,12 +37,18 @@ namespace MadSmith.Scripts.Managers
 
         private void Startup()
         {
-            Debug.Log("Startup");
             _clientsSpawned = new();
-            Debug.Log(CanSpawnNpc());
+            pallet.clientsManager = this;
             if (CanSpawnNpc())
             {
-                Debug.Log("Spawned");
+                SpawnNpc();
+            }
+        }
+
+        private void Update()
+        {
+            if (_amountNpcActive < _maxNpcActive)
+            {
                 SpawnNpc();
             }
         }
@@ -52,34 +63,37 @@ namespace MadSmith.Scripts.Managers
             int clientIndex = Random.Range(0, clients.Length);
             int pointToSpawnIndex = Random.Range(0, pointsToSpawnNpc.Length);
             int pointToMoveIndex = Random.Range(0, pointsToMoveNpc.Length);
-            int desiredItemsIndex = Random.Range(0, listOfDesiredItems.Length);
+            
             
             Client newClient = Instantiate(clients[clientIndex], pointsToSpawnNpc[pointToSpawnIndex].position,
                 Quaternion.identity);
             _clientsSpawned.Add(newClient);
 
-            var boxColor = pallet.GetUnusedBoxColor();
             int npcId = _clientsSpawned.Count;
-            Debug.Log("npc" + npcId);
-            if (boxColor != null)
-            { 
-                pallet.SpawnBox(listOfDesiredItems[desiredItemsIndex],(BoxColor)boxColor,npcId);   
-            }
+            _amountNpcActive++;
             newClient.Init(pointsToMoveNpc[pointToMoveIndex].position, npcId, this);
         }
 
         public void ClientArrived(int clientIndex)
         {
-            Debug.Log("Client Arrived: " + clientIndex);
-            SpawnBoxInPallet();
-            // Spawn Box in unique color
-            // Set items required
-            
+            SpawnBoxInPallet(clientIndex);   
         }
 
-        public void SpawnBoxInPallet()
+        public void ClientFinish(int clientIndex)
         {
-            
+            pallet.DeSpawnBox(clientIndex);
+            HudController.Instance.RemoveOrder(clientIndex);
+        }
+
+        private void SpawnBoxInPallet(int npcId)
+        {
+            var boxColor = pallet.GetUnusedBoxColor();
+            int desiredItemsIndex = Random.Range(0, listOfDesiredItems.Length);
+            if (boxColor != null)
+            { 
+                pallet.SpawnBox(listOfDesiredItems[desiredItemsIndex],(BoxColor)boxColor,npcId);   
+                HudController.Instance.AddOrder(listOfDesiredItems[desiredItemsIndex].Items.ToArray(),npcId, (BoxColor)boxColor);
+            }
         }
         
 

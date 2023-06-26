@@ -34,6 +34,11 @@ namespace MadSmith.Scripts.Interaction
                 else if(_interactableList.Count > 1)
                 {
                     closestInteractable = _interactableList[0];
+                    if (ReferenceEquals(closestInteractable.ObjectTransform, null))
+                    {
+                        Reset();
+                        yield break;
+                    }
                     var closestDistance = Vector3.Distance(transform.position, closestInteractable.ObjectTransform.position);
                     for (int i = 1; i < _interactableList.Count; i++)
                     {

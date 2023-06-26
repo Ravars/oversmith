@@ -11,7 +11,7 @@ namespace MadSmith.Scripts.UI.SettingsScripts
 {
     public class UILevelSelection : MonoBehaviour
     {
-        [SerializeField] private CinemachineVirtualCamera camera;
+        [SerializeField] private CinemachineVirtualCamera virtualCamera;
         private CinemachineTrackedDolly dolly;
         [SerializeField] private CinemachineSmoothPath dollyPath;
         [SerializeField] private int currentLevelSelected = 0;
@@ -37,7 +37,7 @@ namespace MadSmith.Scripts.UI.SettingsScripts
 
         private void Awake()
         {
-            dolly = camera.GetCinemachineComponent<CinemachineTrackedDolly>();
+            dolly = virtualCamera.GetCinemachineComponent<CinemachineTrackedDolly>();
         }
 
 

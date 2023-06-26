@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using MadSmith.Scripts.Events.ScriptableObjects;
+using MadSmith.Scripts.Gameplay;
 using MadSmith.Scripts.Items;
 using MadSmith.Scripts.OLD;
 using MadSmith.Scripts.Utils;
@@ -37,10 +38,10 @@ namespace MadSmith.Scripts.UI
             }
             ItemCardHolders.Clear();
         }
-        public void AddOrder(ItemStruct[] itemStructs, int npcId)
+        public void AddOrder(ItemStruct[] itemStructs, int npcId, BoxColor boxColor) //TODO: add BoxColor
         {
             ItemCardHolder itemCardHolder = Instantiate(orderCardPrefab, orderCardHolder).GetComponent<ItemCardHolder>();
-            itemCardHolder.SetItems(itemStructs,npcId);
+            itemCardHolder.SetItems(itemStructs,npcId, boxColor);
             ItemCardHolders.Add(itemCardHolder);
         }
 

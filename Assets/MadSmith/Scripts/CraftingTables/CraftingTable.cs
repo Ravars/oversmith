@@ -61,7 +61,10 @@ namespace MadSmith.Scripts.CraftingTables
         {
             foreach (var particle in particleSystems)
             {
-                particle.gameObject.SetActive(state);
+                if (particle != null)
+                {
+                    particle.gameObject.SetActive(state);
+                }
             }
 
             if (_animator != null)

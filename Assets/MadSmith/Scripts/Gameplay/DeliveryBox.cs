@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using MadSmith.Scripts.Interaction;
 using MadSmith.Scripts.Items;
+using MadSmith.Scripts.Managers;
 using MadSmith.Scripts.UI;
 using UnityEngine;
 using UnityEngine.UI;
@@ -29,14 +30,16 @@ namespace MadSmith.Scripts.Gameplay
         public float currentTime;
         public bool isRunning;
         public BoxColor boxColor;
-        private int _npcId;
+        public int npcId;
         private int _numOfCorrectItems = 0;
         private int _totalItems = 0;
+        private ClientsManager _clientsManager;
 
-        public void Init(ItemDeliveryList requiredItems, BoxColor newBoxColor, int npcId)
+        public void Init(ItemDeliveryList requiredItems, BoxColor newBoxColor, int npcId, ClientsManager clientsManager)
         {
-            _npcId = npcId;
+            this.npcId = npcId;
             _requiredItems = requiredItems;
+            _clientsManager = clientsManager;
             boxColor = newBoxColor;
             for (int i = 0; i < requiredItems.Items.Count; i++)
             {
@@ -60,6 +63,21 @@ namespace MadSmith.Scripts.Gameplay
             //     return _totalItems < maxItems;
             // }
         }
+        private void FixedUpdate()
+        {
+            if (!isRunning) return;
+            currentTime += Time.fixedDeltaTime;
+            // slider.value = 1 - (currentTime / totalTime);
+            if (currentTime >= totalTime)
+            {
+                Finish();
+            }
+        }
+
+        private void Finish()
+        {
+            _clientsManager.ClientFinish(npcId);
+        }
         public void SetItem(Transform itemTransform, Item itemScript)
         {
             int itemIndex = _requiredItems.Items.FindIndex(x => x.BaseItem.itemName == itemScript.baseItem.itemName);
@@ -68,7 +86,7 @@ namespace MadSmith.Scripts.Gameplay
                 remainingItems[itemIndex]--;
 
                 // SpawnTextStatus(true);
-                HudController.Instance.SetItemCollected(_requiredItems.Items[itemIndex].BaseItem,_npcId);
+                HudController.Instance.SetItemCollected(_requiredItems.Items[itemIndex].BaseItem,npcId);
                 _numOfCorrectItems++;
             }
             else
@@ -85,6 +103,7 @@ namespace MadSmith.Scripts.Gameplay
             if (CheckCompletion())
             {
                 Debug.Log("Ready to Deliver");
+                Invoke(nameof(Finish),2);
             }
         }
         public bool CheckCompletion()
