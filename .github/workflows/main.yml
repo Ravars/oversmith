@@ -212,6 +212,7 @@ jobs:
   #         branch: gh-pages
   #         folder: build/WebGL
   deploy:
+    needs: buildWindows
     name: Upload to Itch
     runs-on: ubuntu-latest
     strategy:
