@@ -226,7 +226,7 @@ jobs:
           name: build-StandaloneWindows64
           path: build/StandaloneWindows64
       - uses: josephbmanley/butler-publish-itchio-action@v1.0.3
-        with:
+        env:
           BUTLER_CREDENTIALS: ${{env.BUTLER_API_KEY}}
           PACKAGE: ./build/StandaloneWindows64
           ITCH_USER: ${{env.ITCH_USERNAME}}
