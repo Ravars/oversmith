@@ -76,7 +76,6 @@ namespace MadSmith.Scripts.Managers
 
         public static string CalculateScore(int finalScore)
         {
-            Debug.Log(finalScore);
             return finalScore switch
             {
                 >= 90 => "S",

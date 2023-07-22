@@ -7,93 +7,236 @@ using MadSmith.Scripts.SavingSystem;
 using MadSmith.Scripts.SceneManagement.ScriptableObjects;
 using MadSmith.Scripts.Systems.Settings;
 using MadSmith.Scripts.UI.Canvas;
+using MadSmith.Scripts.UI.SettingsScripts;
 using UnityEngine;
 
 namespace MadSmith.Scripts.UI.Managers
 {
+    public enum MenuState
+    {
+        MainMenu,
+        Settings,
+        Credits,
+        Tutorial,
+        CharacterSelection,
+        LevelSelection
+    }
     public class UIMenuManager : MonoBehaviour
     {
+        public MenuState State { get; private set; }
         private bool _hasSaveData;
-        [SerializeField] private UIPopup _popupPanel = default;
-        [SerializeField] private UISettingsController _settingsPanel = default;
-        [SerializeField] private UIMainMenu _mainMenuPanel = default;
-        [SerializeField] private UICredits _creditsPanel = default;
         [SerializeField] private SaveSystem _saveSystem = default;
+        [SerializeField] private InputReader _inputReader = default;
+        [SerializeField] private GameDataSO currentGameData;
+        [SerializeField] private GameSceneSO _locationToNewGame;
+        
+        [Header("UI Scripts")]
+        [SerializeField] private UIMainMenu _mainMenuPanel = default;
+        [SerializeField] private UISettingsController _settingsPanel = default;
+        [SerializeField] private UICredits _creditsPanel = default;
+        [SerializeField] private UIPopup _popupPanel = default;
+        [SerializeField] private CharacterSelect _characterSelectUI;
+        [SerializeField] private UILevelSelection _levelSelectUI;
+        [SerializeField] private UITutorial uiTutorial ;
+        
+        [Header("Cameras")]
         [SerializeField] private GameObject _mainMenuCamera;
         [SerializeField] private GameObject _characterSelectCamera;
-        [SerializeField] private CharacterSelect _characterSelectUI;
         [SerializeField] private GameObject _creditsCamera;
+        [SerializeField] private GameObject _tutorialCamera;
+        [SerializeField] private GameObject _levelSelectCamera;
         
-        [SerializeField] private GameSceneSO _locationTutorial;
-
-        //REMOVER
-        // [SerializeField] private Transform _characterToRotate;
-        // [SerializeField] private Transform _characterRotation;
-
-        [SerializeField] private InputReader _inputReader = default;
         [Header("Broadcasting on")]
-        [SerializeField] private LoadEventChannelSO _loadTutorialEvent = default;
-        [SerializeField] private VoidEventChannelSO _startNewGameEvent = default;
-        [SerializeField] private VoidEventChannelSO _continueGameEvent = default;
+        [SerializeField] private LoadEventChannelSO _loadLocation = default;
         private IEnumerator Start()
         {
             _inputReader.EnableMenuInput(); //TODO active this
             yield return new WaitForSeconds(0.4f); //waiting time for all scenes to be loaded
             SetMenuScreen();
+            SetSettingsScreen();
+            SetCreditsScreen();
+            SetCharacterSelectScreen();
+            SetLevelSelectScreen();
+            SetTutorialScreen();
+            SetState(MenuState.MainMenu);
         }
-        
-        void SetMenuScreen()
+
+        private void OnDisable()
+        {
+            UnsetMenuScreen();
+            UnsetSettingsScreen();
+            UnsetCreditsScreen();
+            
+            UnsetLevelSelectScreen();
+            UnsetCharacterSelectScreen();
+            UnsetTutorialScreen();
+        }
+
+        private void SetState(MenuState newState)
+        {
+            //Exit State
+            switch (State)
+            {
+                case MenuState.MainMenu:
+                    CloseMenuScreen();
+                    break;
+                case MenuState.Settings:
+                    CloseSettingsScreen();
+                    break;
+                case MenuState.Credits:
+                    CloseCreditsScreen();
+                    break;
+                case MenuState.Tutorial:
+                    CloseTutorialScreen();
+                    break;
+                case MenuState.CharacterSelection:
+                    CloseCharacterSelect();
+                    break;
+                case MenuState.LevelSelection:
+                    CloseLevelSelect();
+                    break;
+                default:
+                    Debug.Log("Nothing");
+                    break;
+            }
+
+            State = newState;
+            
+            //Enter State
+            switch (newState)
+            {
+                case MenuState.MainMenu:
+                    OpenMenuScreen();
+                    break;
+                case MenuState.Settings:
+                    OpenSettingsScreen();
+                    break;
+                case MenuState.Credits:
+                    OpenCreditsScreen();
+                    break;
+                case MenuState.Tutorial:
+                    OpenTutorialScreen();
+                    break;
+                case MenuState.CharacterSelection:
+                    OpenCharacterSelect();
+                    break;
+                case MenuState.LevelSelection:
+                    OpenLevelSelect();
+                    break;
+                default:
+                    Debug.Log("Nothing");
+                    break;
+            }
+        }
+        #region Main Menu
+        private void SetMenuScreen()
         {
             _hasSaveData = _saveSystem.Loaded;
             _mainMenuPanel.SetMenuScreen(_hasSaveData);
-            _mainMenuPanel.ContinueButtonAction += _continueGameEvent.RaiseEvent;
-            _mainMenuPanel.NewGameButtonAction += OpenCharacterSelect;
-            _mainMenuPanel.SettingsButtonAction += OpenSettingsScreen;
-            _mainMenuPanel.CreditsButtonAction += OpenCreditsScreen;
-            _mainMenuPanel.TutorialButtonAction += LoadTutorialLevel;
+            _mainMenuPanel.NewGameButtonAction += () => SetState(MenuState.CharacterSelection);
+            _mainMenuPanel.SettingsButtonAction += () => SetState(MenuState.Settings);
+            _mainMenuPanel.CreditsButtonAction += () => SetState(MenuState.Credits);
+            _mainMenuPanel.TutorialButtonAction += () => SetState(MenuState.Tutorial);
             _mainMenuPanel.ExitButtonAction += ShowExitConfirmationPopup;
-
         }
+        private void UnsetMenuScreen()
+        {
+            _mainMenuPanel.NewGameButtonAction -= () => SetState(MenuState.CharacterSelection);
+            _mainMenuPanel.SettingsButtonAction -= () => SetState(MenuState.Settings);
+            _mainMenuPanel.CreditsButtonAction -= () => SetState(MenuState.Credits);
+            _mainMenuPanel.TutorialButtonAction -= () => SetState(MenuState.Tutorial);
+            _mainMenuPanel.ExitButtonAction -= ShowExitConfirmationPopup;
+        }
+        private void OpenMenuScreen()
+        {
+            _mainMenuCamera.SetActive(true);
+            _mainMenuPanel.gameObject.SetActive(true);
+        }
+        private void CloseMenuScreen()
+        {
+            _mainMenuCamera.SetActive(false);
+            _mainMenuPanel.gameObject.SetActive(false);
+        }
+        #endregion
 
         #region Settings
-        public void OpenSettingsScreen()
+
+        private void SetSettingsScreen()
         {
-            _settingsPanel.gameObject.SetActive(true);
-            _mainMenuPanel.gameObject.SetActive(false);
-            _settingsPanel.Closed += CloseSettingsScreen;
+            _settingsPanel.Closed += () => SetState(MenuState.MainMenu);
         }
-        public void CloseSettingsScreen()
+
+        private void UnsetSettingsScreen()
         {
-            _settingsPanel.Closed -= CloseSettingsScreen;
+            _settingsPanel.Closed -= () => SetState(MenuState.MainMenu);
+        }
+
+        private void OpenSettingsScreen()
+        {
+            _mainMenuCamera.SetActive(true);
+            _settingsPanel.gameObject.SetActive(true);
+        }
+
+        private void CloseSettingsScreen()
+        {
+            _settingsPanel.Closed -= () => SetState(MenuState.MainMenu);
+            _mainMenuCamera.SetActive(false);
             _settingsPanel.gameObject.SetActive(false);
-            _mainMenuPanel.SetMenuScreen(_hasSaveData);
         }
         #endregion
 
         #region Credits
-        public void OpenCreditsScreen()
+
+        private void SetCreditsScreen()
         {
-            _mainMenuCamera.SetActive(false);
+            _creditsPanel.OnCloseCredits += () => SetState(MenuState.MainMenu);
+        }
+        private void UnsetCreditsScreen()
+        {
+            _creditsPanel.OnCloseCredits -= () => SetState(MenuState.MainMenu);
+        }
+
+        private void OpenCreditsScreen()
+        {
             _creditsCamera.SetActive(true);
             _creditsPanel.gameObject.SetActive(true);
-            _mainMenuPanel.gameObject.SetActive(false);
-            _creditsPanel.OnCloseCredits += CloseCreditsScreen;
         }
-        public void CloseCreditsScreen()
+
+        private void CloseCreditsScreen()
         {
             _creditsCamera.SetActive(false);
-            _mainMenuCamera.SetActive(true);
-            _creditsPanel.OnCloseCredits -= CloseCreditsScreen;
             _creditsPanel.gameObject.SetActive(false);
-            _mainMenuPanel.SetMenuScreen(_hasSaveData);
         }
         #endregion
 
-        public void OpenCharacterSelect()
+        #region Character Selection
+
+        private void SetCharacterSelectScreen()
         {
             _characterSelectUI.Setup();
-            // _characterToRotate.rotation = _characterRotation.rotation;
-            _mainMenuCamera.SetActive(false);
+            _characterSelectUI.OnCharacterSelected += OnCharacterSelected;
+            _characterSelectUI.OnCloseCharacterSelection += () => SetState(MenuState.MainMenu);
+        }
+        private void UnsetCharacterSelectScreen()
+        {
+            _characterSelectUI.OnCharacterSelected -= OnCharacterSelected;
+            _characterSelectUI.OnCloseCharacterSelection -= () => SetState(MenuState.MainMenu);
+        }
+
+        private void OnCharacterSelected()
+        {
+            if (currentGameData.LevelScores.Count > 0)
+            {
+                SetState(MenuState.LevelSelection);
+            }
+            else
+            {
+                _loadLocation.RaiseEvent(_locationToNewGame, true, true);
+            }
+        }
+
+        private void OpenCharacterSelect()
+        {
             _characterSelectCamera.SetActive(true);
             _characterSelectUI.gameObject.SetActive(true);
         }
@@ -102,20 +245,61 @@ namespace MadSmith.Scripts.UI.Managers
         {
             _characterSelectUI.gameObject.SetActive(false);
             _characterSelectCamera.SetActive(false);
-            _mainMenuCamera.SetActive(true);
         }
-        
-        public void ButtonStartNewGameClicked()
+        #endregion
+
+        #region Tutorial
+
+        private void SetTutorialScreen()
         {
-            Debug.Log(_hasSaveData);
-            ConfirmStartNewGame();
+            uiTutorial.OnCloseTutorial += () => SetState(MenuState.MainMenu);
         }
 
-        void ConfirmStartNewGame()
+        private void UnsetTutorialScreen()
         {
-            _startNewGameEvent.RaiseEvent();
+            uiTutorial.OnCloseTutorial -= () => SetState(MenuState.MainMenu);
         }
-        public void ShowExitConfirmationPopup()
+
+        private void OpenTutorialScreen()
+        {
+            uiTutorial.gameObject.SetActive(true);
+            _tutorialCamera.SetActive(true);
+        }
+
+        private void CloseTutorialScreen()
+        {
+            uiTutorial.gameObject.SetActive(false);
+            _tutorialCamera.SetActive(false);
+        }
+        #endregion
+
+        #region Level Selection
+
+        private void SetLevelSelectScreen()
+        {
+            _levelSelectUI.OnCloseLevelSelection += () => SetState(MenuState.CharacterSelection);
+        }
+
+        private void UnsetLevelSelectScreen()
+        {
+            _levelSelectUI.OnCloseLevelSelection -= () => SetState(MenuState.CharacterSelection);
+        }
+
+        private void OpenLevelSelect()
+        {
+            _levelSelectUI.gameObject.SetActive(true);
+            _levelSelectCamera.SetActive(true);
+        }
+
+        private void CloseLevelSelect()
+        {
+            _levelSelectUI.gameObject.SetActive(false);
+            _levelSelectCamera.SetActive(false);
+        }
+        #endregion
+
+        #region Quit game Popup
+        private void ShowExitConfirmationPopup()
         {
             _popupPanel.ConfirmationResponseAction += HideExitConfirmationPopup;
             _popupPanel.gameObject.SetActive(true);
@@ -131,19 +315,11 @@ namespace MadSmith.Scripts.UI.Managers
             }
             _mainMenuPanel.SetMenuScreen(_hasSaveData);
         }
+        #endregion
         private void OnDestroy()
         {
             _popupPanel.ConfirmationResponseAction -= HideExitConfirmationPopup;
             // _popupPanel.ConfirmationResponseAction -= StartNewGamePopupResponse;
         }
-
-        private void LoadTutorialLevel()
-        {
-            _loadTutorialEvent.RaiseEvent(_locationTutorial, true, true);
-        }
-        
-        
-        
-        
     }
 }

@@ -1,11 +1,14 @@
 using System;
 using Cinemachine;
 using MadSmith.Scripts.Events.ScriptableObjects;
+using MadSmith.Scripts.Input;
 using MadSmith.Scripts.Managers;
 using MadSmith.Scripts.SavingSystem;
 using MadSmith.Scripts.Systems.Settings;
 using TMPro;
 using UnityEngine;
+using UnityEngine.Events;
+using UnityEngine.UI;
 
 namespace MadSmith.Scripts.UI.SettingsScripts
 {
@@ -19,25 +22,33 @@ namespace MadSmith.Scripts.UI.SettingsScripts
         [SerializeField] private TextMeshProUGUI levelScoreText;
         [SerializeField] private TextMeshProUGUI levelIndexText;
         [SerializeField] private GameDataSO currentGameData;
-        
-        [Header("Listening on")] 
-        [SerializeField] private VoidEventChannelSO _onSceneReady = default;
-        
+
+        [SerializeField] private InputReader _inputReader;
+        public UnityAction OnCloseLevelSelection;
+
+        [SerializeField] private Button levelSelectButton;
         [Header("Broadcasting to")]
         [SerializeField] private LoadEventChannelSO _onLoadScene = default;
-        private void OnEnable()
-        {
-            _onSceneReady.OnEventRaised += Setup;
-        }
-
-        private void OnDisable()
-        {
-            _onSceneReady.OnEventRaised -= Setup;
-        }
 
         private void Awake()
         {
             dolly = virtualCamera.GetCinemachineComponent<CinemachineTrackedDolly>();
+        }
+
+        private void OnEnable()
+        {
+            _inputReader.MenuCloseEvent += CloseLevelSelection;
+            Setup();
+        }
+
+        private void OnDisable()
+        {
+            _inputReader.MenuCloseEvent -= CloseLevelSelection;
+        }
+
+        public void CloseLevelSelection()
+        {
+            OnCloseLevelSelection?.Invoke();
         }
 
 
@@ -64,12 +75,11 @@ namespace MadSmith.Scripts.UI.SettingsScripts
 
         public void Play()
         {
-            _onLoadScene.RaiseEvent(GameManager.Instance.sceneSos[currentLevelSelected],true,true);
+            _onLoadScene.RaiseEvent(GameManager.Instance.sceneSos[currentLevelSelected],true);
         }
 
         public void LeftButton()
         {
-            Debug.Log("left");
             if (currentLevelSelected == 0)
             {
                 currentLevelSelected = GameManager.Instance.sceneSos.Length - 1;
@@ -84,7 +94,6 @@ namespace MadSmith.Scripts.UI.SettingsScripts
 
         public void RightButton()
         {
-            Debug.Log("right");
             if (currentLevelSelected == GameManager.Instance.sceneSos.Length - 1)
             {
                 currentLevelSelected = 0;

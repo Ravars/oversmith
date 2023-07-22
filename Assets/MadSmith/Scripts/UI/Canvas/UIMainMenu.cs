@@ -18,7 +18,7 @@ namespace MadSmith.Scripts.UI.Canvas
 
         public void SetMenuScreen(bool hasSaveData)
         {
-            gameObject.SetActive(true);
+            // gameObject.SetActive(true);
             continueButton.interactable = hasSaveData;
             if (hasSaveData)
             {

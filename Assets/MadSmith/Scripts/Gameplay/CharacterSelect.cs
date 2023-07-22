@@ -1,5 +1,8 @@
+using System;
+using MadSmith.Scripts.Input;
 using MadSmith.Scripts.Managers;
 using UnityEngine;
+using UnityEngine.Events;
 
 namespace MadSmith.Scripts.Gameplay
 {
@@ -7,13 +10,35 @@ namespace MadSmith.Scripts.Gameplay
     {
         public GameObject[] playerCharacters;
         private int selectedCharacter = 0;
+        public UnityAction OnCharacterSelected;
+        public UnityAction OnCloseCharacterSelection;
+        [SerializeField] private InputReader _inputReader;
 
+        private void OnEnable()
+        {
+            _inputReader.MenuCloseEvent += CloseCharacterSelectionButton;
+        }
+
+        private void OnDisable()
+        {
+            _inputReader.MenuCloseEvent -= CloseCharacterSelectionButton;
+        }
 
         public void Setup()
         {
             playerCharacters[selectedCharacter].gameObject.SetActive(false);
             selectedCharacter = GameManager.Instance.characterIndex;
             playerCharacters[selectedCharacter].gameObject.SetActive(true);
+        }
+
+        public void ButtonCharacterSelected()
+        {
+            OnCharacterSelected?.Invoke();
+        }
+
+        public void CloseCharacterSelectionButton()
+        {
+            OnCloseCharacterSelection?.Invoke();
         }
     
         public void LeftButton()

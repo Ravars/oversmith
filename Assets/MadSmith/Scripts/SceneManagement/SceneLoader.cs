@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using MadSmith.Scripts.Events.ScriptableObjects;
+using MadSmith.Scripts.Input;
 using MadSmith.Scripts.SceneManagement.ScriptableObjects;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
@@ -13,7 +14,7 @@ namespace MadSmith.Scripts.SceneManagement
     public class SceneLoader : MonoBehaviour
     {
         [SerializeField] private GameSceneSO gameplayScene = default;
-
+        [SerializeField] private InputReader _inputReader;
         [Header("Listening To")] 
         [SerializeField] private LoadEventChannelSO loadLocation = default;
         [SerializeField] private LoadEventChannelSO loadMenu;
@@ -63,8 +64,16 @@ namespace MadSmith.Scripts.SceneManagement
 
         private IEnumerator UnloadPreviousScene()
         {
-            // _inputReader.DisableAllInput();
+            _inputReader.DisableAllInput();
 		    // _fadeRequestChannel.FadeOut(_fadeDuration);
+
+            #region Test
+            if (_showLoadingScreen)
+            {
+                _toggleLoadingScreen.RaiseEvent(true);
+            }
+            #endregion
+            
             yield return new WaitForSeconds(_fadeDuration);
             if (_currentlyLoadedScene != null)
             {
@@ -80,10 +89,10 @@ namespace MadSmith.Scripts.SceneManagement
         /// </summary>
         private void LoadNewScene()
         {
-            if (_showLoadingScreen)
-            {
-                _toggleLoadingScreen.RaiseEvent(true);
-            }
+            // if (_showLoadingScreen)
+            // {
+            //     _toggleLoadingScreen.RaiseEvent(true);
+            // }
 
             _loadingOperationHandle = _sceneToLoad.sceneReference.LoadSceneAsync(LoadSceneMode.Additive, true, 0);
             _loadingOperationHandle.Completed += OnNewSceneLoaded;

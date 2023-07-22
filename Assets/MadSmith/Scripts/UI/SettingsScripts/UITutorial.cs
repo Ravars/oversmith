@@ -1,7 +1,9 @@
 using Cinemachine;
 using MadSmith.Scripts.Events.ScriptableObjects;
+using MadSmith.Scripts.Input;
 using MadSmith.Scripts.SceneManagement.ScriptableObjects;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.Localization.Components;
 using UnityEngine.UI;
 
@@ -9,22 +11,18 @@ namespace MadSmith.Scripts.UI.SettingsScripts
 {
     public class UITutorial : MonoBehaviour
     {
-        [SerializeField] private CinemachineVirtualCamera virtualCamera;
         private CinemachineTrackedDolly dolly;
+        [SerializeField] private CinemachineVirtualCamera virtualCamera;
         [SerializeField] private CinemachineSmoothPath dollyPath;
         [SerializeField] private int currentTutorialIndex = 0;
-        [Header("Listening on")] 
-        [SerializeField] private VoidEventChannelSO _onSceneReady = default;
-
         [SerializeField] private LocalizeStringEvent text;
-
+        
         [SerializeField] private Button leftButton;
         [SerializeField] private Button rightButton;
-
-        [SerializeField] private GameSceneSO mainMenu;
         
-        [Header("Broadcasting to")]
-        [SerializeField] private LoadEventChannelSO _onLoadScene = default; //TODO: remove this and change this scene to MainMenu
+        [SerializeField] private InputReader _inputReader;
+        public UnityAction OnCloseTutorial;
+        
         
         private void Awake()
         {
@@ -32,12 +30,13 @@ namespace MadSmith.Scripts.UI.SettingsScripts
         }
         private void OnEnable()
         {
-            _onSceneReady.OnEventRaised += Setup;
+            Setup();
+            _inputReader.MenuCloseEvent += CloseTutorialScreen;
         }
 
         private void OnDisable()
         {
-            _onSceneReady.OnEventRaised -= Setup;
+            _inputReader.MenuCloseEvent -= CloseTutorialScreen;
         }
 
         private void Setup()
@@ -81,9 +80,10 @@ namespace MadSmith.Scripts.UI.SettingsScripts
             SetData();
         }
 
-        public void BackToMenuButton()
+        public void CloseTutorialScreen()
         {
-            _onLoadScene.RaiseEvent(mainMenu, true, true);
+            OnCloseTutorial?.Invoke();
+            // _onLoadScene.RaiseEvent(mainMenu, true, true);
         }
     }
 }

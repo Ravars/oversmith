@@ -13,8 +13,8 @@ namespace MadSmith.Scripts.SceneManagement
 {
     public class StartGame : MonoBehaviour
     {
-        [SerializeField] private GameSceneSO _locationToLevelSelect;
-        [SerializeField] private GameSceneSO _locationToNewGame;
+        // [SerializeField] private GameSceneSO _locationToLevelSelect;
+        // [SerializeField] private GameSceneSO _locationToNewGame;
         [SerializeField] private SaveSystem saveSystem;
         [SerializeField] private bool _showLoadScreen = default;
         
@@ -44,14 +44,14 @@ namespace MadSmith.Scripts.SceneManagement
 
         private void StartNewGame()
         {
-            if (currentGameData.LevelScores.Count > 0)
-            {
-                _loadLocation.RaiseEvent(_locationToLevelSelect, _showLoadScreen);
-            }
-            else
-            {
-                _loadLocation.RaiseEvent(_locationToNewGame, _showLoadScreen);
-            }
+            // if (currentGameData.LevelScores.Count > 0)
+            // {
+            //     _loadLocation.RaiseEvent(_locationToLevelSelect, _showLoadScreen);
+            // }
+            // else
+            // {
+            //     _loadLocation.RaiseEvent(_locationToNewGame, _showLoadScreen);
+            // }
         }
         private IEnumerator LoadSaveGame() //TODO: verificar se funciona
         {
