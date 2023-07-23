@@ -221,14 +221,14 @@ jobs:
         channel:
           - windows
     steps:
-      - uses: actions/download-artifact@v2.0.8
+      - uses: actions/download-artifact@v0.0.3
         with:
           name: build-StandaloneWindows64
           path: build/StandaloneWindows64
       - uses: KikimoraGames/itch-publish@v15.21.0
         with:
           butlerApiKey: ${{secrets.BUTLER_API_KEY}}
-          gameData: ./build/StandaloneWindows64
+          gameData: StandaloneWindows64
           itchUsername: ${{env.ITCH_USERNAME}}
           itchGameId: ${{ env.ITCH_GAME_ID }}
           buildChannel: ${{ matrix.channel }}
