@@ -7,6 +7,8 @@ on:
 
 env:
   UNITY_LICENSE: ${{ secrets.UNITY_LICENSE }}
+  ITCH_USERNAME: ${{secrets.ITCH_USERNAME}}
+  ITCH_GAME_ID: ${{secrets.ITCH_GAME_ID}}
 
 jobs:
   testRunner:
@@ -228,7 +230,7 @@ jobs:
       - uses: KikimoraGames/itch-publish@v0.0.3
         with:
           butlerApiKey: ${{secrets.BUTLER_API_KEY}}
-          gameData: StandaloneWindows64
+          gameData: ./build/StandaloneWindows64
           itchUsername: ${{env.ITCH_USERNAME}}
-          itchGameId: ${{ env.ITCH_GAME_ID }}
+          itchGameId: ${{env.ITCH_GAME_ID}}
           buildChannel: ${{ matrix.channel }}
