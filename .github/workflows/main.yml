@@ -225,7 +225,7 @@ jobs:
         with:
           name: build-StandaloneWindows64
           path: build/StandaloneWindows64
-      - uses: KikimoraGames/itch-publish@v0.0.3
+      - uses: KikimoraGames/itch-publish@v15.21.0
         with:
           butlerApiKey: ${{secrets.BUTLER_API_KEY}}
           gameData: ./build/StandaloneWindows64
