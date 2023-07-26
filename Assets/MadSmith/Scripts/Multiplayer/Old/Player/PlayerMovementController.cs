@@ -1,10 +1,8 @@
-using System;
 using MadSmith.Scripts.Interaction;
 using Mirror;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 
-namespace MadSmith.Scripts.Multiplayer.Player
+namespace MadSmith.Scripts.Multiplayer.Old.Player
 {
     [RequireComponent(typeof(CharacterController))]
     public class PlayerMovementController : NetworkBehaviour

@@ -1,10 +1,9 @@
-using System;
 using Steamworks;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace MadSmith.Scripts.Multiplayer.UI
+namespace MadSmith.Scripts.Multiplayer.Old.UI
 {
     public class PlayerListItem : MonoBehaviour
     {

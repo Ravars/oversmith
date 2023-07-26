@@ -1,10 +1,9 @@
-using MadSmith.Scripts.Multiplayer.Managers;
-using UnityEngine;
-using UnityEngine.UI;
+using MadSmith.Scripts.Multiplayer.Old.Managers;
 using Steamworks;
 using TMPro;
+using UnityEngine;
 
-namespace MadSmith.Scripts.Multiplayer.UI
+namespace MadSmith.Scripts.Multiplayer.Old.UI
 {
     public class LobbyDataEntry : MonoBehaviour
     {

@@ -1,14 +1,14 @@
 using System.Collections.Generic;
 using System.Linq;
-using MadSmith.Scripts.Multiplayer.Player;
-using MadSmith.Scripts.Multiplayer.UI;
+using MadSmith.Scripts.Multiplayer.Old.Player;
+using MadSmith.Scripts.Multiplayer.Old.UI;
 using MadSmith.Scripts.Utils;
 using Steamworks;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace MadSmith.Scripts.Multiplayer.Managers
+namespace MadSmith.Scripts.Multiplayer.Old.Managers
 {
     public class SteamLobbyController : Singleton<SteamLobbyController>
     {

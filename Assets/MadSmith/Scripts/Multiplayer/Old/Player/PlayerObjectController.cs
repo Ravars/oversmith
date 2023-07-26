@@ -1,12 +1,11 @@
-using System;
-using MadSmith.Scripts.Multiplayer.Managers;
+using MadSmith.Scripts.Multiplayer.Old.Managers;
 using Mirror;
 using Steamworks;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using Random = UnityEngine.Random;
 
-namespace MadSmith.Scripts.Multiplayer.Player
+namespace MadSmith.Scripts.Multiplayer.Old.Player
 {
     [RequireComponent(typeof(PlayerMovementController))]
     public class PlayerObjectController : NetworkBehaviour
