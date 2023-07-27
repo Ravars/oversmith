@@ -13,6 +13,7 @@ namespace MadSmith.Scripts.Multiplayer.Managers
         protected Callback<LobbyCreated_t> LobbyCreated;
         protected Callback<GameLobbyJoinRequested_t> JoinRequested;
         protected Callback<LobbyEnter_t> LobbyEntered;
+        
 
         public ulong currentLobbyID;
         private const string HostAddressKey = "HostAddress";

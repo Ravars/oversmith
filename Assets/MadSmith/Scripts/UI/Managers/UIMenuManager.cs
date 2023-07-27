@@ -8,6 +8,7 @@ using MadSmith.Scripts.SceneManagement.ScriptableObjects;
 using MadSmith.Scripts.Systems.Settings;
 using MadSmith.Scripts.UI.Canvas;
 using MadSmith.Scripts.UI.SettingsScripts;
+using Mirror;
 using UnityEngine;
 
 namespace MadSmith.Scripts.UI.Managers
@@ -21,7 +22,7 @@ namespace MadSmith.Scripts.UI.Managers
         CharacterSelection,
         LevelSelection
     }
-    public class UIMenuManager : MonoBehaviour
+    public class UIMenuManager : NetworkBehaviour
     {
         public MenuState State { get; private set; }
         private bool _hasSaveData;
@@ -74,6 +75,7 @@ namespace MadSmith.Scripts.UI.Managers
 
         private void SetState(MenuState newState)
         {
+            if (!isServer) return;
             //Exit State
             switch (State)
             {
@@ -152,6 +154,7 @@ namespace MadSmith.Scripts.UI.Managers
             _mainMenuCamera.SetActive(true);
             _mainMenuPanel.gameObject.SetActive(true);
         }
+        [ClientRpc]
         private void CloseMenuScreen()
         {
             _mainMenuCamera.SetActive(false);
@@ -211,12 +214,14 @@ namespace MadSmith.Scripts.UI.Managers
 
         #region Character Selection
 
+        [ClientRpc]
         private void SetCharacterSelectScreen()
         {
             _characterSelectUI.Setup();
             _characterSelectUI.OnCharacterSelected += OnCharacterSelected;
             _characterSelectUI.OnCloseCharacterSelection += () => SetState(MenuState.MainMenu);
         }
+        
         private void UnsetCharacterSelectScreen()
         {
             _characterSelectUI.OnCharacterSelected -= OnCharacterSelected;
