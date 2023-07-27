@@ -12,7 +12,6 @@ namespace MadSmith.Scripts.Multiplayer.Managers
         public List<PlayerObjectController> GamePlayers { get; } = new List<PlayerObjectController>();
 
         public override void OnServerAddPlayer(NetworkConnectionToClient conn)
-        
         {
             Debug.Log(SceneManager.GetActiveScene().name);
             if (SceneManager.GetActiveScene().name == LevelNames.MenuPrincipal.ToString())
@@ -26,6 +25,10 @@ namespace MadSmith.Scripts.Multiplayer.Managers
 
                 NetworkServer.AddPlayerForConnection(conn, gamePlayerInstance.gameObject);
             }
+        }
+        public void StartGame(string sceneName)
+        {
+            ServerChangeScene(sceneName);
         }
     }
 }

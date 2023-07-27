@@ -1,3 +1,4 @@
+using System;
 using Mirror;
 using Steamworks;
 using UnityEngine;
@@ -24,6 +25,11 @@ namespace MadSmith.Scripts.Multiplayer.Managers
 
                 return _manager = CustomNetworkManager.singleton as CustomNetworkManager;
             }
+        }
+
+        private void Start()
+        {
+            DontDestroyOnLoad(this.gameObject);
         }
 
         public override void OnStartAuthority()
@@ -59,6 +65,20 @@ namespace MadSmith.Scripts.Multiplayer.Managers
             this.PlayerNameUpdate(this.PlayerName,PlayerName);
         }
 
+        [Command]
+        private void CmdSetPlayerReady()
+        {
+            this.PlayerReadyUpdate(this.ready, !this.ready);
+        }
+
+        public void ChangeReady()
+        {
+            if (hasAuthority)
+            {
+                CmdSetPlayerReady();
+            }
+        }
+
 
         public void PlayerNameUpdate(string oldValue, string newValue)
         {
@@ -84,6 +104,20 @@ namespace MadSmith.Scripts.Multiplayer.Managers
             {
                 LobbyController.Instance.UpdatePlayerItem();
             }
+        }
+
+        public void CanStartGame(string sceneName)
+        {
+            if (hasAuthority)
+            {
+                CmdCanStartGame(sceneName);
+            }
+        }
+
+        [Command]
+        public void CmdCanStartGame(string sceneName)
+        { 
+            _manager.StartGame(sceneName);
         }
     }
 }

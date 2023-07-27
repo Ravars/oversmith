@@ -1,72 +1,51 @@
+using System;
 using Mirror;
 using UnityEngine;
+using UnityEngine.SceneManagement;
+using Random = UnityEngine.Random;
 
 namespace MadSmith.Scripts.Multiplayer.Player
 {
-    [RequireComponent(typeof(CharacterController))]
+    // [RequireComponent(typeof(CharacterController))]
     public class PlayerMovementController : NetworkBehaviour
     {
-        [SerializeField] private float moveSpeed = 10f;
-        public float smoothing = 10f;
-        private CharacterController _cc;
-        private Vector2 _previousInput;
-        private Quaternion _targetRotation;
-        private Animator _animator;
-        // [SerializeField] private PlayerInteractions _playerInteractions;
+        public float speed = 0.1f;
+        public GameObject playerModel;
         
-        private void Awake()
+        private void Start()
         {
-            Debug.Log("Start player");
-            _cc = GetComponent<CharacterController>(); // Get the character controller component
-            _animator = GetComponentInChildren<Animator>();
-            
-            // playerModel.SetActive(false);
-            // InputManager.Controls.Gameplay.Dash.performed += DashOnPerformed;
+            playerModel.SetActive(false);   
         }
-        public override void OnStartAuthority()
+
+        private void Update()
         {
-            base.OnStartAuthority();
-            InputManager.Controls.Gameplay.Move.performed += ctx => SetMovement(ctx.ReadValue<Vector2>());
-            InputManager.Controls.Gameplay.Move.canceled += ctx => ResetMovement();
-        }
-        private void SetMovement(Vector2 movement)
-        {
-            _previousInput = movement;
-        }
-        public void SetInitialPosition(Vector3 position)
-        {
-            _cc.enabled = false;
-            transform.position = position;
-            _cc.enabled = true;
-        }
-        private void ResetMovement()
-        {
-            _previousInput = Vector2.zero;
-        }
-        
-        void Update()
-        {
-            if (!hasAuthority) return;
-            // if (_isDashing)
-            // {
-            //     _cc.SimpleMove(_dashDirection * dashSpeed);
-            //     //_animator.SetBool("Dash", true);
-            //     return;
-            // }
-        
-            Vector3 movementDirection = new Vector3(_previousInput.x, 0, _previousInput.y);
-            // _dashDirection = movementDirection;
-            if (movementDirection.magnitude > 0.01f)
+            if (SceneManager.GetActiveScene().name == "Showcase")
             {
-                _targetRotation = Quaternion.LookRotation(movementDirection);
+                if (!playerModel.activeSelf)
+                {
+                    SetPosition();
+                    playerModel.SetActive(true);
+                }
+                if (hasAuthority)
+                {
+                    Movement();
+                }
             }
-            transform.rotation = Quaternion.Slerp(transform.rotation, _targetRotation, Time.deltaTime * smoothing);
-            movementDirection.Normalize();
-        
-            _cc.SimpleMove(movementDirection * moveSpeed);
-        
-            _animator.SetBool("Run",movementDirection.magnitude > 0f);
-            // _animator.SetBool("Carry",!ReferenceEquals(_playerInteractions.ItemScript,null));
+        }
+
+        public void SetPosition()
+        {
+            transform.position = new Vector3(Random.Range(-5, 5), 0.8f, Random.Range(-5, 5));
+        }
+
+        public void Movement()
+        {
+            float xDirection = UnityEngine.Input.GetAxis("Horizontal");
+            float zDirection = UnityEngine.Input.GetAxis("Vertical");
+            Vector3 moveDirection = new Vector3(xDirection, 0.0f, zDirection);
+
+            transform.position += moveDirection * (speed * Time.deltaTime);
+
         }
     }
 }
