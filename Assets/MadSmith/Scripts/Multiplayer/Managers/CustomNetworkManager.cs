@@ -28,7 +28,8 @@ namespace MadSmith.Scripts.Multiplayer.Managers
         }
         public void StartGame(string sceneName)
         {
-            ServerChangeScene(sceneName);
+            // ServerChangeScene(sceneName);
+            
         }
     }
 }

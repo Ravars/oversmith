@@ -1,8 +1,10 @@
 using System;
+using MadSmith.Scripts.Events.ScriptableObjects;
 using Mirror;
 using Steamworks;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using Random = UnityEngine.Random;
 
 namespace MadSmith.Scripts.Multiplayer.Managers
 {
@@ -13,6 +15,7 @@ namespace MadSmith.Scripts.Multiplayer.Managers
         [SyncVar] public ulong PlayerSteamID;
         [SyncVar(hook = nameof(PlayerNameUpdate))] public string PlayerName;
         [SyncVar(hook = nameof(PlayerReadyUpdate))] public bool ready;
+        public GameObject playerModel;
         private CustomNetworkManager _manager;
         public CustomNetworkManager Manager
         {
@@ -26,10 +29,37 @@ namespace MadSmith.Scripts.Multiplayer.Managers
                 return _manager = CustomNetworkManager.singleton as CustomNetworkManager;
             }
         }
+        [Header("Listening on")] 
+        [SerializeField] private VoidEventChannelSO _onSceneReady = default;
 
         private void Start()
         {
             DontDestroyOnLoad(this.gameObject);
+            playerModel.SetActive(false);
+        }
+
+        private void OnEnable()
+        {
+            _onSceneReady.OnEventRaised += OnSceneLoaded;   
+        }
+
+
+        private void OnDisable()
+        {
+            _onSceneReady.OnEventRaised -= OnSceneLoaded;
+        }
+        private void OnSceneLoaded()
+        {
+            Debug.Log("Scene loaded");   
+            if (!playerModel.activeSelf)
+            {
+                SetPosition();
+                playerModel.SetActive(true);
+            }
+        }
+        public void SetPosition()
+        {
+            transform.position = new Vector3(Random.Range(-5, 5), 0.8f, Random.Range(-5, 5));
         }
 
         public override void OnStartAuthority()

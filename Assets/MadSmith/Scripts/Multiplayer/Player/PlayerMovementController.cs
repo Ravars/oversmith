@@ -1,8 +1,6 @@
-using System;
 using Mirror;
 using UnityEngine;
 using UnityEngine.SceneManagement;
-using Random = UnityEngine.Random;
 
 namespace MadSmith.Scripts.Multiplayer.Player
 {
@@ -10,32 +8,17 @@ namespace MadSmith.Scripts.Multiplayer.Player
     public class PlayerMovementController : NetworkBehaviour
     {
         public float speed = 0.1f;
-        public GameObject playerModel;
-        
-        private void Start()
-        {
-            playerModel.SetActive(false);   
-        }
 
         private void Update()
         {
-            if (SceneManager.GetActiveScene().name == "Showcase")
+            if (SceneManager.GetActiveScene().name == "Level01")
+                
             {
-                if (!playerModel.activeSelf)
-                {
-                    SetPosition();
-                    playerModel.SetActive(true);
-                }
                 if (hasAuthority)
                 {
                     Movement();
                 }
             }
-        }
-
-        public void SetPosition()
-        {
-            transform.position = new Vector3(Random.Range(-5, 5), 0.8f, Random.Range(-5, 5));
         }
 
         public void Movement()
