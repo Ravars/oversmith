@@ -1,4 +1,5 @@
 using System;
+using MadSmith.Scripts.Utils;
 using UnityEngine;
 using Mirror;
 using Steamworks;
@@ -6,7 +7,7 @@ using TMPro;
 
 namespace MadSmith.Scripts.Multiplayer.Managers
 {
-    public class SteamLobby : MonoBehaviour
+    public class SteamLobby : Singleton<SteamLobby>
     {
         //Callbacks
         protected Callback<LobbyCreated_t> LobbyCreated;
@@ -16,9 +17,7 @@ namespace MadSmith.Scripts.Multiplayer.Managers
         public ulong currentLobbyID;
         private const string HostAddressKey = "HostAddress";
         private CustomNetworkManager _manager;
-
-        public GameObject hostButton;
-        public TextMeshProUGUI lobbyNameText;
+        
 
         private void Start()
         {
@@ -61,10 +60,7 @@ namespace MadSmith.Scripts.Multiplayer.Managers
         private void OnLobbyEntered(LobbyEnter_t callback)
         {
             //Everyone
-            hostButton.SetActive(false);
             currentLobbyID = callback.m_ulSteamIDLobby;
-            lobbyNameText.gameObject.SetActive(true);
-            lobbyNameText.text = SteamMatchmaking.GetLobbyData(new CSteamID(callback.m_ulSteamIDLobby), "name");
             
             //Client
             if(NetworkServer.active) return;

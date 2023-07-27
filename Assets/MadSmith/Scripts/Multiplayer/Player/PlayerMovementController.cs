@@ -1,8 +1,7 @@
-using MadSmith.Scripts.Interaction;
 using Mirror;
 using UnityEngine;
 
-namespace MadSmith.Scripts.Multiplayer.Old.Player
+namespace MadSmith.Scripts.Multiplayer.Player
 {
     [RequireComponent(typeof(CharacterController))]
     public class PlayerMovementController : NetworkBehaviour
@@ -13,7 +12,7 @@ namespace MadSmith.Scripts.Multiplayer.Old.Player
         private Vector2 _previousInput;
         private Quaternion _targetRotation;
         private Animator _animator;
-        [SerializeField] private PlayerInteractions _playerInteractions;
+        // [SerializeField] private PlayerInteractions _playerInteractions;
         
         private void Awake()
         {
@@ -24,26 +23,22 @@ namespace MadSmith.Scripts.Multiplayer.Old.Player
             // playerModel.SetActive(false);
             // InputManager.Controls.Gameplay.Dash.performed += DashOnPerformed;
         }
-
         public override void OnStartAuthority()
         {
             base.OnStartAuthority();
             InputManager.Controls.Gameplay.Move.performed += ctx => SetMovement(ctx.ReadValue<Vector2>());
             InputManager.Controls.Gameplay.Move.canceled += ctx => ResetMovement();
         }
-
         private void SetMovement(Vector2 movement)
         {
             _previousInput = movement;
         }
-
         public void SetInitialPosition(Vector3 position)
         {
             _cc.enabled = false;
             transform.position = position;
             _cc.enabled = true;
         }
-
         private void ResetMovement()
         {
             _previousInput = Vector2.zero;

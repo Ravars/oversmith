@@ -39,17 +39,17 @@ namespace MadSmith.Scripts.Managers
         protected override void Awake()
         {
             base.Awake();
-            // Loaded = saveSystem.LoadSaveDataFromDisk();
-            // if (Loaded)
-            // {
-            //     currentSettings.LoadSavedSettings(saveSystem.saveData);
-            //     currentGameData.LoadSavedSettings(saveSystem.saveData);
-            // }
-            // else
-            // {
-            //     currentSettings.LoadDefaultSettings();
-            //     currentGameData.LoadDefaultSettings();
-            // }
+            Loaded = saveSystem.LoadSaveDataFromDisk();
+            if (Loaded)
+            {
+                currentSettings.LoadSavedSettings(saveSystem.saveData);
+                currentGameData.LoadSavedSettings(saveSystem.saveData);
+            }
+            else
+            {
+                currentSettings.LoadDefaultSettings();
+                currentGameData.LoadDefaultSettings();
+            }
         }
 
         private void OnEnable()

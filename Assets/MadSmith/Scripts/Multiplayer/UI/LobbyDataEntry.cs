@@ -1,9 +1,9 @@
-using MadSmith.Scripts.Multiplayer.Old.Managers;
+using MadSmith.Scripts.Multiplayer.Managers;
 using Steamworks;
 using TMPro;
 using UnityEngine;
 
-namespace MadSmith.Scripts.Multiplayer.Old.UI
+namespace MadSmith.Scripts.Multiplayer.UI
 {
     public class LobbyDataEntry : MonoBehaviour
     {
@@ -20,7 +20,7 @@ namespace MadSmith.Scripts.Multiplayer.Old.UI
         public void JoinLobby()
         {
             Debug.Log("Join clicked");
-            SteamLobby.Instance.JoinLobby(lobbyId);
+            // SteamLobby.Instance.JoinLobby(lobbyId);
         }
     }
 }

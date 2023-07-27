@@ -1,16 +1,16 @@
 using System.Collections.Generic;
-using System.Linq;
-using MadSmith.Scripts.Multiplayer.Old.Player;
-using MadSmith.Scripts.Multiplayer.Old.UI;
-using MadSmith.Scripts.Utils;
-using Steamworks;
-using TMPro;
 using UnityEngine;
+using Mirror;
+using Steamworks;
 using UnityEngine.UI;
+using System.Linq;
+using MadSmith.Scripts.Multiplayer.UI;
+using MadSmith.Scripts.Utils;
+using TMPro;
 
-namespace MadSmith.Scripts.Multiplayer.Old.Managers
+namespace MadSmith.Scripts.Multiplayer.Managers
 {
-    public class SteamLobbyController : Singleton<SteamLobbyController>
+    public class LobbyController : Singleton<LobbyController>
     {
         //UI Element
         public TextMeshProUGUI LobbyNameText;
@@ -29,26 +29,25 @@ namespace MadSmith.Scripts.Multiplayer.Old.Managers
         //Ready
         public Button StartGameButton;
         public TextMeshProUGUI ReadyButtonText;
-        
-        
+            
         //Manager
         private CustomNetworkManager _manager;
-
-        private CustomNetworkManager Manager
+        public CustomNetworkManager Manager
         {
             get
             {
-                if (_manager != null)
+                if (!ReferenceEquals(_manager, null))
                 {
                     return _manager;
                 }
+
                 return _manager = CustomNetworkManager.singleton as CustomNetworkManager;
             }
         }
         
         public void UpdateLobbyName()
         {
-            CurrentLobbyID = Manager.GetComponent<SteamLobby>().CurrentLobbyID;
+            CurrentLobbyID = Manager.GetComponent<SteamLobby>().currentLobbyID;
             LobbyNameText.text = SteamMatchmaking.GetLobbyData(new CSteamID(CurrentLobbyID), "name");
         }
         
@@ -109,27 +108,6 @@ namespace MadSmith.Scripts.Multiplayer.Old.Managers
             }
         }
 
-        public void UpdatePlayerItem()
-        {
-            foreach (PlayerObjectController player in Manager.GamePlayers)
-            {
-                foreach (PlayerListItem playerListItemScript in PlayerListItems)
-                {
-                    if (playerListItemScript.ConnectionID == player.ConnectionID)
-                    {
-                        playerListItemScript.PlayerName = player.PlayerName;
-                        playerListItemScript.Ready = player.ready;
-                        playerListItemScript.SetPlayerValues();
-                        if (player == LocalplayerController)
-                        {
-                            UpdateButton();
-                        }
-                    }
-                }
-            }
-            CheckIfAllReady();
-        }
-
         public void RemovePlayerItem()
         {
             List<PlayerListItem> playerListItemsToRemove = new();
@@ -156,17 +134,30 @@ namespace MadSmith.Scripts.Multiplayer.Old.Managers
             }
         }
 
-        
-        public void ReadyPlayer()
+        public void UpdatePlayerItem()
         {
-            LocalplayerController.ChangeReady();
+            foreach (PlayerObjectController player in Manager.GamePlayers)
+            {
+                foreach (PlayerListItem playerListItemScript in PlayerListItems)
+                {
+                    if (playerListItemScript.ConnectionID == player.ConnectionID)
+                    {
+                        playerListItemScript.PlayerName = player.PlayerName;
+                        playerListItemScript.Ready = player.ready;
+                        playerListItemScript.SetPlayerValues();
+                        // if (player == LocalplayerController)
+                        // {
+                        //     UpdateButton();
+                        // }
+                    }
+                }
+            }
+            CheckIfAllReady();
         }
-
         public void UpdateButton()
         {
             ReadyButtonText.text = LocalplayerController.ready? "Unready" : "Ready";
         }
-
         public void CheckIfAllReady()
         {
             bool allReady = false;
@@ -199,10 +190,6 @@ namespace MadSmith.Scripts.Multiplayer.Old.Managers
                 StartGameButton.interactable = false;
             }
         }
-
-        public void StartGame(string sceneName)
-        {
-            LocalplayerController.CanStartGame(sceneName);
-        }
+        
     }
 }
