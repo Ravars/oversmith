@@ -29,7 +29,19 @@ namespace MadSmith.Scripts.Multiplayer.Managers
         public void StartGame(string sceneName)
         {
             // ServerChangeScene(sceneName);
-            
+            // Server
+        }
+
+        public override void OnServerChangeScene(string newSceneName)
+        {
+            base.OnServerChangeScene(newSceneName);
+            Debug.Log("OnServerChangeScene");
+        }
+
+        public override void OnClientChangeScene(string newSceneName, SceneOperation sceneOperation, bool customHandling)
+        {
+            base.OnClientChangeScene(newSceneName, sceneOperation, customHandling);
+            Debug.Log("OnClientChangeScene" + " " + newSceneName);
         }
     }
 }

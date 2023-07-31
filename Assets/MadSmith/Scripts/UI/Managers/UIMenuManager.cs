@@ -22,7 +22,7 @@ namespace MadSmith.Scripts.UI.Managers
         CharacterSelection,
         LevelSelection
     }
-    public class UIMenuManager : NetworkBehaviour
+    public class UIMenuManager : MonoBehaviour
     {
         public MenuState State { get; private set; }
         private bool _hasSaveData;
@@ -75,7 +75,7 @@ namespace MadSmith.Scripts.UI.Managers
 
         private void SetState(MenuState newState)
         {
-            if (!isServer) return;
+            // if (!isServer) return;
             //Exit State
             switch (State)
             {
@@ -154,7 +154,7 @@ namespace MadSmith.Scripts.UI.Managers
             _mainMenuCamera.SetActive(true);
             _mainMenuPanel.gameObject.SetActive(true);
         }
-        [ClientRpc]
+        // [ClientRpc]
         private void CloseMenuScreen()
         {
             _mainMenuCamera.SetActive(false);
@@ -214,7 +214,7 @@ namespace MadSmith.Scripts.UI.Managers
 
         #region Character Selection
 
-        [ClientRpc]
+        // [ClientRpc]
         private void SetCharacterSelectScreen()
         {
             _characterSelectUI.Setup();
