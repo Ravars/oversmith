@@ -1,5 +1,6 @@
 using System;
 using MadSmith.Scripts.Events.ScriptableObjects;
+using MadSmith.Scripts.Input;
 using Mirror;
 using Steamworks;
 using UnityEngine;
@@ -31,6 +32,7 @@ namespace MadSmith.Scripts.Multiplayer.Managers
         }
         [Header("Listening on")] 
         [SerializeField] private VoidEventChannelSO _onSceneReady = default;
+        [SerializeField] private InputReader inputReader;
 
         private void Start()
         {
@@ -41,6 +43,12 @@ namespace MadSmith.Scripts.Multiplayer.Managers
         private void OnEnable()
         {
             _onSceneReady.OnEventRaised += OnSceneLoaded;   
+            inputReader.MenuPauseEvent += InputReaderOnMenuPauseEvent;
+        }
+
+        private void InputReaderOnMenuPauseEvent()
+        {
+            Debug.Log("Pause clicked");
         }
 
 
