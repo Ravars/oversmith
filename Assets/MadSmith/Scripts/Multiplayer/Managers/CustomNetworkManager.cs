@@ -83,17 +83,17 @@ namespace MadSmith.Scripts.Multiplayer.Managers
 
         public override void OnServerConnect(NetworkConnectionToClient conn)
         {
-            if (numPlayers >= maxConnections)
-            {
-                conn.Disconnect();
-                return;
-            }
-
-            if (SceneManager.GetActiveScene().name != menuScene)
-            {
-                conn.Disconnect();
-                return;
-            }
+            // if (numPlayers >= maxConnections)
+            // {
+            //     conn.Disconnect();
+            //     return;
+            // }
+            //
+            // if (SceneManager.GetActiveScene().name != menuScene)
+            // {
+            //     conn.Disconnect();
+            //     return;
+            // }
         }
 
         public override void OnServerDisconnect(NetworkConnectionToClient conn)
