@@ -40,6 +40,12 @@ namespace MadSmith.Scripts.Multiplayer.Managers
         {
             // ServerChangeScene(sceneName);
             // Server
+            //TODO: run in all clients
+
+            foreach (var gamePlayer in GamePlayers)
+            {
+                // gamePlayer
+            }
         }
 
         public override void OnServerChangeScene(string newSceneName)
