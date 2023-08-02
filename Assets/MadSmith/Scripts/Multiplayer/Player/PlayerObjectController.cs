@@ -42,6 +42,7 @@ namespace MadSmith.Scripts.Multiplayer.Managers
 
         private void OnEnable()
         {
+            inputReader.EnableGameplayInput();
             _onSceneReady.OnEventRaised += OnSceneLoaded;   
             inputReader.MenuPauseEvent += InputReaderOnMenuPauseEvent;
         }
@@ -55,6 +56,7 @@ namespace MadSmith.Scripts.Multiplayer.Managers
         private void OnDisable()
         {
             _onSceneReady.OnEventRaised -= OnSceneLoaded;
+            inputReader.MenuPauseEvent -= InputReaderOnMenuPauseEvent;
         }
         private void OnSceneLoaded()
         {
