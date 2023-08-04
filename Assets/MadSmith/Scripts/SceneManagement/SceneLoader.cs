@@ -3,6 +3,7 @@ using System.Collections;
 using MadSmith.Scripts.Events.ScriptableObjects;
 using MadSmith.Scripts.Input;
 using MadSmith.Scripts.SceneManagement.ScriptableObjects;
+using MadSmith.Scripts.Utils;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
 using UnityEngine.ResourceManagement.AsyncOperations;
@@ -11,7 +12,7 @@ using UnityEngine.SceneManagement;
 
 namespace MadSmith.Scripts.SceneManagement
 {
-    public class SceneLoader : MonoBehaviour
+    public class SceneLoader : Singleton<SceneLoader>
     {
         [SerializeField] private GameSceneSO gameplayScene = default;
         [SerializeField] private InputReader _inputReader;
@@ -117,7 +118,7 @@ namespace MadSmith.Scripts.SceneManagement
         }
         private void StartGameplay()
         {
-            _onSceneReady.RaiseEvent(); //Spawn system will spawn the PigChef in a gameplay scene
+            _onSceneReady.RaiseEvent();
         }
         /// <summary>
         /// This function loads the location scenes passed as array parameter
@@ -149,6 +150,11 @@ namespace MadSmith.Scripts.SceneManagement
             _gameplayManagerSceneInstance = _gameplayManagerLoadingOpHandle.Result;
 
             StartCoroutine(UnloadPreviousScene());
+        }
+
+        public GameSceneSO GetCurrentSceneLoaded()
+        {
+            return _currentlyLoadedScene;
         }
 
     }

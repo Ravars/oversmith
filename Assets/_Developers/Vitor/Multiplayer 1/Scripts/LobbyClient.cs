@@ -39,14 +39,34 @@ namespace _Developers.Vitor.Multiplayer_1.Scripts
 
         private void OnEnable()
         {
+            if (!hasAuthority) return;
+            
+        }
+
+        public override void OnStartAuthority()
+        {
+            if (!hasAuthority) return;
             inputReader.EnableGameplayInput();
             inputReader.MenuPauseEvent += InputReaderOnMenuPauseEvent;
             sceneReady.OnEventRaised += OnSceneReady;
         }
+        private void OnDestroy()
+        {
+            sceneReady.OnEventRaised -= OnSceneReady;
+            inputReader.MenuPauseEvent -= InputReaderOnMenuPauseEvent;
+        }
 
         private void OnSceneReady()
         {
-            Debug.Log("scene loaded");
+            Debug.Log("scene loaded - message from scene loader");
+            CmdSceneReady();
+            NetworkClient.PrepareToSpawnSceneObjects(); //Aparentemente tenho que fazer isso aqui
+        }
+
+        [Command]
+        private void CmdSceneReady()
+        {
+            Manager.ClientSceneReady();
         }
 
         private void OnDisable()
