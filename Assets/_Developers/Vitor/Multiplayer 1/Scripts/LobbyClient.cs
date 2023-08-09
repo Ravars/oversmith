@@ -84,14 +84,14 @@ namespace _Developers.Vitor.Multiplayer_1.Scripts
         {
             base.OnStartClient();
             Debug.Log("Client started");
-            Manager.players.Add(this);
+            Manager.lobbyPlayers.Add(this);
         }
 
         public override void OnStopClient()
         {
             base.OnStopClient();
             Debug.Log("Client stopped");
-            Manager.players.Remove(this);
+            Manager.lobbyPlayers.Remove(this);
         }
         
         [ContextMenu("Hello")]
@@ -112,10 +112,8 @@ namespace _Developers.Vitor.Multiplayer_1.Scripts
         public void RpcServerHello()
         {
             Debug.Log("Hello from server");
-            // Manager.Opa(level1.level.ToString());   
+            inputReader.DisableAllInput();
             loadLocation.RaiseEvent(level1);
         }
-        
-        
     }
 }

@@ -13,11 +13,23 @@ namespace _Developers.Vitor.Multiplayer_1.Scripts
         public override void OnStartAuthority()
         {
             Debug.Log("OnStartAuthority");
+        }
+
+        public void CmdEnableMovement()
+        {
+            RpcEnableMovement();
+        }
+
+        [ClientRpc]
+        public void RpcEnableMovement()
+        {
+            if (!hasAuthority) return;
+            Debug.Log("authority Enabled RpcEnableMovement");
             inputReader.EnableGameplayInput();
             inputReader.MoveEvent += SetMovement;
             inputReader.MoveCanceledEvent += ResetMovement;
-            
         }
+        
         [ClientCallback]
         private void Update() => Move();
 
@@ -37,7 +49,16 @@ namespace _Developers.Vitor.Multiplayer_1.Scripts
 
             Vector3 movement = right.normalized * previousInput.x + forward.normalized * previousInput.y;
 
-            controller.Move(movement * movementSpeed * Time.deltaTime);
+            controller.Move(movement * (movementSpeed * Time.deltaTime));
+        }
+        public void UpdateCountdown(int value)
+        {
+            RpcUpdateCountdown(value);
+        }
+
+        public void RpcUpdateCountdown(int value)
+        {
+            
         }
     }
 }
