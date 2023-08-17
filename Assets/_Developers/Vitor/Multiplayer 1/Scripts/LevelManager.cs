@@ -1,3 +1,4 @@
+using System;
 using System.Linq;
 using Mirror;
 using UnityEditor.Localization.Plugins.XLIFF.V12;
@@ -9,7 +10,6 @@ namespace _Developers.Vitor.Multiplayer_1.Scripts
     {
         [SerializeField] private Animator animator = null;
         private HelloWorldNetworkManager _manager;
-
         private HelloWorldNetworkManager Manager
         {
             get
@@ -18,40 +18,25 @@ namespace _Developers.Vitor.Multiplayer_1.Scripts
                 return _manager = NetworkManager.singleton as HelloWorldNetworkManager;
             }
         }
-
         public void CountdownEnded() // Used by animation event
         {
             animator.enabled = false;
         }
 
         #region Server
-
-        public override void OnStartServer()
+        private void Start()
         {
-            Debug.Log("OnStartServer Level Manager");
-            HelloWorldNetworkManager.OnServerStopped += CleanUpServer;
-            HelloWorldNetworkManager.OnServerReadied += CheckToStartRound;
-        }
-        [ServerCallback]
-        private void OnDestroy() => CleanUpServer();
-
-        [Server]
-        private void CleanUpServer()
-        {
-            HelloWorldNetworkManager.OnServerStopped -= CleanUpServer;
-            HelloWorldNetworkManager.OnServerReadied -= CheckToStartRound;
+            CheckToStartRound();
         }
 
         [ServerCallback]
-        public void StartRound()
+        public void StartRound()  // Used by animation event
         {
             RpcStartRound();
         }
         [Server]
-        private void CheckToStartRound(NetworkConnection obj)
+        private void CheckToStartRound()
         {
-            Debug.Log("Manager.gamePlayers.Count(x => x.connectionToClient.isReady): " + Manager.gamePlayers.Count(x => x.connectionToClient.isReady));
-            if (Manager.gamePlayers.Count(x => x.connectionToClient.isReady) != Manager.gamePlayers.Count) return;
             animator.enabled = true;
             RpcStartCountDown();
         }
@@ -64,14 +49,12 @@ namespace _Developers.Vitor.Multiplayer_1.Scripts
         private void RpcStartCountDown()
         {
             animator.enabled = true;
-            Debug.Log("RpcStartCountDown");
         }
         
         [ClientRpc]
         private void RpcStartRound()
         {
-            //Unlock controls
-            Debug.Log("RpcStartRound");
+            Manager.EnableMovement();
         }
 
         #endregion
