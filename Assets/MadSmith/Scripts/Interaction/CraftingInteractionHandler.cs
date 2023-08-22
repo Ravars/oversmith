@@ -40,12 +40,12 @@ namespace MadSmith.Scripts.Interaction
                         break;
                     }
                 }
-                
                 if (a == null)
                 {
                     // error VFX
                     return;
                 }
+                Debug.Log(a.Value.itemGenerated.itemName);
                 
                 _timeToPrepareItem = timeToPrepareItem;
                 
