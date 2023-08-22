@@ -10,13 +10,16 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 1855d238823943e5b01d6bac0f515f8e, type: 3}
-  m_Name: IronIngot
+  m_Name: IronIngotHot
   m_EditorClassIdentifier: 
   itemName: Iron Ingot
-  prefab: {fileID: 7623696291290463729, guid: e1005010a645ca247b45cad6fe490403, type: 3}
+  prefab: {fileID: 7623696291290463729, guid: f79b710a92f28a244bd2b2c4a2d73b2c, type: 3}
   processes:
   - craftingTable: 0
-    itemGenerated: {fileID: 11400000, guid: 487ea7cc52359164998480534cd2f49c, type: 2}
+    itemGenerated: {fileID: 11400000, guid: f4bf7e9bfded98341a36b77fbca0ba20, type: 2}
+    itemsNeeded: []
+  - craftingTable: 5
+    itemGenerated: {fileID: 11400000, guid: 8f99c6352b937b940b1fb1db4aa2f45d, type: 2}
     itemsNeeded: []
   image: {fileID: 0}
   isDoubleHand: 0
