@@ -11,6 +11,7 @@ namespace MadSmith.Scripts.CraftingTables
     public class Table : MonoBehaviour
     {
         public Item ItemScript { get; private set; }
+        public bool isWorkTable = false;
         // public BaseItem BaseItem { get; private set; }
         private Transform _itemTransform;
         
@@ -92,7 +93,7 @@ namespace MadSmith.Scripts.CraftingTables
 
         public bool CanMergeItem(Item newItem)
         {
-            if (ItemScript == null)
+            if (ItemScript == null || !isWorkTable)
             {
                 return false;
             }
