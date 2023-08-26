@@ -14,7 +14,7 @@ namespace MadSmith.Scripts.Figurants
 
         NavMeshAgent agent;
         Vector3 destination;
-        Animator animator;
+        [SerializeField] private Animator animator;
         bool isMoving = false;
         bool isWalking = false;
         float timeMoving;
@@ -22,7 +22,17 @@ namespace MadSmith.Scripts.Figurants
         void Start ()
         {
             agent = GetComponent<NavMeshAgent>();
-            animator = GetComponent<Animator>();
+            if (animator == null)
+            {
+                if (TryGetComponent(out Animator anim))
+                {
+                    animator = anim;
+                }
+                else
+                {
+                    animator = GetComponentInChildren<Animator>();
+                }
+            }
             OnArrival.Invoke(this);
         }
 
