@@ -123,7 +123,7 @@ Transform:
   - {fileID: 6694666624560232231}
   - {fileID: 3559035028464866343}
   m_Father: {fileID: 0}
-  m_RootOrder: -1
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &6273766464673046858
 MonoBehaviour:
@@ -143,12 +143,13 @@ MonoBehaviour:
   hasInteractable: 0
   hasDelivery: 0
   hasPallet: 0
+  hasTrashCan: 0
   table: {fileID: 0}
   dispenser: {fileID: 0}
   craftingTable: {fileID: 0}
   interactable: {fileID: 0}
   delivery: {fileID: 0}
-  pallet: {fileID: 0}
+  trashCan: {fileID: 0}
   visual: {fileID: 1769123867676455659}
   visualSelected: {fileID: 8055815411873271836}
 --- !u!114 &6273766464673046857
@@ -163,6 +164,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f483bf3afb24452c9c4a3987f87420e3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isWorkTable: 0
   pointToSpawnItem: {fileID: 6694666624560232231}
 --- !u!114 &6273766464673046856
 MonoBehaviour:
@@ -562,7 +564,7 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
-      objectReference: {fileID: 2100000, guid: 2d9d4bf31e5865548895ddb35d4a03a6, type: 2}
+      objectReference: {fileID: 2100000, guid: 4e46560c2aa336242a9174c1c1990517, type: 2}
     - target: {fileID: 919132149155446097, guid: 692518e2806c9574ebeaa258e017e402,
         type: 3}
       propertyPath: m_Name
@@ -657,7 +659,7 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
-      objectReference: {fileID: 2100000, guid: 776ba654850cd894790d9d28c23ca5b3, type: 2}
+      objectReference: {fileID: 2100000, guid: 2c5b0f6576d729345830adeaefaec7b6, type: 2}
     - target: {fileID: 919132149155446097, guid: 692518e2806c9574ebeaa258e017e402,
         type: 3}
       propertyPath: m_Name
