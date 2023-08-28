@@ -126,6 +126,7 @@ MonoBehaviour:
   OnArrival:
     m_PersistentCalls:
       m_Calls: []
+  animator: {fileID: 0}
 --- !u!1001 &7496344273165188303
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -214,6 +215,21 @@ PrefabInstance:
       propertyPath: m_ConstrainProportionsScale
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 3055519105986408221, guid: dad013b682ec60a41b803e7738531254,
+        type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: e295df94a51541546a3b9bb39c5403c2, type: 2}
+    - target: {fileID: 5000372117686998506, guid: dad013b682ec60a41b803e7738531254,
+        type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: e295df94a51541546a3b9bb39c5403c2, type: 2}
+    - target: {fileID: 5969715432740597161, guid: dad013b682ec60a41b803e7738531254,
+        type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 760834b5c8f826f46b8506cbdf2aa2de, type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
