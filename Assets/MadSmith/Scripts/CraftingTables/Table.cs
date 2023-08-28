@@ -164,16 +164,11 @@ namespace MadSmith.Scripts.CraftingTables
         }
         private void SpawnNewItem(BaseItem newItem) // Provavelmente quebrado
         {
-            Debug.Log(newItem.name);
+            Debug.Log($"Spawn {newItem.name}");
             _itemTransform = Instantiate(newItem.prefab, pointToSpawnItem.position, pointToSpawnItem.rotation,
                 pointToSpawnItem).transform;
             ItemScript = _itemTransform.GetComponent<Item>();
             AlertMessageManager.Instance.SpawnAlertMessage($"Item {ItemScript.baseItem.itemName} construído com sucesso.", MessageType.Normal);
-            if (_interactableHolder.hasCraftingTable)
-            {
-                
-                _interactableHolder.craftingTable.ItemAddedToTable();
-            }
         }
     }
 }

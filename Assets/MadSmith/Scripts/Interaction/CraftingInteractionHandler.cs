@@ -45,7 +45,7 @@ namespace MadSmith.Scripts.Interaction
                     // error VFX
                     return;
                 }
-                Debug.Log(a.Value.itemGenerated.itemName);
+                Debug.Log($"Init {a.Value.itemGenerated.itemName}");
                 
                 _timeToPrepareItem = timeToPrepareItem;
                 
@@ -87,6 +87,7 @@ namespace MadSmith.Scripts.Interaction
                         enabled = false;
                         _craftingTable.SetParticlesState(false);
                         _craftingTable._audioSource.Stop();
+                        _craftingTable.ItemAddedToTable();
                         return;
                     }
                 }
