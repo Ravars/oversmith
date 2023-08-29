@@ -14,6 +14,7 @@ namespace MadSmith.Scripts.Items
         public Slider slider;
         private float _currentProcessTimeNormalized;
         public BaseItem baseItem; 
+        private CraftingTableType _lastCraftingTable;
         
         public AudioClip soundIn, soundOut, craftSound;
         private AudioSource sound;
@@ -64,6 +65,18 @@ namespace MadSmith.Scripts.Items
                 }
                 
             } 
+        }
+        public CraftingTableType LastCraftingTable 
+        {
+            get => _lastCraftingTable;
+            set
+            {
+                if (_lastCraftingTable != value)
+                {
+                    _lastCraftingTable = value;
+                    CurrentProcessTimeNormalized = 0;
+                }
+            }
         }
     }
 }
