@@ -6,11 +6,11 @@ namespace MadSmith.Scripts.UI.Canvas
 {
     public class UIMainMenu : MonoBehaviour
     {
-        [SerializeField] private Button continueButton;
-        [SerializeField] private Button newGameButton;
+        [SerializeField] private Button hostButton;
+        [SerializeField] private Button joinButton;
         
-        public UnityAction NewGameButtonAction;
-        public UnityAction ContinueButtonAction;
+        public UnityAction HostGameButtonAction;
+        public UnityAction JoinLobbyButtonAction;
         public UnityAction SettingsButtonAction;
         public UnityAction CreditsButtonAction;
         public UnityAction TutorialButtonAction;
@@ -19,25 +19,25 @@ namespace MadSmith.Scripts.UI.Canvas
         public void SetMenuScreen(bool hasSaveData)
         {
             // gameObject.SetActive(true);
-            continueButton.interactable = hasSaveData;
+            hostButton.interactable = hasSaveData;
             if (hasSaveData)
             {
-                continueButton.Select();
+                hostButton.Select();
             }
             else
             {
-                newGameButton.Select();
+                joinButton.Select();
             }
         }
         
-        public void NewGameButton()
+        public void HostGameButton()
         {
-            NewGameButtonAction.Invoke();
+            HostGameButtonAction.Invoke();
         }
 
-        public void ContinueButton()
+        public void JoinButton()
         {
-            ContinueButtonAction.Invoke();
+            JoinLobbyButtonAction.Invoke();
         }
 
         public void SettingsButton()

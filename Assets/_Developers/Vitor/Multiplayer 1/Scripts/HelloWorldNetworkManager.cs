@@ -23,6 +23,9 @@ namespace _Developers.Vitor.Multiplayer_1.Scripts
         [SerializeField] private GameObject roundSystem = null;
         private int _playersNotReady;
         
+        public static event Action OnClientConnected;
+        public static event Action OnClientDisconnected;
+        
         [Header("Listening to")] 
         [SerializeField] private LoadEventChannelSO _loadEventChannelSo;
         
@@ -69,6 +72,24 @@ namespace _Developers.Vitor.Multiplayer_1.Scripts
             lobbyPlayers.Clear();
             GamePlayers.Clear();
         }
+        public void NotifyPlayersOfReadyState()
+        {
+            foreach (var player in lobbyPlayers)
+            {
+                player.HandleReadyToStart(IsReadyToStart());
+            }
+        }
+        private bool IsReadyToStart()
+        {
+            if (numPlayers < 2) { return false; }
+
+            foreach (var player in lobbyPlayers)
+            {
+                if (!player.isReady) { return false; }
+            }
+
+            return true;
+        }
 
         /// <summary>
         /// Função chamada na primeira vez que o cliente é adicionado
@@ -77,6 +98,7 @@ namespace _Developers.Vitor.Multiplayer_1.Scripts
         public override void OnServerAddPlayer(NetworkConnectionToClient conn)
         {
             LobbyClient lobbyClient = Instantiate(gamePlayerPrefab);
+            lobbyClient.IsLeader = lobbyPlayers.Count == 0;
             lobbyClient.ConnectionID = conn.connectionId;
             NetworkServer.AddPlayerForConnection(conn, lobbyClient.gameObject);
         }
@@ -134,6 +156,32 @@ namespace _Developers.Vitor.Multiplayer_1.Scripts
             {
                 lobbyPlayer.SetState(MenuState.CharacterSelection);
             }
+        }
+
+        public override void OnClientConnect()
+        {
+            base.OnClientConnect();
+            OnClientConnected?.Invoke();
+        }
+
+        public override void OnClientDisconnect()
+        {
+            Debug.Log("Client disconnected");
+            OnClientDisconnected?.Invoke();
+            base.OnClientDisconnect();
+        }
+
+        public override void OnServerConnect(NetworkConnectionToClient conn)
+        {
+            base.OnServerConnect(conn);
+            //verify maximum number of players
+        }
+
+        public override void OnServerDisconnect(NetworkConnectionToClient conn)
+        {
+            Debug.Log("On server disconnect");
+            base.OnServerDisconnect(conn);
+            OnClientDisconnected?.Invoke();
         }
     }
 }

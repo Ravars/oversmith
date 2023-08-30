@@ -10,7 +10,7 @@ using MadSmith.Scripts.UI.Canvas;
 using MadSmith.Scripts.UI.SettingsScripts;
 using UnityEngine;
 
-namespace _Developers.Vitor.Multiplayer_1.Scripts.UI
+namespace _Developers.Vitor.Multiplayer2.Scripts
 {
     public enum MenuState
     {
@@ -29,7 +29,6 @@ namespace _Developers.Vitor.Multiplayer_1.Scripts.UI
         [SerializeField] private InputReader _inputReader = default;
         [SerializeField] private GameDataSO currentGameData;
         [SerializeField] private GameSceneSO _locationToNewGame;
-        [SerializeField] private MainMenuNetwork mainMenuNetwork;
         
         [Header("UI Scripts")]
         [SerializeField] private UIMainMenu _mainMenuPanel = default;
@@ -73,9 +72,9 @@ namespace _Developers.Vitor.Multiplayer_1.Scripts.UI
             UnsetTutorialScreen();
         }
 
-        public void SetState(MenuState newState)
+        private void SetState(MenuState newState)
         {
-            Debug.Log("UIMenu manager - Set state: " + newState);
+            // if (!isServer) return;
             //Exit State
             switch (State)
             {
@@ -134,9 +133,8 @@ namespace _Developers.Vitor.Multiplayer_1.Scripts.UI
         private void SetMenuScreen()
         {
             _hasSaveData = _saveSystem.Loaded;
-            _mainMenuPanel.SetMenuScreen(_hasSaveData); 
-            // _mainMenuPanel.NewGameButtonAction += mainMenuNetwork.NewGameButton;
-            // _mainMenuPanel.NewGameButtonAction += () => SetState(MenuState.CharacterSelection);
+            _mainMenuPanel.SetMenuScreen(_hasSaveData);
+            _mainMenuPanel.HostGameButtonAction += () => SetState(MenuState.CharacterSelection);
             _mainMenuPanel.SettingsButtonAction += () => SetState(MenuState.Settings);
             _mainMenuPanel.CreditsButtonAction += () => SetState(MenuState.Credits);
             _mainMenuPanel.TutorialButtonAction += () => SetState(MenuState.Tutorial);
@@ -144,8 +142,7 @@ namespace _Developers.Vitor.Multiplayer_1.Scripts.UI
         }
         private void UnsetMenuScreen()
         {
-            _mainMenuPanel.HostGameButtonAction -= mainMenuNetwork.NewGameButton;
-            // _mainMenuPanel.NewGameButtonAction -= () => SetState(MenuState.CharacterSelection);
+            _mainMenuPanel.HostGameButtonAction -= () => SetState(MenuState.CharacterSelection);
             _mainMenuPanel.SettingsButtonAction -= () => SetState(MenuState.Settings);
             _mainMenuPanel.CreditsButtonAction -= () => SetState(MenuState.Credits);
             _mainMenuPanel.TutorialButtonAction -= () => SetState(MenuState.Tutorial);
@@ -156,6 +153,7 @@ namespace _Developers.Vitor.Multiplayer_1.Scripts.UI
             _mainMenuCamera.SetActive(true);
             _mainMenuPanel.gameObject.SetActive(true);
         }
+        // [ClientRpc]
         private void CloseMenuScreen()
         {
             _mainMenuCamera.SetActive(false);

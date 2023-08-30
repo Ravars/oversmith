@@ -4,7 +4,9 @@ using MadSmith.Scripts.Events.ScriptableObjects;
 using MadSmith.Scripts.Input;
 using MadSmith.Scripts.SceneManagement.ScriptableObjects;
 using Mirror;
+using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace _Developers.Vitor.Multiplayer_1.Scripts
 {
@@ -20,11 +22,43 @@ namespace _Developers.Vitor.Multiplayer_1.Scripts
                 return _manager = NetworkManager.singleton as HelloWorldNetworkManager;
             }
         }
+        private bool _isLeader;
+        public bool IsLeader
+        {
+            get => _isLeader;
+            set
+            {
+                _isLeader = value;
+                startGameButton.gameObject.SetActive(value);
+            }
+        }
+
+        [SyncVar(hook = nameof(HandleDisplayNameChanged))]
+        public string displayName = "Loading...";
+
+        [SyncVar(hook = nameof(HandleReadyStatusChanged))]
+        public bool isReady = false;
+        
+        
+
         [SerializeField] private GameSceneSO level1;
         [SerializeField] private InputReader inputReader;
 
         [SerializeField] private GameObject canvas;
         [SerializeField] private UIMenuManager uiMenuManager;
+
+        [Header("UI")] 
+        [SerializeField] private GameObject lobbyUI = null;
+
+        [SerializeField] private TextMeshProUGUI[] playerNameTexts = new TextMeshProUGUI[4];
+        [SerializeField] private TextMeshProUGUI[] playerReadyTexts = new TextMeshProUGUI[4];
+        [SerializeField] private Button startGameButton = null;
+        [SerializeField] private UIMenuManager2 menuManager2;
+        [SerializeField] private GameObject menuManagerGameObject;
+        
+        
+        
+        
         [Header("Listening on")]
         [SerializeField] private VoidEventChannelSO sceneReady;
         
@@ -34,6 +68,26 @@ namespace _Developers.Vitor.Multiplayer_1.Scripts
         private void Start()
         {
             DontDestroyOnLoad(gameObject);
+            HelloWorldNetworkManager.OnClientDisconnected += UpdateUI;
+            UpdateDisplay();
+            
+            if (!hasAuthority) return;
+            menuManagerGameObject.SetActive(true);
+            menuManager2.SetState(MenuState.MainMenu);
+            // uiMenuManager.gameObject.SetActive(true);
+            // uiMenuManager.SetState(MenuState.MainMenu);
+        }
+
+        private void OnDisable()
+        {
+            HelloWorldNetworkManager.OnClientDisconnected -= UpdateUI;
+        }
+
+        private void UpdateUI()
+        {
+            if (!hasAuthority) return;
+            UpdateDisplay();
+            Manager.NotifyPlayersOfReadyState();
         }
 
         /// <summary>
@@ -45,8 +99,9 @@ namespace _Developers.Vitor.Multiplayer_1.Scripts
             inputReader.EnableMenuInput();
             // inputReader.MenuUnpauseEvent += InputReaderOnMenuPauseEvent;
             sceneReady.OnEventRaised += OnSceneReady;
-            CmdSelect();
-            
+            // CmdSelect();
+            CmdSetDisplayName(PlayerNameInput.DisplayName);
+            lobbyUI.SetActive(true);
         }
         [Command]
         public void CmdSelect(NetworkConnectionToClient sender = null)
@@ -86,18 +141,6 @@ namespace _Developers.Vitor.Multiplayer_1.Scripts
         {
             Manager.ClientSceneReady();
         }
-
-        // private void OnDisable()
-        // {
-        //     inputReader.MenuPauseEvent -= InputReaderOnMenuPauseEvent;
-        // }
-
-        // private void InputReaderOnMenuPauseEvent()
-        // {
-        //     if (!hasAuthority) return;
-        //     SendHelloToServer();
-        // }
-
         public override void OnStartClient()
         {
             Manager.lobbyPlayers.Add(this);
@@ -108,27 +151,79 @@ namespace _Developers.Vitor.Multiplayer_1.Scripts
             Manager.lobbyPlayers.Remove(this);
         }
         
-        // public void SendHelloToServer()
-        // {
-        //     CmdSendHelloToServer();
-        // }
-        
-
-        // [Command]
-        // public void CmdSendHelloToServer()
-        // {
-        //     RpcServerHello();
-        // }
-
-        // [ClientRpc]
-        // public void RpcServerHello()
-        // {
-        //     inputReader.DisableAllInput();
-        //     loadLocation.RaiseEvent(level1);
-        // }
         public void SetState(MenuState menuState)
         {
+            Debug.Log("Set State" + menuState);
             uiMenuManager.SetState(menuState);
+        }
+        public void HandleDisplayNameChanged(string oldValue, string newValue) => UpdateUI();
+
+        public void HandleReadyStatusChanged(bool oldValue, bool newValue) => UpdateUI();
+
+        private void UpdateDisplay()
+        {
+            if (!hasAuthority)
+            {
+                foreach (var lobbyPlayer in Manager.lobbyPlayers)
+                {
+                    if (!lobbyPlayer.hasAuthority) continue;
+                    lobbyPlayer.UpdateDisplay();
+                    break;
+                }
+                return;
+            }
+
+            for (int i = 0; i < playerNameTexts.Length; i++)
+            {
+                playerNameTexts[i].text = "Waiting for player...";
+                playerReadyTexts[i].text = String.Empty;
+            }
+
+            for (int i = 0; i < Manager.lobbyPlayers.Count; i++)
+            {
+                playerNameTexts[i].text = Manager.lobbyPlayers[i].displayName;
+                playerReadyTexts[i].text = Manager.lobbyPlayers[i].isReady ? "<color=green>Ready</color>" : "<color=red>Not ready</color>";
+            }
+        }
+        
+        public void HandleReadyToStart(bool readyToStart)
+        {
+            if (!IsLeader) return;
+            startGameButton.interactable = readyToStart;
+        }
+
+        [Command]
+        private void CmdSetDisplayName(string newDisplayName)
+        {
+            displayName = newDisplayName;
+        }
+
+        [Command]
+        public void CmdReadyUp()
+        {
+            isReady = !isReady;
+            Manager.NotifyPlayersOfReadyState();
+        }
+
+        [Command]
+        public void CmdStartGame()
+        {
+            if (Manager.lobbyPlayers[0].connectionToClient != connectionToClient) return;
+            CmdSendHelloToServer();
+        }
+        [Command]
+        public void CmdSendHelloToServer()
+        {
+            RpcServerHello();
+        }
+
+        [ClientRpc]
+        public void RpcServerHello()
+        {
+            Debug.Log("RpcServerHello");
+            // inputReader.DisableAllInput();
+            menuManager2.CmdSetMenuState(MenuState.CharacterSelection);
+            // loadLocation.RaiseEvent(level1);
         }
     }
 }
