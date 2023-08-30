@@ -17,9 +17,11 @@ namespace _Developers.Vitor.Multiplayer2.Scripts
             }
         }
 
+        public string[] playerNames;
+
         public override void OnStartAuthority()
         {
-            Debug.Log("OnStartClient " + hasAuthority);
+            Debug.Log("OnStartAuthority " + hasAuthority);
             if (!hasAuthority) return;
         }
 
