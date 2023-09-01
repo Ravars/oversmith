@@ -42,8 +42,8 @@ Animator:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3415252147057182703}
   m_Enabled: 1
-  m_Avatar: {fileID: 9000000, guid: 3db506afb664b7d468a9929fc8da52f7, type: 3}
-  m_Controller: {fileID: 9100000, guid: a1d8527bd26c0204f8f44d3d192f7da3, type: 2}
+  m_Avatar: {fileID: 9000000, guid: cfb5286c6c0b8a74698cc4021a492b33, type: 3}
+  m_Controller: {fileID: 9100000, guid: b042165e277f3524f8d35bf49282ccdd, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
@@ -85,7 +85,7 @@ Transform:
   m_Children:
   - {fileID: 3415252147057182696}
   m_Father: {fileID: 0}
-  m_RootOrder: 0
+  m_RootOrder: -1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!195 &3415252148596288192
 NavMeshAgent:
@@ -126,7 +126,7 @@ MonoBehaviour:
   OnArrival:
     m_PersistentCalls:
       m_Calls: []
-  animator: {fileID: 0}
+  animator: {fileID: 187502085495260771}
 --- !u!1001 &7496344273165188303
 PrefabInstance:
   m_ObjectHideFlags: 0
