@@ -68,6 +68,8 @@ namespace MadSmith.Scripts.Interaction
                     if (ItemScript != null && interactable.table.CanSetItem(ItemScript))
                     {
                         interactable.table.PutOnTable(_itemTransform,ItemScript);
+                        if (interactable.hasCraftingTable)
+                            ItemScript.LastCraftingTable = interactable.craftingTable.type;
                         ItemScript.PlaySound(SoundType.SoundIn);
                         _itemTransform = null;
                         ItemScript = null;
