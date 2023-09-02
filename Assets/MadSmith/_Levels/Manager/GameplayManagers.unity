@@ -310,7 +310,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &353440651
 RectTransform:
   m_ObjectHideFlags: 0
@@ -1037,22 +1037,22 @@ PrefabInstance:
     - target: {fileID: 5622605779696033420, guid: de77f8cfb1cecff4ea24f6029bb04c2c,
         type: 3}
       propertyPath: m_AnchorMax.x
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5622605779696033420, guid: de77f8cfb1cecff4ea24f6029bb04c2c,
         type: 3}
       propertyPath: m_AnchorMax.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5622605780559932747, guid: de77f8cfb1cecff4ea24f6029bb04c2c,
         type: 3}
       propertyPath: m_AnchorMax.x
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5622605780559932747, guid: de77f8cfb1cecff4ea24f6029bb04c2c,
         type: 3}
       propertyPath: m_AnchorMax.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -1117,7 +1117,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1172074775
 RectTransform:
   m_ObjectHideFlags: 0
@@ -1503,27 +1503,27 @@ PrefabInstance:
     - target: {fileID: 7515824629592317023, guid: 8e3549a771bbc604eaec79d41cef6414,
         type: 3}
       propertyPath: m_AnchorMax.x
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7515824629592317023, guid: 8e3549a771bbc604eaec79d41cef6414,
         type: 3}
       propertyPath: m_AnchorMax.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7515824629592317023, guid: 8e3549a771bbc604eaec79d41cef6414,
         type: 3}
       propertyPath: m_AnchorMin.x
-      value: 0
+      value: 0.8
       objectReference: {fileID: 0}
     - target: {fileID: 7515824629852643113, guid: 8e3549a771bbc604eaec79d41cef6414,
         type: 3}
       propertyPath: m_AnchorMax.x
-      value: 0
+      value: 0.2
       objectReference: {fileID: 0}
     - target: {fileID: 7515824629852643113, guid: 8e3549a771bbc604eaec79d41cef6414,
         type: 3}
       propertyPath: m_AnchorMax.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7515824630894810843, guid: 8e3549a771bbc604eaec79d41cef6414,
         type: 3}
@@ -2147,6 +2147,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   orderCardPrefab: {fileID: 6892254698301724358, guid: 8eb8f608ee7bdb94abeb0b7eef9bff1e,
     type: 3}
+  hudPanel: {fileID: 1172074774}
   orderCardHolder: {fileID: 1273035708}
   ItemCardHolders: []
   _onSceneReady: {fileID: 11400000, guid: df6aead758def0e408c9231e08fef990, type: 2}

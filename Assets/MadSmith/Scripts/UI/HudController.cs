@@ -12,6 +12,7 @@ namespace MadSmith.Scripts.UI
     {
         // public GameObject Card;
         public GameObject orderCardPrefab;
+        public GameObject hudPanel;
         public Transform orderCardHolder;
         public List<ItemCardHolder> ItemCardHolders;
         [Header("Listening on")] 
@@ -36,6 +37,7 @@ namespace MadSmith.Scripts.UI
                     Destroy(itemCardHolder);
                 }
             }
+            hudPanel.SetActive(true);
             ItemCardHolders.Clear();
         }
         public void AddOrder(ItemStruct[] itemStructs, int npcId, BoxColor boxColor) //TODO: add BoxColor
