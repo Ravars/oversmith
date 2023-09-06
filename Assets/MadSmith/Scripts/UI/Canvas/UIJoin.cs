@@ -7,6 +7,7 @@ namespace MadSmith.Scripts.UI.Canvas
     public class UIJoin : MonoBehaviour
     {
         public UnityAction Closed;
+        public UnityAction SteamJoinButtonAction;
         [SerializeField] private InputReader _inputReader;
         public void SetJoinHost()
         {
@@ -23,7 +24,11 @@ namespace MadSmith.Scripts.UI.Canvas
         }
         public void CloseScreen()
         {
-            Closed.Invoke();
+            Closed?.Invoke();
+        }
+        public void JoinSteam()
+        {
+            SteamJoinButtonAction?.Invoke();
         }
     }
 }

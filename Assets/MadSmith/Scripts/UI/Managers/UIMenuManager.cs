@@ -387,7 +387,7 @@ namespace MadSmith.Scripts.UI.Managers
         {
             uiJoinPanel.SetJoinHost();
             uiJoinPanel.Closed += () => SetState(MenuState.MainMenu);
-            // uiJoinPanel.SteamHostButtonAction += Manager.HostBySteam;
+            uiJoinPanel.SteamJoinButtonAction += Manager.JoinBySteam;
             // uiJoinPanel.LocalHostButtonAction += Manager.HostByLocalHost;
         }
         private void UnsetJoinScreen()
