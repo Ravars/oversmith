@@ -73,6 +73,7 @@ namespace _Developers.Vitor.Multiplayer2.Scripts
             _steamManager.enabled = true;
             _steamLobby.enabled = true;
             lobbyController.gameObject.SetActive(true);
+            lobbiesListManager.gameObject.SetActive(true);
             Invoke(nameof(HostLobbySteamCall),1f);
         }
 
@@ -93,6 +94,7 @@ namespace _Developers.Vitor.Multiplayer2.Scripts
         {
             _steamLobby.HostLobby();
         }
+        
         public void HostByLocalHost()
         {
             Debug.Log("Host by localhost");
