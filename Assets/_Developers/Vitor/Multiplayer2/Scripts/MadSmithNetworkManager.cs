@@ -132,6 +132,7 @@ namespace _Developers.Vitor.Multiplayer2.Scripts
             {
                 NetworkClient.RegisterPrefab(spawnablePrefab);
             }
+            base.OnStartClient();
 
             OnClientConnected?.Invoke();
         }
