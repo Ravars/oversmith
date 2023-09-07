@@ -84,7 +84,7 @@ namespace _Developers.Vitor.Multiplayer2.Scripts
             
             //Client
             if(NetworkServer.active) return;
-
+            Debug.Log("Lobby Entered client");
             _manager.networkAddress =
                 SteamMatchmaking.GetLobbyData(new CSteamID(callback.m_ulSteamIDLobby), HostAddressKey);
             _manager.StartClient();

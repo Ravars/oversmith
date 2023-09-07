@@ -81,9 +81,9 @@ namespace _Developers.Vitor.Multiplayer2.Scripts
         {
             TransportLayer = TransportLayer.Steam;
             transport = _fizzySteamworksTransport;
+            _steamLobby.enabled = true;
             _fizzySteamworksTransport.enabled = true;
             _steamManager.enabled = true;
-            _steamLobby.enabled = true;
             lobbiesListManager.gameObject.SetActive(true);
             lobbyController.gameObject.SetActive(true);
             lobbiesListManager.GetListOfLobbies();
