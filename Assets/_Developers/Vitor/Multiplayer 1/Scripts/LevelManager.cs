@@ -1,7 +1,6 @@
 using System;
 using System.Linq;
 using Mirror;
-using UnityEditor.Localization.Plugins.XLIFF.V12;
 using UnityEngine;
 
 namespace _Developers.Vitor.Multiplayer_1.Scripts
