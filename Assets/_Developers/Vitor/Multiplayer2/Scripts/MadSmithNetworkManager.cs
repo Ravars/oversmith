@@ -117,6 +117,7 @@ namespace _Developers.Vitor.Multiplayer2.Scripts
 
         public void StopHostOrClientOnLobbyMenu()
         {
+            Debug.Log("StopHostOrClientOnLobbyMenu");
             if (NetworkServer.active)
             {
                 StopHost();

@@ -449,8 +449,8 @@ namespace MadSmith.Scripts.UI.Managers
             // uiLobbyControllerPanel
             uiLobbyControllerPanel.Closed += () =>
             {
-                SetState(MenuState.MainMenu);
                 Manager.StopHostOrClientOnLobbyMenu();
+                SetState(MenuState.MainMenu);
             };
             // uiJoinPanel.SetJoinHost();
             // uiJoinPanel.Closed += () => SetState(MenuState.MainMenu);
@@ -461,8 +461,8 @@ namespace MadSmith.Scripts.UI.Managers
         {
             uiLobbyControllerPanel.Closed -= () =>
             {
-                SetState(MenuState.MainMenu);
                 Manager.StopHostOrClientOnLobbyMenu();
+                SetState(MenuState.MainMenu);
             };
             // uiJoinPanel.Closed -= () => SetState(MenuState.MainMenu);
             // uiHostPanel.SteamHostButtonAction -= Manager.HostBySteam;
