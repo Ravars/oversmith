@@ -134,7 +134,6 @@ namespace MadSmith.Scripts.UI.Managers
                     CloseLobby();
                     break;
                 default:
-                    Debug.Log("Nothing");
                     break;
             }
 
@@ -171,7 +170,6 @@ namespace MadSmith.Scripts.UI.Managers
                     OpenLobby();
                     break;
                 default:
-                    Debug.Log("Nothing");
                     break;
             }
         }
@@ -419,7 +417,7 @@ namespace MadSmith.Scripts.UI.Managers
             uiJoinPanel.SteamJoinButtonAction += () =>
             {
                 Manager.JoinBySteam();
-                SetState(MenuState.Lobby);
+                // SetState(MenuState.Lobby);
             };
         }
         private void UnsetJoinScreen()
@@ -428,7 +426,7 @@ namespace MadSmith.Scripts.UI.Managers
             uiJoinPanel.SteamJoinButtonAction -= () =>
             {
                 Manager.JoinBySteam();
-                SetState(MenuState.Lobby);
+                // SetState(MenuState.Lobby);
             };
         }
         private void OpenJoin()
@@ -452,6 +450,7 @@ namespace MadSmith.Scripts.UI.Managers
                 Manager.StopHostOrClientOnLobbyMenu();
                 SetState(MenuState.MainMenu);
             };
+            Manager.SteamLobby.OnLobbyEnteredEvent += () => SetState(MenuState.Lobby);
             // uiJoinPanel.SetJoinHost();
             // uiJoinPanel.Closed += () => SetState(MenuState.MainMenu);
             // uiJoinPanel.SteamJoinButtonAction += Manager.JoinBySteam;
@@ -464,6 +463,7 @@ namespace MadSmith.Scripts.UI.Managers
                 Manager.StopHostOrClientOnLobbyMenu();
                 SetState(MenuState.MainMenu);
             };
+            Manager.SteamLobby.OnLobbyEnteredEvent -= () => SetState(MenuState.Lobby);
             // uiJoinPanel.Closed -= () => SetState(MenuState.MainMenu);
             // uiHostPanel.SteamHostButtonAction -= Manager.HostBySteam;
             // uiHostPanel.LocalHostButtonAction -= Manager.HostByLocalHost;

@@ -4,6 +4,7 @@ using MadSmith.Scripts.Utils;
 using Mirror;
 using Steamworks;
 using UnityEngine;
+using UnityEngine.Events;
 
 namespace _Developers.Vitor.Multiplayer2.Scripts
 {
@@ -26,8 +27,8 @@ namespace _Developers.Vitor.Multiplayer2.Scripts
         public ulong currentLobbyID;
         private const string HostAddressKey = "HostAddress";
         private MadSmithNetworkManager _manager;
-        
 
+        public UnityAction OnLobbyEnteredEvent;
         private void Start()
         {
             if (!SteamManager.Initialized)
@@ -81,7 +82,7 @@ namespace _Developers.Vitor.Multiplayer2.Scripts
             Debug.Log("Lobby Entered");
             //Everyone
             currentLobbyID = callback.m_ulSteamIDLobby;
-            
+            OnLobbyEnteredEvent?.Invoke();
             //Client
             if(NetworkServer.active) return;
             Debug.Log("Lobby Entered client");
