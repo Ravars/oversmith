@@ -1,7 +1,9 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+
 using kcp2k;
+using MadSmith.Scripts.UI.Managers;
 using UnityEngine;
 using Mirror;
 using Mirror.FizzySteam;
@@ -28,29 +30,47 @@ namespace _Developers.Vitor.Multiplayer2.Scripts
         private KcpTransport _localHostTransport;
         //Steam
         private FizzySteamworks _fizzySteamworksTransport;
-        private SteamLobby _steamLobby;
+        public SteamLobby SteamLobby { get; private set; }
         private SteamManager _steamManager;
         [SerializeField] private LobbyController lobbyController;
         [SerializeField] private LobbiesListManager lobbiesListManager;
 
+        [SerializeField] private bool startWithSteam;
+        
         [Tooltip("Player lobby prefab")][SerializeField] private LobbyClient lobbyPrefab;
         public override void Awake()
         {
             base.Awake();
             _localHostTransport = GetComponent<KcpTransport>();
             _fizzySteamworksTransport = GetComponent<FizzySteamworks>();
-            _steamLobby = GetComponent<SteamLobby>();
+            SteamLobby = GetComponent<SteamLobby>();
             _steamManager = GetComponent<SteamManager>();
             DisableSteamResources();
             DisableLocalhostResources();
+            if (startWithSteam)
+            {
+                EnableSteamResources();
+            }
+            else
+            {
+                EnableLocalhostResources();
+            }
         }
 
         private void DisableSteamResources()
         {
             _fizzySteamworksTransport.enabled = false;
-            _steamLobby.enabled = false;
+            SteamLobby.enabled = false;
             _steamManager.enabled = false;
             lobbyController.gameObject.SetActive(false);
+        }
+
+        private void EnableSteamResources()
+        {
+            _fizzySteamworksTransport.enabled = true;
+            SteamLobby.enabled = true;
+            _steamManager.enabled = true;
+            // lobbyController.gameObject.SetActive(true);
         }
 
         private void DisableLocalhostResources()
@@ -58,6 +78,10 @@ namespace _Developers.Vitor.Multiplayer2.Scripts
             _localHostTransport.enabled = false;
         }
         
+        private void EnableLocalhostResources()
+        {
+            _localHostTransport.enabled = true;
+        }
 
         public bool SteamIsOpen()
         {
@@ -69,11 +93,9 @@ namespace _Developers.Vitor.Multiplayer2.Scripts
             Debug.Log("Host by steam");
             TransportLayer = TransportLayer.Steam;
             transport = _fizzySteamworksTransport;
-            _fizzySteamworksTransport.enabled = true;
-            _steamManager.enabled = true;
-            _steamLobby.enabled = true;
-            lobbyController.gameObject.SetActive(true);
-            lobbiesListManager.gameObject.SetActive(true);
+            EnableSteamResources();
+            // UIMenuManager.Instance.set
+            // lobbyController.gameObject.SetActive(true); //change to UI menu manager
             Invoke(nameof(HostLobbySteamCall),1f);
         }
 
@@ -81,18 +103,30 @@ namespace _Developers.Vitor.Multiplayer2.Scripts
         {
             TransportLayer = TransportLayer.Steam;
             transport = _fizzySteamworksTransport;
-            _steamLobby.enabled = true;
+            SteamLobby.enabled = true;
             _fizzySteamworksTransport.enabled = true;
             _steamManager.enabled = true;
-            lobbiesListManager.gameObject.SetActive(true);
-            lobbyController.gameObject.SetActive(true);
+            // lobbyController.gameObject.SetActive(true);
             lobbiesListManager.GetListOfLobbies();
-            // _steamLobby.
         }
 
         public void HostLobbySteamCall()
         {
-            _steamLobby.HostLobby();
+            SteamLobby.HostLobby();
+        }
+
+        public void StopHostOrClientOnLobbyMenu()
+        {
+            if (NetworkServer.active)
+            {
+                StopHost();
+            }
+            else
+            {
+                StopClient();
+            }
+            lobbiesListManager.DestroyLobbies();
+            // lobbyController.gameObject.SetActive(false); // changed to MenuManager
         }
         
         public void HostByLocalHost()

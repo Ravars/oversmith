@@ -9,6 +9,7 @@ using MadSmith.Scripts.SceneManagement.ScriptableObjects;
 using MadSmith.Scripts.Systems.Settings;
 using MadSmith.Scripts.UI.Canvas;
 using MadSmith.Scripts.UI.SettingsScripts;
+using MadSmith.Scripts.Utils;
 using Mirror;
 using UnityEngine;
 
@@ -23,9 +24,10 @@ namespace MadSmith.Scripts.UI.Managers
         CharacterSelection,
         LevelSelection,
         Host,
-        Join
+        Join,
+        Lobby
     }
-    public class UIMenuManager : MonoBehaviour
+    public class UIMenuManager : Singleton<UIMenuManager>
     {
         public MenuState State { get; private set; }
         private bool _hasSaveData;
@@ -43,6 +45,7 @@ namespace MadSmith.Scripts.UI.Managers
         [SerializeField] private UILevelSelection _levelSelectUI;
         [SerializeField] private UITutorial uiTutorial;
         [SerializeField] private UIHost uiHostPanel;
+        [SerializeField] private LobbyController uiLobbyControllerPanel;
         [SerializeField] private UIJoin uiJoinPanel;
         
         [Header("Cameras")]
@@ -51,6 +54,8 @@ namespace MadSmith.Scripts.UI.Managers
         [SerializeField] private GameObject _creditsCamera;
         [SerializeField] private GameObject _tutorialCamera;
         [SerializeField] private GameObject _levelSelectCamera;
+
+        
         
         [Header("NetworkManager")]
         private MadSmithNetworkManager _manager;
@@ -77,6 +82,7 @@ namespace MadSmith.Scripts.UI.Managers
             SetTutorialScreen();
             SetHostScreen();
             SetJoinScreen();
+            SetLobbyScreen();
             SetState(MenuState.MainMenu);
         }
 
@@ -91,6 +97,7 @@ namespace MadSmith.Scripts.UI.Managers
             UnsetTutorialScreen();
             UnsetHostScreen();
             UnsetJoinScreen();
+            UnsetLobbyScreen();
         }
 
         private void SetState(MenuState newState)
@@ -122,6 +129,9 @@ namespace MadSmith.Scripts.UI.Managers
                     break;
                 case MenuState.Join:
                     CloseJoin();
+                    break;
+                case MenuState.Lobby:
+                    CloseLobby();
                     break;
                 default:
                     Debug.Log("Nothing");
@@ -156,6 +166,9 @@ namespace MadSmith.Scripts.UI.Managers
                     break;
                 case MenuState.Join:
                     OpenJoin();
+                    break;
+                case MenuState.Lobby:
+                    OpenLobby();
                     break;
                 default:
                     Debug.Log("Nothing");
@@ -360,14 +373,30 @@ namespace MadSmith.Scripts.UI.Managers
         private void SetHostScreen()
         {
             uiHostPanel.SetUIHost(Manager.SteamIsOpen());
-            uiHostPanel.SteamHostButtonAction += Manager.HostBySteam;
-            uiHostPanel.LocalHostButtonAction += Manager.HostByLocalHost;
+            uiHostPanel.SteamHostButtonAction += () =>
+            {
+                Manager.HostBySteam();
+                SetState(MenuState.Lobby);
+            };
+            uiHostPanel.LocalHostButtonAction += () =>
+            {
+                Manager.HostByLocalHost();
+                SetState(MenuState.Lobby);
+            };
             uiHostPanel.Closed += () => SetState(MenuState.MainMenu);
         }
         private void UnsetHostScreen()
         {
-            uiHostPanel.SteamHostButtonAction -= Manager.HostBySteam;
-            uiHostPanel.LocalHostButtonAction -= Manager.HostByLocalHost;
+            uiHostPanel.SteamHostButtonAction -= () =>
+            {
+                Manager.HostBySteam();
+                SetState(MenuState.Lobby);
+            };
+            uiHostPanel.LocalHostButtonAction -= () =>
+            {
+                Manager.HostByLocalHost();
+                SetState(MenuState.Lobby);
+            };
             uiHostPanel.Closed -= () => SetState(MenuState.MainMenu);
         }
         private void OpenHost()
@@ -387,14 +416,20 @@ namespace MadSmith.Scripts.UI.Managers
         {
             uiJoinPanel.SetJoinHost();
             uiJoinPanel.Closed += () => SetState(MenuState.MainMenu);
-            uiJoinPanel.SteamJoinButtonAction += Manager.JoinBySteam;
-            // uiJoinPanel.LocalHostButtonAction += Manager.HostByLocalHost;
+            uiJoinPanel.SteamJoinButtonAction += () =>
+            {
+                Manager.JoinBySteam();
+                SetState(MenuState.Lobby);
+            };
         }
         private void UnsetJoinScreen()
         {
             uiJoinPanel.Closed -= () => SetState(MenuState.MainMenu);
-            // uiHostPanel.SteamHostButtonAction -= Manager.HostBySteam;
-            // uiHostPanel.LocalHostButtonAction -= Manager.HostByLocalHost;
+            uiJoinPanel.SteamJoinButtonAction -= () =>
+            {
+                Manager.JoinBySteam();
+                SetState(MenuState.Lobby);
+            };
         }
         private void OpenJoin()
         {
@@ -408,8 +443,47 @@ namespace MadSmith.Scripts.UI.Managers
         }
         #endregion
         
-        private void OnDestroy()
+        #region Lobby
+        private void SetLobbyScreen()
         {
+            // uiLobbyControllerPanel
+            uiLobbyControllerPanel.Closed += () =>
+            {
+                SetState(MenuState.MainMenu);
+                Manager.StopHostOrClientOnLobbyMenu();
+            };
+            // uiJoinPanel.SetJoinHost();
+            // uiJoinPanel.Closed += () => SetState(MenuState.MainMenu);
+            // uiJoinPanel.SteamJoinButtonAction += Manager.JoinBySteam;
+            // uiJoinPanel.LocalHostButtonAction += Manager.HostByLocalHost;
+        }
+        private void UnsetLobbyScreen()
+        {
+            uiLobbyControllerPanel.Closed -= () =>
+            {
+                SetState(MenuState.MainMenu);
+                Manager.StopHostOrClientOnLobbyMenu();
+            };
+            // uiJoinPanel.Closed -= () => SetState(MenuState.MainMenu);
+            // uiHostPanel.SteamHostButtonAction -= Manager.HostBySteam;
+            // uiHostPanel.LocalHostButtonAction -= Manager.HostByLocalHost;
+        }
+        private void OpenLobby()
+        {
+            _mainMenuCamera.SetActive(true);
+            uiLobbyControllerPanel.gameObject.SetActive(true);
+            // uiJoinPanel.gameObject.SetActive(true);
+        }
+        private void CloseLobby()
+        {
+            _mainMenuCamera.SetActive(false);
+            uiLobbyControllerPanel.gameObject.SetActive(false);
+        }
+        #endregion
+
+        protected override void OnDestroy()
+        {
+            base.OnDestroy();
             _popupPanel.ConfirmationResponseAction -= HideExitConfirmationPopup;
             // _popupPanel.ConfirmationResponseAction -= StartNewGamePopupResponse;
         }

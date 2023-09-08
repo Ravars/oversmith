@@ -1,11 +1,13 @@
 using System.Collections.Generic;
 using System.Linq;
 using _Developers.Vitor.Multiplayer2.Scripts.UI;
+using MadSmith.Scripts.Input;
 using MadSmith.Scripts.Utils;
 using Mirror;
 using Steamworks;
 using TMPro;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.UI;
 
 namespace _Developers.Vitor.Multiplayer2.Scripts
@@ -41,9 +43,23 @@ namespace _Developers.Vitor.Multiplayer2.Scripts
             }
         }
         
+        public UnityAction Closed;
+        [SerializeField] private InputReader _inputReader;
+        
+        private void OnEnable()
+        {
+            _inputReader.MenuCloseEvent += CloseScreen;
+        }
+
+        private void OnDisable()
+        {
+            _inputReader.MenuCloseEvent -= CloseScreen;
+        }
+        
+        
         public void UpdateLobbyName()
         {
-            CurrentLobbyID = Manager.GetComponent<SteamLobby>().currentLobbyID;
+            CurrentLobbyID = Manager.SteamLobby.currentLobbyID;
             LobbyNameText.text = SteamMatchmaking.GetLobbyData(new CSteamID(CurrentLobbyID), "name");
         }
         public void UpdatePlayerList()
@@ -58,7 +74,8 @@ namespace _Developers.Vitor.Multiplayer2.Scripts
             LocalPlayerObject = GameObject.Find("LocalGamePlayer");
             lobbyClient = LocalPlayerObject.GetComponent<LobbyClient>();
         }
-        public void CreateHostPlayerItem()
+
+        private void CreateHostPlayerItem()
         {
             foreach (LobbyClient player in Manager.lobbyPlayers)
             {
@@ -77,24 +94,25 @@ namespace _Developers.Vitor.Multiplayer2.Scripts
             
             PlayerItemCreated = true;
         }
-        public void CreateClientPlayerItem()
+
+        private void CreateClientPlayerItem()
         {
             foreach (LobbyClient player in Manager.lobbyPlayers)
             {
-                if (!PlayerListItems.Any(b => b.ConnectionID == player.ConnectionID))
+                if (PlayerListItems.All(b => b.ConnectionID != player.ConnectionID))
                 {
-                    GameObject NewPlayerItem = Instantiate(PlayerListItemPrefab, PlayerListViewContent.transform, true) as GameObject;
-                    PlayerListItem NewPlayerItemScript = NewPlayerItem.GetComponent<PlayerListItem>();
+                    GameObject newPlayerItem = Instantiate(PlayerListItemPrefab, PlayerListViewContent.transform, true) as GameObject;
+                    PlayerListItem newPlayerItemScript = newPlayerItem.GetComponent<PlayerListItem>();
 
-                    NewPlayerItemScript.PlayerName = player.PlayerName;
-                    NewPlayerItemScript.ConnectionID = player.ConnectionID;
-                    NewPlayerItemScript.PlayerSteamID = player.PlayerSteamID;
-                    NewPlayerItemScript.Ready = player.ready;
-                    NewPlayerItemScript.SetPlayerValues();
+                    newPlayerItemScript.PlayerName = player.PlayerName;
+                    newPlayerItemScript.ConnectionID = player.ConnectionID;
+                    newPlayerItemScript.PlayerSteamID = player.PlayerSteamID;
+                    newPlayerItemScript.Ready = player.ready;
+                    newPlayerItemScript.SetPlayerValues();
 
-                    NewPlayerItem.transform.localScale = Vector3.one;
+                    newPlayerItem.transform.localScale = Vector3.one;
             
-                    PlayerListItems.Add(NewPlayerItemScript);
+                    PlayerListItems.Add(newPlayerItemScript);
                 }
             }
         }
@@ -115,10 +133,10 @@ namespace _Developers.Vitor.Multiplayer2.Scripts
                 {
                     if (playerListItemToRemove != null)
                     {
-                        GameObject ObjectToRemove = playerListItemToRemove.gameObject;
+                        GameObject objectToRemove = playerListItemToRemove.gameObject;
                         PlayerListItems.Remove(playerListItemToRemove);
-                        Destroy(ObjectToRemove);
-                        ObjectToRemove = null;
+                        Destroy(objectToRemove);
+                        objectToRemove = null;
                     }
                 }
             }
@@ -143,11 +161,13 @@ namespace _Developers.Vitor.Multiplayer2.Scripts
             }
             CheckIfAllReady();
         }
-        public void UpdateButton()
+
+        private void UpdateButton()
         {
             ReadyButtonText.text = lobbyClient.ready? "Unready" : "Ready";
         }
-        public void CheckIfAllReady()
+
+        private void CheckIfAllReady()
         {
             bool allReady = false;
             
@@ -165,7 +185,7 @@ namespace _Developers.Vitor.Multiplayer2.Scripts
             }
             if (allReady)
             {
-                if (lobbyClient.ConnectionID == 1)
+                if (lobbyClient.ConnectionID == 0)
                 {
                     StartGameButton.interactable = true;
                 }
@@ -186,6 +206,11 @@ namespace _Developers.Vitor.Multiplayer2.Scripts
         public void StartGame(string sceneName)
         {
             lobbyClient.CanStartGame(sceneName);
+        }
+
+        public void CloseScreen()
+        {
+            Closed?.Invoke();
         }
     }
 }
