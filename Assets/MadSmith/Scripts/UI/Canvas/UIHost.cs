@@ -19,7 +19,7 @@ namespace MadSmith.Scripts.UI.Canvas
         public void SetUIHost(bool steamOpen)
         {
             Debug.Log("Steam open: " + steamOpen);
-            steamHost.interactable = steamOpen;
+            // steamHost.interactable = steamOpen;
         }
 
         private void OnEnable()

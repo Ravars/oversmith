@@ -22,6 +22,7 @@ namespace _Developers.Vitor.Multiplayer2.Scripts
                 Destroy(lobbyItem);
             }
             listOfLobbies.Clear();
+            lobbiesMenu.SetActive(false);
         }
 
         public void DisplayLobbies(List<CSteamID> lobbyIDs, LobbyDataUpdate_t result)
