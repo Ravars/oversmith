@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using MadSmith.Scripts.UI.Managers;
 using MadSmith.Scripts.Utils;
 using UnityEngine;
 using Steamworks;
@@ -7,11 +8,11 @@ namespace _Developers.Vitor.Multiplayer2.Scripts
 {
     public class LobbiesListManager : Singleton<LobbiesListManager>
     {
-        public GameObject lobbiesMenu;
-        public GameObject lobbyDataItemPrefab;
-        public GameObject lobbyListContent;
+        // public GameObject lobbiesMenu;
+        [SerializeField] private GameObject lobbyDataItemPrefab;
+        [SerializeField] private GameObject lobbyListContent;
         
-        public GameObject lobbiesButton, hostButton;
+        // [SerializeField] private GameObject lobbiesButton;
 
         public List<GameObject> listOfLobbies = new();
 
@@ -22,7 +23,7 @@ namespace _Developers.Vitor.Multiplayer2.Scripts
                 Destroy(lobbyItem);
             }
             listOfLobbies.Clear();
-            lobbiesMenu.SetActive(false);
+            // lobbiesMenu.SetActive(false);
         }
 
         public void DisplayLobbies(List<CSteamID> lobbyIDs, LobbyDataUpdate_t result)
@@ -44,9 +45,10 @@ namespace _Developers.Vitor.Multiplayer2.Scripts
 
         public void GetListOfLobbies()
         {
-            lobbiesButton.SetActive(false);
-            hostButton.SetActive(false);
-            lobbiesMenu.SetActive(true);
+            // lobbiesButton.SetActive(false);
+            // hostButton.SetActive(false);
+            // UIMenuManager.Instance.
+            // lobbiesMenu.SetActive(true);
             SteamLobby.Instance.GetLobbiesList();
         }
     }

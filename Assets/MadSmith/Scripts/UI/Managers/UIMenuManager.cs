@@ -25,7 +25,8 @@ namespace MadSmith.Scripts.UI.Managers
         LevelSelection,
         Host,
         Join,
-        Lobby
+        Lobby,
+        LobbiesList
     }
     public class UIMenuManager : Singleton<UIMenuManager>
     {
@@ -47,6 +48,7 @@ namespace MadSmith.Scripts.UI.Managers
         [SerializeField] private UIHost uiHostPanel;
         [SerializeField] private LobbyController uiLobbyControllerPanel;
         [SerializeField] private UIJoin uiJoinPanel;
+        [SerializeField] private UILobbyList uiLobbiesListPanel;
         
         [Header("Cameras")]
         [SerializeField] private GameObject _mainMenuCamera;
@@ -83,6 +85,7 @@ namespace MadSmith.Scripts.UI.Managers
             SetHostScreen();
             SetJoinScreen();
             SetLobbyScreen();
+            SetLobbiesListScreen();
             SetState(MenuState.MainMenu);
         }
 
@@ -98,6 +101,7 @@ namespace MadSmith.Scripts.UI.Managers
             UnsetHostScreen();
             UnsetJoinScreen();
             UnsetLobbyScreen();
+            UnsetLobbiesListScreen();
         }
 
         private void SetState(MenuState newState)
@@ -132,6 +136,9 @@ namespace MadSmith.Scripts.UI.Managers
                     break;
                 case MenuState.Lobby:
                     CloseLobby();
+                    break;
+                case MenuState.LobbiesList:
+                    CloseLobbiesList();
                     break;
                 default:
                     break;
@@ -168,6 +175,9 @@ namespace MadSmith.Scripts.UI.Managers
                     break;
                 case MenuState.Lobby:
                     OpenLobby();
+                    break;
+                case MenuState.LobbiesList:
+                    OpenLobbiesList();
                     break;
                 default:
                     break;
@@ -451,10 +461,6 @@ namespace MadSmith.Scripts.UI.Managers
                 SetState(MenuState.MainMenu);
             };
             Manager.SteamLobby.OnLobbyEnteredEvent += () => SetState(MenuState.Lobby);
-            // uiJoinPanel.SetJoinHost();
-            // uiJoinPanel.Closed += () => SetState(MenuState.MainMenu);
-            // uiJoinPanel.SteamJoinButtonAction += Manager.JoinBySteam;
-            // uiJoinPanel.LocalHostButtonAction += Manager.HostByLocalHost;
         }
         private void UnsetLobbyScreen()
         {
@@ -464,20 +470,49 @@ namespace MadSmith.Scripts.UI.Managers
                 SetState(MenuState.MainMenu);
             };
             Manager.SteamLobby.OnLobbyEnteredEvent -= () => SetState(MenuState.Lobby);
-            // uiJoinPanel.Closed -= () => SetState(MenuState.MainMenu);
-            // uiHostPanel.SteamHostButtonAction -= Manager.HostBySteam;
-            // uiHostPanel.LocalHostButtonAction -= Manager.HostByLocalHost;
         }
         private void OpenLobby()
         {
             _mainMenuCamera.SetActive(true);
             uiLobbyControllerPanel.gameObject.SetActive(true);
-            // uiJoinPanel.gameObject.SetActive(true);
         }
         private void CloseLobby()
         {
             _mainMenuCamera.SetActive(false);
             uiLobbyControllerPanel.gameObject.SetActive(false);
+        }
+        #endregion
+        #region Lobbies List
+        private void SetLobbiesListScreen()
+        {
+            SteamLobby.Instance.OnLobbyListRequestedEvent += () => SetState(MenuState.LobbiesList);
+            uiLobbiesListPanel.Closed += () =>
+            {
+                LobbiesListManager.Instance.DestroyLobbies();
+                SetState(MenuState.MainMenu);
+            };
+        }
+        private void UnsetLobbiesListScreen()
+        {
+            if (SteamLobby.InstanceExists)
+            {
+                SteamLobby.Instance.OnLobbyListRequestedEvent -= () => SetState(MenuState.LobbiesList);
+            }
+            uiLobbiesListPanel.Closed -= () =>
+            {
+                LobbiesListManager.Instance.DestroyLobbies();
+                SetState(MenuState.MainMenu);
+            };
+        }
+        private void OpenLobbiesList()
+        {
+            _mainMenuCamera.SetActive(true);
+            uiLobbiesListPanel.gameObject.SetActive(true);
+        }
+        private void CloseLobbiesList()
+        {
+            _mainMenuCamera.SetActive(false);
+            uiLobbiesListPanel.gameObject.SetActive(false);
         }
         #endregion
 

@@ -29,6 +29,7 @@ namespace _Developers.Vitor.Multiplayer2.Scripts
         private MadSmithNetworkManager _manager;
 
         public UnityAction OnLobbyEnteredEvent;
+        public UnityAction OnLobbyListRequestedEvent;
         private void Start()
         {
             if (!SteamManager.Initialized)
@@ -97,6 +98,7 @@ namespace _Developers.Vitor.Multiplayer2.Scripts
             
             SteamMatchmaking.AddRequestLobbyListResultCountFilter(60);
             SteamMatchmaking.RequestLobbyList();
+            OnLobbyListRequestedEvent?.Invoke();
         }
         
         private void OnGetLobbyList(LobbyMatchList_t result)
