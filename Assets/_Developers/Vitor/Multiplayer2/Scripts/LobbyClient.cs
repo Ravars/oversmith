@@ -7,9 +7,11 @@ namespace _Developers.Vitor.Multiplayer2.Scripts
 {
     public class LobbyClient : NetworkBehaviour
     {
+        private const int NumberOfCharacters = 4; 
         [SyncVar] public int ConnectionID;
         [SyncVar] public ulong PlayerSteamID;
         [SyncVar] public string PlayerName;
+        [SyncVar] public int CharacterId;
         [SyncVar(hook = nameof(PlayerReadyUpdate))] public bool ready;
         public bool isLeader;
         private MadSmithNetworkManager _manager;
@@ -77,6 +79,43 @@ namespace _Developers.Vitor.Multiplayer2.Scripts
                 LobbyController.Instance.UpdatePlayerItem();
             }
         }
+        public void NextCharacter()
+        {
+            if (hasAuthority)
+            {
+                int id = (CharacterId + 1) % NumberOfCharacters;
+                CmdChangeCharacter(CharacterId, id);
+            }
+        }
+
+        public void PreviousCharacter()
+        {
+            if (hasAuthority)
+            {
+                int id = CharacterId - 1 < 0 ? NumberOfCharacters - 1 : CharacterId - 1;
+                CmdChangeCharacter(CharacterId,id);
+            }
+        }
+
+        [Command]
+        private void CmdChangeCharacter(int oldId, int newId)
+        {
+            this.ChangeCharacter(oldId, newId);
+        }
+
+        private void ChangeCharacter(int oldId, int newId)
+        {
+            if (isServer)
+            {
+                this.CharacterId = newId;
+            }
+            
+            if (isClient)
+            {
+                LobbyController.Instance.UpdatePlayerItem();
+            }
+        }
+        
         public void CanStartGame(string sceneName)
         {
             if (hasAuthority)

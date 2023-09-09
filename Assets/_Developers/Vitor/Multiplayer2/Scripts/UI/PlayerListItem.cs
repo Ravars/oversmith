@@ -15,8 +15,11 @@ namespace _Developers.Vitor.Multiplayer2.Scripts.UI
         
         public TextMeshProUGUI PlayerNameText;
         public RawImage PlayerIcon;
+        public Image CharacterImage;
         public TextMeshProUGUI PlayerReadyText;
         public bool Ready;
+        public int CharacterID;
+        [SerializeField] private Sprite[] charactersImages;
         protected Callback<AvatarImageLoaded_t> ImageLoaded;
         //Manager
         private MadSmithNetworkManager _manager;
@@ -50,6 +53,7 @@ namespace _Developers.Vitor.Multiplayer2.Scripts.UI
         {
             PlayerNameText.text = PlayerName;
             ChangeReadyStatus();
+            CharacterImage.sprite = charactersImages[CharacterID];
             if(!AvatarReceived) {GetPlayerIcon();}
         }
         public void ChangeReadyStatus()
@@ -97,5 +101,7 @@ namespace _Developers.Vitor.Multiplayer2.Scripts.UI
             AvatarReceived = true;
             return texture;
         }
+
+
     }
 }

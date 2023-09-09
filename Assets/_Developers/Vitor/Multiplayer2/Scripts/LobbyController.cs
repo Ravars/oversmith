@@ -151,6 +151,7 @@ namespace _Developers.Vitor.Multiplayer2.Scripts
                     {
                         playerListItemScript.PlayerName = player.PlayerName;
                         playerListItemScript.Ready = player.ready;
+                        playerListItemScript.CharacterID = player.CharacterId;
                         playerListItemScript.SetPlayerValues();
                         if (player == lobbyClient)
                         {
@@ -202,6 +203,15 @@ namespace _Developers.Vitor.Multiplayer2.Scripts
         public void ReadyPlayer()
         {
             lobbyClient.ChangeReady();
+        }
+        public void NextCharacter()
+        {
+            lobbyClient.NextCharacter();   
+        }
+
+        public void PreviousCharacter()
+        {
+            lobbyClient.PreviousCharacter();
         }
         public void StartGame(string sceneName)
         {
