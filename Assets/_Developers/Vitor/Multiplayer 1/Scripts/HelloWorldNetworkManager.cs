@@ -144,6 +144,7 @@ namespace _Developers.Vitor.Multiplayer_1.Scripts
         /// </summary>
         public void EnableMovement()
         {
+            Debug.Log("EnableMovement: " + GamePlayers.Count);
             foreach (var playerMovement in GamePlayers)
             {
                 playerMovement.CmdEnableMovement();

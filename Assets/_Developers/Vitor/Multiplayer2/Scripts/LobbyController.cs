@@ -1,7 +1,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using _Developers.Vitor.Multiplayer2.Scripts.UI;
+using MadSmith.Scripts.Events.ScriptableObjects;
 using MadSmith.Scripts.Input;
+using MadSmith.Scripts.SceneManagement.ScriptableObjects;
 using MadSmith.Scripts.Utils;
 using Mirror;
 using Steamworks;
@@ -31,7 +33,8 @@ namespace _Developers.Vitor.Multiplayer2.Scripts
         //Ready
         public Button StartGameButton;
         public TextMeshProUGUI ReadyButtonText;
-            
+
+        public GameObject canvasView;
         //Manager
         private MadSmithNetworkManager _manager;
         public MadSmithNetworkManager Manager
@@ -49,11 +52,22 @@ namespace _Developers.Vitor.Multiplayer2.Scripts
         private void OnEnable()
         {
             _inputReader.MenuCloseEvent += CloseScreen;
+            canvasView.SetActive(true);
+        }
+
+        public void LoadingRequested()
+        {
+            foreach (var playerListItem in PlayerListItems)
+            {
+                Destroy(playerListItem.gameObject);
+            }
+            PlayerListItems.Clear();
         }
 
         private void OnDisable()
         {
             _inputReader.MenuCloseEvent -= CloseScreen;
+            canvasView.SetActive(false);
         }
         
         

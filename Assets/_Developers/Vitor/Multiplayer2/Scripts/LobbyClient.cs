@@ -19,9 +19,7 @@ namespace _Developers.Vitor.Multiplayer2.Scripts
         [SerializeField] private GameSceneSO level1;
         private MadSmithNetworkManager _manager;
         private MadSmithNetworkManager Manager
-        {
-            get
-            {
+        { get {
                 if (!ReferenceEquals(_manager, null)) return _manager;
                 return _manager = NetworkManager.singleton as MadSmithNetworkManager;
             }
@@ -35,7 +33,7 @@ namespace _Developers.Vitor.Multiplayer2.Scripts
 
         public override void OnStartAuthority()
         {
-            // DontDestroyOnLoad(gameObject);
+            DontDestroyOnLoad(gameObject);
             Debug.Log("OnStartAuthority " + hasAuthority);
             // if (!hasAuthority) return;
             gameObject.name = "LocalGamePlayer";
@@ -59,7 +57,10 @@ namespace _Developers.Vitor.Multiplayer2.Scripts
         public override void OnStopClient()
         {
             Manager.lobbyPlayers.Remove(this);
-            LobbyController.Instance.UpdatePlayerList();
+            if (LobbyController.InstanceExists)
+            {
+                LobbyController.Instance.UpdatePlayerList();
+            }
         }
         private void OnDestroy()
         {
@@ -149,7 +150,8 @@ namespace _Developers.Vitor.Multiplayer2.Scripts
         private void RpcStartGame()
         {
             Debug.Log("Rpc Server Star Game");
-            loadLocation.RaiseEvent(level1);
+            LobbyController.Instance.LoadingRequested();
+            loadLocation.RaiseEvent(level1,true);
         }
 
         [Command]
@@ -183,7 +185,7 @@ namespace _Developers.Vitor.Multiplayer2.Scripts
         private void CmdSceneReady()
         {
             Debug.Log("SCene ready");
-            // Manager.ClientSceneReady();
+            Manager.ClientSceneReady();
         }
     }
 }
