@@ -11,7 +11,7 @@ namespace _Developers.Vitor.Multiplayer2.Scripts
         [SyncVar] public int ConnectionID;
         [SyncVar] public ulong PlayerSteamID;
         [SyncVar] public string PlayerName;
-        [SyncVar] public int CharacterId;
+        [SyncVar(hook = nameof(ChangeCharacter))] public int CharacterId;
         [SyncVar(hook = nameof(PlayerReadyUpdate))] public bool ready;
         public bool isLeader;
         private MadSmithNetworkManager _manager;
@@ -153,7 +153,7 @@ namespace _Developers.Vitor.Multiplayer2.Scripts
 
             if (isClient)
             {
-                LobbyController.Instance.UpdatePlayerList();
+                LobbyController.Instance.UpdatePlayerList(); // Verificar pq esse atualiza a lista e o ready usa  Item
             }
         }
     }
