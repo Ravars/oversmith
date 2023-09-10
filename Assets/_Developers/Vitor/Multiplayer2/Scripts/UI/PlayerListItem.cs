@@ -17,6 +17,7 @@ namespace _Developers.Vitor.Multiplayer2.Scripts.UI
         public RawImage PlayerIcon;
         public Image CharacterImage;
         public TextMeshProUGUI PlayerReadyText;
+        public TextMeshProUGUI CharacterIdText;
         public bool Ready;
         public int CharacterID;
         [SerializeField] private Sprite[] charactersImages;
@@ -51,9 +52,10 @@ namespace _Developers.Vitor.Multiplayer2.Scripts.UI
         }
         public void SetPlayerValues()
         {
-            Debug.Log("SetPlayerValues");
+            Debug.Log("SetPlayerValues: " + ConnectionID + " - " + CharacterID);
             PlayerNameText.text = PlayerName;
             ChangeReadyStatus();
+            CharacterIdText.text = CharacterID.ToString();
             CharacterImage.sprite = charactersImages[CharacterID];
             if(!AvatarReceived) {GetPlayerIcon();}
         }
