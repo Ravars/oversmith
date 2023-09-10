@@ -51,6 +51,7 @@ namespace _Developers.Vitor.Multiplayer2.Scripts.UI
         }
         public void SetPlayerValues()
         {
+            Debug.Log("SetPlayerValues");
             PlayerNameText.text = PlayerName;
             ChangeReadyStatus();
             CharacterImage.sprite = charactersImages[CharacterID];
