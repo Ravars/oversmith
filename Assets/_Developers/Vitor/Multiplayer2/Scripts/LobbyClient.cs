@@ -86,8 +86,8 @@ namespace _Developers.Vitor.Multiplayer2.Scripts
         {
             if (hasAuthority)
             {
-                int id = (CharacterId + 1) % NumberOfCharacters;
-                CmdChangeCharacter(CharacterId, id);
+                int id = (this.CharacterId + 1) % NumberOfCharacters;
+                CmdChangeCharacter(this.CharacterId, id);
             }
         }
 
@@ -95,8 +95,8 @@ namespace _Developers.Vitor.Multiplayer2.Scripts
         {
             if (hasAuthority)
             {
-                int id = CharacterId - 1 < 0 ? NumberOfCharacters - 1 : CharacterId - 1;
-                CmdChangeCharacter(CharacterId,id);
+                int id = this.CharacterId - 1 < 0 ? NumberOfCharacters - 1 : this.CharacterId - 1;
+                CmdChangeCharacter(this.CharacterId,id);
             }
         }
         [Command]
