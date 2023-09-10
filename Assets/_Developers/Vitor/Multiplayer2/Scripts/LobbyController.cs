@@ -152,7 +152,6 @@ namespace _Developers.Vitor.Multiplayer2.Scripts
                         playerListItemScript.PlayerName = player.PlayerName;
                         playerListItemScript.Ready = player.ready;
                         playerListItemScript.CharacterID = player.CharacterId;
-                        Debug.Log("UpdatePlayerItem: " + player.ConnectionID);
                         playerListItemScript.SetPlayerValues();
                         if (player == lobbyClient)
                         {

@@ -1,4 +1,6 @@
 using _Developers.Vitor.Multiplayer_1.Scripts;
+using MadSmith.Scripts.Events.ScriptableObjects;
+using MadSmith.Scripts.SceneManagement.ScriptableObjects;
 using Mirror;
 using Steamworks;
 using UnityEngine;
@@ -14,6 +16,7 @@ namespace _Developers.Vitor.Multiplayer2.Scripts
         [SyncVar(hook = nameof(ChangeCharacter))] public int CharacterId;
         [SyncVar(hook = nameof(PlayerReadyUpdate))] public bool ready;
         public bool isLeader;
+        [SerializeField] private GameSceneSO level1;
         private MadSmithNetworkManager _manager;
         private MadSmithNetworkManager Manager
         {
@@ -24,14 +27,19 @@ namespace _Developers.Vitor.Multiplayer2.Scripts
             }
         }
 
+        [Header("Listening on")]
+        [SerializeField] private VoidEventChannelSO sceneReady;
         public string[] playerNames;
+        [Header("Broadcasting on")]
+        [SerializeField] private LoadEventChannelSO loadLocation = default;
 
         public override void OnStartAuthority()
         {
+            // DontDestroyOnLoad(gameObject);
             Debug.Log("OnStartAuthority " + hasAuthority);
             // if (!hasAuthority) return;
             gameObject.name = "LocalGamePlayer";
-
+            sceneReady.OnEventRaised += OnSceneReady;
             CmdSetPlayerName(Manager.TransportLayer == TransportLayer.Steam
                 ? SteamFriends.GetPersonaName().ToString()
                 : PlayerNameInput.DisplayName); //Test
@@ -52,6 +60,11 @@ namespace _Developers.Vitor.Multiplayer2.Scripts
         {
             Manager.lobbyPlayers.Remove(this);
             LobbyController.Instance.UpdatePlayerList();
+        }
+        private void OnDestroy()
+        {
+            sceneReady.OnEventRaised -= OnSceneReady;
+            // inputReader.MenuPauseEvent -= InputReaderOnMenuPauseEvent;
         }
 
         #region Ready State
@@ -76,7 +89,7 @@ namespace _Developers.Vitor.Multiplayer2.Scripts
             
             if (isClient)
             {
-                LobbyController.Instance.UpdatePlayerItem();
+                LobbyController.Instance.UpdatePlayerList();
             }
         }
         #endregion
@@ -113,29 +126,30 @@ namespace _Developers.Vitor.Multiplayer2.Scripts
             
             if (isClient)
             {
-                LobbyController.Instance.UpdatePlayerItem();
+                LobbyController.Instance.UpdatePlayerList();
             }
         }
         #endregion
-
-        
-
-        
-
-        
-        
         public void CanStartGame(string sceneName)
         {
-            if (hasAuthority)
-            {
+            // if (hasAuthority)
+            // {
+            // }
                 CmdCanStartGame(sceneName);
-            }
         }
 
         [Command]
         public void CmdCanStartGame(string sceneName)
         { 
-            _manager.StartGame(sceneName);
+            // _manager.StartGame(sceneName);
+            RpcStartGame();
+        }
+
+        [ClientRpc]
+        private void RpcStartGame()
+        {
+            Debug.Log("Rpc Server Star Game");
+            loadLocation.RaiseEvent(level1);
         }
 
         [Command]
@@ -155,6 +169,21 @@ namespace _Developers.Vitor.Multiplayer2.Scripts
             {
                 LobbyController.Instance.UpdatePlayerList(); // Verificar pq esse atualiza a lista e o ready usa  Item
             }
+        }
+        private void OnSceneReady()
+        {
+            CmdSceneReady();
+            NetworkClient.PrepareToSpawnSceneObjects(); //Aparentemente tenho que fazer isso aqui
+        }
+        /// <summary>
+        /// Quando o SceneLoader termina de carregar o level ele executa um evento.
+        /// Esse evento vai ser executado 
+        /// </summary>
+        [Command]
+        private void CmdSceneReady()
+        {
+            Debug.Log("SCene ready");
+            // Manager.ClientSceneReady();
         }
     }
 }

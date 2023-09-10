@@ -52,7 +52,6 @@ namespace _Developers.Vitor.Multiplayer2.Scripts.UI
         }
         public void SetPlayerValues()
         {
-            Debug.Log("SetPlayerValues: " + ConnectionID + " - " + CharacterID);
             PlayerNameText.text = PlayerName;
             ChangeReadyStatus();
             CharacterIdText.text = CharacterID.ToString();
