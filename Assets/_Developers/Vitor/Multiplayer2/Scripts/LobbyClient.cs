@@ -54,6 +54,7 @@ namespace _Developers.Vitor.Multiplayer2.Scripts
             LobbyController.Instance.UpdatePlayerList();
         }
 
+        #region Ready State
         public void ChangeReady()
         {
             if (hasAuthority)
@@ -72,13 +73,15 @@ namespace _Developers.Vitor.Multiplayer2.Scripts
             {
                 this.ready = newValue;
             }
-
             
             if (isClient)
             {
                 LobbyController.Instance.UpdatePlayerItem();
             }
         }
+        #endregion
+
+        #region Character
         public void NextCharacter()
         {
             if (hasAuthority)
@@ -96,13 +99,11 @@ namespace _Developers.Vitor.Multiplayer2.Scripts
                 CmdChangeCharacter(CharacterId,id);
             }
         }
-
         [Command]
         private void CmdChangeCharacter(int oldId, int newId)
         {
             this.ChangeCharacter(oldId, newId);
         }
-
         private void ChangeCharacter(int oldId, int newId)
         {
             if (isServer)
@@ -112,9 +113,16 @@ namespace _Developers.Vitor.Multiplayer2.Scripts
             
             if (isClient)
             {
-                LobbyController.Instance.UpdatePlayerList();
+                LobbyController.Instance.UpdatePlayerItem();
             }
         }
+        #endregion
+
+        
+
+        
+
+        
         
         public void CanStartGame(string sceneName)
         {
