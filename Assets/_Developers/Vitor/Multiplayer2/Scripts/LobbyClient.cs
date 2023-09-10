@@ -112,7 +112,7 @@ namespace _Developers.Vitor.Multiplayer2.Scripts
             
             if (isClient)
             {
-                LobbyController.Instance.UpdatePlayerItem();
+                LobbyController.Instance.UpdatePlayerList();
             }
         }
         
