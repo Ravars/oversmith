@@ -151,7 +151,7 @@ namespace _Developers.Vitor.Multiplayer2.Scripts
         {
             Debug.Log("Rpc Server Star Game");
             LobbyController.Instance.LoadingRequested();
-            loadLocation.RaiseEvent(level1,true);
+            // loadLocation.RaiseEvent(level1,true);
         }
 
         [Command]

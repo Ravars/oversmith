@@ -91,6 +91,7 @@ namespace _Developers.Vitor.Multiplayer2.Scripts
 
         private void CreateHostPlayerItem()
         {
+            Debug.Log("CreateHostPlayerItem");
             foreach (LobbyClient player in Manager.lobbyPlayers)
             {
                 GameObject newPlayerItem = Instantiate(PlayerListItemPrefab, PlayerListViewContent.transform, true) as GameObject;
@@ -111,6 +112,7 @@ namespace _Developers.Vitor.Multiplayer2.Scripts
 
         private void CreateClientPlayerItem()
         {
+            Debug.Log("CreateClientPlayerItem");
             foreach (LobbyClient player in Manager.lobbyPlayers)
             {
                 if (PlayerListItems.All(b => b.ConnectionID != player.ConnectionID))
