@@ -110,7 +110,7 @@ namespace MadSmith.Scripts.Interaction
                 //     }
                 // }
 
-                if (interactable.hasDelivery && !interactable.delivery.CheckCompletion())
+                if (interactable.hasDelivery)
                 {
                     // if (ItemScript == null)
                     // {
@@ -122,14 +122,19 @@ namespace MadSmith.Scripts.Interaction
                     //     _playerInteractableHandler.ClearList();
                     // }
                 
-                    if (ItemScript != null && interactable.delivery.CanSetItem(ItemScript))
+                    if (ItemScript != null && interactable.GetComponent<DeliveryPlace>() is DeliveryPlace d)
                     {
                         // if (ItemScript?.baseItem.itemName != "Delivery Box")
                         // {
-                            interactable.delivery.SetItem(_itemTransform, ItemScript);
-                            _itemTransform = null;
-                            ItemScript = null;
-                            return;
+                        //interactable.delivery.SetItem(_itemTransform, ItemScript);
+                        d.DeliverItem(ItemScript.baseItem);
+						if (_itemTransform != null)
+						{
+							Destroy(_itemTransform.gameObject);
+						}
+						_itemTransform = null;
+						ItemScript = null;
+                        return;
                         // }
                     }
                 
