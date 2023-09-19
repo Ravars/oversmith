@@ -1,3 +1,4 @@
+using System.Collections;
 using System.Collections.Generic;
 using MadSmith.Scripts.Events.ScriptableObjects;
 using MadSmith.Scripts.Gameplay;
@@ -40,23 +41,18 @@ namespace MadSmith.Scripts.UI
             hudPanel.SetActive(true);
             ItemCardHolders.Clear();
         }
-        public void AddOrder(ItemStruct[] itemStructs, int npcId, BoxColor boxColor) //TODO: add BoxColor
+        public ItemCardHolder AddOrder(BaseItem itemStruct, int id)
         {
             ItemCardHolder itemCardHolder = Instantiate(orderCardPrefab, orderCardHolder).GetComponent<ItemCardHolder>();
-            itemCardHolder.SetItems(itemStructs,npcId, boxColor);
+            itemCardHolder.SetItem(itemStruct, id);
             ItemCardHolders.Add(itemCardHolder);
+
+            return itemCardHolder;
         }
 
-        public void SetItemCollected(BaseItem item, int npcId )
+        public void RemoveOrder(int id)
         {
-            
-            var a =ItemCardHolders.Find(x => x.npcId == npcId);
-            a.SetItemChecked(item);
-        }
-
-        public void RemoveOrder(int npcId)
-        {
-            var a = ItemCardHolders.Find(x => x.npcId == npcId);
+            var a = ItemCardHolders.Find(x => x.id == id);
             if (!ReferenceEquals(a, null))
             {
                 Destroy(a.gameObject);
