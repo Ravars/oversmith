@@ -187,7 +187,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4404680930055666087}
-  - component: {fileID: 4404680930055666088}
   m_Layer: 0
   m_Name: pallet
   m_TagString: Untagged
@@ -213,33 +212,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &4404680930055666088
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3444704777167926325}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ddb0481a60f8454e91280f4db123325b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  blueBoxesPrefabs: {fileID: -1163253006360132513, guid: faeac2b5873c03c4fac4d3befa85e580,
-    type: 3}
-  browBoxesPrefabs: {fileID: 389628352404527747, guid: 4473bf68ecb3ffb4d9cf059a2ec156ed,
-    type: 3}
-  orangeBoxesPrefabs: {fileID: 9195039579147892617, guid: 4fc91f799eb553041bd73a01ae112391,
-    type: 3}
-  pinkBoxesPrefabs: {fileID: 8841008245337576881, guid: e9513c7eb1de1e54c89368b0664f0550,
-    type: 3}
-  deliveryBoxesSpawned: []
-  pointsToSpawnBoxes:
-  - {fileID: 320824996743286384}
-  - {fileID: 9124322726588549077}
-  - {fileID: 4490718233284250882}
-  - {fileID: 1445925888980592432}
-  clientsManager: {fileID: 0}
 --- !u!1 &5955026900114281743
 GameObject:
   m_ObjectHideFlags: 0
