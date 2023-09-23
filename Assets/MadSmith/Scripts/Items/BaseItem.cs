@@ -45,5 +45,7 @@ namespace MadSmith.Scripts.Items
         Anvil,
         Table,
         Enchantment,
+        WorkingTable,
+        SpearMold,
     }
 }
