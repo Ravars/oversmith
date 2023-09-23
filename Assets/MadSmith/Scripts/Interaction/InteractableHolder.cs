@@ -12,14 +12,16 @@ namespace MadSmith.Scripts.Interaction
         public bool hasCraftingTable;
         public bool hasInteractable;
         public bool hasDelivery;
-        public bool hasPallet;
+        // public bool hasPallet;
         public bool hasTrashCan;
+        // public bool hasWorkingTable;
 
         public Table table;
         public Dispenser dispenser;
         public CraftingTable craftingTable;
         public Interactable interactable;
         public TrashCan trashCan;
+        // public WorkingTable workingTable;
 
         public GameObject visual;
         public GameObject visualSelected;
@@ -40,6 +42,9 @@ namespace MadSmith.Scripts.Interaction
 
             trashCan = GetComponent<TrashCan>();
             hasTrashCan = trashCan != null;
+
+            // workingTable = GetComponent<WorkingTable>();
+            // hasWorkingTable = workingTable != null;
             
             SetStatusInteract(false);
         }

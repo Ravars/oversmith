@@ -12,11 +12,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1855d238823943e5b01d6bac0f515f8e, type: 3}
   m_Name: Plank
   m_EditorClassIdentifier: 
-  itemName: Stick
+  itemName: Plank
   prefab: {fileID: 4772609299402988418, guid: 89223ccb70b894b499d5d6011a1fbb3a, type: 3}
   processes:
   - craftingTable: 1
     itemGenerated: {fileID: 11400000, guid: 1b1ab03b3bfeea44ab46bc47cb8ccc72, type: 2}
     itemsNeeded: []
-  image: {fileID: 0}
+  - craftingTable: 8
+    itemGenerated: {fileID: 11400000, guid: 4abce2499f3a4ff4d9b52efbdd6e99cc, type: 2}
+    itemsNeeded:
+    - {fileID: 11400000, guid: 77362faeba44fb349ada92ff8ebba271, type: 2}
+  image: {fileID: 2800000, guid: 50b3fc260643a4140874e291b86c01cc, type: 3}
   isDoubleHand: 0
