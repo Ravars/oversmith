@@ -11,7 +11,7 @@ namespace MadSmith.Scripts.CraftingTables
     public class Table : MonoBehaviour
     {
         public Item ItemScript { get; private set; }
-        public bool isWorkTable = false;
+        // public bool isWorkTable = false;
         // public BaseItem BaseItem { get; private set; }
         private Transform _itemTransform;
         
@@ -93,7 +93,7 @@ namespace MadSmith.Scripts.CraftingTables
 
         public bool CanMergeItem(Item newItem)
         {
-            if (ItemScript == null || !isWorkTable)
+            if (ItemScript == null)
             {
                 return false;
             }
@@ -168,7 +168,10 @@ namespace MadSmith.Scripts.CraftingTables
             _itemTransform = Instantiate(newItem.prefab, pointToSpawnItem.position, pointToSpawnItem.rotation,
                 pointToSpawnItem).transform;
             ItemScript = _itemTransform.GetComponent<Item>();
-            AlertMessageManager.Instance.SpawnAlertMessage($"Item {ItemScript.baseItem.itemName} construído com sucesso.", MessageType.Normal);
+            if (AlertMessageManager.InstanceExists)
+            {
+                AlertMessageManager.Instance.SpawnAlertMessage($"Item {ItemScript.baseItem.itemName} construído com sucesso.", MessageType.Normal);
+            }
         }
     }
 }

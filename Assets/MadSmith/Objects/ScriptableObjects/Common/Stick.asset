@@ -14,6 +14,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   itemName: Stick
   prefab: {fileID: 2999019996807320474, guid: 522833422dc193e4aa645e694dc4bf05, type: 3}
-  processes: []
-  image: {fileID: 0}
+  processes:
+  - craftingTable: 8
+    itemGenerated: {fileID: 11400000, guid: 03527d6aacb8c3740a19c104180b4653, type: 2}
+    itemsNeeded: []
+  - craftingTable: 7
+    itemGenerated: {fileID: 11400000, guid: 9529209afaeb1d941baaa02291c7b292, type: 2}
+    itemsNeeded:
+    - {fileID: 11400000, guid: 02b285442dd01de448f11e7063edfc51, type: 2}
+  image: {fileID: 2800000, guid: b615ea726884eae4087b89444d448942, type: 3}
   isDoubleHand: 0
