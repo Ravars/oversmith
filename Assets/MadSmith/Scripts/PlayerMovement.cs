@@ -18,6 +18,7 @@ namespace MadSmith.Scripts
         private Vector3 _dashDirection;
         private bool _isDashing = false;
         private bool _canDash = true;
+        private bool _canMove = true;
         [SerializeField] private Animator _animator; // temporary
         [SerializeField] private PlayerInteractions _playerInteractions; // temporary
         [SerializeField] private InputReader _inputReader;
@@ -69,6 +70,7 @@ namespace MadSmith.Scripts
 
         void Update()
         {
+            if (!_canMove) return;
             if (_isDashing)
             {
                 _cc.SimpleMove(_dashDirection * dashSpeed);
@@ -119,6 +121,8 @@ namespace MadSmith.Scripts
             respawnVfx.SetActive(false);
             // turn off spawn vfx
             visual.SetActive(true);
+            _cc.enabled = true;
+            _canMove = true;
             _inputReader.EnableGameplayInput();
         }
 
@@ -127,6 +131,9 @@ namespace MadSmith.Scripts
             Debug.Log("Disable");
             _inputReader.DisableAllInput();
             visual.SetActive(false);
+            _canMove = false;
+            _cc.enabled = false;
+            ResetMovement();
             transform.position = pointToSpawn.position;
             // Splash VFX
             StartCoroutine(RespawnTimer(2));

@@ -9,6 +9,7 @@ namespace MadSmith.Scripts.Gameplay
         
         private void OnTriggerEnter(Collider other)
         {
+            Debug.Log(other.name);
             if (other.TryGetComponent<PlayerMovement>(out var playerMovement))
             {
                 playerMovement.DisableInput(pointToSpawn);
