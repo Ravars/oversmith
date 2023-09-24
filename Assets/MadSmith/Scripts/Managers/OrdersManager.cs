@@ -57,6 +57,7 @@ namespace MadSmith.Scripts.Managers
 
 		private void Update()
 		{
+			if (!HudController.InstanceExists) return; // Only to avoid errors
 			for(int i = _activeOrders.Count - 1; i >= 0; i--)
 			{
 				var slider = _activeOrders[i].GetComponentInChildren<Slider>();
@@ -107,7 +108,7 @@ namespace MadSmith.Scripts.Managers
 				HudController.Instance.RemoveOrder(a.id);
 				_activeOrders.Remove(a);
 
-				//Enviar pontos para script de pontuação
+				//Enviar pontos para script de pontuaï¿½ï¿½o
 
 				if (_availableItems.Count > 0 && !_isOnOrderDelay)
 				{
@@ -117,7 +118,7 @@ namespace MadSmith.Scripts.Managers
 			}
 			else
 			{
-				//Enviar penalidade para script de pontuação
+				//Enviar penalidade para script de pontuaï¿½ï¿½o
 			}
 		}
 	}

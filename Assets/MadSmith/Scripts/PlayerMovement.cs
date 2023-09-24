@@ -24,6 +24,9 @@ namespace MadSmith.Scripts
         private static readonly int DoubleHand = Animator.StringToHash("DoubleHand");
         private static readonly int Run = Animator.StringToHash("Run");
 
+        [SerializeField] private GameObject visual;
+        [SerializeField] private GameObject respawnVfx;
+
         void Start()
         {
             _cc = GetComponent<CharacterController>(); // Get the character controller component
@@ -106,6 +109,27 @@ namespace MadSmith.Scripts
         {
             yield return new WaitForSeconds(cooldown);
             _canDash = true;
+        }
+        IEnumerator RespawnTimer(float cooldown)
+        {
+            yield return new WaitForSeconds(1);
+            // spawn vfx
+            respawnVfx.SetActive(true);
+            yield return new WaitForSeconds(cooldown);
+            respawnVfx.SetActive(false);
+            // turn off spawn vfx
+            visual.SetActive(true);
+            _inputReader.EnableGameplayInput();
+        }
+
+        public void DisableInput(Transform pointToSpawn)
+        {
+            Debug.Log("Disable");
+            _inputReader.DisableAllInput();
+            visual.SetActive(false);
+            transform.position = pointToSpawn.position;
+            // Splash VFX
+            StartCoroutine(RespawnTimer(2));
         }
     }
 }
