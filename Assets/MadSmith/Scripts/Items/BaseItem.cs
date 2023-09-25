@@ -47,5 +47,6 @@ namespace MadSmith.Scripts.Items
         Enchantment,
         WorkingTable,
         SpearMold,
+        Helmet,
     }
 }
