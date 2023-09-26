@@ -20,6 +20,8 @@ namespace MadSmith.Scripts.Managers
 
 		[Header("Broadcasting to")]
 		[SerializeField] private IntEventChannelSO _onLevelCompleted;
+		[SerializeField] private VoidEventChannelSO _onItemDelivering;
+		[SerializeField] private VoidEventChannelSO _onItemMissed;
 
 		[SerializeField] private float firstOrderDelay = 5;
 
@@ -77,6 +79,8 @@ namespace MadSmith.Scripts.Managers
 					{
 						_onLevelCompleted.RaiseEvent(100);
 					}
+
+					_onItemMissed.RaiseEvent();
 				}
 			}
 		}
@@ -108,17 +112,13 @@ namespace MadSmith.Scripts.Managers
 				HudController.Instance.RemoveOrder(a.id);
 				_activeOrders.Remove(a);
 
-				//Enviar pontos para script de pontua��o
+				_onItemDelivering.RaiseEvent();
 
 				if (_availableItems.Count > 0 && !_isOnOrderDelay)
 				{
 					Invoke(nameof(CreateOrder), nextOrderDelay);
 					_isOnOrderDelay = true;
 				}
-			}
-			else
-			{
-				//Enviar penalidade para script de pontua��o
 			}
 		}
 	}
