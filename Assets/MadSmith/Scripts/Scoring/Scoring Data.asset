@@ -12,10 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: eb560ea4ffd2da541bdf0d819ac14694, type: 3}
   m_Name: Scoring Data
   m_EditorClassIdentifier: 
-  totalPoints: 0
+  totalScore: 0
   orderPoints: 0
   penaltyCost: 0
-  OnItemDelivering: {fileID: 0}
-  OnItemMissed: {fileID: 0}
-  OnPlayerWin: {fileID: 0}
-  OnEnemyWin: {fileID: 0}
+  onItemDelivering: {fileID: 11400000, guid: 0019f91da5ba44a4da1791814855c725, type: 2}
+  onItemMissed: {fileID: 11400000, guid: 49368945ffb6a964aa258d2ff3d87a81, type: 2}
+  onPlayerWin: {fileID: 11400000, guid: 10486263296a4b9409d6be85c5c67455, type: 2}
+  onEnemyWin: {fileID: 11400000, guid: bcc249d970835a142aa9addefd2eae92, type: 2}

@@ -77,5 +77,11 @@ namespace MadSmith.Scripts.Scoring
             playerScore = Mathf.Max(playerScore - orderPoints * penaltyCost, 0);
             isTouching = false;
         }
+        public void Reset ()
+        {
+            playerScore = 0;
+            enemyScore = 0;
+            isTouching = false;
+        }
     }
 }
