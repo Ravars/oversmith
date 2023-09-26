@@ -7,7 +7,7 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Shield01_Toon
+  m_Name: Shield01_ToonSelect
   m_Shader: {fileID: 4800000, guid: 933f24cde1e3f6a41818f56d729421ab, type: 3}
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
@@ -16,6 +16,7 @@ Material:
   - _METALLICSPECGLOSSMAP
   - _NORMALMAP
   - _OUTLINE
+  - _RIMLIGHTING_ON
   - _SPECULARHIGHLIGHTS_OFF
   - _TOON_SHADING_ON
   m_InvalidKeywords:
@@ -33,11 +34,11 @@ Material:
     serializedVersion: 3
     m_TexEnvs:
     - _BaseMap:
-        m_Texture: {fileID: 2800000, guid: 1068c41fb1f0dca4cbb7a33c871c9947, type: 3}
+        m_Texture: {fileID: 2800000, guid: 44ee73a1d0f6bdd45974d2cb0f43c842, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _BumpMap:
-        m_Texture: {fileID: 2800000, guid: 0cdf46bf17baaa04396bd627f9854fbb, type: 3}
+        m_Texture: {fileID: 2800000, guid: 4cf40f2700a998944a0c7000a673d5d2, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _CelCurveTexture:
@@ -109,11 +110,11 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MainTex:
-        m_Texture: {fileID: 2800000, guid: 1068c41fb1f0dca4cbb7a33c871c9947, type: 3}
+        m_Texture: {fileID: 2800000, guid: 44ee73a1d0f6bdd45974d2cb0f43c842, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MetallicGlossMap:
-        m_Texture: {fileID: 2800000, guid: 989fd2cd8569e8a4ebf71d58d709ec5e, type: 3}
+        m_Texture: {fileID: 2800000, guid: ae6db6c93cacf7c418719308849f0376, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _OcclusionMap:
@@ -237,7 +238,7 @@ Material:
     - _OutlineEnabled: 1
     - _OutlineMode: 0
     - _OutlineScale: 1
-    - _OutlineWidth: 10.76
+    - _OutlineWidth: 12
     - _Outline_Width: 0
     - _OverrideLightmapDir: 0
     - _Parallax: 0.02
@@ -247,10 +248,10 @@ Material:
     - _RemapInputMin: 0
     - _RemapOutputMax: 0.95
     - _RemapOutputMin: -2
-    - _RimEnabled: 0
-    - _RimLightAlign: 0.39
-    - _RimLightSmoothness: 0
-    - _RimPower: 0.635
+    - _RimEnabled: 1
+    - _RimLightAlign: 0.16
+    - _RimLightSmoothness: 1
+    - _RimPower: 0.866
     - _SSOutlineDepthThredshold: 1
     - _SSOutlineNdotVThredshold: 0.2
     - _SSOutlineNormalThredshold: 0.305
@@ -302,7 +303,7 @@ Material:
     - _ColorDimExtra: {r: 0.85023, g: 0.85034, b: 0.85045, a: 0.85056}
     - _ColorDimSteps: {r: 0.85023, g: 0.85034, b: 0.85045, a: 0.85056}
     - _ColorGradient: {r: 0.85023, g: 0.85034, b: 0.85045, a: 0.85056}
-    - _EmissionColor: {r: 2.6701117, g: 2.6701117, b: 2.6701117, a: 1}
+    - _EmissionColor: {r: 3.5648096, g: 3.5648096, b: 3.5648096, a: 1}
     - _FaceFrontDirection: {r: 0, g: 0, b: 1, a: 0}
     - _FaceRightDirection: {r: 1, g: 0, b: 0, a: 0}
     - _FlatGlitterColor: {r: 0.85023, g: 0.85034, b: 0.85045, a: 0.85056}
@@ -315,7 +316,7 @@ Material:
     - _HatchColor: {r: 0, g: 0, b: 0, a: 1}
     - _HatchingColor: {r: 0, g: 0, b: 0, a: 1}
     - _LightmapDirection: {r: 0, g: 1, b: 0, a: 0}
-    - _OutlineColor: {r: 0, g: 0, b: 0, a: 1}
+    - _OutlineColor: {r: 1, g: 0.47082883, b: 0, a: 1}
     - _OutlineDistancFade: {r: -50, g: 50, b: 0, a: 0}
     - _RimColor: {r: 1, g: 0.08909073, b: 0, a: 1}
     - _ShadowColor: {r: 0, g: 0, b: 0, a: 1}
