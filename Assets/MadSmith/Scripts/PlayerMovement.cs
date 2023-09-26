@@ -112,14 +112,13 @@ namespace MadSmith.Scripts
             yield return new WaitForSeconds(cooldown);
             _canDash = true;
         }
-        IEnumerator RespawnTimer(float cooldown)
+        IEnumerator RespawnTimer(float cooldown, Transform pointToSpawn)
         {
             yield return new WaitForSeconds(1);
-            // spawn vfx
+            transform.position = pointToSpawn.position;
             respawnVfx.SetActive(true);
             yield return new WaitForSeconds(cooldown);
             respawnVfx.SetActive(false);
-            // turn off spawn vfx
             visual.SetActive(true);
             _cc.enabled = true;
             _canMove = true;
@@ -128,15 +127,13 @@ namespace MadSmith.Scripts
 
         public void DisableInput(Transform pointToSpawn)
         {
-            Debug.Log("Disable");
             _inputReader.DisableAllInput();
             visual.SetActive(false);
             _canMove = false;
             _cc.enabled = false;
             ResetMovement();
-            transform.position = pointToSpawn.position;
-            // Splash VFX
-            StartCoroutine(RespawnTimer(2));
+            // splashVfx.SetActive(true);
+            StartCoroutine(RespawnTimer(2, pointToSpawn));
         }
     }
 }
