@@ -18,11 +18,15 @@ namespace MadSmith.Scripts
         private Vector3 _dashDirection;
         private bool _isDashing = false;
         private bool _canDash = true;
+        private bool _canMove = true;
         [SerializeField] private Animator _animator; // temporary
         [SerializeField] private PlayerInteractions _playerInteractions; // temporary
         [SerializeField] private InputReader _inputReader;
         private static readonly int DoubleHand = Animator.StringToHash("DoubleHand");
         private static readonly int Run = Animator.StringToHash("Run");
+
+        [SerializeField] private GameObject visual;
+        [SerializeField] private GameObject respawnVfx;
 
         void Start()
         {
@@ -66,6 +70,7 @@ namespace MadSmith.Scripts
 
         void Update()
         {
+            if (!_canMove) return;
             if (_isDashing)
             {
                 _cc.SimpleMove(_dashDirection * dashSpeed);
@@ -106,6 +111,29 @@ namespace MadSmith.Scripts
         {
             yield return new WaitForSeconds(cooldown);
             _canDash = true;
+        }
+        IEnumerator RespawnTimer(float cooldown, Transform pointToSpawn)
+        {
+            yield return new WaitForSeconds(1);
+            transform.position = pointToSpawn.position;
+            respawnVfx.SetActive(true);
+            yield return new WaitForSeconds(cooldown);
+            respawnVfx.SetActive(false);
+            visual.SetActive(true);
+            _cc.enabled = true;
+            _canMove = true;
+            _inputReader.EnableGameplayInput();
+        }
+
+        public void DisableInput(Transform pointToSpawn)
+        {
+            _inputReader.DisableAllInput();
+            visual.SetActive(false);
+            _canMove = false;
+            _cc.enabled = false;
+            ResetMovement();
+            // splashVfx.SetActive(true);
+            StartCoroutine(RespawnTimer(2, pointToSpawn));
         }
     }
 }

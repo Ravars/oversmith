@@ -59,6 +59,7 @@ namespace MadSmith.Scripts.Managers
 
 		private void Update()
 		{
+			if (!HudController.InstanceExists) return; // Only to avoid errors
 			for(int i = _activeOrders.Count - 1; i >= 0; i--)
 			{
 				var slider = _activeOrders[i].GetComponentInChildren<Slider>();

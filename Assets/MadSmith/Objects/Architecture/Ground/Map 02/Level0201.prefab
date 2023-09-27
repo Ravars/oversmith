@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 1279644690949495678}
   - component: {fileID: 4854548979160896898}
   - component: {fileID: 7141262788970404538}
+  - component: {fileID: 5681686110568825307}
   m_Layer: 0
   m_Name: Level0201_Ground2
   m_TagString: Untagged
@@ -83,6 +84,28 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!64 &5681686110568825307
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2019434713445897149}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 5
+  m_Convex: 0
+  m_CookingOptions: 30
+  m_Mesh: {fileID: 8656108958441014855, guid: 8831d1c52d6333041ba867ad62c755fc, type: 3}
 --- !u!1 &3702479768477529752
 GameObject:
   m_ObjectHideFlags: 0
@@ -94,6 +117,7 @@ GameObject:
   - component: {fileID: 5285309366380766324}
   - component: {fileID: 3898929780161690387}
   - component: {fileID: 1911153643469932675}
+  - component: {fileID: 5109237773348861188}
   m_Layer: 0
   m_Name: Level0201_Ground1
   m_TagString: Untagged
@@ -166,6 +190,28 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!64 &5109237773348861188
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3702479768477529752}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 5
+  m_Convex: 0
+  m_CookingOptions: 30
+  m_Mesh: {fileID: -7973209892482088483, guid: 8831d1c52d6333041ba867ad62c755fc, type: 3}
 --- !u!1 &8128318317944462002
 GameObject:
   m_ObjectHideFlags: 0
@@ -197,5 +243,5 @@ Transform:
   - {fileID: 5285309366380766324}
   - {fileID: 1279644690949495678}
   m_Father: {fileID: 0}
-  m_RootOrder: 20
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
