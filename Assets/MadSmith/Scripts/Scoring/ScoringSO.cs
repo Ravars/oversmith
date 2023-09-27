@@ -9,9 +9,6 @@ namespace MadSmith.Scripts.Scoring
         [HideInInspector] public float totalScore = 0;
         [HideInInspector] public float orderPoints = 0;
         [HideInInspector] public float penaltyCost = 0;
-        [Header("Listening to")]
-        [SerializeField] VoidEventChannelSO onItemDelivering;
-        [SerializeField] VoidEventChannelSO onItemMissed;
         [Header("Broadcasting to")]
         [SerializeField] VoidEventChannelSO onPlayerWin;
         [SerializeField] VoidEventChannelSO onEnemyWin;
@@ -25,11 +22,6 @@ namespace MadSmith.Scripts.Scoring
         public float EnemyScore => enemyScore;
         public bool IsTouching => isTouching;
 
-        private void Awake()
-        {
-            onItemDelivering.OnEventRaised += PlayerScores;
-            onItemMissed.OnEventRaised += ApplyPenalty;
-        }
         private void OnEnable()
         {
             if (playerScore != totalScore && enemyScore != totalScore)
