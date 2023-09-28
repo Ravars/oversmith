@@ -12,6 +12,7 @@ namespace MadSmith.Scripts
         [SerializeField] private float dashTime = .2f;
         [SerializeField] private float dashCooldown = 1f;
         private CharacterController _cc;
+        private Rigidbody _rb;
         private Quaternion _targetRotation;
         public float smoothing = 5f;
         private Vector2 _previousInput;
@@ -27,10 +28,11 @@ namespace MadSmith.Scripts
 
         [SerializeField] private GameObject visual;
         [SerializeField] private GameObject respawnVfx;
-
+        public bool IsRespawning { get; private set; } = false;
         void Start()
         {
             _cc = GetComponent<CharacterController>(); // Get the character controller component
+            _rb = GetComponent<Rigidbody>();
         }
 
         private void OnEnable()
@@ -122,6 +124,8 @@ namespace MadSmith.Scripts
             visual.SetActive(true);
             _cc.enabled = true;
             _canMove = true;
+            IsRespawning = false;
+            _rb.useGravity = true;
             _inputReader.EnableGameplayInput();
         }
 
@@ -132,6 +136,8 @@ namespace MadSmith.Scripts
             _canMove = false;
             _cc.enabled = false;
             ResetMovement();
+            IsRespawning = true;
+            _rb.useGravity = false;
             // splashVfx.SetActive(true);
             StartCoroutine(RespawnTimer(2, pointToSpawn));
         }

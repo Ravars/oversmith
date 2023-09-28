@@ -9,12 +9,10 @@ namespace MadSmith.Scripts.Gameplay
         [SerializeField] private GameObject splashVFX;
         private void OnTriggerEnter(Collider other)
         {
-            Debug.Log(other.name);
-            if (other.TryGetComponent<PlayerMovement>(out var playerMovement))
-            {
-                Instantiate(splashVFX, other.transform.position, Quaternion.identity);
-                playerMovement.DisableInput(pointToSpawn);
-            }
+            if (!other.TryGetComponent<PlayerMovement>(out var playerMovement) || playerMovement.IsRespawning) return;
+            
+            Instantiate(splashVFX, other.transform.position, Quaternion.identity);
+            playerMovement.DisableInput(pointToSpawn);
         }
     }
 }
