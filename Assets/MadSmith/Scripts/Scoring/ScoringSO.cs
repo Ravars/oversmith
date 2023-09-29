@@ -9,9 +9,13 @@ namespace MadSmith.Scripts.Scoring
         [HideInInspector] public float totalScore = 0;
         [HideInInspector] public float orderPoints = 0;
         [HideInInspector] public float penaltyCost = 0;
+        
+        [Header("Listening to")]
+        [SerializeField] private FloatEventChannelSO _onLevelCompleted;
+        
         [Header("Broadcasting to")]
-        [SerializeField] VoidEventChannelSO onPlayerWin;
-        [SerializeField] VoidEventChannelSO onEnemyWin;
+        [SerializeField] private FloatEventChannelSO onPlayerScore;
+        [SerializeField] private FloatEventChannelSO onEnemyScore;
 
         bool scoringEnded = false;
         float playerScore = 0;
@@ -36,14 +40,15 @@ namespace MadSmith.Scripts.Scoring
         {
             if (scoringEnded) return;
             enemyScore = Mathf.Min(enemyScore + points, totalScore);
+            onEnemyScore.RaiseEvent(enemyScore/totalScore);
             if (enemyScore >= totalScore - playerScore) 
             {
                 playerScore = totalScore - enemyScore;
                 isTouching = true;
             }
-            if (enemyScore == totalScore)
+            if (enemyScore >= totalScore)
             {
-                onEnemyWin.RaiseEvent();
+                _onLevelCompleted.RaiseEvent((playerScore / totalScore) * 100);
                 scoringEnded = true;
             }
         }
@@ -52,14 +57,16 @@ namespace MadSmith.Scripts.Scoring
         {
             if (scoringEnded) return;
             playerScore = Mathf.Min(playerScore + points, totalScore);
+            onPlayerScore.RaiseEvent(playerScore/totalScore);
             if (playerScore >= totalScore - enemyScore)
             {
                 enemyScore = totalScore - playerScore;
+                onEnemyScore.RaiseEvent(enemyScore/totalScore);
                 isTouching = true;
             }
-            if (playerScore == totalScore)
+            if (playerScore >= totalScore)
             {
-                onPlayerWin.RaiseEvent();
+                _onLevelCompleted.RaiseEvent((playerScore / totalScore) * 100);
                 scoringEnded = true;
             }
         }
@@ -67,6 +74,7 @@ namespace MadSmith.Scripts.Scoring
         {
             if (scoringEnded) return;
             playerScore = Mathf.Max(playerScore - orderPoints * penaltyCost, 0);
+            onPlayerScore.RaiseEvent(playerScore/totalScore);
             isTouching = false;
         }
         public void Reset ()
@@ -74,6 +82,8 @@ namespace MadSmith.Scripts.Scoring
             playerScore = 0;
             enemyScore = 0;
             isTouching = false;
+            onPlayerScore.RaiseEvent(playerScore/totalScore);
+            onEnemyScore.RaiseEvent(enemyScore/totalScore);
         }
     }
 }

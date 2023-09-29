@@ -28,7 +28,7 @@ namespace MadSmith.Scripts.Managers
 
         [Header("Listening on")] 
         [SerializeField] private VoidEventChannelSO _onSceneReady = default;
-        [SerializeField] private IntEventChannelSO _onLevelCompleted = default;
+        [SerializeField] private FloatEventChannelSO _onLevelCompleted = default;
 
         [Header("Broadcasting on ")]
         [SerializeField] private LoadEventChannelSO _loadMenuEvent = default;
@@ -43,11 +43,11 @@ namespace MadSmith.Scripts.Managers
 
         }
 
-        private void OpenEndGameScreen(int finalScore)
+        private void OpenEndGameScreen(float finalScore)
         {
             ResetUI();
             inGameComponent.gameObject.SetActive(false);
-            _endGameComponent.Setup(finalScore);
+            _endGameComponent.Setup((int)finalScore);
             _endGameComponent.Continued += EndGameComponentOnContinued;
             _endGameComponent.BackToMenuClicked += ShowBackToMenuConfirmationPopup;
             _endGameComponent.gameObject.SetActive(true);

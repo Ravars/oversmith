@@ -19,17 +19,16 @@ namespace MadSmith.Scripts.Managers
 		[SerializeField] private VoidEventChannelSO onSceneReady;
 
 		[Header("Broadcasting to")]
-		[SerializeField] private IntEventChannelSO _onLevelCompleted;
+		[SerializeField] private FloatEventChannelSO _onLevelCompleted;
+		[SerializeField] private IntEventChannelSO _onCountdownTimerUpdated;
 		[SerializeField] private VoidEventChannelSO _onItemDelivering;
 		[SerializeField] private VoidEventChannelSO _onItemMissed;
 
 		[SerializeField] private float firstOrderDelay = 5;
-
 		[SerializeField] private float nextOrderDelay = 7;
-
 		[SerializeField] private int maxOrders = 7;
-
 		[SerializeField] private float timeToDeliver = 60f;
+		private float _currentTime;
 
 		private bool _levelActive;
 		private bool _isOnOrderDelay;
@@ -55,6 +54,8 @@ namespace MadSmith.Scripts.Managers
 			{
 				_availableItems.Add(item.BaseItem);
 			}
+
+			_currentTime = timeToDeliver;
 		}
 
 		private void Update()
@@ -64,7 +65,14 @@ namespace MadSmith.Scripts.Managers
 			{
 				var slider = _activeOrders[i].GetComponentInChildren<Slider>();
 				slider.value -= Time.deltaTime;
-
+				_currentTime -= Time.deltaTime;
+				if (_currentTime <= 0)
+				{
+					// Level end by time
+					_onLevelCompleted.RaiseEvent((ScoreManager.Instance.PlayerScore / ScoreManager.Instance.TotalScore) * 100);
+				}
+				
+				_onCountdownTimerUpdated.RaiseEvent((int)_currentTime);
 				if (slider.value <= 0)
 				{
 					HudController.Instance.RemoveOrder(_activeOrders[i].id);
@@ -74,10 +82,6 @@ namespace MadSmith.Scripts.Managers
 					{
 						Invoke(nameof(CreateOrder), nextOrderDelay);
 						_isOnOrderDelay = true;
-					}
-					else if (_activeOrders.Count == 0)
-					{
-						_onLevelCompleted.RaiseEvent(100);
 					}
 
 					_onItemMissed.RaiseEvent();

@@ -1,14 +1,15 @@
 using UnityEngine;
 using MadSmith.Scripts.Scoring;
 using MadSmith.Scripts.Events.ScriptableObjects;
+using MadSmith.Scripts.Utils;
 
 namespace MadSmith.Scripts.Managers
 {
-    public class ScoreManager : MonoBehaviour
+    public class ScoreManager : Singleton<ScoreManager>
     {
         [SerializeField] float totalPoints;
         [SerializeField] float itemPoints;
-        [SerializeField] float penaltyCost;
+        [SerializeField][Range(0,1)] float penaltyCost;
         [SerializeField] float enemyScoringRate;
         [SerializeField] ScoringSO scoring;
         [Header("Listening to")]
@@ -22,10 +23,18 @@ namespace MadSmith.Scripts.Managers
         public float PlayerScore => scoring.PlayerScore;
         public float EnemyScore => scoring.EnemyScore;
 
-        private void Awake()
+        protected override void Awake()
         {
+            base.Awake();
             onItemDelivering.OnEventRaised += OnItemDelivered;
             onItemMissed.OnEventRaised += OnItemMissed;
+        }
+
+        protected override void OnDestroy()
+        {
+            base.OnDestroy();
+            onItemDelivering.OnEventRaised -= OnItemDelivered;
+            onItemMissed.OnEventRaised -= OnItemMissed;
         }
         private void Start ()
         {

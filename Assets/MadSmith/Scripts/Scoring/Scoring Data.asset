@@ -12,10 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: eb560ea4ffd2da541bdf0d819ac14694, type: 3}
   m_Name: Scoring Data
   m_EditorClassIdentifier: 
-  totalScore: 0
-  orderPoints: 0
-  penaltyCost: 0
-  onItemDelivering: {fileID: 11400000, guid: 0019f91da5ba44a4da1791814855c725, type: 2}
-  onItemMissed: {fileID: 11400000, guid: 49368945ffb6a964aa258d2ff3d87a81, type: 2}
-  onPlayerWin: {fileID: 11400000, guid: 10486263296a4b9409d6be85c5c67455, type: 2}
-  onEnemyWin: {fileID: 11400000, guid: bcc249d970835a142aa9addefd2eae92, type: 2}
+  totalScore: 5000
+  orderPoints: 1000
+  penaltyCost: 0.2
+  _onLevelCompleted: {fileID: 11400000, guid: 919321fbc38fd0b4fa6eb629728b3c6c, type: 2}
+  onPlayerScore: {fileID: 11400000, guid: 3b077ae3d935e6147ba5b1a0a3fa052c, type: 2}
+  onEnemyScore: {fileID: 11400000, guid: 2b9d72a02274afc48923bc31a3598754, type: 2}

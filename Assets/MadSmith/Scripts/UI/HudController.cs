@@ -5,7 +5,9 @@ using MadSmith.Scripts.Gameplay;
 using MadSmith.Scripts.Items;
 using MadSmith.Scripts.OLD;
 using MadSmith.Scripts.Utils;
+using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace MadSmith.Scripts.UI
 {
@@ -16,12 +18,41 @@ namespace MadSmith.Scripts.UI
         public GameObject hudPanel;
         public Transform orderCardHolder;
         public List<ItemCardHolder> ItemCardHolders;
+
+        [SerializeField] private Slider playerScoreSlider;
+        [SerializeField] private Slider enemyScoreSlider;
+        
+        
+        [SerializeField] private TextMeshProUGUI timerText;
         [Header("Listening on")] 
         [SerializeField] private VoidEventChannelSO _onSceneReady = default;
+        [SerializeField] private IntEventChannelSO _onCountdownTimerUpdated = default;
+        [SerializeField] private FloatEventChannelSO onPlayerScore;
+        [SerializeField] private FloatEventChannelSO onEnemyScore;
 
         private void OnEnable()
         {
             _onSceneReady.OnEventRaised += Clear;
+            _onCountdownTimerUpdated.OnEventRaised += UpdateTimer;
+            onPlayerScore.OnEventRaised += UpdatePlayerScore;
+            onEnemyScore.OnEventRaised += UpdateEnemyScore;
+        }
+
+        private void UpdateEnemyScore(float value)
+        {
+            enemyScoreSlider.value = value;
+        }
+        private void UpdatePlayerScore(float value)
+        {
+            playerScoreSlider.value = value;
+        }
+
+        private void UpdateTimer(int newValue)
+        {
+            int minutes = newValue / 60;
+            int seconds = newValue % 60;
+            string secondsString = seconds.ToString().PadLeft(2,'0');
+            timerText.text = $"{minutes}:{secondsString}";
         }
 
         private void OnDisable()

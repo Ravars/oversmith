@@ -28,7 +28,7 @@ namespace MadSmith.Scripts.Managers
         
         [Header("Listening To")] 
         [SerializeField] private LoadEventChannelSO loadLocation = default;
-        [SerializeField] private IntEventChannelSO _onLevelCompleted = default;
+        [SerializeField] private FloatEventChannelSO _onLevelCompleted = default;
         [SerializeField] private SettingsSO currentSettings;
         [SerializeField] private GameDataSO currentGameData;
         
@@ -58,9 +58,9 @@ namespace MadSmith.Scripts.Managers
             _onLevelCompleted.OnEventRaised += OnLevelCompleted; 
         }
 
-        private void OnLevelCompleted(int finalScore)
+        private void OnLevelCompleted(float finalScore)
         {
-            _currentGameData.SaveLevelScore(CurrentSceneSo.level,finalScore); // change to game manager
+            _currentGameData.SaveLevelScore(CurrentSceneSo.level,(int)finalScore); // change to game manager
             _saveGameData.RaiseEvent();
         }
 
@@ -79,11 +79,9 @@ namespace MadSmith.Scripts.Managers
             return finalScore switch
             {
                 >= 90 => "S",
-                >= 80 => "A",
-                >= 70 => "B",
-                >= 60 => "C",
-                >= 50 => "D",
-                >= 40 => "E",
+                >= 70 => "A",
+                >= 50 => "B",
+                >= 30 => "C",
                 _ => "F"
             };
         } 
