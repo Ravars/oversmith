@@ -14,6 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   itemName: Wooden Shield
   prefab: {fileID: 1238764610822793295, guid: a9ae92fd6a7403343bfde0387544c7a9, type: 3}
-  processes: []
-  image: {fileID: 0}
+  processes:
+  - craftingTable: 8
+    itemGenerated: {fileID: 11400000, guid: 2f6574f9cda54d34388ff8b538278aa5, type: 2}
+    itemsNeeded:
+    - {fileID: 11400000, guid: 8f99c6352b937b940b1fb1db4aa2f45d, type: 2}
+  image: {fileID: 2800000, guid: 937fb3c14752f7a468d02fdc735fb832, type: 3}
   isDoubleHand: 1

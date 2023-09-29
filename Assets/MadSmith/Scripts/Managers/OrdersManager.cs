@@ -48,6 +48,8 @@ namespace MadSmith.Scripts.Managers
 		}
 		private void Startup()
 		{
+			_currentTime = timeToDeliver;
+			_onCountdownTimerUpdated.RaiseEvent((int)_currentTime);
 			Invoke(nameof(CreateOrder), firstOrderDelay);
 			
 			foreach (var item in listOfItems.Items)
@@ -55,24 +57,23 @@ namespace MadSmith.Scripts.Managers
 				_availableItems.Add(item.BaseItem);
 			}
 
-			_currentTime = timeToDeliver;
+			
 		}
 
 		private void Update()
 		{
 			if (!HudController.InstanceExists) return; // Only to avoid errors
+			_currentTime -= Time.deltaTime;
+			_onCountdownTimerUpdated.RaiseEvent((int)_currentTime);
+			if (_currentTime <= 0)
+			{
+				// Level end by time
+				_onLevelCompleted.RaiseEvent((ScoreManager.Instance.PlayerScore / ScoreManager.Instance.TotalScore) * 100);
+			}
 			for(int i = _activeOrders.Count - 1; i >= 0; i--)
 			{
 				var slider = _activeOrders[i].GetComponentInChildren<Slider>();
 				slider.value -= Time.deltaTime;
-				_currentTime -= Time.deltaTime;
-				if (_currentTime <= 0)
-				{
-					// Level end by time
-					_onLevelCompleted.RaiseEvent((ScoreManager.Instance.PlayerScore / ScoreManager.Instance.TotalScore) * 100);
-				}
-				
-				_onCountdownTimerUpdated.RaiseEvent((int)_currentTime);
 				if (slider.value <= 0)
 				{
 					HudController.Instance.RemoveOrder(_activeOrders[i].id);

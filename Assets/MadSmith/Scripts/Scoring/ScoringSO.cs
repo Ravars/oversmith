@@ -28,8 +28,8 @@ namespace MadSmith.Scripts.Scoring
 
         private void OnEnable()
         {
-            if (playerScore != totalScore && enemyScore != totalScore)
-                scoringEnded = true;
+            // if (playerScore != totalScore && enemyScore != totalScore)
+            //     scoringEnded = true;
         }
         private void OnDisable()
         {

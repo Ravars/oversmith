@@ -3,6 +3,8 @@ using MadSmith.Scripts.Events.ScriptableObjects;
 using TMPro;
 using UnityEngine;
 using UnityEngine.Events;
+using UnityEngine.Localization;
+using UnityEngine.Localization.Components;
 
 namespace MadSmith.Scripts.Systems.Settings
 {
@@ -11,11 +13,15 @@ namespace MadSmith.Scripts.Systems.Settings
         [SerializeField] private TextMeshProUGUI scoreText;
         public event UnityAction Continued = default;
         public event UnityAction BackToMenuClicked = default;
-
+        public LocalizedString victoryText;
+        public LocalizedString loseText;
+        [SerializeField] private LocalizeStringEvent titleText;
+        
         public void Setup(int finalScore)
         {
             string scoreString = GameManager.CalculateScore(finalScore);
             scoreText.text = scoreString;
+            titleText.StringReference = finalScore >= 70 ? victoryText: loseText;
         }
 
         public void ContinueButton()
