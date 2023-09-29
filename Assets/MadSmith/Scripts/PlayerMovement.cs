@@ -138,6 +138,7 @@ namespace MadSmith.Scripts
             ResetMovement();
             IsRespawning = true;
             _rb.useGravity = false;
+            _rb.velocity = Vector3.zero; 
             // splashVfx.SetActive(true);
             StartCoroutine(RespawnTimer(2, pointToSpawn));
         }

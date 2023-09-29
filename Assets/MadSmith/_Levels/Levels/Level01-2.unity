@@ -77695,6 +77695,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1319067514}
   - component: {fileID: 1319067513}
+  - component: {fileID: 1319067515}
   m_Layer: 0
   m_Name: OrdersManager
   m_TagString: Untagged
@@ -77717,6 +77718,10 @@ MonoBehaviour:
   listOfItems: {fileID: 11400000, guid: 22c4a5df56efb584ca5f6dc22a704785, type: 2}
   onSceneReady: {fileID: 11400000, guid: df6aead758def0e408c9231e08fef990, type: 2}
   _onLevelCompleted: {fileID: 11400000, guid: 919321fbc38fd0b4fa6eb629728b3c6c, type: 2}
+  _onCountdownTimerUpdated: {fileID: 11400000, guid: 77027518a220d8547a5e0d1f60e26b57,
+    type: 2}
+  _onItemDelivering: {fileID: 11400000, guid: 0019f91da5ba44a4da1791814855c725, type: 2}
+  _onItemMissed: {fileID: 11400000, guid: 49368945ffb6a964aa258d2ff3d87a81, type: 2}
   firstOrderDelay: 5
   nextOrderDelay: 7
   maxOrders: 7
@@ -77736,6 +77741,25 @@ Transform:
   m_Father: {fileID: 392824431}
   m_RootOrder: -1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1319067515
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1319067512}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4f29cd9d7ccccac4dbd12bf659903f93, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  totalPoints: 5000
+  itemPoints: 1000
+  penaltyCost: 0.2
+  enemyScoringRate: 14
+  scoring: {fileID: 11400000, guid: b87e6d498e34f5d49bfff271c8d9f9cb, type: 2}
+  onItemDelivering: {fileID: 11400000, guid: 0019f91da5ba44a4da1791814855c725, type: 2}
+  onItemMissed: {fileID: 11400000, guid: 49368945ffb6a964aa258d2ff3d87a81, type: 2}
 --- !u!1001 &1320066382
 PrefabInstance:
   m_ObjectHideFlags: 0
