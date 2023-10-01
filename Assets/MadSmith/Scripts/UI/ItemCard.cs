@@ -28,23 +28,23 @@ namespace MadSmith.Scripts.UI
             amountDone++;
         }
 
-        public void SetItem(ItemStruct itemStruct, float timeToOpen, Texture backGroundImage)
-        {
-            ItemStruct = itemStruct;
-            image.texture = itemStruct.BaseItem.image;
-            backgroundImage.texture = backGroundImage;
-            amount = itemStruct.Amount;
-            amountDone = 0;
-            amountText.text = amount.ToString();
-            checkListAnimator = new Animator[amount];
-            
-            for (int i = 0; i < amount; i++)
-            {
-                checkListAnimator[i] = Instantiate(prefabCheckBox, checkboxHolder).GetComponent<Animator>();
-            }
-
-            Invoke(nameof(PlayAnimation), 1 * timeToOpen + 0.5f);
-        }
+        // public void SetItem(ItemStruct itemStruct, float timeToOpen, Texture backGroundImage)
+        // {
+        //     ItemStruct = itemStruct;
+        //     image.texture = itemStruct.BaseItem.image;
+        //     backgroundImage.texture = backGroundImage;
+        //     amount = itemStruct.Amount;
+        //     amountDone = 0;
+        //     amountText.text = amount.ToString();
+        //     checkListAnimator = new Animator[amount];
+        //     
+        //     for (int i = 0; i < amount; i++)
+        //     {
+        //         checkListAnimator[i] = Instantiate(prefabCheckBox, checkboxHolder).GetComponent<Animator>();
+        //     }
+        //
+        //     Invoke(nameof(PlayAnimation), 1 * timeToOpen + 0.5f);
+        // }
 
         public void PlayAnimation()
         {
