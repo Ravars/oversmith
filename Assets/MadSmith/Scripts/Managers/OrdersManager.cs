@@ -1,11 +1,7 @@
-using System;
 using System.Collections.Generic;
 using MadSmith.Scripts.Events.ScriptableObjects;
-using MadSmith.Scripts.Gameplay;
 using MadSmith.Scripts.Items;
-using MadSmith.Scripts.OLD;
 using MadSmith.Scripts.UI;
-using Unity.Mathematics;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -51,13 +47,10 @@ namespace MadSmith.Scripts.Managers
 			_currentTime = timeToDeliver;
 			_onCountdownTimerUpdated.RaiseEvent((int)_currentTime);
 			Invoke(nameof(CreateOrder), firstOrderDelay);
-			
 			foreach (var item in listOfItems.Items)
 			{
 				_availableItems.Add(item.BaseItem);
 			}
-
-			
 		}
 
 		private void Update()
@@ -72,9 +65,8 @@ namespace MadSmith.Scripts.Managers
 			}
 			for(int i = _activeOrders.Count - 1; i >= 0; i--)
 			{
-				var slider = _activeOrders[i].GetComponentInChildren<Slider>();
-				slider.value -= Time.deltaTime;
-				if (slider.value <= 0)
+				_activeOrders[i].slider.value -= Time.deltaTime;
+				if (_activeOrders[i].slider.value <= 0)
 				{
 					HudController.Instance.RemoveOrder(_activeOrders[i].id);
 					_activeOrders.RemoveAt(i);
