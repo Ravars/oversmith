@@ -9,24 +9,16 @@ namespace MadSmith.Scripts.UI
 {
     public class ItemCardHolder : MonoBehaviour
     {
-        public Transform itemsHolder;
-
-        public Texture blueImage;
-        public Texture brownImage;
-        public Texture orangeImage;
-        public Texture pinkImage;
-
         public int id;
-
         public BaseItem baseItem;
+        [SerializeField] private RawImage rawImage;
+        public Slider slider;
 
-        public void SetItem(BaseItem item, int id)
+        public void SetItem(BaseItem item, int newId)
         {
-            this.id = id;
-
+            id = newId;
             baseItem = item;
-
-            itemsHolder.GetComponent<RawImage>().texture = item.image;
+            rawImage.texture = item.image;
         }
     }
 }
