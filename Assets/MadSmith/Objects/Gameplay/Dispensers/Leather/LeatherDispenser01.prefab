@@ -180,7 +180,7 @@ GameObject:
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 2147483647
   m_IsActive: 1
 --- !u!4 &4965067302496845522
 Transform:
@@ -211,12 +211,12 @@ GameObject:
   - component: {fileID: 6819127216111129830}
   - component: {fileID: 4636865374877833551}
   - component: {fileID: 5120694687646236251}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: LeatherDispenser01
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 2147483647
   m_IsActive: 1
 --- !u!4 &4965067302797084470
 Transform:
@@ -233,7 +233,7 @@ Transform:
   - {fileID: 4965067302496845522}
   - {fileID: 4940460040791169524}
   m_Father: {fileID: 0}
-  m_RootOrder: 22
+  m_RootOrder: -1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &6819127216111129830
 MonoBehaviour:
@@ -258,8 +258,8 @@ MonoBehaviour:
   craftingTable: {fileID: 0}
   interactable: {fileID: 0}
   trashCan: {fileID: 0}
-  visual: {fileID: 0}
-  visualSelected: {fileID: 0}
+  visual: {fileID: 1301631382788627580}
+  visualSelected: {fileID: 3290884655547394272}
 --- !u!114 &4636865374877833551
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -288,7 +288,7 @@ BoxCollider:
     serializedVersion: 2
     m_Bits: 0
   m_LayerOverridePriority: 0
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
