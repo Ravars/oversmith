@@ -264,7 +264,7 @@ GameObject:
   - component: {fileID: 8289431718099673644}
   - component: {fileID: 7922647948675624837}
   - component: {fileID: 7690967943140427921}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: ScrollDispenser01
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -286,7 +286,7 @@ Transform:
   - {fileID: 7587690501283006488}
   - {fileID: 7582821607932030782}
   m_Father: {fileID: 0}
-  m_RootOrder: 0
+  m_RootOrder: -1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &8289431718099673644
 MonoBehaviour:
@@ -311,8 +311,8 @@ MonoBehaviour:
   craftingTable: {fileID: 0}
   interactable: {fileID: 0}
   trashCan: {fileID: 0}
-  visual: {fileID: 0}
-  visualSelected: {fileID: 0}
+  visual: {fileID: 1406862289134255407}
+  visualSelected: {fileID: 7587690500910176634}
 --- !u!114 &7922647948675624837
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -341,7 +341,7 @@ BoxCollider:
     serializedVersion: 2
     m_Bits: 0
   m_LayerOverridePriority: 0
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
