@@ -59,6 +59,7 @@ namespace MadSmith.Scripts.UI.Managers
             SetLevelSelectScreen();
             SetTutorialScreen();
             SetState(MenuState.MainMenu);
+            _loadLocation.OnLoadingRequested += (_, _, _) => { CloseAll();};
         }
 
         private void OnDisable()
@@ -70,36 +71,12 @@ namespace MadSmith.Scripts.UI.Managers
             UnsetLevelSelectScreen();
             UnsetCharacterSelectScreen();
             UnsetTutorialScreen();
+            _loadLocation.OnLoadingRequested -= (_, _, _) => { CloseAll();};
         }
 
         private void SetState(MenuState newState)
         {
-            //Exit State
-            switch (State)
-            {
-                case MenuState.MainMenu:
-                    CloseMenuScreen();
-                    break;
-                case MenuState.Settings:
-                    CloseSettingsScreen();
-                    break;
-                case MenuState.Credits:
-                    CloseCreditsScreen();
-                    break;
-                case MenuState.Tutorial:
-                    CloseTutorialScreen();
-                    break;
-                case MenuState.CharacterSelection:
-                    CloseCharacterSelect();
-                    break;
-                case MenuState.LevelSelection:
-                    CloseLevelSelect();
-                    break;
-                default:
-                    Debug.Log("Nothing");
-                    break;
-            }
-
+            CloseAll();
             State = newState;
             
             //Enter State
@@ -320,6 +297,16 @@ namespace MadSmith.Scripts.UI.Managers
         {
             _popupPanel.ConfirmationResponseAction -= HideExitConfirmationPopup;
             // _popupPanel.ConfirmationResponseAction -= StartNewGamePopupResponse;
+        }
+
+        private void CloseAll()
+        {
+            CloseMenuScreen();
+            CloseSettingsScreen();
+            CloseCreditsScreen();
+            CloseTutorialScreen();
+            CloseCharacterSelect();
+            CloseLevelSelect();
         }
     }
 }
