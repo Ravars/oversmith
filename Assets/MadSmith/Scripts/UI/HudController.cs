@@ -89,5 +89,21 @@ namespace MadSmith.Scripts.UI
                 Destroy(a.gameObject);
             }
         }
+
+        public void ClearCardHolders()
+        {
+            for(int i = ItemCardHolders.Count - 1; i >= 0; i--)
+            {
+                if (ItemCardHolders[i] != null)
+                    Destroy(ItemCardHolders[i].gameObject);
+			}
+            StartCoroutine(ClearCardHoldersList());
+        }
+
+        IEnumerator ClearCardHoldersList()
+        {
+            yield return new WaitForSeconds(0.1f);
+			ItemCardHolders.RemoveAll(s => s == null);
+		}
     }
 }
