@@ -26,13 +26,14 @@ namespace MadSmith.Scripts.Managers
 		[SerializeField] private float timeToDeliver = 60f;
 		private float _currentTime;
 
-		private bool _levelActive;
+		private bool _isLevelCompleted = false;
 		private bool _isOnOrderDelay;
 		private int _orderCount;
 
 		private List<BaseItem> _availableItems = new List<BaseItem>();
 		private List<ItemCardHolder> _activeOrders = new List<ItemCardHolder>();
 		private List<ItemCardHolder> _ordersToRemove = new List<ItemCardHolder>();
+
 
 		private void OnEnable()
 		{
@@ -58,10 +59,15 @@ namespace MadSmith.Scripts.Managers
 			if (!HudController.InstanceExists) return; // Only to avoid errors
 			_currentTime -= Time.deltaTime;
 			_onCountdownTimerUpdated.RaiseEvent((int)_currentTime);
-			if (_currentTime <= 0)
+			if (!_isLevelCompleted && _currentTime <= 0)
 			{
 				// Level end by time
+				
+				HudController.Instance.ClearCardHolders();
+				
 				_onLevelCompleted.RaiseEvent((ScoreManager.Instance.PlayerScore / ScoreManager.Instance.TotalScore) * 100);
+
+				_isLevelCompleted = true;
 			}
 			for(int i = _activeOrders.Count - 1; i >= 0; i--)
 			{
