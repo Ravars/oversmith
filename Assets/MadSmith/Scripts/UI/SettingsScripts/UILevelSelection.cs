@@ -30,6 +30,9 @@ namespace MadSmith.Scripts.UI.SettingsScripts
         [Header("Broadcasting to")]
         [SerializeField] private LoadEventChannelSO _onLoadScene = default;
 
+        [SerializeField] private Sprite[] levelImages;
+        [SerializeField] private string[] levelNames;
+        [SerializeField] private Image levelImage;
         private void Awake()
         {
             dolly = virtualCamera.GetCinemachineComponent<CinemachineTrackedDolly>();
@@ -61,16 +64,17 @@ namespace MadSmith.Scripts.UI.SettingsScripts
         public void SetLevelData()
         {
             SerializedLevelScore serializedLevelScore = currentGameData.LevelScores.Find(x => (int)x.Level == currentLevelSelected);
-            if (serializedLevelScore != null)
-            {
-                levelScoreText.text = GameManager.CalculateScore(serializedLevelScore.score);
-            }
-            else
-            {
-                levelScoreText.text = String.Empty;
-            }
+            // if (serializedLevelScore != null)
+            // {
+            //     levelScoreText.text = GameManager.CalculateScore(serializedLevelScore.score);
+            // }
+            // else
+            // {
+            //     levelScoreText.text = String.Empty;
+            // }
 
-            levelIndexText.text = $"Level {currentLevelSelected + 1}";
+            levelImage.sprite = levelImages[currentLevelSelected];
+            levelIndexText.text = levelNames[currentLevelSelected];
         }
 
         public void Play()
@@ -80,6 +84,7 @@ namespace MadSmith.Scripts.UI.SettingsScripts
 
         public void LeftButton()
         {
+            Debug.Log("left");
             if (currentLevelSelected == 0)
             {
                 currentLevelSelected = GameManager.Instance.sceneSos.Length - 1;
@@ -94,6 +99,7 @@ namespace MadSmith.Scripts.UI.SettingsScripts
 
         public void RightButton()
         {
+            Debug.Log("right");
             if (currentLevelSelected == GameManager.Instance.sceneSos.Length - 1)
             {
                 currentLevelSelected = 0;
@@ -102,7 +108,10 @@ namespace MadSmith.Scripts.UI.SettingsScripts
             {
                 currentLevelSelected++;
             }
-            dolly.m_PathPosition = dollyPath.m_Waypoints[currentLevelSelected].position.x;
+            //TODO: melhorar essa gambiarr
+            
+            
+            dolly.m_PathPosition = Mathf.Floor(currentLevelSelected / 3);
             SetLevelData();
         }
     }

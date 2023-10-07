@@ -213,24 +213,24 @@ jobs:
   #       with:
   #         branch: gh-pages
   #         folder: build/WebGL
-  deploy:
-    needs: buildWindows
-    name: Upload to Itch
-    runs-on: ubuntu-latest
-    strategy:
-      fail-fast: true
-      matrix:
-        channel:
-          - windows
-    steps:
-      - uses: actions/download-artifact@v2.0.8
-        with:
-          name: build-StandaloneWindows64
-          path: build/StandaloneWindows64
-      - uses: KikimoraGames/itch-publish@v0.0.3
-        with:
-          butlerApiKey: ${{secrets.BUTLER_API_KEY}}
-          gameData: ./build/StandaloneWindows64
-          itchUsername: ${{env.ITCH_USERNAME}}
-          itchGameId: ${{env.ITCH_GAME_ID}}
-          buildChannel: ${{ matrix.channel }}
+  #deploy:
+  #  needs: buildWindows
+  #  name: Upload to Itch
+  #  runs-on: ubuntu-latest
+  #  strategy:
+  #    fail-fast: true
+  #    matrix:
+  #      channel:
+  #        - windows
+  #  steps:
+  #    - uses: actions/download-artifact@v2.0.8
+  #      with:
+  #        name: build-StandaloneWindows64
+  #        path: build/StandaloneWindows64
+  #    - uses: KikimoraGames/itch-publish@v0.0.3
+  #      with:
+  #        butlerApiKey: ${{secrets.BUTLER_API_KEY}}
+  #        gameData: ./build/StandaloneWindows64
+  #        itchUsername: ${{env.ITCH_USERNAME}}
+  #        itchGameId: ${{env.ITCH_GAME_ID}}
+  #        buildChannel: ${{ matrix.channel }}
