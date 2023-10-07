@@ -44,10 +44,16 @@ namespace MadSmith.Scripts.Gameplay
 
         public void CloseTutorial()
         {
-            tutorialImage.gameObject.SetActive(false);
+            if (tutorialImage != null)
+            {
+                tutorialImage.gameObject.SetActive(false);
+            }
+            
             var index = GameManager.Instance.characterIndex;
             var player = Instantiate(GameManager.Instance.charactersPrefabs[index], spawnLocation.position, Quaternion.identity, spawnLocation);
             _inputReader.EnableGameplayInput();
+            
+            
         }
         
     }
