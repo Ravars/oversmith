@@ -32,7 +32,14 @@ namespace MadSmith.Scripts.Gameplay
 
         private void SpawnTutorialUI()
         {
-            tutorialImage.gameObject.SetActive(true);
+            if (tutorialImage != null)
+            {
+                tutorialImage.gameObject.SetActive(true);
+            }
+            else
+            {
+                CloseTutorial();
+            }
         }
 
         public void CloseTutorial()
