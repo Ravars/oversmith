@@ -32,6 +32,7 @@ namespace MadSmith.Scripts.Gameplay
 
         private void SpawnTutorialUI()
         {
+            _onSceneReady.OnEventRaised -= SpawnTutorialUI;
             if (tutorialImage != null)
             {
                 tutorialImage.gameObject.SetActive(true);
@@ -44,11 +45,11 @@ namespace MadSmith.Scripts.Gameplay
 
         public void CloseTutorial()
         {
+            _inputReader.MenuCloseEvent -= CloseTutorial;
             if (tutorialImage != null)
             {
                 tutorialImage.gameObject.SetActive(false);
             }
-            
             var index = GameManager.Instance.characterIndex;
             var player = Instantiate(GameManager.Instance.charactersPrefabs[index], spawnLocation.position, Quaternion.identity, spawnLocation);
             _inputReader.EnableGameplayInput();
