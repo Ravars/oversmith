@@ -3,6 +3,7 @@ using MadSmith.Scripts.Events.ScriptableObjects;
 using MadSmith.Scripts.Input;
 using MadSmith.Scripts.Managers;
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace MadSmith.Scripts.Gameplay
 {
@@ -12,24 +13,35 @@ namespace MadSmith.Scripts.Gameplay
 
         [Header("Scene Ready Event")] 
         [SerializeField] private VoidEventChannelSO _onSceneReady;
-
         [SerializeField] private Transform spawnLocation;
+
+        [SerializeField] private Image tutorialImage;
 
         private void OnEnable()
         {
-            _onSceneReady.OnEventRaised += SpawnPlayer;
+            _onSceneReady.OnEventRaised += SpawnTutorialUI;
+            _inputReader.EnableMenuInput();
+            _inputReader.MenuCloseEvent += CloseTutorial;
         }
 
         private void OnDisable()
         {
-            _onSceneReady.OnEventRaised -= SpawnPlayer;
+            _onSceneReady.OnEventRaised -= SpawnTutorialUI;
+            _inputReader.MenuCloseEvent -= CloseTutorial;
         }
 
-        private void SpawnPlayer()
+        private void SpawnTutorialUI()
         {
+            tutorialImage.gameObject.SetActive(true);
+        }
+
+        public void CloseTutorial()
+        {
+            tutorialImage.gameObject.SetActive(false);
             var index = GameManager.Instance.characterIndex;
             var player = Instantiate(GameManager.Instance.charactersPrefabs[index], spawnLocation.position, Quaternion.identity, spawnLocation);
             _inputReader.EnableGameplayInput();
         }
+        
     }
 }
