@@ -14,7 +14,7 @@ namespace MadSmith.Scripts.UI
     public class HudController : Singleton<HudController>
     {
         // public GameObject Card;
-        public GameObject orderCardPrefab;
+        public ItemCardHolder orderCardPrefab;
         public GameObject hudPanel;
         public Transform orderCardHolder;
         public List<ItemCardHolder> ItemCardHolders;
@@ -25,17 +25,49 @@ namespace MadSmith.Scripts.UI
         
         [SerializeField] private TextMeshProUGUI timerText;
         [Header("Listening on")] 
-        [SerializeField] private VoidEventChannelSO _onSceneReady = default;
+        // [SerializeField] private VoidEventChannelSO _onSceneReady = default;
         [SerializeField] private IntEventChannelSO _onCountdownTimerUpdated = default;
         [SerializeField] private FloatEventChannelSO onPlayerScore;
         [SerializeField] private FloatEventChannelSO onEnemyScore;
+        
+        [SerializeField] private OrderListUpdateEventChannelSO onOrderListUpdate;
+        [SerializeField] private OrderUpdateEventChannelSO onCreateOrder;
+        [SerializeField] private OrderUpdateEventChannelSO onDeleteOrder;
 
         private void OnEnable()
         {
-            _onSceneReady.OnEventRaised += Clear;
             _onCountdownTimerUpdated.OnEventRaised += UpdateTimer;
             onPlayerScore.OnEventRaised += UpdatePlayerScore;
             onEnemyScore.OnEventRaised += UpdateEnemyScore;
+            onOrderListUpdate.OnEventRaised += OnOrderListUpdate;
+            onCreateOrder.OnEventRaised += CreateOrder;
+            onDeleteOrder.OnEventRaised += DeleteOrder;
+        }
+
+        private void DeleteOrder(OrderData orderData)
+        {
+            Debug.Log("Delete order");
+            var a = ItemCardHolders.Find(x => x.id == orderData.Id);
+            
+            if (ReferenceEquals(a, null)) return;
+            
+            ItemCardHolders.Remove(a);
+            Destroy(a.gameObject); // TODO: Change to Pool of objects
+        }
+
+        private void CreateOrder(OrderData orderData)
+        {
+            ItemCardHolder itemCardHolder = Instantiate(orderCardPrefab, orderCardHolder); // TODO: Change to Pool of objects
+            itemCardHolder.SetItem(orderData.BaseItem, orderData.Id);
+            ItemCardHolders.Add(itemCardHolder);
+        }
+
+        private void OnOrderListUpdate(List<OrderData> arg0)
+        {
+            for (int i = 0; i < ItemCardHolders.Count; i++)
+            {
+                ItemCardHolders[i].slider.value = arg0[i].TimeRemaining01;
+            }
         }
 
         private void UpdateEnemyScore(float value)
@@ -57,38 +89,26 @@ namespace MadSmith.Scripts.UI
 
         private void OnDisable()
         {
-            _onSceneReady.OnEventRaised -= Clear;
+            _onCountdownTimerUpdated.OnEventRaised -= UpdateTimer;
+            onPlayerScore.OnEventRaised -= UpdatePlayerScore;
+            onEnemyScore.OnEventRaised -= UpdateEnemyScore;
+            onOrderListUpdate.OnEventRaised -= OnOrderListUpdate;
+            onCreateOrder.OnEventRaised -= CreateOrder;
+            onDeleteOrder.OnEventRaised -= DeleteOrder;
         }
 
-        private void Clear()
-        {
-            foreach (var itemCardHolder in ItemCardHolders)
-            {
-                if (!ReferenceEquals(itemCardHolder, null))
-                {
-                    Destroy(itemCardHolder);
-                }
-            }
-            hudPanel.SetActive(true);
-            ItemCardHolders.Clear();
-        }
-        public ItemCardHolder AddOrder(BaseItem itemStruct, int id)
-        {
-            ItemCardHolder itemCardHolder = Instantiate(orderCardPrefab, orderCardHolder).GetComponent<ItemCardHolder>();
-            itemCardHolder.SetItem(itemStruct, id);
-            ItemCardHolders.Add(itemCardHolder);
-
-            return itemCardHolder;
-        }
-
-        public void RemoveOrder(int id)
-        {
-            var a = ItemCardHolders.Find(x => x.id == id);
-            if (!ReferenceEquals(a, null))
-            {
-                Destroy(a.gameObject);
-            }
-        }
+        // private void Clear()
+        // {
+        //     foreach (var itemCardHolder in ItemCardHolders)
+        //     {
+        //         if (!ReferenceEquals(itemCardHolder, null))
+        //         {
+        //             Destroy(itemCardHolder);
+        //         }
+        //     }
+        //     hudPanel.SetActive(true);
+        //     ItemCardHolders.Clear();
+        // }
 
         public void ClearCardHolders()
         {
@@ -97,13 +117,13 @@ namespace MadSmith.Scripts.UI
                 if (ItemCardHolders[i] != null)
                     Destroy(ItemCardHolders[i].gameObject);
 			}
-            StartCoroutine(ClearCardHoldersList());
+            // StartCoroutine(ClearCardHoldersList());
         }
 
-        IEnumerator ClearCardHoldersList()
-        {
-            yield return new WaitForSeconds(0.1f);
-			ItemCardHolders.RemoveAll(s => s == null);
-		}
+  //       IEnumerator ClearCardHoldersList()
+  //       {
+  //           yield return new WaitForSeconds(0.1f);
+		// 	ItemCardHolders.RemoveAll(s => s == null);
+		// }
     }
 }

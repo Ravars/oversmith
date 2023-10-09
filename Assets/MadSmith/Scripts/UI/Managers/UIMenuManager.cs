@@ -59,19 +59,20 @@ namespace MadSmith.Scripts.UI.Managers
             SetLevelSelectScreen();
             SetTutorialScreen();
             SetState(MenuState.MainMenu);
-            _loadLocation.OnLoadingRequested += (_, _, _) => { CloseAll();};
+            // _loadLocation.OnLoadingRequested += (_, _, _) => { CloseAll();};
         }
 
         private void OnDisable()
         {
+            Debug.Log("Disable");
+            // _loadLocation.OnLoadingRequested -= (_, _, _) => { CloseAll();};
             UnsetMenuScreen();
             UnsetSettingsScreen();
             UnsetCreditsScreen();
             
-            UnsetLevelSelectScreen();
             UnsetCharacterSelectScreen();
+            UnsetLevelSelectScreen();
             UnsetTutorialScreen();
-            _loadLocation.OnLoadingRequested -= (_, _, _) => { CloseAll();};
         }
 
         private void SetState(MenuState newState)
@@ -255,11 +256,13 @@ namespace MadSmith.Scripts.UI.Managers
         private void SetLevelSelectScreen()
         {
             _levelSelectUI.OnCloseLevelSelection += () => SetState(MenuState.CharacterSelection);
+            _levelSelectUI.OnLevelSelected += CloseAll;
         }
 
         private void UnsetLevelSelectScreen()
         {
             _levelSelectUI.OnCloseLevelSelection -= () => SetState(MenuState.CharacterSelection);
+            _levelSelectUI.OnLevelSelected -= CloseAll;
         }
 
         private void OpenLevelSelect()
@@ -295,8 +298,8 @@ namespace MadSmith.Scripts.UI.Managers
         #endregion
         private void OnDestroy()
         {
+            Debug.Log("OnDistroy");
             _popupPanel.ConfirmationResponseAction -= HideExitConfirmationPopup;
-            // _popupPanel.ConfirmationResponseAction -= StartNewGamePopupResponse;
         }
 
         private void CloseAll()

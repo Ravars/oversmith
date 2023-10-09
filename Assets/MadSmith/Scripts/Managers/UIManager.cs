@@ -25,6 +25,7 @@ namespace MadSmith.Scripts.Managers
         [SerializeField] private UIPopup _popupPanel = default;
         [SerializeField] private UIEndGame _endGameComponent = default;
         [SerializeField] private HudController inGameComponent = default;
+        [SerializeField] private UIInGameTutorial inGameTutorialComponent = default;
 
         [Header("Listening on")] 
         [SerializeField] private VoidEventChannelSO _onSceneReady = default;
@@ -33,6 +34,7 @@ namespace MadSmith.Scripts.Managers
         [Header("Broadcasting on ")]
         [SerializeField] private LoadEventChannelSO _loadMenuEvent = default;
         [SerializeField] private LoadEventChannelSO _loadNextLevel = default;
+        [SerializeField] private VoidEventChannelSO _onGameStart = default;
         
 
         private void OnEnable()
@@ -76,8 +78,12 @@ namespace MadSmith.Scripts.Managers
 
         private void ResetUI()
         {
-            _inputReader.EnableMenuInput();
-            inGameComponent.gameObject.SetActive(true);
+            _inputReader.EnableDialogueInput();
+            // inGameComponent.gameObject.SetActive(true);
+            if (GameManager.Instance.CurrentSceneSo.sceneType == GameSceneType.Location)
+            {
+                OpenTutorial();
+            }
         }
 
 
@@ -177,6 +183,21 @@ namespace MadSmith.Scripts.Managers
                 _loadMenuEvent.RaiseEvent(_mainMenu, false); //load main menu
             }
         }
-        
+
+        private void OpenTutorial()
+        {
+            inGameTutorialComponent.gameObject.SetActive(true);
+            inGameTutorialComponent.Closed += UiTutorialClosed;
+            inGameTutorialComponent.Setup((LocationSO)GameManager.Instance.CurrentSceneSo);
+        }
+
+        private void UiTutorialClosed()
+        {
+            inGameTutorialComponent.gameObject.SetActive(false);
+            inGameTutorialComponent.Closed -= UiTutorialClosed;
+            _inputReader.EnableGameplayInput();
+            inGameComponent.gameObject.SetActive(true);
+            _onGameStart.RaiseEvent();
+        }
     }
 }

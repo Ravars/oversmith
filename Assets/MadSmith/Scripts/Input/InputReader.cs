@@ -70,6 +70,7 @@ namespace MadSmith.Scripts.Input
         //Menus
         public event UnityAction MenuPauseEvent = delegate { };
         public event UnityAction MenuUnpauseEvent = delegate { };
+        public event UnityAction OnAdvanceDialogueEvent = delegate { };
         public event UnityAction MenuCloseEvent = delegate { };
         public event UnityAction MenuMouseMoveEvent = delegate { };
         public event UnityAction MenuClickButtonEvent = delegate { };
@@ -188,6 +189,8 @@ namespace MadSmith.Scripts.Input
         
         public void OnAdvanceDialogue(InputAction.CallbackContext context)
         {
+            if (context.phase == InputActionPhase.Performed)
+                OnAdvanceDialogueEvent.Invoke();
         }
 
         public void OnOpenCheatMenu(InputAction.CallbackContext context)

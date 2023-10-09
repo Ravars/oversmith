@@ -25,6 +25,7 @@ namespace MadSmith.Scripts.UI.SettingsScripts
 
         [SerializeField] private InputReader _inputReader;
         public UnityAction OnCloseLevelSelection;
+        public UnityAction OnLevelSelected;
 
         [SerializeField] private Button levelSelectButton;
         [Header("Broadcasting to")]
@@ -79,6 +80,7 @@ namespace MadSmith.Scripts.UI.SettingsScripts
 
         public void Play()
         {
+            OnLevelSelected?.Invoke();
             _onLoadScene.RaiseEvent(GameManager.Instance.sceneSos[currentLevelSelected],true);
         }
 

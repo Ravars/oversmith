@@ -12,49 +12,24 @@ namespace MadSmith.Scripts.Gameplay
         [SerializeField] private InputReader _inputReader;
 
         [Header("Scene Ready Event")] 
-        [SerializeField] private VoidEventChannelSO _onSceneReady;
+        [SerializeField] private VoidEventChannelSO _onGameStart;
         [SerializeField] private Transform spawnLocation;
-
-        [SerializeField] private Image tutorialImage;
 
         private void OnEnable()
         {
-            _onSceneReady.OnEventRaised += SpawnTutorialUI;
-            _inputReader.EnableMenuInput();
-            _inputReader.MenuCloseEvent += CloseTutorial;
+            _onGameStart.OnEventRaised += SpawnPlayer;
         }
 
-        private void OnDisable()
+        private void OnDestroy()
         {
-            _onSceneReady.OnEventRaised -= SpawnTutorialUI;
-            _inputReader.MenuCloseEvent -= CloseTutorial;
+            _onGameStart.OnEventRaised -= SpawnPlayer;
         }
 
-        private void SpawnTutorialUI()
+        public void SpawnPlayer()
         {
-            _onSceneReady.OnEventRaised -= SpawnTutorialUI;
-            if (tutorialImage != null)
-            {
-                tutorialImage.gameObject.SetActive(true);
-            }
-            else
-            {
-                CloseTutorial();
-            }
-        }
-
-        public void CloseTutorial()
-        {
-            _inputReader.MenuCloseEvent -= CloseTutorial;
-            if (tutorialImage != null)
-            {
-                tutorialImage.gameObject.SetActive(false);
-            }
+            _onGameStart.OnEventRaised -= SpawnPlayer;
             var index = GameManager.Instance.characterIndex;
             var player = Instantiate(GameManager.Instance.charactersPrefabs[index], spawnLocation.position, Quaternion.identity, spawnLocation);
-            _inputReader.EnableGameplayInput();
-            
-            
         }
         
     }

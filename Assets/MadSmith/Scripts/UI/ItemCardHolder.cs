@@ -19,6 +19,10 @@ namespace MadSmith.Scripts.UI
             id = newId;
             baseItem = item;
             rawImage.texture = item.image;
+            slider.minValue = 0;
+            slider.maxValue = 1;
+            slider.SetValueWithoutNotify(0);
+            
         }
     }
 }

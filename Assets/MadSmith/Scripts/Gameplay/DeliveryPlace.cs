@@ -11,6 +11,6 @@ public class DeliveryPlace : MonoBehaviour
 
     public void DeliverItem(BaseItem item)
     {
-        OrdersManager.CheckOrder(item);
+        // OrdersManager.CheckOrder(item);
     }
 }

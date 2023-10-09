@@ -1,5 +1,5 @@
 {
-    "name": "InputActions",
+    "name": "GameInput",
     "maps": [
         {
             "name": "Gameplay",
@@ -208,8 +208,30 @@
                 },
                 {
                     "name": "",
+                    "id": "ced1fcab-6265-45d8-8a01-6136430d85bd",
+                    "path": "<Gamepad>/start",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Pause",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
                     "id": "fce3c902-a474-4296-b974-6ec38bfa55a0",
                     "path": "<Keyboard>/shift",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Dash",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "8be94af9-b21c-4f9f-b44a-1d138702e561",
+                    "path": "<Gamepad>/buttonEast",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
@@ -1035,6 +1057,15 @@
                     "initialStateCheck": true
                 },
                 {
+                    "name": "Cancel",
+                    "type": "Button",
+                    "id": "87164b22-3a08-490f-9cce-2e4a57fe2d45",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
                     "name": "AdvanceDialogue",
                     "type": "Button",
                     "id": "eb161fd9-6434-4d50-952a-8b22c125355b",
@@ -1284,6 +1315,28 @@
                     "processors": "",
                     "groups": "",
                     "action": "AdvanceDialogue",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "e88cef7e-93ff-4b30-959d-7976c2897412",
+                    "path": "<Keyboard>/escape",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Cancel",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "bf20b5e2-9f8b-44c4-b07d-50752335186d",
+                    "path": "<Gamepad>/buttonEast",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Cancel",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }
