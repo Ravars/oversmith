@@ -17613,7 +17613,6 @@ Transform:
   m_Children:
   - {fileID: 2000572550}
   - {fileID: 1002838161}
-  - {fileID: 824692768}
   m_Father: {fileID: 0}
   m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -50087,73 +50086,6 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 0f60014fb65b07d438cc8ff9b6e89b97, type: 3}
---- !u!1 &824692767
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 824692768}
-  - component: {fileID: 824692769}
-  - component: {fileID: 824692770}
-  m_Layer: 0
-  m_Name: OrdersManager
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &824692768
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 824692767}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 392824431}
-  m_RootOrder: -1
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &824692769
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 824692767}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: dbc4731435ecf5649ad1cecc586237bd, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  firstOrderDelay: 3
-  orderDelay: 11
-  timeToSingleItem: 60
-  maxConcurrentOrders: 6
-  levelConfigItems: {fileID: 11400000, guid: 05c01700d1ed2a24f8365c6c32eb8d91, type: 2}
-  currentOrderList: []
-  onLevelStart: {fileID: 11400000, guid: 04ebc839a387f4c44b82f13a9f84960c, type: 2}
-  onOrderListUpdate: {fileID: 11400000, guid: 9a16ad1837556cf449892165813ead4d, type: 2}
-  onCreateOrder: {fileID: 11400000, guid: 8d30dd3621d42174f8de9a1d51368110, type: 2}
-  onDeleteOrder: {fileID: 11400000, guid: 659e3abb8b36fda489b56ba78dc091a0, type: 2}
---- !u!114 &824692770
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 824692767}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4f29cd9d7ccccac4dbd12bf659903f93, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1001 &825673703
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -52145,7 +52077,7 @@ PrefabInstance:
         type: 3}
       propertyPath: OrdersManager
       value: 
-      objectReference: {fileID: 824692769}
+      objectReference: {fileID: 0}
     - target: {fileID: 1056339952151044673, guid: 03855df9ecda1cd4ebe9012e8b87022f,
         type: 3}
       propertyPath: visual

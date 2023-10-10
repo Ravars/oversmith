@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.12731749, g: 0.13414757, b: 0.1210787, a: 1}
+  m_IndirectSpecularColor: {r: 0.18028396, g: 0.22571427, b: 0.30692327, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -1225,6 +1225,88 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1b1c39ccbff64cc89417ecda3a717c69, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!1 &185231355
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 185231358}
+  - component: {fileID: 185231357}
+  - component: {fileID: 185231356}
+  m_Layer: 0
+  m_Name: OrderManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &185231356
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 185231355}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4f29cd9d7ccccac4dbd12bf659903f93, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  totalScore: 5000
+  orderPoints: 1000
+  penaltyCost: 0.2
+  enemyScoringRate: 14
+  onCountdownTimerUpdated: {fileID: 11400000, guid: 77027518a220d8547a5e0d1f60e26b57,
+    type: 2}
+  onMissedOrder: {fileID: 11400000, guid: 659e3abb8b36fda489b56ba78dc091a0, type: 2}
+  onDeliveryOrder: {fileID: 11400000, guid: d1e67331e9e13c24f91c9484d11b1c23, type: 2}
+  onPlayerScore: {fileID: 11400000, guid: 3b077ae3d935e6147ba5b1a0a3fa052c, type: 2}
+  onEnemyScore: {fileID: 11400000, guid: 2b9d72a02274afc48923bc31a3598754, type: 2}
+  onLevelCompleted: {fileID: 11400000, guid: 919321fbc38fd0b4fa6eb629728b3c6c, type: 2}
+--- !u!114 &185231357
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 185231355}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dbc4731435ecf5649ad1cecc586237bd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  firstOrderDelay: 3
+  orderDelay: 11
+  timeToSingleItem: 60
+  maxConcurrentOrders: 6
+  timeToDeliver: 240
+  currentOrderList: []
+  onLevelStart: {fileID: 11400000, guid: 04ebc839a387f4c44b82f13a9f84960c, type: 2}
+  onSceneReady: {fileID: 11400000, guid: df6aead758def0e408c9231e08fef990, type: 2}
+  onOrderListUpdate: {fileID: 11400000, guid: 9a16ad1837556cf449892165813ead4d, type: 2}
+  onCreateOrder: {fileID: 11400000, guid: 8d30dd3621d42174f8de9a1d51368110, type: 2}
+  onMissedOrder: {fileID: 11400000, guid: 659e3abb8b36fda489b56ba78dc091a0, type: 2}
+  onDeliveryOrder: {fileID: 11400000, guid: d1e67331e9e13c24f91c9484d11b1c23, type: 2}
+  onCountdownTimerUpdated: {fileID: 11400000, guid: 77027518a220d8547a5e0d1f60e26b57,
+    type: 2}
+--- !u!4 &185231358
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 185231355}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &295669974
 GameObject:
   m_ObjectHideFlags: 0
@@ -3958,7 +4040,6 @@ MonoBehaviour:
   playerScoreSlider: {fileID: 1356355245}
   enemyScoreSlider: {fileID: 1356355244}
   timerText: {fileID: 1087070060}
-  _onSceneReady: {fileID: 11400000, guid: df6aead758def0e408c9231e08fef990, type: 2}
   _onCountdownTimerUpdated: {fileID: 11400000, guid: 77027518a220d8547a5e0d1f60e26b57,
     type: 2}
   onPlayerScore: {fileID: 11400000, guid: 3b077ae3d935e6147ba5b1a0a3fa052c, type: 2}
@@ -3966,6 +4047,7 @@ MonoBehaviour:
   onOrderListUpdate: {fileID: 11400000, guid: 9a16ad1837556cf449892165813ead4d, type: 2}
   onCreateOrder: {fileID: 11400000, guid: 8d30dd3621d42174f8de9a1d51368110, type: 2}
   onDeleteOrder: {fileID: 11400000, guid: 659e3abb8b36fda489b56ba78dc091a0, type: 2}
+  onDeliveryOrder: {fileID: 11400000, guid: d1e67331e9e13c24f91c9484d11b1c23, type: 2}
 --- !u!1 &1609399098
 GameObject:
   m_ObjectHideFlags: 0

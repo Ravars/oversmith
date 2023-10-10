@@ -123,20 +123,22 @@ namespace MadSmith.Scripts.Interaction
                     //     _playerInteractableHandler.ClearList();
                     // }
                 
-                    if (ItemScript != null && interactable.GetComponent<DeliveryPlace>() is DeliveryPlace d)
+                    if (ItemScript != null && interactable.hasDelivery)
                     {
-                        // if (ItemScript?.baseItem.itemName != "Delivery Box")
-                        // {
-                        //interactable.delivery.SetItem(_itemTransform, ItemScript);
-                        d.DeliverItem(ItemScript.baseItem);
-						if (_itemTransform != null)
-						{
-							Destroy(_itemTransform.gameObject);
-						}
-						_itemTransform = null;
-						ItemScript = null;
-                        return;
-                        // }
+                        if (interactable.deliveryPlace.DeliverItem(ItemScript.baseItem))
+                        {
+						    if (_itemTransform != null)
+						    {
+							    Destroy(_itemTransform.gameObject);
+						    }
+						    _itemTransform = null;
+						    ItemScript = null;
+                            return;
+                        }
+                        else
+                        {
+                            //Não foi permitido entregar
+                        }
                     }
                 
                 }

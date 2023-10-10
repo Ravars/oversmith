@@ -9,8 +9,8 @@ public class DeliveryPlace : MonoBehaviour
 {
     public OrdersManager OrdersManager;
 
-    public void DeliverItem(BaseItem item)
+    public bool DeliverItem(BaseItem item)
     {
-        // OrdersManager.CheckOrder(item);
+        return OrdersManager.Instance.CheckOrder(item);
     }
 }

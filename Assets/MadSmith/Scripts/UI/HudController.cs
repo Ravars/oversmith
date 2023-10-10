@@ -33,6 +33,7 @@ namespace MadSmith.Scripts.UI
         [SerializeField] private OrderListUpdateEventChannelSO onOrderListUpdate;
         [SerializeField] private OrderUpdateEventChannelSO onCreateOrder;
         [SerializeField] private OrderUpdateEventChannelSO onDeleteOrder;
+        [SerializeField] private OrderUpdateEventChannelSO onDeliveryOrder;
 
         private void OnEnable()
         {
@@ -42,6 +43,7 @@ namespace MadSmith.Scripts.UI
             onOrderListUpdate.OnEventRaised += OnOrderListUpdate;
             onCreateOrder.OnEventRaised += CreateOrder;
             onDeleteOrder.OnEventRaised += DeleteOrder;
+            onDeliveryOrder.OnEventRaised += DeleteOrder; // TODO: mudar para uma função diferente para uma propria para a entrega (VFX)
         }
 
         private void DeleteOrder(OrderData orderData)
@@ -66,7 +68,7 @@ namespace MadSmith.Scripts.UI
         {
             for (int i = 0; i < ItemCardHolders.Count; i++)
             {
-                ItemCardHolders[i].slider.value = arg0[i].TimeRemaining01;
+                ItemCardHolders[i].slider.value = arg0.Find(x=> x.Id == ItemCardHolders[i].id).TimeRemaining01;
             }
         }
 
@@ -95,6 +97,7 @@ namespace MadSmith.Scripts.UI
             onOrderListUpdate.OnEventRaised -= OnOrderListUpdate;
             onCreateOrder.OnEventRaised -= CreateOrder;
             onDeleteOrder.OnEventRaised -= DeleteOrder;
+            onDeliveryOrder.OnEventRaised -= DeleteOrder;
         }
 
         // private void Clear()

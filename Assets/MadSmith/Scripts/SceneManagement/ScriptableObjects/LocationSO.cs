@@ -1,3 +1,4 @@
+using _Developers.Nicole.ScriptableObjects.Data_Structures;
 using MadSmith.Scripts.SavingSystem;
 using UnityEngine;
 using UnityEngine.Localization;
@@ -9,5 +10,6 @@ namespace MadSmith.Scripts.SceneManagement.ScriptableObjects
     {
         public TutorialDataSO tutorialDataSo;
         public LocalizedString locationName;
+        public LevelConfigItems levelConfigItems;
     }
 }
