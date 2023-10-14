@@ -426,7 +426,7 @@ namespace MadSmith.Scripts.UI.Managers
                 Manager.StopHostOrClientOnLobbyMenu();
                 SetState(MenuState.MainMenu);
             };
-            uiLobbyControllerPanel.NextPage += () => { SetState(MenuState.CharacterSelection); };
+            uiLobbyControllerPanel.NextPage += () => { SetState(MenuState.LevelSelection); };
             Manager.SteamLobby.OnLobbyEnteredEvent += () => SetState(MenuState.Lobby);
         }
         private void UnsetLobbyScreen()
@@ -437,7 +437,7 @@ namespace MadSmith.Scripts.UI.Managers
                 Manager.StopHostOrClientOnLobbyMenu();
                 SetState(MenuState.MainMenu);
             };
-            uiLobbyControllerPanel.NextPage -= () => { SetState(MenuState.CharacterSelection); };
+            uiLobbyControllerPanel.NextPage -= () => { SetState(MenuState.LevelSelection); };
             Manager.SteamLobby.OnLobbyEnteredEvent -= () => SetState(MenuState.Lobby);
         }
         private void OpenLobby()
@@ -502,6 +502,9 @@ namespace MadSmith.Scripts.UI.Managers
             CloseCharacterSelect();
             CloseLevelSelect();
             CloseHost();
+            CloseJoin();
+            CloseLobby();
+            CloseLobbiesList();
         }
     }
 }
