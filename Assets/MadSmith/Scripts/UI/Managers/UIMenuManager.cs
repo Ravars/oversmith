@@ -9,6 +9,7 @@ using MadSmith.Scripts.SceneManagement.ScriptableObjects;
 using MadSmith.Scripts.Systems.Settings;
 using MadSmith.Scripts.UI.Canvas;
 using MadSmith.Scripts.UI.SettingsScripts;
+using MadSmith.Scripts.Utils;
 using Mirror;
 using UnityEngine;
 
@@ -27,7 +28,7 @@ namespace MadSmith.Scripts.UI.Managers
         Lobby,
         LobbiesList
     }
-    public class UIMenuManager : MonoBehaviour
+    public class UIMenuManager : Singleton<UIMenuManager>
     {
         public MenuState State { get; private set; }
         private bool _hasSaveData;

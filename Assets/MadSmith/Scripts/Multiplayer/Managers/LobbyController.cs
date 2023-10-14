@@ -1,4 +1,4 @@
-using System.Collections.Generic;
+ using System.Collections.Generic;
 using System.Linq;
 using MadSmith.Scripts.Input;
 using MadSmith.Scripts.Multiplayer.UI;
@@ -15,6 +15,7 @@ namespace MadSmith.Scripts.Multiplayer.Managers
     public class LobbyController : Singleton<LobbyController>
     {
         public UnityAction Closed;
+        public UnityAction NextPage;
         [SerializeField] private InputReader _inputReader;
         
         //UI Element
@@ -206,6 +207,7 @@ namespace MadSmith.Scripts.Multiplayer.Managers
         }
         public void StartGame(string sceneName)
         {
+            Debug.Log("Lobby controller StartGame");
             lobbyClient.CanStartGame(sceneName);
         }
 
