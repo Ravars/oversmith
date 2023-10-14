@@ -55,7 +55,11 @@ namespace MadSmith.Scripts.Multiplayer.Managers
         private void OnDisable()
         {
             _inputReader.MenuCloseEvent -= CloseScreen;
-            canvasView.SetActive(false);
+            // NullReference exception
+            if (!ReferenceEquals(canvasView, null))
+            {
+                canvasView.SetActive(false);
+            }
         }
         
         public void UpdatePlayerList()
@@ -235,6 +239,7 @@ namespace MadSmith.Scripts.Multiplayer.Managers
                 Destroy(playerListItem.gameObject);
             }
             PlayerListItems.Clear();
+            NextPage?.Invoke();
         }
     }
 }

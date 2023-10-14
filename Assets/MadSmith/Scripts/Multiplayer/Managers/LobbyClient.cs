@@ -1,5 +1,6 @@
 using MadSmith.Scripts.Events.ScriptableObjects;
 using MadSmith.Scripts.Multiplayer.UI;
+using MadSmith.Scripts.UI.Managers;
 using Mirror;
 using Steamworks;
 using UnityEngine;
