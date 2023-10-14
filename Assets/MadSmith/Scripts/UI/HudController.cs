@@ -1,9 +1,5 @@
-using System.Collections;
 using System.Collections.Generic;
 using MadSmith.Scripts.Events.ScriptableObjects;
-using MadSmith.Scripts.Gameplay;
-using MadSmith.Scripts.Items;
-using MadSmith.Scripts.OLD;
 using MadSmith.Scripts.Utils;
 using TMPro;
 using UnityEngine;

@@ -1,7 +1,6 @@
 using System;
 using MadSmith.Scripts.Gameplay;
 using MadSmith.Scripts.Items;
-using MadSmith.Scripts.OLD;
 using UnityEngine;
 using UnityEngine.UI;
 

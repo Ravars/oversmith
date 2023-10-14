@@ -1,4 +1,5 @@
-using System;
+using MadSmith.Scripts.Multiplayer.Managers;
+using Mirror;
 using Steamworks;
 using TMPro;
 using UnityEngine;
@@ -12,19 +13,33 @@ namespace MadSmith.Scripts.Multiplayer.UI
         public int ConnectionID;
         public ulong PlayerSteamID;
         private bool AvatarReceived;
-
+        
         public TextMeshProUGUI PlayerNameText;
         public RawImage PlayerIcon;
+        public Image CharacterImage;
         public TextMeshProUGUI PlayerReadyText;
+        public TextMeshProUGUI CharacterIdText;
         public bool Ready;
-
-        protected Callback<AvatarImageLoaded_t> ImageLoaded;
-
+        public int CharacterID;
+        [SerializeField] private Sprite[] charactersImages;
+        protected Callback ImageLoaded;
+        //Manager
+        private MadSmithNetworkManager _manager;
+        public MadSmithNetworkManager Manager
+        {
+            get
+            {
+                if (!ReferenceEquals(_manager, null)) return _manager;
+                return _manager = NetworkManager.singleton as MadSmithNetworkManager;
+            }
+        }
         private void Start()
         {
-            ImageLoaded = Callback<AvatarImageLoaded_t>.Create(OnImageLoaded);
+            if (Manager.TransportLayer == TransportLayer.Steam)
+            {
+                ImageLoaded = Callback<AvatarImageLoaded_t>.Create(OnImageLoaded);
+            }
         }
-
         private void OnImageLoaded(AvatarImageLoaded_t callback)
         {
             if (callback.m_steamID.m_SteamID == PlayerSteamID)
@@ -36,7 +51,28 @@ namespace MadSmith.Scripts.Multiplayer.UI
                 return;
             }
         }
-
+        public void SetPlayerValues()
+        {
+            PlayerNameText.text = PlayerName;
+            ChangeReadyStatus();
+            CharacterIdText.text = CharacterID.ToString();
+            CharacterImage.sprite = charactersImages[CharacterID];
+            if(!AvatarReceived) {GetPlayerIcon();}
+        }
+        public void ChangeReadyStatus()
+        {
+            if (Ready)
+            {
+                PlayerReadyText.text = "Ready";
+                PlayerReadyText.color = Color.green;
+            }
+            else
+            {
+                PlayerReadyText.text = "Unready";
+                PlayerReadyText.color = Color.red;
+                
+            }
+        }
         private void GetPlayerIcon()
         {
             int ImageID = SteamFriends.GetLargeFriendAvatar((CSteamID)PlayerSteamID);
@@ -46,13 +82,6 @@ namespace MadSmith.Scripts.Multiplayer.UI
             }
 
             PlayerIcon.texture = GetSteamImageAsTexture(ImageID);
-        }
-
-        public void SetPlayerValues()
-        {
-            PlayerNameText.text = PlayerName;
-            ChangeReadyStatus();
-            if(!AvatarReceived) {GetPlayerIcon();}
         }
         private Texture2D GetSteamImageAsTexture(int iImage)
         {
@@ -74,21 +103,6 @@ namespace MadSmith.Scripts.Multiplayer.UI
             }
             AvatarReceived = true;
             return texture;
-        }
-
-        public void ChangeReadyStatus()
-        {
-            if (Ready)
-            {
-                PlayerReadyText.text = "Ready";
-                PlayerReadyText.color = Color.green;
-            }
-            else
-            {
-                PlayerReadyText.text = "Unready";
-                PlayerReadyText.color = Color.red;
-                
-            }
         }
     }
 }
