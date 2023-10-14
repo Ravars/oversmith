@@ -431,6 +431,7 @@ namespace MadSmith.Scripts.UI.Managers
         }
         private void UnsetLobbyScreen()
         {
+            if (ReferenceEquals(uiLobbyControllerPanel, null)) return;
             uiLobbyControllerPanel.Closed -= () =>
             {
                 Manager.StopHostOrClientOnLobbyMenu();
@@ -484,10 +485,12 @@ namespace MadSmith.Scripts.UI.Managers
             uiLobbiesListPanel.gameObject.SetActive(false);
         }
         #endregion
-        private void OnDestroy()
+
+        protected override void OnDestroy()
         {
-            Debug.Log("OnDistroy");
+            Debug.Log("OnDestroy");
             _popupPanel.ConfirmationResponseAction -= HideExitConfirmationPopup;
+            base.OnDestroy();
         }
 
         private void CloseAll()
