@@ -13,7 +13,7 @@ using UnityEngine.UI;
 
 namespace MadSmith.Scripts.UI.SettingsScripts
 {
-    public class UILevelSelection : NetworkBehaviour
+    public class UILevelSelection : MonoBehaviour
     {
         [SerializeField] private CinemachineVirtualCamera virtualCamera;
         private CinemachineTrackedDolly dolly;
@@ -87,21 +87,7 @@ namespace MadSmith.Scripts.UI.SettingsScripts
 
         public void LeftButton()
         {
-            if (!isServer)
-            {
-                return;
-            }
-
             Debug.Log("left");
-            RpcLeftButton();
-            
-            
-        }
-
-        [ClientRpc]
-        private void RpcLeftButton()
-        {
-            Debug.Log("Rpc Left");
             if (currentLevelSelected == 0)
             {
                 currentLevelSelected = GameManager.Instance.sceneSos.Length - 1;
@@ -114,20 +100,11 @@ namespace MadSmith.Scripts.UI.SettingsScripts
             SetLevelData();
         }
 
+
+
         public void RightButton()
         {
-            if (!isServer)
-            {
-                return;
-            }
-            
             Debug.Log("right");
-            RpcRightButton();
-        }
-
-        [ClientRpc]
-        public void RpcRightButton()
-        {
             if (currentLevelSelected == GameManager.Instance.sceneSos.Length - 1)
             {
                 currentLevelSelected = 0;
