@@ -11,11 +11,13 @@ namespace MadSmith.Scripts.Multiplayer.Managers
     {
         // Variables
         private const int NumberOfCharacters = 4; 
+        private const int NumberOfLevels = 6; 
         [SyncVar] public int ConnectionID;
         [SyncVar] public ulong PlayerSteamID;
         [SyncVar] public string PlayerName;
         [SyncVar(hook = nameof(ChangeCharacter))] public int CharacterId;
         [SyncVar(hook = nameof(PlayerReadyUpdate))] public bool ready;
+        [SyncVar(hook = nameof(ChangeLevelSelected))] public int levelSelected;
         public bool isLeader;
         
         
@@ -165,6 +167,45 @@ namespace MadSmith.Scripts.Multiplayer.Managers
             }
         }
         #endregion
+        
+        #region Level
+        public void NextLevel()
+        {
+            if (hasAuthority)
+            {
+                int id = (this.levelSelected + 1) % NumberOfLevels;
+                CmdChangeLevelSelected(this.levelSelected, id);
+            }
+        }
+
+        public void PreviousLevel()
+        {
+            if (hasAuthority)
+            {
+                int id = this.levelSelected - 1 < 0 ? NumberOfLevels - 1 : this.levelSelected - 1;
+                CmdChangeLevelSelected(this.levelSelected,id);
+            }
+        }
+        [Command]
+        private void CmdChangeLevelSelected(int oldLevel, int newLevel)
+        {
+            this.ChangeLevelSelected(oldLevel, newLevel);
+        }
+        private void ChangeLevelSelected(int oldLevel, int newId)
+        {
+            if (isServer)
+            {
+                this.levelSelected = newId;
+            }
+            
+            if (isClient)
+            {
+                // LobbyController.Instance.UpdatePlayerList();
+            }
+        }
+        #endregion
+        
+        
 
         public void CanStartGame(string sceneName)
         {
