@@ -18,13 +18,13 @@ namespace MadSmith.Scripts.Multiplayer.Managers
         {
             Debug.Log("CallCmdFunction");
             CmdTestFunction();
-            RpcTestFunction();
         }
 
         [Command]
         public void CmdTestFunction()
         {
             Debug.Log("CmdTestFunction");
+            RpcTestFunction();
         }
 
         [ClientRpc]
