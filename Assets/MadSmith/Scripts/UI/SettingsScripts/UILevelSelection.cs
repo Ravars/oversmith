@@ -5,6 +5,7 @@ using MadSmith.Scripts.Input;
 using MadSmith.Scripts.Managers;
 using MadSmith.Scripts.SavingSystem;
 using MadSmith.Scripts.Systems.Settings;
+using Mirror;
 using TMPro;
 using UnityEngine;
 using UnityEngine.Events;
@@ -12,7 +13,7 @@ using UnityEngine.UI;
 
 namespace MadSmith.Scripts.UI.SettingsScripts
 {
-    public class UILevelSelection : MonoBehaviour
+    public class UILevelSelection : NetworkBehaviour
     {
         [SerializeField] private CinemachineVirtualCamera virtualCamera;
         private CinemachineTrackedDolly dolly;
@@ -86,7 +87,21 @@ namespace MadSmith.Scripts.UI.SettingsScripts
 
         public void LeftButton()
         {
+            if (!isServer)
+            {
+                return;
+            }
+
             Debug.Log("left");
+            RpcLeftButton();
+            
+            
+        }
+
+        [ClientRpc]
+        private void RpcLeftButton()
+        {
+            Debug.Log("Rpc Left");
             if (currentLevelSelected == 0)
             {
                 currentLevelSelected = GameManager.Instance.sceneSos.Length - 1;
@@ -101,7 +116,18 @@ namespace MadSmith.Scripts.UI.SettingsScripts
 
         public void RightButton()
         {
+            if (!isServer)
+            {
+                return;
+            }
+            
             Debug.Log("right");
+            RpcRightButton();
+        }
+
+        [ClientRpc]
+        public void RpcRightButton()
+        {
             if (currentLevelSelected == GameManager.Instance.sceneSos.Length - 1)
             {
                 currentLevelSelected = 0;

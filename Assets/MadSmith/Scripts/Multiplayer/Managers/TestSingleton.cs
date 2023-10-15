@@ -1,4 +1,5 @@
 using System;
+using MadSmith.Scripts.UI.Managers;
 using MadSmith.Scripts.Utils;
 using Mirror;
 using UnityEngine;
@@ -17,20 +18,22 @@ namespace MadSmith.Scripts.Multiplayer.Managers
         public void CallCmdFunction()
         {
             Debug.Log("CallCmdFunction");
-            CmdTestFunction();
-        }
-
-        [Command]
-        public void CmdTestFunction()
-        {
-            Debug.Log("CmdTestFunction");
+            // CmdTestFunction();
             RpcTestFunction();
         }
+
+        // [Command]
+        // public void CmdTestFunction()
+        // {
+        //     Debug.Log("CmdTestFunction");
+        //     RpcTestFunction();
+        // }
 
         [ClientRpc]
         public void RpcTestFunction()
         {
             Debug.Log("RpcTestFunction");
+            
         }
     }
 }
