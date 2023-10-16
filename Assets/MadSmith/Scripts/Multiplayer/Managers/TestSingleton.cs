@@ -65,5 +65,16 @@ namespace MadSmith.Scripts.Multiplayer.Managers
             Debug.Log("Rpc Right");
             uiLevelSelection.RightButton();
         }
+
+        public void Play()
+        {
+            RpcPlay();
+        }
+
+        [ClientRpc]
+        private void RpcPlay()
+        {
+            uiLevelSelection.Play();
+        }
     }
 }
