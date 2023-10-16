@@ -49,7 +49,7 @@ namespace MadSmith.Scripts.Multiplayer.Managers
             CmdSetPlayerName(Manager.TransportLayer == TransportLayer.Steam
                 ? SteamFriends.GetPersonaName().ToString()
                 : PlayerNameInput.DisplayName); //Test
-
+            LobbiesListManager.Instance.DestroyLobbies();
             LobbyController.Instance.FindLocalPlayer();
             LobbyController.Instance.UpdateLobbyName();
         }
