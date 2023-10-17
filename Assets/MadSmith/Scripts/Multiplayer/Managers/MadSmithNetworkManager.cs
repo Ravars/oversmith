@@ -180,14 +180,16 @@ namespace MadSmith.Scripts.Multiplayer.Managers
                 if (currentSceneLoaded.sceneType == GameSceneType.Location)
                 {
                     GamePlayers.Clear();
+                    float offset = 0;
                     foreach (var lobbyClient in lobbyPlayers)
                     {
                         var conn = lobbyClient.connectionToClient;
                         GameObject oldPlayer = conn.identity.gameObject;
-                        var instance = Instantiate(inGamePlayerPrefab);
+                        var instance = Instantiate(inGamePlayerPrefab, new Vector3(-8f + offset, 0, -8f), Quaternion.identity);
                         GamePlayers.Add(instance);
                         NetworkServer.ReplacePlayerForConnection(conn, instance.gameObject);
                         Destroy(oldPlayer, 0.1f);
+                        offset += 1f;
                     }
                 }
                 GameObject roundSystemInstance = Instantiate(roundSystem);

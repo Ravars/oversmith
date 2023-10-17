@@ -17,12 +17,12 @@ namespace MadSmith.Scripts.Gameplay
 
         private void OnEnable()
         {
-            _onGameStart.OnEventRaised += SpawnPlayer;
+            // _onGameStart.OnEventRaised += SpawnPlayer;
         }
 
         private void OnDestroy()
         {
-            _onGameStart.OnEventRaised -= SpawnPlayer;
+            // _onGameStart.OnEventRaised -= SpawnPlayer;
         }
 
         public void SpawnPlayer()
