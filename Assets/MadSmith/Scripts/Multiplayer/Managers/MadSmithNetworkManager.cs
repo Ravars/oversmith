@@ -170,10 +170,12 @@ namespace MadSmith.Scripts.Multiplayer.Managers
         /// </summary>
         public void ClientSceneReady()
         {
+            Debug.Log("ClientSceneReady before");
             //TODO: if Level scene only   
             --_playersNotReady;
             if (_playersNotReady <= 0)
             {
+                Debug.Log("ClientSceneReady inside");
                 var currentSceneLoaded = SceneLoader.Instance.GetCurrentSceneLoaded();
                 if (currentSceneLoaded.sceneType == GameSceneType.Location)
                 {
