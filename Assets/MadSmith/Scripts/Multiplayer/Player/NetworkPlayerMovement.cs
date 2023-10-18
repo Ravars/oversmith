@@ -13,6 +13,7 @@ namespace MadSmith.Scripts.Multiplayer.Player
         public override void OnStartAuthority()
         {
             Debug.Log("OnStartAuthority");
+            enabled = true;
         }
 
         public void CmdEnableMovement()
