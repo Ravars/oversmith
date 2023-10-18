@@ -18,11 +18,13 @@ namespace MadSmith.Scripts.Multiplayer.Player
         public void CmdEnableMovement()
         {
             RpcEnableMovement();
+            Debug.Log("CmdEnableMovement");
         }
 
         [ClientRpc]
         public void RpcEnableMovement()
         {
+            Debug.Log("before hasAuthority");
             if (!hasAuthority) return;
             Debug.Log("authority Enabled RpcEnableMovement");
             inputReader.EnableGameplayInput();
