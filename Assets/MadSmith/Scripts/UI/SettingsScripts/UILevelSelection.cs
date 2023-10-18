@@ -79,7 +79,7 @@ namespace MadSmith.Scripts.UI.SettingsScripts
             levelIndexText.text = levelNames[currentLevelSelected];
         }
 
-        public void Play()
+        public void Play() // talvez adicionar aqui um Cmd
         {
             OnLevelSelected?.Invoke();
             _onLoadScene.RaiseEvent(GameManager.Instance.sceneSos[currentLevelSelected],true);

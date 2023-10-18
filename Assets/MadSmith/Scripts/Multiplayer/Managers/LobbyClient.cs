@@ -1,3 +1,4 @@
+using System;
 using MadSmith.Scripts.Events.ScriptableObjects;
 using MadSmith.Scripts.Multiplayer.UI;
 using MadSmith.Scripts.UI.Managers;
@@ -28,9 +29,13 @@ namespace MadSmith.Scripts.Multiplayer.Managers
                 return _manager = NetworkManager.singleton as MadSmithNetworkManager;
             }
         }
-        
-        
-        
+
+        private void Start()
+        {
+            DontDestroyOnLoad(gameObject); 
+        }
+
+
         [Header("Listening on")]
         [SerializeField] private VoidEventChannelSO sceneReady;
         // [Header("Broadcasting on")]
@@ -43,7 +48,7 @@ namespace MadSmith.Scripts.Multiplayer.Managers
         public override void OnStartAuthority()
         {
             Debug.Log("OnStartAuthority " + hasAuthority);
-            DontDestroyOnLoad(gameObject);
+            
             gameObject.name = "LocalGamePlayer";
             sceneReady.OnEventRaised += OnSceneReady;
             CmdSetPlayerName(Manager.TransportLayer == TransportLayer.Steam
