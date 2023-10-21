@@ -5,6 +5,7 @@ using MadSmith.Scripts.Input;
 using MadSmith.Scripts.Managers;
 using MadSmith.Scripts.SavingSystem;
 using MadSmith.Scripts.Systems.Settings;
+using Mirror;
 using TMPro;
 using UnityEngine;
 using UnityEngine.Events;
@@ -78,7 +79,7 @@ namespace MadSmith.Scripts.UI.SettingsScripts
             levelIndexText.text = levelNames[currentLevelSelected];
         }
 
-        public void Play()
+        public void Play() // talvez adicionar aqui um Cmd
         {
             OnLevelSelected?.Invoke();
             _onLoadScene.RaiseEvent(GameManager.Instance.sceneSos[currentLevelSelected],true);
@@ -98,6 +99,8 @@ namespace MadSmith.Scripts.UI.SettingsScripts
             dolly.m_PathPosition = dollyPath.m_Waypoints[currentLevelSelected].position.x;
             SetLevelData();
         }
+
+
 
         public void RightButton()
         {

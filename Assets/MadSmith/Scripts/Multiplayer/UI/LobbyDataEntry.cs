@@ -1,8 +1,7 @@
 using MadSmith.Scripts.Multiplayer.Managers;
-using UnityEngine;
-using UnityEngine.UI;
 using Steamworks;
 using TMPro;
+using UnityEngine;
 
 namespace MadSmith.Scripts.Multiplayer.UI
 {

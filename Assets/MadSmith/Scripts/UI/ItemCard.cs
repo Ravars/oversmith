@@ -1,4 +1,3 @@
-using MadSmith.Scripts.OLD;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -16,7 +15,6 @@ namespace MadSmith.Scripts.UI
         public Animator openAnimator;
         public GameObject prefabCheckBox;
         public Transform checkboxHolder;
-        public ItemStruct ItemStruct;
         private static readonly int Check = Animator.StringToHash("Check");
         private static readonly int Open = Animator.StringToHash("Open");
 

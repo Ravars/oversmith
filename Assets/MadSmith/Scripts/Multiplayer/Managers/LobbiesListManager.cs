@@ -1,27 +1,29 @@
 using System.Collections.Generic;
 using MadSmith.Scripts.Multiplayer.UI;
 using MadSmith.Scripts.Utils;
-using UnityEngine;
 using Steamworks;
+using UnityEngine;
 
 namespace MadSmith.Scripts.Multiplayer.Managers
 {
-    public class LobbiesListManager : PersistentSingleton<LobbiesListManager>
+    public class LobbiesListManager : Singleton<LobbiesListManager>
     {
-        public GameObject lobbiesMenu;
-        public GameObject lobbyDataItemPrefab;
-        public GameObject lobbyListContent;
+        // public GameObject lobbiesMenu;
+        [SerializeField] private GameObject lobbyDataItemPrefab;
+        [SerializeField] private GameObject lobbyListContent;
         
-        public GameObject lobbiesButton, hostButton;
+        // [SerializeField] private GameObject lobbiesButton;
+
         public List<GameObject> listOfLobbies = new();
 
         public void DestroyLobbies()
         {
-            foreach (GameObject lobbyItem in listOfLobbies)
+            foreach (var lobbyItem in listOfLobbies)
             {
                 Destroy(lobbyItem);
             }
             listOfLobbies.Clear();
+            // lobbiesMenu.SetActive(false);
         }
 
         public void DisplayLobbies(List<CSteamID> lobbyIDs, LobbyDataUpdate_t result)
@@ -30,35 +32,24 @@ namespace MadSmith.Scripts.Multiplayer.Managers
             {
                 if (lobbyIDs[i].m_SteamID == result.m_ulSteamIDLobby)
                 {
-                    // GameObject createdItem = Instantiate(lobbyDataItemPrefab);
-                    // LobbyDataEntry lobbyDataEntry = createdItem.GetComponent<LobbyDataEntry>();
-                    // lobbyDataEntry.lobbyName = SteamMatchmaking.GetLobbyData((CSteamID)lobbyIDs[i].m_SteamID, "name");
-                    // lobbyDataEntry.SetLobbyData();
                     GameObject createdItem = Instantiate(lobbyDataItemPrefab, lobbyListContent.transform, true);
-                    LobbyDataEntry lobbyDataEntry = createdItem.GetComponent<LobbyDataEntry>();
-                    lobbyDataEntry.lobbyName = SteamMatchmaking.GetLobbyData((CSteamID)lobbyIDs[i].m_SteamID, "name");
-                    lobbyDataEntry.lobbyId = (CSteamID)lobbyIDs[i].m_SteamID;
-                    lobbyDataEntry.SetLobbyData();
+                    createdItem.GetComponent<LobbyDataEntry>().lobbyId = (CSteamID)lobbyIDs[i].m_SteamID;
+                    createdItem.GetComponent<LobbyDataEntry>().lobbyName =
+                        SteamMatchmaking.GetLobbyData((CSteamID)lobbyIDs[i].m_SteamID, "name");
+                    createdItem.GetComponent<LobbyDataEntry>().SetLobbyData();
                     createdItem.transform.localScale = Vector3.one;
                     listOfLobbies.Add(createdItem);
                 }
             }
         }
+
         public void GetListOfLobbies()
         {
-            lobbiesButton.SetActive(false);
-            hostButton.SetActive(false);
-            lobbiesMenu.SetActive(true);
-        
+            // lobbiesButton.SetActive(false);
+            // hostButton.SetActive(false);
+            // UIMenuManager.Instance.
+            // lobbiesMenu.SetActive(true);
             SteamLobby.Instance.GetLobbiesList();
         }
-        public void CloseListOfLobbies()
-        {
-            lobbiesButton.SetActive(true);
-            hostButton.SetActive(true);
-            lobbiesMenu.SetActive(false);
-            DestroyLobbies();
-        }
-        
     }
 }
