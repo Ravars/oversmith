@@ -33,7 +33,7 @@ namespace MadSmith.Scripts.Multiplayer.Managers
         private FizzySteamworks _fizzySteamworksTransport;
         
         // Prefabs
-        [SerializeField] private NetworkPlayerMovement inGamePlayerPrefab;
+        [SerializeField] private NetworkPlayerMovement[] inGamePlayerPrefab;
         [SerializeField] private GameObject roundSystem = null;
         [Tooltip("Player lobby prefab")][SerializeField] private LobbyClient lobbyPrefab;
         [SerializeField] private LobbiesListManager lobbiesListManager;
@@ -185,7 +185,7 @@ namespace MadSmith.Scripts.Multiplayer.Managers
                     {
                         var conn = lobbyClient.connectionToClient;
                         GameObject oldPlayer = conn.identity.gameObject;
-                        var instance = Instantiate(inGamePlayerPrefab, new Vector3(-8f + offset, 0, -8f), Quaternion.identity);
+                        var instance = Instantiate(inGamePlayerPrefab[lobbyClient.CharacterId], new Vector3(-8f + offset, 0, -8f), Quaternion.identity);
                         GamePlayers.Add(instance);
                         NetworkServer.ReplacePlayerForConnection(conn, instance.gameObject);
                         Destroy(oldPlayer, 0.1f);
