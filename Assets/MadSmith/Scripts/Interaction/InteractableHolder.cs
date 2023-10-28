@@ -1,6 +1,5 @@
 ﻿using MadSmith.Scripts.CraftingTables;
 using MadSmith.Scripts.Gameplay;
-using MadSmith.Scripts.OLD;
 using UnityEngine;
 
 namespace MadSmith.Scripts.Interaction

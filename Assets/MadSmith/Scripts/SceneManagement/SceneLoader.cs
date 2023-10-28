@@ -3,6 +3,7 @@ using System.Collections;
 using MadSmith.Scripts.Events.ScriptableObjects;
 using MadSmith.Scripts.Input;
 using MadSmith.Scripts.SceneManagement.ScriptableObjects;
+using MadSmith.Scripts.Utils;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
 using UnityEngine.ResourceManagement.AsyncOperations;
@@ -11,7 +12,7 @@ using UnityEngine.SceneManagement;
 
 namespace MadSmith.Scripts.SceneManagement
 {
-    public class SceneLoader : MonoBehaviour
+    public class SceneLoader : Singleton<SceneLoader>
     {
         [SerializeField] private GameSceneSO gameplayScene = default;
         [SerializeField] private InputReader _inputReader;
@@ -149,6 +150,11 @@ namespace MadSmith.Scripts.SceneManagement
             _gameplayManagerSceneInstance = _gameplayManagerLoadingOpHandle.Result;
 
             StartCoroutine(UnloadPreviousScene());
+        }
+        
+        public GameSceneSO GetCurrentSceneLoaded()
+        {
+            return _currentlyLoadedScene;
         }
 
     }
