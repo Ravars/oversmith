@@ -40,16 +40,16 @@ namespace MadSmith.Scripts.Multiplayer.Managers
 
         private void Start()
         {
-            if (!isServer) return;
-            _firstOrderAlreadySpawned = false;
-            onLevelStart.OnEventRaised += StartGame;
             onSceneReady.OnEventRaised += Setup;
+            _firstOrderAlreadySpawned = false;
+            if (!isServer) return;
+            onLevelStart.OnEventRaised += StartGame;
         }
         private void OnDisable()
         {
+            onSceneReady.OnEventRaised -= Setup;
             if (!isServer) return;
             onLevelStart.OnEventRaised -= StartGame;
-            onSceneReady.OnEventRaised -= Setup;
         }
         private void Setup()
         {
