@@ -66,11 +66,17 @@ namespace MadSmith.Scripts.Multiplayer.Managers
             if (Time.time > _time)
             {
                 _time = Time.fixedTime + timeToWait;
-                BaseItem newItem = _levelConfigItems.itemsToDelivery[Random.Range(0, _levelConfigItems.itemsToDelivery.Length)];
-                var newOrderData = new OrderData(_lastOrderId++, 1, newItem);
-                currentOrderList.Add(newOrderData);
-                onCreateOrder.RaiseEvent(newOrderData);
+                SpawnOrder();
             }
+        }
+
+        [ClientRpc]
+        private void SpawnOrder()
+        {
+            BaseItem newItem = _levelConfigItems.itemsToDelivery[Random.Range(0, _levelConfigItems.itemsToDelivery.Length)];
+            var newOrderData = new OrderData(_lastOrderId++, 1, newItem);
+            currentOrderList.Add(newOrderData);
+            onCreateOrder.RaiseEvent(newOrderData);
         }
     }
 }
