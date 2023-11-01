@@ -54,8 +54,7 @@ namespace MadSmith.Scripts.Multiplayer.Managers
             }
             float percentToRemove = Time.fixedDeltaTime / timeToSingleItem;
             _currentTime -= Time.fixedDeltaTime;
-            onCountdownTimerUpdated.RaiseEvent((int)_currentTime);
-            onOrderListUpdate.RaiseEvent(currentOrderList);
+            UpdateTimers();
             
             // update times
             foreach (var orderData in currentOrderList)
@@ -68,6 +67,13 @@ namespace MadSmith.Scripts.Multiplayer.Managers
                 _time = Time.fixedTime + timeToWait;
                 SpawnOrder();
             }
+        }
+
+        [ClientRpc]
+        private void UpdateTimers()
+        {
+            onCountdownTimerUpdated.RaiseEvent((int)_currentTime);
+            onOrderListUpdate.RaiseEvent(currentOrderList);
         }
 
         [ClientRpc]
