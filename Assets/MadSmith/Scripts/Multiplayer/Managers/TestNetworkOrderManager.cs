@@ -47,6 +47,7 @@ namespace MadSmith.Scripts.Multiplayer.Managers
         }
         private void OnDisable()
         {
+            if (!isServer) return;
             onLevelStart.OnEventRaised -= StartGame;
             onSceneReady.OnEventRaised -= Setup;
         }
@@ -91,6 +92,7 @@ namespace MadSmith.Scripts.Multiplayer.Managers
                 if (currentOrderList[i].TimeRemaining01 <= 0)
                 {
                     MissedOrder(i);
+                    currentOrderList.RemoveAt(i); 
                 }
             }
 
@@ -113,7 +115,7 @@ namespace MadSmith.Scripts.Multiplayer.Managers
         private void MissedOrder(int i)
         {
             onMissedOrder.RaiseEvent(currentOrderList[i]);
-            currentOrderList.RemoveAt(i); //Verificar se fica aqui ou fora do RPC
+            //Verificar se fica aqui ou fora do RPC
         }
 
         [ClientRpc]
