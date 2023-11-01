@@ -1,4 +1,4 @@
-using System;
+    using System;
 using System.Collections.Generic;
 using _Developers.Nicole.ScriptableObjects.Data_Structures;
 using MadSmith.Scripts.Events.ScriptableObjects;
@@ -13,26 +13,44 @@ namespace MadSmith.Scripts.Multiplayer.Managers
 {
     public class TestNetworkOrderManager : NetworkBehaviour
     {
-
-        public float timeToWait = 5;
-        private float _time;
+        [SerializeField] private float firstOrderDelay = 3;
+        [SerializeField] private float orderDelay = 11;
+        [SerializeField] private float timeToSingleItem = 60;
+        [SerializeField] private int maxConcurrentOrders = 6;
+        [SerializeField] private int timeToDeliver = 240;
+        private float _timeToSpawn;
+        private bool _firstOrderAlreadySpawned;
+        private float _currentTime;
+        private bool _hasBeenStarted;
         private LevelConfigItems _levelConfigItems;
         private int _lastOrderId;
+		
         [SerializeField]  private List<OrderData> currentOrderList = new ();
-        
-        [SerializeField] private float timeToSingleItem = 60;
-        private float _currentTime = 240;
-        
-        [SerializeField] private OrderUpdateEventChannelSO onCreateOrder;
-        [SerializeField] private IntEventChannelSO onCountdownTimerUpdated;
-        [SerializeField] private OrderListUpdateEventChannelSO onOrderListUpdate;
+		
+        [Header("Listening to")]
+        [SerializeField] private VoidEventChannelSO onLevelStart;
+        [SerializeField] private VoidEventChannelSO onSceneReady;
 
-        private void Awake()
-        {
-            _time = Time.fixedTime + timeToWait;
-        }
+        [Header("Broadcasting to")] 
+        [SerializeField] private OrderListUpdateEventChannelSO onOrderListUpdate;
+        [SerializeField] private OrderUpdateEventChannelSO onCreateOrder;
+        [SerializeField] private OrderUpdateEventChannelSO onMissedOrder;
+        [SerializeField] private OrderUpdateEventChannelSO onDeliveryOrder;
+        [SerializeField] private IntEventChannelSO onCountdownTimerUpdated;
 
         private void Start()
+        {
+            if (!isServer) return;
+            _firstOrderAlreadySpawned = false;
+            onLevelStart.OnEventRaised += StartGame;
+            onSceneReady.OnEventRaised += Setup;
+        }
+        private void OnDisable()
+        {
+            onLevelStart.OnEventRaised -= StartGame;
+            onSceneReady.OnEventRaised -= Setup;
+        }
+        private void Setup()
         {
             var currentSceneSo = GameManager.Instance.CurrentSceneSo;
             if (currentSceneSo.sceneType == GameSceneType.Location)
@@ -45,13 +63,18 @@ namespace MadSmith.Scripts.Multiplayer.Managers
                 return;
             }
         }
+        private void StartGame() 
+        {
+            // show hud
+            _timeToSpawn = Time.fixedTime + firstOrderDelay;
+            _hasBeenStarted = true;
+            _currentTime = timeToDeliver;
+        }
 
         private void FixedUpdate()
         {
-            if (!isServer)
-            {
-                return;
-            }
+            if (!isServer || !_hasBeenStarted) return;
+            
             float percentToRemove = Time.fixedDeltaTime / timeToSingleItem;
             _currentTime -= Time.fixedDeltaTime;
             UpdateTimers();
@@ -61,11 +84,22 @@ namespace MadSmith.Scripts.Multiplayer.Managers
             {
                 orderData.TimeRemaining01 -= percentToRemove;
             }
-
-            if (Time.time > _time)
+            
+            //Remove by time expired
+            for (int i = currentOrderList.Count-1; i >= 0; i--)
             {
-                _time = Time.fixedTime + timeToWait;
-                SpawnOrder();
+                if (currentOrderList[i].TimeRemaining01 <= 0)
+                {
+                    MissedOrder(i);
+                }
+            }
+
+            if (Time.fixedTime >= _timeToSpawn && currentOrderList.Count < maxConcurrentOrders || (_firstOrderAlreadySpawned && currentOrderList.Count == 0))
+            {
+                int itemIndex = Random.Range(0, _levelConfigItems.itemsToDelivery.Length);
+                SpawnOrder(itemIndex);
+                _firstOrderAlreadySpawned = true;
+                _timeToSpawn = Time.fixedTime + (_firstOrderAlreadySpawned ? orderDelay : firstOrderDelay );
             }
         }
 
@@ -75,11 +109,17 @@ namespace MadSmith.Scripts.Multiplayer.Managers
             onCountdownTimerUpdated.RaiseEvent((int)_currentTime);
             onOrderListUpdate.RaiseEvent(currentOrderList);
         }
+        [ClientRpc]
+        private void MissedOrder(int i)
+        {
+            onMissedOrder.RaiseEvent(currentOrderList[i]);
+            currentOrderList.RemoveAt(i); //Verificar se fica aqui ou fora do RPC
+        }
 
         [ClientRpc]
-        private void SpawnOrder()
+        private void SpawnOrder(int itemIndex)
         {
-            BaseItem newItem = _levelConfigItems.itemsToDelivery[Random.Range(0, _levelConfigItems.itemsToDelivery.Length)];
+            BaseItem newItem = _levelConfigItems.itemsToDelivery[itemIndex];
             var newOrderData = new OrderData(_lastOrderId++, 1, newItem);
             currentOrderList.Add(newOrderData);
             onCreateOrder.RaiseEvent(newOrderData);

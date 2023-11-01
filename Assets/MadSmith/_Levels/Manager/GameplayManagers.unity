@@ -3724,13 +3724,20 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
-  timeToWait: 5
-  currentOrderList: []
+  firstOrderDelay: 3
+  orderDelay: 11
   timeToSingleItem: 60
+  maxConcurrentOrders: 6
+  timeToDeliver: 240
+  currentOrderList: []
+  onLevelStart: {fileID: 11400000, guid: 04ebc839a387f4c44b82f13a9f84960c, type: 2}
+  onSceneReady: {fileID: 11400000, guid: df6aead758def0e408c9231e08fef990, type: 2}
+  onOrderListUpdate: {fileID: 11400000, guid: 9a16ad1837556cf449892165813ead4d, type: 2}
   onCreateOrder: {fileID: 11400000, guid: 8d30dd3621d42174f8de9a1d51368110, type: 2}
+  onMissedOrder: {fileID: 11400000, guid: 659e3abb8b36fda489b56ba78dc091a0, type: 2}
+  onDeliveryOrder: {fileID: 11400000, guid: d1e67331e9e13c24f91c9484d11b1c23, type: 2}
   onCountdownTimerUpdated: {fileID: 11400000, guid: 77027518a220d8547a5e0d1f60e26b57,
     type: 2}
-  onOrderListUpdate: {fileID: 11400000, guid: 9a16ad1837556cf449892165813ead4d, type: 2}
 --- !u!114 &1002496941
 MonoBehaviour:
   m_ObjectHideFlags: 0
