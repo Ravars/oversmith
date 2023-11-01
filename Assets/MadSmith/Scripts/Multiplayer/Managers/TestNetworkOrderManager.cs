@@ -42,13 +42,13 @@ namespace MadSmith.Scripts.Multiplayer.Managers
         {
             onSceneReady.OnEventRaised += Setup;
             _firstOrderAlreadySpawned = false;
-            if (!isServer) return;
+            // if (!isServer) return;
             onLevelStart.OnEventRaised += StartGame;
         }
         private void OnDisable()
         {
             onSceneReady.OnEventRaised -= Setup;
-            if (!isServer) return;
+            // if (!isServer) return;
             onLevelStart.OnEventRaised -= StartGame;
         }
         private void Setup()
@@ -100,7 +100,12 @@ namespace MadSmith.Scripts.Multiplayer.Managers
             {
                 int itemIndex = Random.Range(0, _levelConfigItems.itemsToDelivery.Length);
                 SpawnOrder(itemIndex);
+                
+                // BaseItem newItem = _levelConfigItems.itemsToDelivery[itemIndex];
+                // var newOrderData = new OrderData(_lastOrderId++, 1, newItem);
+                // currentOrderList.Add(newOrderData);
                 _firstOrderAlreadySpawned = true;
+                
                 _timeToSpawn = Time.fixedTime + (_firstOrderAlreadySpawned ? orderDelay : firstOrderDelay );
             }
         }
