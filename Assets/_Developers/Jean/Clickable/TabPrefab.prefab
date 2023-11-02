@@ -313,7 +313,7 @@ GameObject:
   - component: {fileID: 9105221258796137802}
   - component: {fileID: 500732045349535566}
   m_Layer: 5
-  m_Name: AudioTab
+  m_Name: TabName
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -368,16 +368,16 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: a2b968fa130eb9b4cabdddca8489f801, type: 3}
+  m_Sprite: {fileID: 21300000, guid: e3dd77658d2032344acc641b8479f543, type: 3}
   m_Type: 1
   m_PreserveAspect: 0
-  m_FillCenter: 1
+  m_FillCenter: 0
   m_FillMethod: 4
   m_FillAmount: 1
   m_FillClockwise: 1
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
-  m_PixelsPerUnitMultiplier: 31
+  m_PixelsPerUnitMultiplier: 2.5
 --- !u!114 &9105221258796137802
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -397,7 +397,7 @@ MonoBehaviour:
     m_SelectOnDown: {fileID: 0}
     m_SelectOnLeft: {fileID: 0}
     m_SelectOnRight: {fileID: 0}
-  m_Transition: 1
+  m_Transition: 2
   m_Colors:
     m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
     m_HighlightedColor: {r: 1, g: 0.6862745, b: 0, a: 1}
@@ -407,10 +407,11 @@ MonoBehaviour:
     m_ColorMultiplier: 1
     m_FadeDuration: 0.1
   m_SpriteState:
-    m_HighlightedSprite: {fileID: 0}
-    m_PressedSprite: {fileID: 0}
-    m_SelectedSprite: {fileID: 0}
-    m_DisabledSprite: {fileID: 0}
+    m_HighlightedSprite: {fileID: 21300000, guid: 22322dfb075be7f408e30e841d49959f,
+      type: 3}
+    m_PressedSprite: {fileID: 21300000, guid: 011e178a97d780c4fab9b019d90c112f, type: 3}
+    m_SelectedSprite: {fileID: 21300000, guid: a2547af9b84ba0945b39d75c06a07462, type: 3}
+    m_DisabledSprite: {fileID: 21300000, guid: 34d498e91e5a3214786fa6cff9161426, type: 3}
   m_AnimationTriggers:
     m_NormalTrigger: Normal
     m_HighlightedTrigger: Highlighted
