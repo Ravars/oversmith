@@ -26,6 +26,7 @@ namespace MadSmith.Scripts.Multiplayer.Managers
         private int _lastOrderId;
 		
         [SerializeField]  private List<OrderData> currentOrderList = new ();
+        [SerializeField]  private List<OrderTimes> currentOrderListTimes = new ();
 		
         [Header("Listening to")]
         [SerializeField] private VoidEventChannelSO onLevelStart;
@@ -78,14 +79,21 @@ namespace MadSmith.Scripts.Multiplayer.Managers
             
             float percentToRemove = Time.fixedDeltaTime / timeToSingleItem;
             _currentTime -= Time.fixedDeltaTime;
-            
+
+            // List<OrderTimes> list = new List<OrderTimes>();
+            // list
+
+            UpdateTimers(currentOrderListTimes);
             // update times
-            foreach (var orderData in currentOrderList)
+            for (var i = 0; i < currentOrderList.Count; i++)
             {
-                orderData.TimeRemaining01 -= percentToRemove;
+                var orderListTime = currentOrderList[i];
+                orderListTime.TimeRemaining01 -= percentToRemove;
+                
+                var orderData = currentOrderListTimes[i];
+                orderData.TimeRemaining01 = orderListTime.TimeRemaining01;
             }
-            UpdateTimers();
-            
+
             //Remove by time expired
             for (int i = currentOrderList.Count-1; i >= 0; i--)
             {
@@ -93,6 +101,7 @@ namespace MadSmith.Scripts.Multiplayer.Managers
                 {
                     MissedOrder(i);
                     currentOrderList.RemoveAt(i); 
+                    currentOrderListTimes.RemoveAt(i); 
                 }
             }
 
@@ -111,10 +120,10 @@ namespace MadSmith.Scripts.Multiplayer.Managers
         }
 
         [ClientRpc]
-        private void UpdateTimers()
+        private void UpdateTimers(List<OrderTimes> orderListTimes)
         {
             onCountdownTimerUpdated.RaiseEvent((int)_currentTime);
-            onOrderListUpdate.RaiseEvent(currentOrderList);
+            onOrderListUpdate.RaiseEvent(orderListTimes);
         }
         [ClientRpc]
         private void MissedOrder(int i)
@@ -127,8 +136,11 @@ namespace MadSmith.Scripts.Multiplayer.Managers
         private void SpawnOrder(int itemIndex)
         {
             BaseItem newItem = _levelConfigItems.itemsToDelivery[itemIndex];
-            var newOrderData = new OrderData(_lastOrderId++, 1, newItem);
+            var value = _lastOrderId++;
+            var newOrderData = new OrderData(value, 1, newItem);
+            var newOrderTime = new OrderTimes(value, 1);
             currentOrderList.Add(newOrderData);
+            currentOrderListTimes.Add(newOrderTime);
             onCreateOrder.RaiseEvent(newOrderData);
         }
     }

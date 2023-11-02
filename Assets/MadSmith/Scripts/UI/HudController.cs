@@ -60,7 +60,7 @@ namespace MadSmith.Scripts.UI
             ItemCardHolders.Add(itemCardHolder);
         }
 
-        private void OnOrderListUpdate(List<OrderData> arg0)
+        private void OnOrderListUpdate(List<OrderTimes> arg0)
         {
             for (int i = 0; i < ItemCardHolders.Count; i++)
             {

@@ -16,108 +16,108 @@ namespace MadSmith.Scripts.Managers
 {
 	public class OrdersManager : Singleton<OrdersManager>
 	{
-		[SerializeField] private float firstOrderDelay = 3;
-		[SerializeField] private float orderDelay = 11;
-		[SerializeField] private float timeToSingleItem = 60;
-		[SerializeField] private int maxConcurrentOrders = 6;
-		[SerializeField] private int timeToDeliver = 240;
-		private float _timeToSpawn;
-		private bool _firstOrderAlreadySpawned;
-		private float _currentTime;
-
-		private LevelConfigItems _levelConfigItems;
-		private int _lastOrderId;
-		
-		[SerializeField]  private List<OrderData> currentOrderList = new ();
-		
-		[Header("Listening to")]
-		[SerializeField] private VoidEventChannelSO onLevelStart;
-		[SerializeField] private VoidEventChannelSO onSceneReady;
-
-		[Header("Broadcasting to")] 
-		[SerializeField] private OrderListUpdateEventChannelSO onOrderListUpdate;
-		[SerializeField] private OrderUpdateEventChannelSO onCreateOrder;
-		[SerializeField] private OrderUpdateEventChannelSO onMissedOrder;
-		[SerializeField] private OrderUpdateEventChannelSO onDeliveryOrder;
-		[SerializeField] private IntEventChannelSO onCountdownTimerUpdated;
-
-		private bool _hasBeenStarted;
-
-		private void Start()
-		{
-			_firstOrderAlreadySpawned = false;
-			onLevelStart.OnEventRaised += StartGame;
-			onSceneReady.OnEventRaised += Setup;
-		}
-
-		private void Setup()
-		{
-			var currentSceneSo = GameManager.Instance.CurrentSceneSo;
-			if (currentSceneSo.sceneType == GameSceneType.Location)
-			{
-				var location = (LocationSO)currentSceneSo;
-				_levelConfigItems = location.levelConfigItems;
-			}
-			else
-			{
-				return;
-			}
-		}
-
-		private void OnDisable()
-		{
-			onLevelStart.OnEventRaised -= StartGame;
-			onSceneReady.OnEventRaised -= Setup;
-		}
-		private void FixedUpdate()
-		{
-			if (!_hasBeenStarted) return;
-			float percentToRemove = Time.fixedDeltaTime / timeToSingleItem;
-			_currentTime -= Time.fixedDeltaTime;
-			onCountdownTimerUpdated.RaiseEvent((int)_currentTime);
-			onOrderListUpdate.RaiseEvent(currentOrderList);
-			
-			// update times
-			foreach (var orderData in currentOrderList)
-			{
-				orderData.TimeRemaining01 -= percentToRemove;
-			}
-			
-			//Remove by time expired
-			for (int i = currentOrderList.Count-1; i >= 0; i--)
-			{
-				if (currentOrderList[i].TimeRemaining01 <= 0)
-				{
-					onMissedOrder.RaiseEvent(currentOrderList[i]);
-					currentOrderList.RemoveAt(i);
-				}
-			}
-			
-			if (Time.fixedTime >= _timeToSpawn && currentOrderList.Count < maxConcurrentOrders || (_firstOrderAlreadySpawned && currentOrderList.Count == 0))
-			{
-				BaseItem newItem = _levelConfigItems.itemsToDelivery[Random.Range(0, _levelConfigItems.itemsToDelivery.Length)];
-				var newOrderData = new OrderData(_lastOrderId++, 1, newItem);
-				currentOrderList.Add(newOrderData);
-				onCreateOrder.RaiseEvent(newOrderData);
-				_timeToSpawn = Time.fixedTime + (_firstOrderAlreadySpawned ? orderDelay : firstOrderDelay );
-				_firstOrderAlreadySpawned = true;
-			}
-		}
-
-		private void StartGame() 
-		{
-			// show hud
-			_timeToSpawn = Time.fixedTime + firstOrderDelay;
-			_hasBeenStarted = true;
-			_currentTime = timeToDeliver;
-		}
+		// [SerializeField] private float firstOrderDelay = 3;
+		// [SerializeField] private float orderDelay = 11;
+		// [SerializeField] private float timeToSingleItem = 60;
+		// [SerializeField] private int maxConcurrentOrders = 6;
+		// [SerializeField] private int timeToDeliver = 240;
+		// private float _timeToSpawn;
+		// private bool _firstOrderAlreadySpawned;
+		// private float _currentTime;
+		//
+		// private LevelConfigItems _levelConfigItems;
+		// private int _lastOrderId;
+		//
+		[SerializeField]  private List<OrderTimes> currentOrderList = new ();
+		//
+		// [Header("Listening to")]
+		// [SerializeField] private VoidEventChannelSO onLevelStart;
+		// [SerializeField] private VoidEventChannelSO onSceneReady;
+		//
+		// [Header("Broadcasting to")] 
+		// [SerializeField] private OrderListUpdateEventChannelSO onOrderListUpdate;
+		// [SerializeField] private OrderUpdateEventChannelSO onCreateOrder;
+		// [SerializeField] private OrderUpdateEventChannelSO onMissedOrder;
+		// [SerializeField] private OrderUpdateEventChannelSO onDeliveryOrder;
+		// [SerializeField] private IntEventChannelSO onCountdownTimerUpdated;
+		//
+		// private bool _hasBeenStarted;
+		//
+		// private void Start()
+		// {
+		// 	_firstOrderAlreadySpawned = false;
+		// 	onLevelStart.OnEventRaised += StartGame;
+		// 	onSceneReady.OnEventRaised += Setup;
+		// }
+		//
+		// private void Setup()
+		// {
+		// 	var currentSceneSo = GameManager.Instance.CurrentSceneSo;
+		// 	if (currentSceneSo.sceneType == GameSceneType.Location)
+		// 	{
+		// 		var location = (LocationSO)currentSceneSo;
+		// 		_levelConfigItems = location.levelConfigItems;
+		// 	}
+		// 	else
+		// 	{
+		// 		return;
+		// 	}
+		// }
+		//
+		// private void OnDisable()
+		// {
+		// 	onLevelStart.OnEventRaised -= StartGame;
+		// 	onSceneReady.OnEventRaised -= Setup;
+		// }
+		// private void FixedUpdate()
+		// {
+		// 	if (!_hasBeenStarted) return;
+		// 	float percentToRemove = Time.fixedDeltaTime / timeToSingleItem;
+		// 	_currentTime -= Time.fixedDeltaTime;
+		// 	onCountdownTimerUpdated.RaiseEvent((int)_currentTime);
+		// 	onOrderListUpdate.RaiseEvent(currentOrderList);
+		// 	
+		// 	// update times
+		// 	foreach (var orderData in currentOrderList)
+		// 	{
+		// 		orderData.TimeRemaining01 -= percentToRemove;
+		// 	}
+		// 	
+		// 	//Remove by time expired
+		// 	for (int i = currentOrderList.Count-1; i >= 0; i--)
+		// 	{
+		// 		if (currentOrderList[i].TimeRemaining01 <= 0)
+		// 		{
+		// 			onMissedOrder.RaiseEvent(currentOrderList[i]);
+		// 			currentOrderList.RemoveAt(i);
+		// 		}
+		// 	}
+		// 	
+		// 	if (Time.fixedTime >= _timeToSpawn && currentOrderList.Count < maxConcurrentOrders || (_firstOrderAlreadySpawned && currentOrderList.Count == 0))
+		// 	{
+		// 		BaseItem newItem = _levelConfigItems.itemsToDelivery[Random.Range(0, _levelConfigItems.itemsToDelivery.Length)];
+		// 		var newOrderData = new OrderData(_lastOrderId++, 1, newItem);
+		// 		currentOrderList.Add(newOrderData);
+		// 		onCreateOrder.RaiseEvent(newOrderData);
+		// 		_timeToSpawn = Time.fixedTime + (_firstOrderAlreadySpawned ? orderDelay : firstOrderDelay );
+		// 		_firstOrderAlreadySpawned = true;
+		// 	}
+		// }
+		//
+		// private void StartGame() 
+		// {
+		// 	// show hud
+		// 	_timeToSpawn = Time.fixedTime + firstOrderDelay;
+		// 	_hasBeenStarted = true;
+		// 	_currentTime = timeToDeliver;
+		// }
 		public bool CheckOrder(BaseItem item)
 		{
-			var orderData = currentOrderList.Find(x => x.BaseItem.Equals(item));
-			if (ReferenceEquals(orderData, null)) return false;
-			
-			onDeliveryOrder.RaiseEvent(orderData);
-			currentOrderList.Remove(orderData);
+			// var orderData = currentOrderList.Find(x => x.BaseItem.Equals(item));
+			// if (ReferenceEquals(orderData, null)) return false;
+			//
+			// onDeliveryOrder.RaiseEvent(orderData);
+			// currentOrderList.Remove(orderData);
 			return true;
 		}
 
