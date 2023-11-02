@@ -267,5 +267,19 @@ namespace MadSmith.Scripts.Multiplayer.Managers
             // lobbyController.gameObject.SetActive(true);
             lobbiesListManager.GetListOfLobbies();
         }
+        public void JoinByLocalhost()
+        {
+            DisableSteamResources();
+            TransportLayer = TransportLayer.LocalHost;
+            transport = _localHostTransport;
+            _localHostTransport.enabled = true;
+            // lobbyController.gameObject.SetActive(true);
+            
+            // lobbyController.gameObject.SetActive(true);
+            // StartClient();
+            // transport.ClientConnect("localhost");
+            
+            // Invoke(nameof(StartClient),3f);
+        }
     }
 }
