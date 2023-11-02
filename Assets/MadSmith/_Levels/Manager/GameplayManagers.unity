@@ -3703,6 +3703,7 @@ GameObject:
   - component: {fileID: 1002496942}
   - component: {fileID: 1002496941}
   - component: {fileID: 1002496940}
+  - component: {fileID: 1002496943}
   m_Layer: 0
   m_Name: NetworkOrderManager
   m_TagString: Untagged
@@ -3770,6 +3771,31 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1002496943
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1002496939}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bb6dc590791c429ba94abd8ddbb060c1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
+  totalScore: 5000
+  orderPoints: 1000
+  penaltyCost: 0.2
+  enemyScoringRate: 14
+  onCountdownTimerUpdated: {fileID: 11400000, guid: 77027518a220d8547a5e0d1f60e26b57,
+    type: 2}
+  onMissedOrder: {fileID: 11400000, guid: 659e3abb8b36fda489b56ba78dc091a0, type: 2}
+  onDeliveryOrder: {fileID: 11400000, guid: d1e67331e9e13c24f91c9484d11b1c23, type: 2}
+  onPlayerScore: {fileID: 11400000, guid: 3b077ae3d935e6147ba5b1a0a3fa052c, type: 2}
+  onEnemyScore: {fileID: 11400000, guid: 2b9d72a02274afc48923bc31a3598754, type: 2}
+  onLevelCompleted: {fileID: 11400000, guid: 919321fbc38fd0b4fa6eb629728b3c6c, type: 2}
 --- !u!1001 &1087070058
 PrefabInstance:
   m_ObjectHideFlags: 0
