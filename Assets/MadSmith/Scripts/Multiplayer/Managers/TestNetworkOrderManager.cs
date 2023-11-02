@@ -78,13 +78,13 @@ namespace MadSmith.Scripts.Multiplayer.Managers
             
             float percentToRemove = Time.fixedDeltaTime / timeToSingleItem;
             _currentTime -= Time.fixedDeltaTime;
-            UpdateTimers();
             
             // update times
             foreach (var orderData in currentOrderList)
             {
                 orderData.TimeRemaining01 -= percentToRemove;
             }
+            UpdateTimers();
             
             //Remove by time expired
             for (int i = currentOrderList.Count-1; i >= 0; i--)
