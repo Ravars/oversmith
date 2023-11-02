@@ -30,18 +30,18 @@ namespace MadSmith.Scripts.Multiplayer.Managers
         
         private void Start()
         {
-            if (!isServer) return;
             onDeliveryOrder.OnEventRaised += PlayerScore;
             onMissedOrder.OnEventRaised += ApplyPenalty;
             _isScoring = true;
             onCountdownTimerUpdated.OnEventRaised += CountDownUpdated;
+            // if (!isServer) return;
         }
         private void OnDisable()
         {
-            if (!isServer) return;
             onDeliveryOrder.OnEventRaised -= PlayerScore;
             onMissedOrder.OnEventRaised -= ApplyPenalty;
             onCountdownTimerUpdated.OnEventRaised -= CountDownUpdated;
+            // if (!isServer) return;
         }
         private void CountDownUpdated(int timeRemaining)
         {
