@@ -11,7 +11,10 @@ namespace MadSmith.Scripts.Gameplay
         {
             if (!other.TryGetComponent<PlayerMovement>(out var playerMovement) || playerMovement.IsRespawning) return;
             
-            Instantiate(splashVFX, other.transform.position, Quaternion.identity);
+            if (splashVFX != null)
+            {
+                Instantiate(splashVFX, other.transform.position, Quaternion.identity);
+            }
             playerMovement.DisableInput(pointToSpawn);
         }
     }
