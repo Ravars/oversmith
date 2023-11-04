@@ -56,10 +56,10 @@ namespace MadSmith.Scripts.Multiplayer.Managers
         {
             _inputReader.MenuCloseEvent -= CloseScreen;
             // NullReference exception
-            if (!ReferenceEquals(canvasView, null))
-            {
-                canvasView.SetActive(false);
-            }
+            // if (!ReferenceEquals(canvasView, null))
+            // {
+            //     canvasView.SetActive(false);
+            // }
         }
         
         public void UpdatePlayerList()
