@@ -1,3 +1,4 @@
+using MadSmith.Scripts.BaseClasses;
 using MadSmith.Scripts.SceneManagement.ScriptableObjects;
 using UnityEngine;
 using UnityEngine.Events;
@@ -5,12 +6,13 @@ using UnityEngine.Events;
 namespace MadSmith.Scripts.Events.ScriptableObjects
 {
     [CreateAssetMenu(menuName = "Events/Load Event Channel")]
-    public class LoadEventChannelSO : ScriptableObject
+    public class LoadEventChannelSO : DescriptionBaseSO
     {
         public UnityAction<GameSceneSO, bool, bool> OnLoadingRequested;
         // ReSharper disable Unity.PerformanceAnalysis
         public void RaiseEvent(GameSceneSO locationToLoad, bool showLoadingScreen = false, bool fadeScreen = false)
         {
+            Debug.Log("locationToLoad" + locationToLoad.sceneReference);
             if (OnLoadingRequested != null)
             {
                 OnLoadingRequested.Invoke(locationToLoad, showLoadingScreen, fadeScreen);
