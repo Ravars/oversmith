@@ -87,7 +87,6 @@ namespace MadSmith.Scripts.UI.SettingsScripts
 
         public void LeftButton()
         {
-            Debug.Log("left");
             if (currentLevelSelected == 0)
             {
                 currentLevelSelected = GameManager.Instance.sceneSos.Length - 1;
@@ -96,7 +95,7 @@ namespace MadSmith.Scripts.UI.SettingsScripts
             {
                 currentLevelSelected--;
             }
-            dolly.m_PathPosition = dollyPath.m_Waypoints[currentLevelSelected].position.x;
+            dolly.m_PathPosition = Mathf.Floor((int)(currentLevelSelected / 3));
             SetLevelData();
         }
 
@@ -104,7 +103,6 @@ namespace MadSmith.Scripts.UI.SettingsScripts
 
         public void RightButton()
         {
-            Debug.Log("right");
             if (currentLevelSelected == GameManager.Instance.sceneSos.Length - 1)
             {
                 currentLevelSelected = 0;
@@ -113,10 +111,8 @@ namespace MadSmith.Scripts.UI.SettingsScripts
             {
                 currentLevelSelected++;
             }
-            //TODO: melhorar essa gambiarr
             
-            
-            dolly.m_PathPosition = Mathf.Floor(currentLevelSelected / 3);
+            dolly.m_PathPosition = Mathf.Floor((int)(currentLevelSelected / 3));
             SetLevelData();
         }
     }

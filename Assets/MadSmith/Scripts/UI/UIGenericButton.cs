@@ -51,7 +51,7 @@ namespace MadSmith.Scripts.UI
 
         public void Click()
         {
-            Clicked.Invoke();
+            Clicked?.Invoke();
         }
     }
 }

@@ -1,5 +1,6 @@
 using System;
 using MadSmith.Scripts.Events.ScriptableObjects;
+using MadSmith.Scripts.SceneManagement.ScriptableObjects;
 using MadSmith.Scripts.Systems.Settings;
 using UnityEngine;
 
@@ -12,6 +13,7 @@ namespace MadSmith.Scripts.SavingSystem
         
         [SerializeField] private VoidEventChannelSO saveSettingsEvent = default;
         [SerializeField] private VoidEventChannelSO saveGameEvent = default;
+        [SerializeField] private LoadEventChannelSO _loadLocation = default;
         public Save saveData = new Save();
         [SerializeField] private SettingsSO _currentSettings;
         [SerializeField] private GameDataSO _currentGameData;
@@ -22,11 +24,13 @@ namespace MadSmith.Scripts.SavingSystem
         {
             saveSettingsEvent.OnEventRaised += OnSaveSettings;
             saveGameEvent.OnEventRaised += OnSaveGame;
+            // _loadLocation.OnLoadingRequested += CacheLoadLocations;
         }
         private void OnDisable()
         {
             saveSettingsEvent.OnEventRaised -= OnSaveSettings;
             saveGameEvent.OnEventRaised -= OnSaveGame;
+            // _loadLocation.OnLoadingRequested -= CacheLoadLocations;
         }
         private void OnSaveSettings()
         {
@@ -36,6 +40,16 @@ namespace MadSmith.Scripts.SavingSystem
         private void OnSaveGame()
         {
             saveData.SaveGame(_currentGameData);
+        }
+        private void CacheLoadLocations(GameSceneSO locationToLoad, bool showLoadingScreen, bool fadeScreen)
+        {
+            LocationSO locationSO = locationToLoad as LocationSO;
+            if (locationSO)
+            {
+                saveData._locationID = locationSO.Guid;
+            }
+
+            SaveDataToDisk();
         }
 
         public void SaveDataToDisk()

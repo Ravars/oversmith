@@ -395,6 +395,11 @@ namespace MadSmith.Scripts.UI.Managers
                 Manager.JoinBySteam();
                 // SetState(MenuState.Lobby);
             };
+            uiJoinPanel.LocalhostJoinButtonAction += () =>
+            {
+                Manager.JoinByLocalhost();
+                // SetState(MenuState.Lobby);
+            };
         }
         private void UnsetJoinScreen()
         {

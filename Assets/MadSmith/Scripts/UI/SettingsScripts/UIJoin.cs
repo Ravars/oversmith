@@ -8,6 +8,7 @@ namespace MadSmith.Scripts.UI.SettingsScripts
     {
         public UnityAction Closed;
         public UnityAction SteamJoinButtonAction;
+        public UnityAction LocalhostJoinButtonAction;
         [SerializeField] private InputReader _inputReader;
         public void SetJoinHost()
         {
@@ -29,6 +30,11 @@ namespace MadSmith.Scripts.UI.SettingsScripts
         public void JoinSteam()
         {
             SteamJoinButtonAction?.Invoke();
+        }
+        public void JoinLocalhost()
+        {
+            Debug.LogWarning("Funcao desabilitada");
+            LocalhostJoinButtonAction?.Invoke();
         }
     }
 }
