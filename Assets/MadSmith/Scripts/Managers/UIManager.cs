@@ -35,11 +35,17 @@ namespace MadSmith.Scripts.Managers
         [SerializeField] private LoadEventChannelSO _loadMenuEvent = default;
         [SerializeField] private LoadEventChannelSO _loadNextLevel = default;
         [SerializeField] private VoidEventChannelSO _onGameStart = default;
-        
+
+
+        private void Awake()
+        {
+            CloseAll();
+        }
 
         private void OnEnable()
         {
-            _onSceneReady.OnEventRaised += ResetUI;
+            
+            _onSceneReady.OnEventRaised += StartUp;
             _onLevelCompleted.OnEventRaised += OpenEndGameScreen;
             _inputReader.MenuPauseEvent += OpenUIPause;
 
@@ -47,7 +53,7 @@ namespace MadSmith.Scripts.Managers
 
         private void OpenEndGameScreen(float finalScore)
         {
-            ResetUI();
+            StartUp();
             inGameComponent.gameObject.SetActive(false);
             _endGameComponent.Setup((int)finalScore);
             _endGameComponent.Continued += EndGameComponentOnContinued;
@@ -70,16 +76,23 @@ namespace MadSmith.Scripts.Managers
 
         private void OnDisable()
         {
-            _onSceneReady.OnEventRaised -= ResetUI;
+            _onSceneReady.OnEventRaised -= StartUp;
             _onLevelCompleted.OnEventRaised -= OpenEndGameScreen;
             _inputReader.MenuPauseEvent -= OpenUIPause;
         }
 
-
-        private void ResetUI()
+        private void CloseAll()
         {
             _inputReader.EnableDialogueInput();
-            // inGameComponent.gameObject.SetActive(true);
+            inGameComponent.gameObject.SetActive(false);
+            inGameTutorialComponent.gameObject.SetActive(false);
+            _endGameComponent.gameObject.SetActive(false);
+            _popupPanel.gameObject.SetActive(false);
+            pauseScreen.gameObject.SetActive(false);
+            _settingScreen.gameObject.SetActive(false);
+        }
+        private void StartUp()
+        {
             if (GameManager.Instance.CurrentSceneSo.sceneType == GameSceneType.Location)
             {
                 OpenTutorial();
