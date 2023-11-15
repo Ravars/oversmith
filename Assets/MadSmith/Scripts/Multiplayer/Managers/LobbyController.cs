@@ -167,7 +167,19 @@ namespace MadSmith.Scripts.Multiplayer.Managers
         
         private void CheckIfAllReady()
         {
-            if (!lobbyClient.isLeader) return;
+            foreach (LobbyClient player in Manager.lobbyPlayers)
+            {
+                foreach (PlayerListItem playerListItemScript in PlayerListItems)
+                {
+                    if (playerListItemScript.ConnectionID == player.ConnectionID)
+                    {
+                        if (player == lobbyClient && !lobbyClient.isLeader)
+                        {
+                            return;
+                        }
+                    }
+                }
+            }
             bool allReady = false;
             
             foreach (LobbyClient playerObjectController in Manager.lobbyPlayers)
