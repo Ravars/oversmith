@@ -157,6 +157,7 @@ namespace MadSmith.Scripts.Multiplayer.Managers
                     }
                 }
             }
+            
             CheckIfAllReady();
         }
         private void UpdateButton()
@@ -166,6 +167,19 @@ namespace MadSmith.Scripts.Multiplayer.Managers
         
         private void CheckIfAllReady()
         {
+            foreach (LobbyClient player in Manager.lobbyPlayers)
+            {
+                foreach (PlayerListItem playerListItemScript in PlayerListItems)
+                {
+                    if (playerListItemScript.ConnectionID == player.ConnectionID)
+                    {
+                        if (player == lobbyClient && !lobbyClient.isLeader)
+                        {
+                            return;
+                        }
+                    }
+                }
+            }
             bool allReady = false;
             
             foreach (LobbyClient playerObjectController in Manager.lobbyPlayers)
