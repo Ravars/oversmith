@@ -68,6 +68,7 @@ namespace MadSmith.Scripts.SceneManagement
 
         private IEnumerator UnloadPreviousScene()
         {
+            Debug.Log("UnloadPreviousScene");
             _inputReader.DisableAllInput();
 		    // _fadeRequestChannel.FadeOut(_fadeDuration);
 
@@ -104,7 +105,7 @@ namespace MadSmith.Scripts.SceneManagement
             // {
             //     _toggleLoadingScreen.RaiseEvent(true);
             // }
-
+            Debug.Log("LoadNewScene");
             SceneManager.LoadSceneAsync(_sceneToLoad.sceneId, LoadSceneMode.Additive).completed += OnCompleted;
             _currentlyLoadedSceneIndex = _sceneToLoad.sceneId;
             _currentlyLoadedScene = _sceneToLoad;
@@ -175,6 +176,7 @@ namespace MadSmith.Scripts.SceneManagement
 
         private void OnCompletedGameplayLoad(AsyncOperation obj)
         {
+            Debug.Log("OnCompletedGameplayLoad");
             StartCoroutine(UnloadPreviousScene());
         }
 

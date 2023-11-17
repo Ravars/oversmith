@@ -228,9 +228,7 @@ namespace MadSmith.Scripts.Multiplayer.Managers
         [ClientRpc]
         private void RpcStartGame()
         {
-            Debug.Log("Rpc Server Star Game");
             LobbyController.Instance.LoadingRequested();
-            // loadLocation.RaiseEvent(level1,true);
         }
     }
 }
