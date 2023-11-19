@@ -284,5 +284,10 @@ namespace MadSmith.Scripts.Multiplayer.Managers
             
             // Invoke(nameof(StartClient),3f);
         }
+
+        public void SpawnOrderManager()
+        {
+            
+        }
     }
 }

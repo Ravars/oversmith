@@ -31,6 +31,7 @@ namespace MadSmith.Scripts.Multiplayer.Managers
         {
             Debug.Log("StartRoundAnimation");
             RpcStartRound();
+            // CmdSpawnOrderManager();
         }
         [Server]
         private void CheckToStartRound()
@@ -55,6 +56,12 @@ namespace MadSmith.Scripts.Multiplayer.Managers
             Debug.Log("RpcStartRound");
             Manager.EnableMovement();
         }
+
+        // [Command]
+        // private void CmdSpawnOrderManager()
+        // {
+        //     Manager.SpawnOrderManager();
+        // }
 
         #endregion
     }
