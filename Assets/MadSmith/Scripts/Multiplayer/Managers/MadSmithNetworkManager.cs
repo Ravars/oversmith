@@ -195,6 +195,8 @@ namespace MadSmith.Scripts.Multiplayer.Managers
                 }
                 GameObject roundSystemInstance = Instantiate(roundSystem);
                 NetworkServer.Spawn(roundSystemInstance);
+                GameObject orderManagerInstance = Instantiate(orderManager);
+                NetworkServer.Spawn(orderManagerInstance);
             }
             else
             {
@@ -213,8 +215,8 @@ namespace MadSmith.Scripts.Multiplayer.Managers
             {
                 playerMovement.CmdEnableMovement();
             }
-            GameObject orderManagerInstance = Instantiate(orderManager);
-            NetworkServer.Spawn(orderManagerInstance);
+            // GameObject orderManagerInstance = Instantiate(orderManager);
+            // NetworkServer.Spawn(orderManagerInstance);
         }
 
         public bool SteamIsOpen()
@@ -285,9 +287,9 @@ namespace MadSmith.Scripts.Multiplayer.Managers
             // Invoke(nameof(StartClient),3f);
         }
 
-        public void SpawnOrderManager()
-        {
-            
-        }
+        // public void SpawnOrderManager()
+        // {
+        //     
+        // }
     }
 }
