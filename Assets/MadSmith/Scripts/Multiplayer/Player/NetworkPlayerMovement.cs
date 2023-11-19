@@ -18,22 +18,22 @@ namespace MadSmith.Scripts.Multiplayer.Player
         [SerializeField] private Animator _animator; // temporary
         public override void OnStartAuthority()
         {
-            Debug.Log("OnStartAuthority");
+            // Debug.Log("OnStartAuthority");
             enabled = true;
         }
 
         public void CmdEnableMovement()
         {
             RpcEnableMovement();
-            Debug.Log("CmdEnableMovement");
+            // Debug.Log("CmdEnableMovement");
         }
 
         [ClientRpc]
         public void RpcEnableMovement()
         {
-            Debug.Log("before hasAuthority");
+            // Debug.Log("before hasAuthority");
             if (!hasAuthority) return;
-            Debug.Log("authority Enabled RpcEnableMovement");
+            // Debug.Log("authority Enabled RpcEnableMovement");
             inputReader.EnableGameplayInput();
             inputReader.MoveEvent += SetMovement;
             inputReader.MoveCanceledEvent += ResetMovement;

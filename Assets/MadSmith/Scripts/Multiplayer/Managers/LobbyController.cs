@@ -212,21 +212,33 @@ namespace MadSmith.Scripts.Multiplayer.Managers
         }
         public void ReadyPlayer()
         {
-            lobbyClient.ChangeReady();
+            if (!ReferenceEquals(lobbyClient, null))
+            {
+                lobbyClient.ChangeReady();
+            }
         }
         public void NextCharacter()
         {
-            lobbyClient.NextCharacter();   
+            if (!ReferenceEquals(lobbyClient, null))
+            {
+                lobbyClient.NextCharacter();
+            }
         }
 
         public void PreviousCharacter()
         {
-            lobbyClient.PreviousCharacter();
+            if (!ReferenceEquals(lobbyClient, null))
+            {
+                lobbyClient.PreviousCharacter();
+            }
         }
         public void StartGame(string sceneName)
         {
             Debug.Log("Lobby controller StartGame");
-            lobbyClient.CanStartGame(sceneName);
+            if (!ReferenceEquals(lobbyClient, null))
+            {
+                lobbyClient.CanStartGame(sceneName);
+            }
         }
 
         public void CloseScreen()

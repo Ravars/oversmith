@@ -35,6 +35,7 @@ namespace MadSmith.Scripts.Multiplayer.Managers
         // Prefabs
         [SerializeField] private NetworkPlayerMovement[] inGamePlayerPrefab;
         [SerializeField] private GameObject roundSystem = null;
+        [SerializeField] private GameObject orderManager = null;
         [Tooltip("Player lobby prefab")][SerializeField] private LobbyClient lobbyPrefab;
         [SerializeField] private LobbiesListManager lobbiesListManager;
         
@@ -170,12 +171,12 @@ namespace MadSmith.Scripts.Multiplayer.Managers
         /// </summary>
         public void ClientSceneReady()
         {
-            Debug.Log("ClientSceneReady before");
+            // Debug.Log("ClientSceneReady before");
             //TODO: if Level scene only   
             --_playersNotReady;
             if (_playersNotReady <= 0)
             {
-                Debug.Log("ClientSceneReady inside");
+                // Debug.Log("ClientSceneReady inside");
                 var currentSceneLoaded = SceneLoader.Instance.GetCurrentSceneLoaded();
                 if (currentSceneLoaded.sceneType == GameSceneType.Location)
                 {
@@ -212,6 +213,8 @@ namespace MadSmith.Scripts.Multiplayer.Managers
             {
                 playerMovement.CmdEnableMovement();
             }
+            GameObject orderManagerInstance = Instantiate(orderManager);
+            NetworkServer.Spawn(orderManagerInstance);
         }
 
         public bool SteamIsOpen()

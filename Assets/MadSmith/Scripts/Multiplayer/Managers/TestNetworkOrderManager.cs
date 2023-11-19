@@ -41,16 +41,19 @@ namespace MadSmith.Scripts.Multiplayer.Managers
 
         private void Start()
         {
-            onSceneReady.OnEventRaised += Setup;
+            // Debug.Log("Listening onSceneReady");
+            // onSceneReady.OnEventRaised += Setup;
+            Setup();
+            StartGame();
             _firstOrderAlreadySpawned = false;
             // if (!isServer) return;
-            onLevelStart.OnEventRaised += StartGame;
+            // onLevelStart.OnEventRaised += StartGame;
         }
         private void OnDisable()
         {
-            onSceneReady.OnEventRaised -= Setup;
+            // onSceneReady.OnEventRaised -= Setup;
             // if (!isServer) return;
-            onLevelStart.OnEventRaised -= StartGame;
+            // onLevelStart.OnEventRaised -= StartGame;
         }
         private void Setup()
         {
@@ -71,6 +74,9 @@ namespace MadSmith.Scripts.Multiplayer.Managers
             _timeToSpawn = Time.fixedTime + firstOrderDelay;
             _hasBeenStarted = true;
             _currentTime = timeToDeliver;
+            
+            if (!isServer) return;
+            UpdateTimers(currentOrderListTimes, (int)_currentTime);
         }
 
         private void FixedUpdate()
