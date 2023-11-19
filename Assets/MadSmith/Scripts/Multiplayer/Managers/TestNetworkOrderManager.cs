@@ -83,7 +83,7 @@ namespace MadSmith.Scripts.Multiplayer.Managers
             // List<OrderTimes> list = new List<OrderTimes>();
             // list
 
-            UpdateTimers(currentOrderListTimes);
+            UpdateTimers(currentOrderListTimes, (int)_currentTime);
             // update times
             for (var i = 0; i < currentOrderList.Count; i++)
             {
@@ -120,9 +120,9 @@ namespace MadSmith.Scripts.Multiplayer.Managers
         }
 
         [ClientRpc]
-        private void UpdateTimers(List<OrderTimes> orderListTimes)
+        private void UpdateTimers(List<OrderTimes> orderListTimes, int currentTime)
         {
-            onCountdownTimerUpdated.RaiseEvent((int)_currentTime);
+            onCountdownTimerUpdated.RaiseEvent(currentTime);
             onOrderListUpdate.RaiseEvent(orderListTimes);
         }
         [ClientRpc]
