@@ -12,7 +12,10 @@ namespace MadSmith.Scripts.Animations
         [SerializeField] private ParticleSystem bridgeFixEffect;
         [SerializeField] private WoodFallingWaterAnimationHandler _woodFallingWaterAnimationHandler;
         [SerializeField] private BridgeInteractableFix[] bridgeInteractableFixes;
-        
+        [SerializeField] private GameObject collider;
+
+        public bool hasFallen = false;
+
         private void Awake()
         {
             var a = GetComponentsInChildren<Animator>();
@@ -39,6 +42,12 @@ namespace MadSmith.Scripts.Animations
                 animator.speed = 1;
             }
 
+            if (collider != null)
+            {
+                collider.SetActive(false);
+            }
+
+            hasFallen = true;
             bridgeFallEffect.gameObject.SetActive(true);
             bridgeFallEffect.Play();
             foreach (var bridgeInteractableFix in bridgeInteractableFixes)
@@ -67,9 +76,19 @@ namespace MadSmith.Scripts.Animations
                 animator.Play(name,0,0);
                 animator.speed = 0;
             }
-            
 
-            _woodFallingWaterAnimationHandler.ResetAnimation();
+			if (collider != null)
+			{
+			    collider.SetActive(true);
+			}
+
+            hasFallen = false;
+
+			if (_woodFallingWaterAnimationHandler != null)
+			{
+				_woodFallingWaterAnimationHandler.ResetAnimation();
+			}
+			
             bridgeFixEffect.gameObject.SetActive(false);
         }
         private string CurrentAnimationName(Animator anim)
