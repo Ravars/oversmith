@@ -108,7 +108,7 @@ namespace MadSmith.Scripts.UI.Managers
 
         private void SetState(MenuState newState)
         {
-            Debug.Log(newState);
+            // Debug.Log(newState);
             CloseAll();
             State = newState;
             
@@ -493,7 +493,7 @@ namespace MadSmith.Scripts.UI.Managers
 
         protected override void OnDestroy()
         {
-            Debug.Log("OnDestroy");
+            // Debug.Log("OnDestroy");
             _popupPanel.ConfirmationResponseAction -= HideExitConfirmationPopup;
             base.OnDestroy();
         }

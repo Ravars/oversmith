@@ -39,7 +39,7 @@ namespace MadSmith.Scripts.SceneManagement
 
         private void OnEnable()
         {
-            Debug.Log("OnEnable scene loader");
+            // Debug.Log("OnEnable scene loader");
             loadLocation.OnLoadingRequested += LoadLocation;
             loadMenu.OnLoadingRequested += LoadMenu;
         }
@@ -52,7 +52,7 @@ namespace MadSmith.Scripts.SceneManagement
 
         private void LoadMenu(GameSceneSO menuToLoad, bool showLoadingScreen, bool fadeScreen)
         {
-            Debug.Log("Load Menu");
+            // Debug.Log("Load Menu");
             if (_isLoading) return;
 
             _sceneToLoad = menuToLoad;
@@ -68,7 +68,7 @@ namespace MadSmith.Scripts.SceneManagement
 
         private IEnumerator UnloadPreviousScene()
         {
-            Debug.Log("UnloadPreviousScene");
+            // Debug.Log("UnloadPreviousScene");
             _inputReader.DisableAllInput();
 		    // _fadeRequestChannel.FadeOut(_fadeDuration);
 
@@ -151,7 +151,7 @@ namespace MadSmith.Scripts.SceneManagement
         /// </summary>
         private void LoadLocation(GameSceneSO locationToLoad, bool showLoadingScreen, bool fadeScreen)
         {
-            Debug.Log("Load Location");
+            // Debug.Log("Load Location");
             //Prevent a double-loading, for situations where the player falls in two Exit colliders in one frame
             if (_isLoading)
                 return;
@@ -176,7 +176,7 @@ namespace MadSmith.Scripts.SceneManagement
 
         private void OnCompletedGameplayLoad(AsyncOperation obj)
         {
-            Debug.Log("OnCompletedGameplayLoad");
+            // Debug.Log("OnCompletedGameplayLoad");
             StartCoroutine(UnloadPreviousScene());
         }
 
