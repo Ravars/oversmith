@@ -78,6 +78,7 @@ namespace MadSmith.Scripts.Multiplayer.Managers
         private void OnSceneReady()
         {
             CmdSceneReady();
+            // Debug.Log("PrepareToSpawnSceneObjects");
             NetworkClient.PrepareToSpawnSceneObjects(); //Aparentemente tenho que fazer isso aqui
         }
         /// <summary>

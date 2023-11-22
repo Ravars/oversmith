@@ -20,7 +20,9 @@ namespace MadSmith.Scripts.Multiplayer.Player
         {
             // Debug.Log("OnStartAuthority");
             enabled = true;
+            NetworkClient.PrepareToSpawnSceneObjects();
         }
+        
 
         public void CmdEnableMovement()
         {
