@@ -194,6 +194,9 @@ namespace MadSmith.Scripts.Multiplayer.Managers
                     break;
                 }
             }
+
+            if (ReferenceEquals(lobbyClient, null)) return;
+            
             if (allReady)
             {
                 if (lobbyClient.ConnectionID == 0)
