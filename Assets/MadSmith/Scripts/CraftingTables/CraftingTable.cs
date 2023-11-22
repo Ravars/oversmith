@@ -1,12 +1,13 @@
 ﻿using System.Collections.Generic;
 using MadSmith.Scripts.Interaction;
 using MadSmith.Scripts.Items;
+using Mirror;
 using UnityEngine;
 
 namespace MadSmith.Scripts.CraftingTables
 {
     [RequireComponent(typeof(InteractableHolder),typeof(CraftingInteractionHandler), typeof(AudioSource))]
-    public class CraftingTable : MonoBehaviour
+    public class CraftingTable : NetworkBehaviour
     {
         [SerializeField] protected float timeToPrepareItem = 10f;
         [SerializeField] protected float currentTimeToPrepareItem;

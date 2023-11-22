@@ -1,15 +1,16 @@
 using MadSmith.Scripts.Items;
 using MadSmith.Scripts.Managers;
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+using Mirror;
 
-public class DeliveryPlace : MonoBehaviour
+namespace MadSmith.Scripts.Gameplay
 {
-    public OrdersManager OrdersManager;
-
-    public bool DeliverItem(BaseItem item)
+    public class DeliveryPlace : NetworkBehaviour
     {
-        return OrdersManager.Instance.CheckOrder(item);
+        // public OrdersManager OrdersManager;
+
+        public bool DeliverItem(BaseItem item)
+        {
+            return OrdersManager.Instance.CheckOrder(item);
+        }
     }
 }

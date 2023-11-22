@@ -3,12 +3,13 @@ using System.Linq;
 using MadSmith.Scripts.Interaction;
 using MadSmith.Scripts.Items;
 using MadSmith.Scripts.UI;
+using Mirror;
 using UnityEngine;
 
 namespace MadSmith.Scripts.CraftingTables
 {
     [RequireComponent(typeof(InteractableHolder))]
-    public class Table : MonoBehaviour
+    public class Table : NetworkBehaviour
     {
         public Item ItemScript { get; private set; }
         // public bool isWorkTable = false;
