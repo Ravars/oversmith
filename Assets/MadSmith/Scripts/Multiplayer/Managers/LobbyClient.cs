@@ -79,7 +79,7 @@ namespace MadSmith.Scripts.Multiplayer.Managers
         {
             CmdSceneReady();
             // Debug.Log("PrepareToSpawnSceneObjects");
-            NetworkClient.PrepareToSpawnSceneObjects(); //Aparentemente tenho que fazer isso aqui
+            // NetworkClient.PrepareToSpawnSceneObjects(); //Aparentemente tenho que fazer isso aqui
         }
         /// <summary>
         /// Quando o SceneLoader termina de carregar o level ele executa um evento.
