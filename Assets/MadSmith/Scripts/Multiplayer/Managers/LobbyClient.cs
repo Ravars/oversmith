@@ -47,7 +47,7 @@ namespace MadSmith.Scripts.Multiplayer.Managers
         }
         public override void OnStartAuthority()
         {
-            Debug.Log("OnStartAuthority " + hasAuthority);
+            Debug.Log("LobbyClient - OnStartAuthority " + hasAuthority);
             
             gameObject.name = "LocalGamePlayer";
             sceneReady.OnEventRaised += OnSceneReady;
@@ -69,7 +69,7 @@ namespace MadSmith.Scripts.Multiplayer.Managers
         }
         public override void OnStartClient()
         {
-            Debug.Log("OnStartClient" + hasAuthority);    
+            Debug.Log("LobbyClient - OnStartClient" + hasAuthority);    
             Manager.lobbyPlayers.Add(this);
             LobbyController.Instance.UpdateLobbyName();
             LobbyController.Instance.UpdatePlayerList();
@@ -77,6 +77,7 @@ namespace MadSmith.Scripts.Multiplayer.Managers
         
         private void OnSceneReady()
         {
+            Debug.Log("OnSceneReady");
             CmdSceneReady();
             // Debug.Log("PrepareToSpawnSceneObjects");
             // NetworkClient.PrepareToSpawnSceneObjects(); //Aparentemente tenho que fazer isso aqui
@@ -88,7 +89,7 @@ namespace MadSmith.Scripts.Multiplayer.Managers
         [Command]
         private void CmdSceneReady()
         {
-            Debug.Log("Scene ready");
+            Debug.Log("CMD Scene ready");
             Manager.ClientSceneReady();
         }
         
@@ -229,6 +230,7 @@ namespace MadSmith.Scripts.Multiplayer.Managers
         [ClientRpc]
         private void RpcStartGame()
         {
+            Debug.Log("RpcStartGame");
             LobbyController.Instance.LoadingRequested();
         }
     }

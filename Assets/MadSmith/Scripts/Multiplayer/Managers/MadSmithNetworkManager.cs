@@ -162,6 +162,7 @@ namespace MadSmith.Scripts.Multiplayer.Managers
         /// <param name="arg2"></param>
         private void OnLoadingRequested(GameSceneSO arg0, bool arg1, bool arg2)
         {
+            Debug.Log("OnLoadingRequested");
             _playersNotReady = lobbyPlayers.Count;
         }
 

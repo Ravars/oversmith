@@ -263,6 +263,7 @@ namespace MadSmith.Scripts.Multiplayer.Managers
 
         public void LoadingRequested()
         {
+            Debug.Log("LoadingRequested");
             foreach (var playerListItem in PlayerListItems)
             {
                 Destroy(playerListItem.gameObject);
