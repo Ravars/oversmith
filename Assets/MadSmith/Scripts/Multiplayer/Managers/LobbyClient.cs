@@ -1,6 +1,7 @@
 using System;
 using MadSmith.Scripts.Events.ScriptableObjects;
 using MadSmith.Scripts.Multiplayer.UI;
+using MadSmith.Scripts.SceneManagement.ScriptableObjects;
 using MadSmith.Scripts.UI.Managers;
 using Mirror;
 using Steamworks;
@@ -22,6 +23,8 @@ namespace MadSmith.Scripts.Multiplayer.Managers
         public bool isLeader;
         
         
+        
+        
         private MadSmithNetworkManager _manager;
         private MadSmithNetworkManager Manager
         { get {
@@ -29,17 +32,23 @@ namespace MadSmith.Scripts.Multiplayer.Managers
                 return _manager = NetworkManager.singleton as MadSmithNetworkManager;
             }
         }
+        [Header("Listening on")]
+        [SerializeField] private VoidEventChannelSO sceneReady;
+        [SerializeField] private LoadEventChannelSO loadLocation = default;
 
         private void Start()
         {
             DontDestroyOnLoad(gameObject); 
+            loadLocation.OnLoadingRequested += OnLoadingRequested;
+        }
+
+        private void OnLoadingRequested(GameSceneSO arg0, bool arg1, bool arg2)
+        {
+            Debug.Log("OnLoadingRequested");
         }
 
 
-        [Header("Listening on")]
-        [SerializeField] private VoidEventChannelSO sceneReady;
         // [Header("Broadcasting on")]
-        // [SerializeField] private LoadEventChannelSO loadLocation = default;
         private void OnDestroy()
         {
             sceneReady.OnEventRaised -= OnSceneReady;
@@ -80,7 +89,7 @@ namespace MadSmith.Scripts.Multiplayer.Managers
             Debug.Log("OnSceneReady");
             CmdSceneReady();
             // Debug.Log("PrepareToSpawnSceneObjects");
-            // NetworkClient.PrepareToSpawnSceneObjects(); //Aparentemente tenho que fazer isso aqui
+            NetworkClient.PrepareToSpawnSceneObjects(); //Aparentemente tenho que fazer isso aqui
         }
         /// <summary>
         /// Quando o SceneLoader termina de carregar o level ele executa um evento.
@@ -231,6 +240,7 @@ namespace MadSmith.Scripts.Multiplayer.Managers
         private void RpcStartGame()
         {
             Debug.Log("RpcStartGame");
+            // NetworkClient.PrepareToSpawnSceneObjects();
             LobbyController.Instance.LoadingRequested();
         }
     }
