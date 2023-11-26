@@ -174,6 +174,7 @@ namespace MadSmith.Scripts.Multiplayer.Managers
             // Debug.Log("ClientSceneReady before");
             //TODO: if Level scene only   
             --_playersNotReady;
+            Debug.Log("ClientSceneReady");
             if (_playersNotReady <= 0)
             {
                 // Debug.Log("ClientSceneReady inside");
@@ -190,6 +191,7 @@ namespace MadSmith.Scripts.Multiplayer.Managers
                         GamePlayers.Add(instance);
                         NetworkServer.ReplacePlayerForConnection(conn, instance.gameObject);
                         Destroy(oldPlayer, 0.1f);
+                        
                         offset += 1f;
                     }
                 }
