@@ -44,14 +44,14 @@ namespace MadSmith.Scripts.Multiplayer.Player
             inputReader.EnableGameplayInput();
             inputReader.MoveEvent += SetMovement;
             inputReader.MoveCanceledEvent += ResetMovement;
-            inputReader.DashEvent += DashOnPerformed;
+            // inputReader.DashEvent += DashOnPerformed;
         }
 
         private void OnDisable()
         {
             inputReader.MoveEvent -= SetMovement;
             inputReader.MoveCanceledEvent -= ResetMovement;
-            inputReader.DashEvent -= DashOnPerformed;
+            // inputReader.DashEvent -= DashOnPerformed;
         }
 
         private void DashOnPerformed()

@@ -7,7 +7,8 @@ using MadSmith.Scripts.Managers;
 using MadSmith.Scripts.SceneManagement.ScriptableObjects;
 using Mirror;
 using UnityEngine;
-using Random = UnityEngine.Random;
+    using UnityEngine.SceneManagement;
+    using Random = UnityEngine.Random;
 
 namespace MadSmith.Scripts.Multiplayer.Managers
 {
@@ -57,7 +58,8 @@ namespace MadSmith.Scripts.Multiplayer.Managers
         }
         private void Setup()
         {
-            var currentSceneSo = GameManager.Instance.CurrentSceneSo;
+            var currentSceneSo = GameManager.Instance.GetSceneSo();
+            Debug.Log("CurrentSceneSo" + currentSceneSo.name);
             if (currentSceneSo.sceneType == GameSceneType.Location)
             {
                 var location = (LocationSO)currentSceneSo;

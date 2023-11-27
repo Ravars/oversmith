@@ -3,6 +3,7 @@ using Cinemachine;
 using MadSmith.Scripts.Events.ScriptableObjects;
 using MadSmith.Scripts.Input;
 using MadSmith.Scripts.Managers;
+using MadSmith.Scripts.Multiplayer.Managers;
 using MadSmith.Scripts.SavingSystem;
 using MadSmith.Scripts.Systems.Settings;
 using Mirror;
@@ -82,7 +83,10 @@ namespace MadSmith.Scripts.UI.SettingsScripts
         public void Play() // talvez adicionar aqui um Cmd
         {
             OnLevelSelected?.Invoke();
-            _onLoadScene.RaiseEvent(GameManager.Instance.sceneSos[currentLevelSelected],true);
+            var manager = NetworkManager.singleton as MadSmithNetworkManager;
+            if (manager != null) manager.StartGame("Level01-1");
+            // if (manager != null) manager.StartGame(GameManager.Instance.sceneSos[currentLevelSelected].name);
+            // _onLoadScene.RaiseEvent(GameManager.Instance.sceneSos[currentLevelSelected],true);
         }
 
         public void LeftButton()

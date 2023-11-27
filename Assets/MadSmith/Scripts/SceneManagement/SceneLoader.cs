@@ -12,7 +12,7 @@ using UnityEngine.SceneManagement;
 
 namespace MadSmith.Scripts.SceneManagement
 {
-    public class SceneLoader : Singleton<SceneLoader>
+    public class SceneLoader : PersistentSingleton<SceneLoader>
     {
         [SerializeField] private GameSceneSO gameplayScene = default;
         [SerializeField] private InputReader _inputReader;
