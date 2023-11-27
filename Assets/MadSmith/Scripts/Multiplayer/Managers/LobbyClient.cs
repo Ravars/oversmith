@@ -1,10 +1,14 @@
 using System;
 using MadSmith.Scripts.Events.ScriptableObjects;
+using MadSmith.Scripts.Managers;
 using MadSmith.Scripts.Multiplayer.UI;
+using MadSmith.Scripts.SceneManagement;
+using MadSmith.Scripts.SceneManagement.ScriptableObjects;
 using MadSmith.Scripts.UI.Managers;
 using Mirror;
 using Steamworks;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 namespace MadSmith.Scripts.Multiplayer.Managers
 {
@@ -22,6 +26,8 @@ namespace MadSmith.Scripts.Multiplayer.Managers
         public bool isLeader;
         
         
+        
+        
         private MadSmithNetworkManager _manager;
         private MadSmithNetworkManager Manager
         { get {
@@ -29,17 +35,23 @@ namespace MadSmith.Scripts.Multiplayer.Managers
                 return _manager = NetworkManager.singleton as MadSmithNetworkManager;
             }
         }
+        [Header("Listening on")]
+        [SerializeField] private VoidEventChannelSO sceneReady;
+        [SerializeField] private LoadEventChannelSO loadLocation = default;
 
         private void Start()
         {
             DontDestroyOnLoad(gameObject); 
+            loadLocation.OnLoadingRequested += OnLoadingRequested;
+        }
+
+        private void OnLoadingRequested(GameSceneSO arg0, bool arg1, bool arg2)
+        {
+            Debug.Log("OnLoadingRequested");
         }
 
 
-        [Header("Listening on")]
-        [SerializeField] private VoidEventChannelSO sceneReady;
         // [Header("Broadcasting on")]
-        // [SerializeField] private LoadEventChannelSO loadLocation = default;
         private void OnDestroy()
         {
             sceneReady.OnEventRaised -= OnSceneReady;
@@ -47,10 +59,17 @@ namespace MadSmith.Scripts.Multiplayer.Managers
         }
         public override void OnStartAuthority()
         {
-            Debug.Log("OnStartAuthority " + hasAuthority);
-            
+            Debug.Log("LobbyClient - OnStartAuthority " + hasAuthority);
+            // var currentSceneLoaded = SceneLoader.Instance.GetCurrentSceneLoaded();
+            // if (currentSceneLoaded.sceneType == GameSceneType.Location) return;
             gameObject.name = "LocalGamePlayer";
             sceneReady.OnEventRaised += OnSceneReady;
+            // var currentSceneLoaded = SceneLoader.Instance.GetCurrentSceneLoaded();
+            // Debug.Log("Scene " + currentSceneLoaded.sceneType);
+            // if (currentSceneLoaded.sceneType == GameSceneType.Location) return;
+            var currentSceneSo = GameManager.Instance.GetSceneSo();
+            Debug.Log("Name: " + currentSceneSo.name);
+            if (currentSceneSo.sceneType != GameSceneType.Menu) return;
             CmdSetPlayerName(Manager.TransportLayer == TransportLayer.Steam
                 ? SteamFriends.GetPersonaName().ToString()
                 : PlayerNameInput.DisplayName); //Test
@@ -69,7 +88,8 @@ namespace MadSmith.Scripts.Multiplayer.Managers
         }
         public override void OnStartClient()
         {
-            Debug.Log("OnStartClient" + hasAuthority);    
+            Debug.Log("LobbyClient - OnStartClient" + hasAuthority);   
+            if (SceneManager.GetActiveScene().name.StartsWith("Level")) return;
             Manager.lobbyPlayers.Add(this);
             LobbyController.Instance.UpdateLobbyName();
             LobbyController.Instance.UpdatePlayerList();
@@ -77,9 +97,10 @@ namespace MadSmith.Scripts.Multiplayer.Managers
         
         private void OnSceneReady()
         {
+            Debug.Log("OnSceneReady");
             CmdSceneReady();
             // Debug.Log("PrepareToSpawnSceneObjects");
-            NetworkClient.PrepareToSpawnSceneObjects(); //Aparentemente tenho que fazer isso aqui
+            // NetworkClient.PrepareToSpawnSceneObjects(); //Aparentemente tenho que fazer isso aqui
         }
         /// <summary>
         /// Quando o SceneLoader termina de carregar o level ele executa um evento.
@@ -88,7 +109,7 @@ namespace MadSmith.Scripts.Multiplayer.Managers
         [Command]
         private void CmdSceneReady()
         {
-            Debug.Log("Scene ready");
+            Debug.Log("CMD Scene ready");
             Manager.ClientSceneReady();
         }
         
@@ -99,6 +120,7 @@ namespace MadSmith.Scripts.Multiplayer.Managers
         }
         public void PlayerNameUpdate(string oldValue, string newValue)
         {
+            if (!LobbyController.InstanceExists) return;
             if (isServer)
             {
                 this.PlayerName = newValue;
@@ -222,13 +244,16 @@ namespace MadSmith.Scripts.Multiplayer.Managers
         }
         [Command]
         public void CmdCanStartGame(string sceneName)
-        { 
+        {
+            Debug.Log("CmdCanStartGame: " + sceneName);
             // _manager.StartGame(sceneName);
             RpcStartGame();
         }
         [ClientRpc]
         private void RpcStartGame()
         {
+            Debug.Log("RpcStartGame");
+            // NetworkClient.PrepareToSpawnSceneObjects();
             LobbyController.Instance.LoadingRequested();
         }
     }

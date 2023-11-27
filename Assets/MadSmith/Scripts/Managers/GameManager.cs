@@ -74,6 +74,51 @@ namespace MadSmith.Scripts.Managers
             loadLocation.OnLoadingRequested -= OnLoadingRequested;   
         }
 
+        public GameSceneSO GetSceneSo()
+        {
+            GameSceneSO gameSceneSo;
+            if (CurrentSceneSo == null) return sceneSos[0];
+            switch (CurrentSceneSo.name)
+            {
+                case "Level01-1":
+                    gameSceneSo = sceneSos[1];
+                    break;
+                case "Level01-2":
+                    gameSceneSo = sceneSos[2];
+                    break;
+                case "MenuPrincipal":
+                    gameSceneSo = sceneSos[0];
+                    break;
+                default:
+                    gameSceneSo = sceneSos[0];
+                    break;
+            }
+
+            return gameSceneSo;
+        }
+
+        public void SetGameSceneSo(string sceneName)
+        {
+            GameSceneSO gameSceneSo;
+            switch (sceneName)
+            {
+                case "Level01-1":
+                    gameSceneSo = sceneSos[1];
+                    break;
+                case "Level01-2":
+                    gameSceneSo = sceneSos[2];
+                    break;
+                case "MenuPrincipal":
+                    gameSceneSo = sceneSos[0];
+                    break;
+                default:
+                    gameSceneSo = sceneSos[0];
+                    break;
+            }
+
+            CurrentSceneSo = gameSceneSo;
+        }
+
         public static string CalculateScore(int finalScore)
         {
             return finalScore switch

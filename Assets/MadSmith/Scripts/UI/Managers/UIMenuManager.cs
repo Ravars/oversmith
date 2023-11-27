@@ -12,6 +12,7 @@ using MadSmith.Scripts.UI.SettingsScripts;
 using MadSmith.Scripts.Utils;
 using Mirror;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 namespace MadSmith.Scripts.UI.Managers
 {

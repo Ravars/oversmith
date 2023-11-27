@@ -237,7 +237,7 @@ namespace MadSmith.Scripts.Multiplayer.Managers
         }
         public void StartGame(string sceneName)
         {
-            Debug.Log("Lobby controller StartGame");
+            Debug.Log("Lobby controller StartGame" + sceneName);
             if (!ReferenceEquals(lobbyClient, null))
             {
                 lobbyClient.CanStartGame(sceneName);
@@ -263,6 +263,7 @@ namespace MadSmith.Scripts.Multiplayer.Managers
 
         public void LoadingRequested()
         {
+            Debug.Log("LoadingRequested");
             foreach (var playerListItem in PlayerListItems)
             {
                 Destroy(playerListItem.gameObject);

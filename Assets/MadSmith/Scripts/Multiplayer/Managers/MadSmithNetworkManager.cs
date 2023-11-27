@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using kcp2k;
 using MadSmith.Scripts.Events.ScriptableObjects;
+using MadSmith.Scripts.Managers;
 using MadSmith.Scripts.Multiplayer.Player;
 using MadSmith.Scripts.SceneManagement;
 using MadSmith.Scripts.SceneManagement.ScriptableObjects;
@@ -10,6 +11,7 @@ using Mirror;
 using Mirror.FizzySteam;
 using Steamworks;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 namespace MadSmith.Scripts.Multiplayer.Managers
 {
@@ -109,6 +111,13 @@ namespace MadSmith.Scripts.Multiplayer.Managers
         #region Network Override Functions
         public override void OnServerAddPlayer(NetworkConnectionToClient conn)
         {
+            // var currentSceneLoaded = SceneLoader.Instance.GetCurrentSceneLoaded();
+            // Debug.Log("OnServerAddPlayer" + currentSceneLoaded.sceneType);
+            var currentSceneSo = GameManager.Instance.GetSceneSo();
+            Debug.Log("Name: " + currentSceneSo.name);
+            if (currentSceneSo.sceneType != GameSceneType.Menu) return;
+            
+            
             Debug.Log("Player added");
             LobbyClient lobbyClient = Instantiate(lobbyPrefab);
             lobbyClient.isLeader = lobbyPlayers.Count == 0;
@@ -150,7 +159,41 @@ namespace MadSmith.Scripts.Multiplayer.Managers
         #endregion
         public void StartGame(string sceneName)
         {
-            Debug.Log("Start game");
+            Debug.Log("Scene name: " + sceneName);
+            ServerChangeScene(sceneName);
+        }
+        public override void ServerChangeScene(string newSceneName)
+        {
+            // From menu to game
+            var currentSceneLoaded = SceneLoader.Instance.GetCurrentSceneLoaded();
+            // if (SceneManager.GetActiveScene().name == menuScene && newSceneName.StartsWith("Scene_Map"))
+            if (currentSceneLoaded.sceneType == GameSceneType.Menu)
+            {
+                for (int i = lobbyPlayers.Count - 1; i >= 0; i--)
+                {
+                    var conn = lobbyPlayers[i].connectionToClient;
+                    var gameplayerInstance = Instantiate(inGamePlayerPrefab[lobbyPlayers[i].CharacterId]);
+                    // gameplayerInstance.SetDisplayName(RoomPlayers[i].DisplayName);
+
+                    NetworkServer.Destroy(conn.identity.gameObject);
+                    Debug.Log("ServerChangeScene" + gameplayerInstance.name);
+                    NetworkServer.ReplacePlayerForConnection(conn, gameplayerInstance.gameObject);
+                }
+            }
+            GameManager.Instance.SetGameSceneSo(newSceneName);
+            base.ServerChangeScene(newSceneName);
+        }
+        public override void OnServerSceneChanged(string sceneName)
+        {
+            Debug.Log("sceneName");
+            if (sceneName.StartsWith("Level"))
+            {
+                GameObject orderManagerInstance = Instantiate(orderManager);
+                NetworkServer.Spawn(orderManagerInstance);
+
+                GameObject roundSystemInstance = Instantiate(roundSystem);
+                NetworkServer.Spawn(roundSystemInstance);
+            }
         }
         
         /// <summary>
@@ -162,6 +205,7 @@ namespace MadSmith.Scripts.Multiplayer.Managers
         /// <param name="arg2"></param>
         private void OnLoadingRequested(GameSceneSO arg0, bool arg1, bool arg2)
         {
+            Debug.Log("OnLoadingRequested");
             _playersNotReady = lobbyPlayers.Count;
         }
 
@@ -174,6 +218,7 @@ namespace MadSmith.Scripts.Multiplayer.Managers
             // Debug.Log("ClientSceneReady before");
             //TODO: if Level scene only   
             --_playersNotReady;
+            Debug.Log("ClientSceneReady");
             if (_playersNotReady <= 0)
             {
                 // Debug.Log("ClientSceneReady inside");
@@ -190,6 +235,7 @@ namespace MadSmith.Scripts.Multiplayer.Managers
                         GamePlayers.Add(instance);
                         NetworkServer.ReplacePlayerForConnection(conn, instance.gameObject);
                         Destroy(oldPlayer, 0.1f);
+                        
                         offset += 1f;
                     }
                 }

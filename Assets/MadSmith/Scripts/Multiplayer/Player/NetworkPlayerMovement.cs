@@ -18,11 +18,16 @@ namespace MadSmith.Scripts.Multiplayer.Player
         [SerializeField] private Animator _animator; // temporary
         public override void OnStartAuthority()
         {
-            // Debug.Log("OnStartAuthority");
+            Debug.Log("OnStartAuthority");
             enabled = true;
-            NetworkClient.PrepareToSpawnSceneObjects();
+            // NetworkClient.PrepareToSpawnSceneObjects();
         }
-        
+
+        private void Start()
+        {
+            Debug.Log("Start");
+        }
+
 
         public void CmdEnableMovement()
         {
@@ -39,14 +44,14 @@ namespace MadSmith.Scripts.Multiplayer.Player
             inputReader.EnableGameplayInput();
             inputReader.MoveEvent += SetMovement;
             inputReader.MoveCanceledEvent += ResetMovement;
-            inputReader.DashEvent += DashOnPerformed;
+            // inputReader.DashEvent += DashOnPerformed;
         }
 
         private void OnDisable()
         {
             inputReader.MoveEvent -= SetMovement;
             inputReader.MoveCanceledEvent -= ResetMovement;
-            inputReader.DashEvent -= DashOnPerformed;
+            // inputReader.DashEvent -= DashOnPerformed;
         }
 
         private void DashOnPerformed()
