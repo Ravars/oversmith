@@ -20,12 +20,14 @@ namespace MadSmith.Scripts.Multiplayer.Player
         {
             Debug.Log("OnStartAuthority");
             enabled = true;
+            
             // NetworkClient.PrepareToSpawnSceneObjects();
         }
 
         private void Start()
         {
             Debug.Log("Start");
+            DontDestroyOnLoad(gameObject);
         }
 
 
