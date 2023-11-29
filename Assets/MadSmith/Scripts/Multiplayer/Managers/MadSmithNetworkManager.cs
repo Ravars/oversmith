@@ -111,11 +111,9 @@ namespace MadSmith.Scripts.Multiplayer.Managers
         #region Network Override Functions
         public override void OnServerAddPlayer(NetworkConnectionToClient conn)
         {
+            Debug.Log("On server add player");
             var currentSceneSo = GameManager.Instance.GetSceneSo();
-            Debug.Log("Name: " + currentSceneSo.name);
             if (currentSceneSo.sceneType != GameSceneType.Menu) return;
-            
-            
             Debug.Log("Player added");
             LobbyClient lobbyClient = Instantiate(lobbyPrefab);
             lobbyClient.isLeader = lobbyPlayers.Count == 0;
@@ -129,11 +127,9 @@ namespace MadSmith.Scripts.Multiplayer.Managers
 
         public override void OnStartServer()
         {
-            // base.OnStartServer();
             Debug.Log("OnStartServer");
             spawnPrefabs = Resources.LoadAll<GameObject>(ResourcesPath).ToList();
             _loadEventChannelSo.OnLoadingRequested += OnLoadingRequested;
-            // _loadEventChannelSo.OnLoadingRequested += OnLoadingRequested;
         }
 
         public override void OnStartClient()
@@ -168,16 +164,16 @@ namespace MadSmith.Scripts.Multiplayer.Managers
             if (currentSceneLoaded.sceneType == GameSceneType.Menu)
             {
                 GameManager.Instance.SetGameSceneSo(newSceneName);
-                for (int i = lobbyPlayers.Count - 1; i >= 0; i--)
-                {
-                    var conn = lobbyPlayers[i].connectionToClient;
-                    var gamePlayerInstance = Instantiate(inGamePlayerPrefab[lobbyPlayers[i].CharacterId]);
-                    // gameplayerInstance.SetDisplayName(RoomPlayers[i].DisplayName);
-
-                    NetworkServer.Destroy(conn.identity.gameObject);
-                    Debug.Log("ServerChangeScene" + gamePlayerInstance.name);
-                    NetworkServer.ReplacePlayerForConnection(conn, gamePlayerInstance.gameObject);
-                }
+                // for (int i = lobbyPlayers.Count - 1; i >= 0; i--)
+                // {
+                    // var conn = lobbyPlayers[i].connectionToClient;
+                    // var gamePlayerInstance = Instantiate(inGamePlayerPrefab[lobbyPlayers[i].CharacterId]);
+                    // // gameplayerInstance.SetDisplayName(RoomPlayers[i].DisplayName);
+                    //
+                    // NetworkServer.Destroy(conn.identity.gameObject);
+                    // Debug.Log("ServerChangeScene" + gamePlayerInstance.name);
+                    // NetworkServer.ReplacePlayerForConnection(conn, gamePlayerInstance.gameObject);
+                // }
             }
             
             base.ServerChangeScene(newSceneName);
@@ -194,7 +190,25 @@ namespace MadSmith.Scripts.Multiplayer.Managers
                 NetworkServer.Spawn(roundSystemInstance);
             }
         }
-        
+
+        public override void OnClientChangeScene(string newSceneName, SceneOperation sceneOperation, bool customHandling)
+        {
+            base.OnClientChangeScene(newSceneName, sceneOperation, customHandling);
+            
+            Debug.Log("OnClientChangeScene");
+            for (int i = lobbyPlayers.Count - 1; i >= 0; i--)
+            {
+                var conn = lobbyPlayers[i].connectionToClient;
+                Debug.Log("Is Ready: " + conn.isReady);
+            }
+        }
+
+        public override void OnClientSceneChanged()
+        {
+            base.OnClientSceneChanged();
+            // ClientSceneReady(); //Deveria usar isso?
+        }
+
         /// <summary>
         /// Evento do SceneLoader que avisa quando foi requisitado um loading.
         /// A ideia aqui é só inicializar a quantidade de players in-game
@@ -256,6 +270,18 @@ namespace MadSmith.Scripts.Multiplayer.Managers
         public void EnableMovement()
         {
             Debug.Log("EnableMovement: " + GamePlayers.Count);
+            for (int i = lobbyPlayers.Count - 1; i >= 0; i--)
+            {
+                var conn = lobbyPlayers[i].connectionToClient;
+                var gamePlayerInstance = Instantiate(inGamePlayerPrefab[lobbyPlayers[i].CharacterId]);
+                // gameplayerInstance.SetDisplayName(RoomPlayers[i].DisplayName);
+                GamePlayers.Add(gamePlayerInstance);
+                NetworkServer.Destroy(conn.identity.gameObject);
+                Debug.Log("EnableMovement" + gamePlayerInstance.name);
+                NetworkServer.ReplacePlayerForConnection(conn, gamePlayerInstance.gameObject);
+            }
+            
+            
             foreach (var playerMovement in GamePlayers)
             {
                 playerMovement.CmdEnableMovement();

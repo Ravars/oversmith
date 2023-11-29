@@ -235,12 +235,12 @@ namespace MadSmith.Scripts.Multiplayer.Managers
                 lobbyClient.PreviousCharacter();
             }
         }
-        public void StartGame(string sceneName)
+        public void FinishCharacterSelectionButton()
         {
-            Debug.Log("Lobby controller StartGame" + sceneName);
+            Debug.Log("Lobby controller StartGame" );
             if (!ReferenceEquals(lobbyClient, null))
             {
-                lobbyClient.CanStartGame(sceneName);
+                lobbyClient.CanStartGame();
             }
         }
 
@@ -261,13 +261,14 @@ namespace MadSmith.Scripts.Multiplayer.Managers
             LobbyNameText.text = SteamMatchmaking.GetLobbyData(new CSteamID(CurrentLobbyID), "name");
         }
 
-        public void LoadingRequested()
+        public void FinishCharacterSelectionPage()
         {
-            Debug.Log("LoadingRequested");
+            Debug.Log("FinishCharacterSelectionPage");
             foreach (var playerListItem in PlayerListItems)
             {
                 Destroy(playerListItem.gameObject);
             }
+            canvasView.SetActive(false);
             PlayerListItems.Clear();
             NextPage?.Invoke();
         }

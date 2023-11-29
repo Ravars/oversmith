@@ -27,7 +27,7 @@ namespace MadSmith.Scripts.Multiplayer.Player
         private void Start()
         {
             Debug.Log("Start");
-            DontDestroyOnLoad(gameObject);
+            // DontDestroyOnLoad(gameObject);
         }
 
 

@@ -235,26 +235,25 @@ namespace MadSmith.Scripts.Multiplayer.Managers
         
         
 
-        public void CanStartGame(string sceneName)
+        public void CanStartGame()
         {
             // if (hasAuthority)
             // {
             // }
-            CmdCanStartGame(sceneName);
+            CmdFinishCharacterSelection();
         }
         [Command]
-        public void CmdCanStartGame(string sceneName)
+        public void CmdFinishCharacterSelection()
         {
-            Debug.Log("CmdCanStartGame: " + sceneName);
             // _manager.StartGame(sceneName);
-            RpcStartGame();
+            RpcFinishCharacterSelection();
         }
         [ClientRpc]
-        private void RpcStartGame()
+        private void RpcFinishCharacterSelection()
         {
             Debug.Log("RpcStartGame");
             // NetworkClient.PrepareToSpawnSceneObjects();
-            LobbyController.Instance.LoadingRequested();
+            LobbyController.Instance.FinishCharacterSelectionPage();
         }
     }
 }

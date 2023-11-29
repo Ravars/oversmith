@@ -84,8 +84,8 @@ namespace MadSmith.Scripts.UI.SettingsScripts
         {
             OnLevelSelected?.Invoke();
             var manager = NetworkManager.singleton as MadSmithNetworkManager;
-            if (manager != null) manager.StartGame("Level01-1");
-            // if (manager != null) manager.StartGame(GameManager.Instance.sceneSos[currentLevelSelected].name);
+            // if (manager != null) manager.StartGame("Level01-1");
+            if (manager != null) manager.StartGame(GameManager.Instance.sceneSos[currentLevelSelected+1].name);
             // _onLoadScene.RaiseEvent(GameManager.Instance.sceneSos[currentLevelSelected],true);
         }
 
