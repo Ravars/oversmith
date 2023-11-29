@@ -24,13 +24,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2061738322}
+  serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 1, y: 0.5, z: 1}
   m_LocalScale: {x: 2, y: 1, z: 2}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 6596205701277058708}
-  m_RootOrder: -1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!65 &2061738324
 BoxCollider:
@@ -51,8 +51,8 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 1, y: 1, z: 1}
-  m_Center: {x: 0, y: 0, z: 0}
+  m_Size: {x: 1, y: 1, z: 0.40375888}
+  m_Center: {x: -4.2632564e-14, y: 0, z: 0.29812056}
 --- !u!1 &1590235279481285720
 GameObject:
   m_ObjectHideFlags: 0
@@ -76,6 +76,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1590235279481285720}
+  serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
@@ -84,7 +85,6 @@ Transform:
   - {fileID: 1117804258884202381}
   - {fileID: 7378067289606075273}
   m_Father: {fileID: 6596205701277058708}
-  m_RootOrder: -1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &5555225750469408626
 GameObject:
@@ -112,6 +112,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5555225750469408626}
+  serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
@@ -120,7 +121,6 @@ Transform:
   - {fileID: 2789193633803871409}
   - {fileID: 2061738323}
   m_Father: {fileID: 0}
-  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &816745737
 MonoBehaviour:
@@ -139,14 +139,13 @@ MonoBehaviour:
   hasCraftingTable: 0
   hasInteractable: 0
   hasDelivery: 0
-  hasPallet: 0
   hasTrashCan: 0
   table: {fileID: 0}
   dispenser: {fileID: 0}
   craftingTable: {fileID: 0}
   interactable: {fileID: 0}
-  delivery: {fileID: 0}
   trashCan: {fileID: 0}
+  deliveryPlace: {fileID: 0}
   visual: {fileID: 344786649546650935}
   visualSelected: {fileID: 7867781640281811251}
 --- !u!114 &816745736
