@@ -193,7 +193,6 @@ namespace MadSmith.Scripts.Multiplayer.Managers
 
         public override void OnClientChangeScene(string newSceneName, SceneOperation sceneOperation, bool customHandling)
         {
-            base.OnClientChangeScene(newSceneName, sceneOperation, customHandling);
             
             Debug.Log("OnClientChangeScene");
             for (int i = lobbyPlayers.Count - 1; i >= 0; i--)
@@ -201,11 +200,13 @@ namespace MadSmith.Scripts.Multiplayer.Managers
                 var conn = lobbyPlayers[i].connectionToClient;
                 Debug.Log("Is Ready: " + conn.isReady);
             }
+            base.OnClientChangeScene(newSceneName, sceneOperation, customHandling);
         }
 
         public override void OnClientSceneChanged()
         {
             base.OnClientSceneChanged();
+            Debug.Log("OnClientSceneChanged");
             // ClientSceneReady(); //Deveria usar isso?
         }
 
