@@ -16,12 +16,12 @@ namespace MadSmith.Scripts.Multiplayer.Managers
         }
 
 
-        public void CallCmdFunction()
-        {
-            Debug.Log("CallCmdFunction");
-            // CmdTestFunction();
-            RpcTestFunction();
-        }
+        // public void CallCmdFunction()
+        // {
+        //     Debug.Log("CallCmdFunction");
+        //     // CmdTestFunction();
+        //     // RpcTestFunction();
+        // }
 
         // [Command]
         // public void CmdTestFunction()
@@ -30,12 +30,12 @@ namespace MadSmith.Scripts.Multiplayer.Managers
         //     RpcTestFunction();
         // }
 
-        [ClientRpc]
-        public void RpcTestFunction()
-        {
-            Debug.Log("RpcTestFunction");
-            
-        }
+        // [ClientRpc]
+        // public void RpcTestFunction()
+        // {
+        //     Debug.Log("RpcTestFunction");
+        //     
+        // }
 
         public void Left()
         {

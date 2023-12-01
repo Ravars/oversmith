@@ -30,7 +30,7 @@ namespace MadSmith.Scripts.Multiplayer.Managers
         public ulong CurrentLobbyID;
         public bool PlayerItemCreated = false;
         private List<PlayerListItem> PlayerListItems = new();
-        public LobbyClient lobbyClient;
+        [HideInInspector] public LobbyClient lobbyClient;
         
         //Ready
         public Button StartGameButton;
