@@ -235,9 +235,10 @@ namespace MadSmith.Scripts.Multiplayer.Managers
                 lobbyClient.PreviousCharacter();
             }
         }
+        
         public void FinishCharacterSelectionButton()
         {
-            Debug.Log("Lobby controller StartGame" );
+            Debug.Log("FinishCharacterSelectionButton" + ReferenceEquals(lobbyClient, null));
             if (!ReferenceEquals(lobbyClient, null))
             {
                 lobbyClient.CanStartGame();
