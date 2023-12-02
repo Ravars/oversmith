@@ -73,7 +73,7 @@ namespace MadSmith.Scripts.Multiplayer.Managers
         
         private void CreateHostPlayerItem()
         {
-            Debug.Log("CreateHostPlayerItem");
+            //Debug.Log("CreateHostPlayerItem");
             foreach (LobbyClient player in Manager.lobbyPlayers)
             {
                 GameObject newPlayerItem = Instantiate(PlayerListItemPrefab, PlayerListViewContent.transform, true) as GameObject;
@@ -93,7 +93,7 @@ namespace MadSmith.Scripts.Multiplayer.Managers
         }
         private void CreateClientPlayerItem()
         {
-            Debug.Log("CreateClientPlayerItem");
+            //Debug.Log("CreateClientPlayerItem");
             foreach (LobbyClient player in Manager.lobbyPlayers)
             {
                 if (PlayerListItems.All(b => b.ConnectionID != player.ConnectionID))
@@ -238,10 +238,10 @@ namespace MadSmith.Scripts.Multiplayer.Managers
         
         public void FinishCharacterSelectionButton()
         {
-            Debug.Log("FinishCharacterSelectionButton" + ReferenceEquals(lobbyClient, null));
+            //Debug.Log("FinishCharacterSelectionButton" + ReferenceEquals(lobbyClient, null));
             if (!ReferenceEquals(lobbyClient, null))
             {
-                lobbyClient.CanStartGame();
+                lobbyClient.FinishCharacterSelection();
             }
         }
 
@@ -250,10 +250,16 @@ namespace MadSmith.Scripts.Multiplayer.Managers
             Closed?.Invoke();
         }
         
-        public void FindLocalPlayer()
+        // public void FindLocalPlayer()
+        // {
+        //     LocalPlayerObject = GameObject.Find("LocalGamePlayer");
+        //     lobbyClient = LocalPlayerObject.GetComponent<LobbyClient>();
+        // }
+
+        public void SetLocalPlayer(LobbyClient localGamePlayerLobbyClient)
         {
-            LocalPlayerObject = GameObject.Find("LocalGamePlayer");
-            lobbyClient = LocalPlayerObject.GetComponent<LobbyClient>();
+            LocalPlayerObject = localGamePlayerLobbyClient.gameObject;
+            lobbyClient = localGamePlayerLobbyClient;
         }
 
         public void UpdateLobbyName()
@@ -264,7 +270,7 @@ namespace MadSmith.Scripts.Multiplayer.Managers
 
         public void FinishCharacterSelectionPage()
         {
-            Debug.Log("FinishCharacterSelectionPage");
+            //Debug.Log("FinishCharacterSelectionPage");
             foreach (var playerListItem in PlayerListItems)
             {
                 Destroy(playerListItem.gameObject);

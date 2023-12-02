@@ -42,13 +42,14 @@ namespace MadSmith.Scripts.Multiplayer.Managers
         private void Start()
         {
             DontDestroyOnLoad(gameObject); 
-            loadLocation.OnLoadingRequested += OnLoadingRequested;
+            // loadLocation.OnLoadingRequested += OnLoadingRequested;
         }
+        
 
-        private void OnLoadingRequested(GameSceneSO arg0, bool arg1, bool arg2)
-        {
-            Debug.Log("OnLoadingRequested");
-        }
+        // private void OnLoadingRequested(GameSceneSO arg0, bool arg1, bool arg2)
+        // {
+        //     Debug.Log("OnLoadingRequested");
+        // }
 
 
         // [Header("Broadcasting on")]
@@ -59,7 +60,7 @@ namespace MadSmith.Scripts.Multiplayer.Managers
         }
         public override void OnStartAuthority()
         {
-            Debug.Log("LobbyClient - OnStartAuthority " + hasAuthority);
+            //Debug.Log("LobbyClient - OnStartAuthority " + hasAuthority);
             // var currentSceneLoaded = SceneLoader.Instance.GetCurrentSceneLoaded();
             // if (currentSceneLoaded.sceneType == GameSceneType.Location) return;
             gameObject.name = "LocalGamePlayer";
@@ -68,13 +69,14 @@ namespace MadSmith.Scripts.Multiplayer.Managers
             // Debug.Log("Scene " + currentSceneLoaded.sceneType);
             // if (currentSceneLoaded.sceneType == GameSceneType.Location) return;
             var currentSceneSo = GameManager.Instance.GetSceneSo();
-            Debug.Log("Name: " + currentSceneSo.name);
+            //Debug.Log("Name: " + currentSceneSo.name);
             if (currentSceneSo.sceneType != GameSceneType.Menu) return;
             CmdSetPlayerName(Manager.TransportLayer == TransportLayer.Steam
                 ? SteamFriends.GetPersonaName().ToString()
-                : PlayerNameInput.DisplayName); //Test
+                : PlayerNameInput.DisplayName); 
             LobbiesListManager.Instance.DestroyLobbies();
-            LobbyController.Instance.FindLocalPlayer();
+            LobbyController.Instance.SetLocalPlayer(this);
+            // LobbyController.Instance.FindLocalPlayer();
             LobbyController.Instance.UpdateLobbyName();
         }
 
@@ -88,7 +90,7 @@ namespace MadSmith.Scripts.Multiplayer.Managers
         }
         public override void OnStartClient()
         {
-            Debug.Log("LobbyClient - OnStartClient" + hasAuthority);   
+            //Debug.Log("LobbyClient - OnStartClient" + hasAuthority);   
             if (SceneManager.GetActiveScene().name.StartsWith("Level")) return;
             Manager.lobbyPlayers.Add(this);
             LobbyController.Instance.UpdateLobbyName();
@@ -97,7 +99,7 @@ namespace MadSmith.Scripts.Multiplayer.Managers
         
         private void OnSceneReady()
         {
-            Debug.Log("OnSceneReady");
+            //Debug.Log("OnSceneReady");
             CmdSceneReady();
             // Debug.Log("PrepareToSpawnSceneObjects");
             // NetworkClient.PrepareToSpawnSceneObjects(); //Aparentemente tenho que fazer isso aqui
@@ -109,7 +111,7 @@ namespace MadSmith.Scripts.Multiplayer.Managers
         [Command]
         private void CmdSceneReady()
         {
-            Debug.Log("CMD Scene ready");
+            //Debug.Log("CMD Scene ready");
             Manager.ClientSceneReady();
         }
         
@@ -235,25 +237,25 @@ namespace MadSmith.Scripts.Multiplayer.Managers
         
         
 
-        public void CanStartGame()
+        public void FinishCharacterSelection()
         {
             // if (hasAuthority)
             // {
             // }
-            Debug.Log("Can Start Game");
+            //Debug.Log("Can Start Game");
             CmdFinishCharacterSelection();
         }
         [Command]
         public void CmdFinishCharacterSelection()
         {
             // _manager.StartGame(sceneName);
-            Debug.Log("CmdFinishCharacterSelection");
+            //Debug.Log("CmdFinishCharacterSelection");
             RpcFinishCharacterSelection();
         }
         [ClientRpc]
         private void RpcFinishCharacterSelection()
         {
-            Debug.Log("RpcFinishCharacterSelection");
+            //Debug.Log("RpcFinishCharacterSelection");
             // NetworkClient.PrepareToSpawnSceneObjects();
             LobbyController.Instance.FinishCharacterSelectionPage();
         }

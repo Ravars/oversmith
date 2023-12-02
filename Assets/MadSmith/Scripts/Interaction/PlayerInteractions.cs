@@ -35,7 +35,7 @@ namespace MadSmith.Scripts.Interaction
         }
         private void Interact()
         {
-            Debug.Log("Interact");
+            //Debug.Log("Interact");
             if (_playerInteractableHandler.CurrentInteractable != null)
             {
                 var interactable = _playerInteractableHandler.CurrentInteractable.InteractableHolder;
@@ -54,12 +54,12 @@ namespace MadSmith.Scripts.Interaction
 
         private void Grab()
         {
-            Debug.Log("Grab");
+            //Debug.Log("Grab");
             if (_playerInteractableHandler.CurrentInteractable != null)
             {
-                Debug.Log("1");
+                //Debug.Log("1");
                 var interactable = _playerInteractableHandler.CurrentInteractable.InteractableHolder;
-                Debug.Log("2");
+                //Debug.Log("2");
                 if (interactable.hasTable && ItemScript?.baseItem.itemName != "Delivery Box")
                 {
                     if (ItemScript == null && interactable.table.HasItem())
@@ -95,10 +95,10 @@ namespace MadSmith.Scripts.Interaction
                         _itemTransform = null;
                     }
                 }
-                Debug.Log("3");
+                //Debug.Log("3");
                 if (interactable.hasDispenser && ItemScript == null)
                 {
-                    Debug.Log("3.1");
+                    //Debug.Log("3.1");
                     var baseItem = _playerInteractableHandler.CurrentInteractable.InteractableHolder.dispenser.rawMaterialSo;
                     _itemTransform = Instantiate(baseItem.prefab, itemHolder.position, Quaternion.identity,itemHolder).transform;
                     ItemScript = _itemTransform.GetComponent<Item>();

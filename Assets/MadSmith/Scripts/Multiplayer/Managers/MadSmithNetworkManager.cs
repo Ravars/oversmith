@@ -111,10 +111,10 @@ namespace MadSmith.Scripts.Multiplayer.Managers
         #region Network Override Functions
         public override void OnServerAddPlayer(NetworkConnectionToClient conn)
         {
-            Debug.Log("On server add player");
+            //Debug.Log("On server add player");
             var currentSceneSo = GameManager.Instance.GetSceneSo();
             if (currentSceneSo.sceneType != GameSceneType.Menu) return;
-            Debug.Log("Player added");
+            //Debug.Log("Player added");
             LobbyClient lobbyClient = Instantiate(lobbyPrefab);
             lobbyClient.isLeader = lobbyPlayers.Count == 0;
             lobbyClient.ConnectionID = conn.connectionId;
@@ -127,14 +127,14 @@ namespace MadSmith.Scripts.Multiplayer.Managers
 
         public override void OnStartServer()
         {
-            Debug.Log("OnStartServer");
+            //Debug.Log("OnStartServer");
             spawnPrefabs = Resources.LoadAll<GameObject>(ResourcesPath).ToList();
             _loadEventChannelSo.OnLoadingRequested += OnLoadingRequested;
         }
 
         public override void OnStartClient()
         {
-            Debug.Log("OnStartClient");
+            //Debug.Log("OnStartClient");
             var spawnablePrefabs = Resources.LoadAll<GameObject>(ResourcesPath);
             foreach (var spawnablePrefab in spawnablePrefabs)
             {
@@ -144,6 +144,7 @@ namespace MadSmith.Scripts.Multiplayer.Managers
 
             OnClientConnected?.Invoke();
         }
+        
 
         public override void OnStopClient()
         {
@@ -153,7 +154,7 @@ namespace MadSmith.Scripts.Multiplayer.Managers
         #endregion
         public void StartGame(string sceneName)
         {
-            Debug.Log("Scene name: " + sceneName);
+            //Debug.Log("Scene name: " + sceneName);
             ServerChangeScene(sceneName);
         }
         public override void ServerChangeScene(string newSceneName)
@@ -164,33 +165,39 @@ namespace MadSmith.Scripts.Multiplayer.Managers
             if (currentSceneLoaded.sceneType == GameSceneType.Menu)
             {
                 GameManager.Instance.SetGameSceneSo(newSceneName);
+                _playersNotReady = lobbyPlayers.Count;
                 // for (int i = lobbyPlayers.Count - 1; i >= 0; i--)
                 // {
-                    // var conn = lobbyPlayers[i].connectionToClient;
-                    // var gamePlayerInstance = Instantiate(inGamePlayerPrefab[lobbyPlayers[i].CharacterId]);
-                    // // gameplayerInstance.SetDisplayName(RoomPlayers[i].DisplayName);
-                    //
-                    // NetworkServer.Destroy(conn.identity.gameObject);
-                    // Debug.Log("ServerChangeScene" + gamePlayerInstance.name);
-                    // NetworkServer.ReplacePlayerForConnection(conn, gamePlayerInstance.gameObject);
+                // var conn = lobbyPlayers[i].connectionToClient;
+                // var gamePlayerInstance = Instantiate(inGamePlayerPrefab[lobbyPlayers[i].CharacterId]);
+                // // gameplayerInstance.SetDisplayName(RoomPlayers[i].DisplayName);
+                //
+                // NetworkServer.Destroy(conn.identity.gameObject);
+                // Debug.Log("ServerChangeScene" + gamePlayerInstance.name);
+                // NetworkServer.ReplacePlayerForConnection(conn, gamePlayerInstance.gameObject);
                 // }
             }
             
             base.ServerChangeScene(newSceneName);
         }
-        public override void OnServerSceneChanged(string sceneName)
+        // public override void OnServerSceneChanged(string sceneName)
+        // {
+        //     //Debug.Log("sceneName");
+        //     if (sceneName.StartsWith("Level"))
+        //     {
+        //         GameObject orderManagerInstance = Instantiate(orderManager);
+        //         NetworkServer.Spawn(orderManagerInstance);
+        //
+        //         GameObject roundSystemInstance = Instantiate(roundSystem);
+        //         NetworkServer.Spawn(roundSystemInstance);
+        //     }
+        // }
+
+        public override void OnClientChangeScene(string newSceneName, SceneOperation sceneOperation, bool customHandling)
         {
-            Debug.Log("sceneName");
-            if (sceneName.StartsWith("Level"))
-            {
-                GameObject orderManagerInstance = Instantiate(orderManager);
-                NetworkServer.Spawn(orderManagerInstance);
-
-                GameObject roundSystemInstance = Instantiate(roundSystem);
-                NetworkServer.Spawn(roundSystemInstance);
-            }
+            base.OnClientChangeScene(newSceneName, sceneOperation, customHandling);
+            Debug.Log("OnClientChangeScene");
         }
-
         // public override void OnClientChangeScene(string newSceneName, SceneOperation sceneOperation, bool customHandling)
         // {
         //     
@@ -207,7 +214,7 @@ namespace MadSmith.Scripts.Multiplayer.Managers
         {
             base.OnClientSceneChanged();
             Debug.Log("OnClientSceneChanged");
-            // ClientSceneReady(); //Deveria usar isso?
+            ClientSceneReady(); //Deveria usar isso?
         }
 
         /// <summary>
@@ -219,7 +226,7 @@ namespace MadSmith.Scripts.Multiplayer.Managers
         /// <param name="arg2"></param>
         private void OnLoadingRequested(GameSceneSO arg0, bool arg1, bool arg2)
         {
-            Debug.Log("OnLoadingRequested");
+            //Debug.Log("OnLoadingRequested");
             _playersNotReady = lobbyPlayers.Count;
         }
 
@@ -232,7 +239,7 @@ namespace MadSmith.Scripts.Multiplayer.Managers
             // Debug.Log("ClientSceneReady before");
             //TODO: if Level scene only   
             --_playersNotReady;
-            Debug.Log("ClientSceneReady");
+            //Debug.Log("ClientSceneReady");
             if (_playersNotReady <= 0)
             {
                 // Debug.Log("ClientSceneReady inside");
@@ -260,7 +267,7 @@ namespace MadSmith.Scripts.Multiplayer.Managers
             }
             else
             {
-                Debug.Log("Still loading " + _playersNotReady);
+                //Debug.Log("Still loading " + _playersNotReady);
             }
         }
 
@@ -270,16 +277,16 @@ namespace MadSmith.Scripts.Multiplayer.Managers
         /// </summary>
         public void EnableMovement()
         {
-            Debug.Log("EnableMovement: " + GamePlayers.Count);
+            //Debug.Log("EnableMovement: " + GamePlayers.Count);
             for (int i = lobbyPlayers.Count - 1; i >= 0; i--)
             {
                 var conn = lobbyPlayers[i].connectionToClient;
                 var gamePlayerInstance = Instantiate(inGamePlayerPrefab[lobbyPlayers[i].CharacterId]);
                 // gameplayerInstance.SetDisplayName(RoomPlayers[i].DisplayName);
-                Debug.Log("conn.identity" + conn.identity.netId + " " + conn.isReady);
+                //Debug.Log("conn.identity" + conn.identity.netId + " " + conn.isReady);
                 GamePlayers.Add(gamePlayerInstance);
                 NetworkServer.Destroy(conn.identity.gameObject);
-                Debug.Log("EnableMovement" + gamePlayerInstance.name);
+                //Debug.Log("EnableMovement" + gamePlayerInstance.name);
                 NetworkServer.ReplacePlayerForConnection(conn, gamePlayerInstance.gameObject);
             }
             
@@ -299,7 +306,7 @@ namespace MadSmith.Scripts.Multiplayer.Managers
 
         public void HostBySteam()
         {
-            Debug.Log("Host by steam");
+            //Debug.Log("Host by steam");
             TransportLayer = TransportLayer.Steam;
             transport = _fizzySteamworksTransport;
             EnableSteamResources();
@@ -313,7 +320,7 @@ namespace MadSmith.Scripts.Multiplayer.Managers
         }
         public void HostByLocalHost()
         {
-            Debug.Log("Host by localhost");
+            //Debug.Log("Host by localhost");
             TransportLayer = TransportLayer.LocalHost;
             transport = _localHostTransport;
             _localHostTransport.enabled = true;
@@ -322,7 +329,7 @@ namespace MadSmith.Scripts.Multiplayer.Managers
         }
         public void StopHostOrClientOnLobbyMenu()
         {
-            Debug.Log("StopHostOrClientOnLobbyMenu");
+            //Debug.Log("StopHostOrClientOnLobbyMenu");
             if (NetworkServer.active)
             {
                 StopHost();

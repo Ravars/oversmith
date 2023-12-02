@@ -17,7 +17,7 @@ namespace MadSmith.Scripts.UI.SettingsScripts
         
         public void SetUIHost(bool steamOpen)
         {
-            Debug.Log("Steam open: " + steamOpen);
+            //Debug.Log("Steam open: " + steamOpen);
             // steamHost.interactable = steamOpen;
         }
 

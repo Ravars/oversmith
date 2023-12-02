@@ -91,7 +91,7 @@ namespace MadSmith.Scripts.UI.Managers
 
         private void OnDisable()
         {
-            Debug.Log("Disable");
+            //Debug.Log("Disable");
             // _loadLocation.OnLoadingRequested -= (_, _, _) => { CloseAll();};
             UnsetMenuScreen();
             UnsetSettingsScreen();
@@ -147,7 +147,7 @@ namespace MadSmith.Scripts.UI.Managers
                     OpenLobbiesList();
                     break;
                 default:
-                    Debug.Log("Nothing");
+                    //Debug.Log("Nothing");
                     break;
             }
         }

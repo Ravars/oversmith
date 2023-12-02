@@ -14,12 +14,12 @@ namespace MadSmith.Scripts.Multiplayer.UI
 
         public void StartRound()
         {
-            Debug.Log("Start round");
+            //Debug.Log("Start round");
             _levelManager.StartRoundAnimation();
         }
         public void CountdownEnded()
         {
-            Debug.Log("CountdownEnded");
+            //Debug.Log("CountdownEnded");
             _levelManager.CountdownEnded();
         }
     }

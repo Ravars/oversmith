@@ -8,12 +8,12 @@ namespace MadSmith.Scripts.Interaction
     {
         public virtual void Interact()
         {
-            Debug.Log("interact");
+            //Debug.Log("interact");
         }
 
         public virtual void Interact(PlayerInteractions obj)
         {
-            Debug.Log("gameobject interact");
+            //Debug.Log("gameobject interact");
         }
     }
 }

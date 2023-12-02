@@ -19,7 +19,7 @@ namespace MadSmith.Scripts.Multiplayer.UI
         
         public void JoinLobby()
         {
-            Debug.Log("Join clicked");
+            //Debug.Log("Join clicked");
             SteamLobby.Instance.JoinLobby(lobbyId);
         }
     }
