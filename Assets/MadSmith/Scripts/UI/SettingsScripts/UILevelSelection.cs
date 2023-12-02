@@ -66,6 +66,7 @@ namespace MadSmith.Scripts.UI.SettingsScripts
 
         public void SetLevelData()
         {
+            Debug.Log("SetLevelData");
             SerializedLevelScore serializedLevelScore = currentGameData.LevelScores.Find(x => (int)x.Level == currentLevelSelected);
             // if (serializedLevelScore != null)
             // {
@@ -91,6 +92,7 @@ namespace MadSmith.Scripts.UI.SettingsScripts
 
         public void LeftButton()
         {
+            Debug.Log("LeftButton" + currentLevelSelected);
             if (currentLevelSelected == 0)
             {
                 currentLevelSelected = GameManager.Instance.sceneSos.Length - 1;
@@ -107,6 +109,7 @@ namespace MadSmith.Scripts.UI.SettingsScripts
 
         public void RightButton()
         {
+            Debug.Log("RightButton" + currentLevelSelected + ", GameManager: " + GameManager.InstanceExists);
             if (currentLevelSelected == GameManager.Instance.sceneSos.Length - 1)
             {
                 currentLevelSelected = 0;
@@ -115,8 +118,10 @@ namespace MadSmith.Scripts.UI.SettingsScripts
             {
                 currentLevelSelected++;
             }
-            
+
+            Debug.Log("dolly.m_PathPosition" + ReferenceEquals(dolly, null) + ":" + currentLevelSelected);
             dolly.m_PathPosition = Mathf.Floor((int)(currentLevelSelected / 3));
+            Debug.Log("dolly.m_PathPosition");
             SetLevelData();
         }
     }

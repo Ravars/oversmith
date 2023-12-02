@@ -191,21 +191,22 @@ namespace MadSmith.Scripts.Multiplayer.Managers
             }
         }
 
-        public override void OnClientChangeScene(string newSceneName, SceneOperation sceneOperation, bool customHandling)
-        {
-            base.OnClientChangeScene(newSceneName, sceneOperation, customHandling);
-            
-            Debug.Log("OnClientChangeScene");
-            for (int i = lobbyPlayers.Count - 1; i >= 0; i--)
-            {
-                var conn = lobbyPlayers[i].connectionToClient;
-                Debug.Log("Is Ready: " + conn.isReady);
-            }
-        }
+        // public override void OnClientChangeScene(string newSceneName, SceneOperation sceneOperation, bool customHandling)
+        // {
+        //     
+        //     Debug.Log("OnClientChangeScene");
+        //     for (int i = lobbyPlayers.Count - 1; i >= 0; i--)
+        //     {
+        //         var conn = lobbyPlayers[i].connectionToClient;
+        //         Debug.Log("Is Ready: " + conn.isReady);
+        //     }
+        //     base.OnClientChangeScene(newSceneName, sceneOperation, customHandling);
+        // }
 
         public override void OnClientSceneChanged()
         {
             base.OnClientSceneChanged();
+            Debug.Log("OnClientSceneChanged");
             // ClientSceneReady(); //Deveria usar isso?
         }
 
@@ -275,6 +276,7 @@ namespace MadSmith.Scripts.Multiplayer.Managers
                 var conn = lobbyPlayers[i].connectionToClient;
                 var gamePlayerInstance = Instantiate(inGamePlayerPrefab[lobbyPlayers[i].CharacterId]);
                 // gameplayerInstance.SetDisplayName(RoomPlayers[i].DisplayName);
+                Debug.Log("conn.identity" + conn.identity.netId + " " + conn.isReady);
                 GamePlayers.Add(gamePlayerInstance);
                 NetworkServer.Destroy(conn.identity.gameObject);
                 Debug.Log("EnableMovement" + gamePlayerInstance.name);

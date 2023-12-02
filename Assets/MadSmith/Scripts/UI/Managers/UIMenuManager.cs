@@ -43,7 +43,7 @@ namespace MadSmith.Scripts.UI.Managers
         [SerializeField] private UISettingsController _settingsPanel = default;
         [SerializeField] private UICredits _creditsPanel = default;
         [SerializeField] private UIPopup _popupPanel = default;
-        [SerializeField] private CharacterSelect _characterSelectUI;
+        // [SerializeField] private CharacterSelect _characterSelectUI;
         [SerializeField] private UILevelSelection _levelSelectUI;
         [SerializeField] private UITutorial uiTutorial;
         [SerializeField] private UIHost uiHostPanel;
@@ -78,7 +78,7 @@ namespace MadSmith.Scripts.UI.Managers
             SetMenuScreen();
             SetSettingsScreen();
             SetCreditsScreen();
-            SetCharacterSelectScreen();
+            // SetCharacterSelectScreen();
             SetLevelSelectScreen();
             SetTutorialScreen();
             SetHostScreen();
@@ -97,7 +97,7 @@ namespace MadSmith.Scripts.UI.Managers
             UnsetSettingsScreen();
             UnsetCreditsScreen();
             
-            UnsetCharacterSelectScreen();
+            // UnsetCharacterSelectScreen();
             UnsetLevelSelectScreen();
             UnsetTutorialScreen();
             
@@ -128,9 +128,9 @@ namespace MadSmith.Scripts.UI.Managers
                 case MenuState.Tutorial:
                     OpenTutorialScreen();
                     break;
-                case MenuState.CharacterSelection:
-                    OpenCharacterSelect();
-                    break;
+                // case MenuState.CharacterSelection:
+                //     OpenCharacterSelect();
+                //     break;
                 case MenuState.LevelSelection:
                     OpenLevelSelect();
                     break;
@@ -236,17 +236,17 @@ namespace MadSmith.Scripts.UI.Managers
 
         #region Character Selection
 
-        private void SetCharacterSelectScreen()
-        {
-            _characterSelectUI.Setup();
-            _characterSelectUI.OnCharacterSelected += OnCharacterSelected;
-            _characterSelectUI.OnCloseCharacterSelection += () => SetState(MenuState.MainMenu);
-        }
-        private void UnsetCharacterSelectScreen()
-        {
-            _characterSelectUI.OnCharacterSelected -= OnCharacterSelected;
-            _characterSelectUI.OnCloseCharacterSelection -= () => SetState(MenuState.MainMenu);
-        }
+        // private void SetCharacterSelectScreen()
+        // {
+        //     _characterSelectUI.Setup();
+        //     _characterSelectUI.OnCharacterSelected += OnCharacterSelected;
+        //     _characterSelectUI.OnCloseCharacterSelection += () => SetState(MenuState.MainMenu);
+        // }
+        // private void UnsetCharacterSelectScreen()
+        // {
+        //     _characterSelectUI.OnCharacterSelected -= OnCharacterSelected;
+        //     _characterSelectUI.OnCloseCharacterSelection -= () => SetState(MenuState.MainMenu);
+        // }
 
         private void OnCharacterSelected()
         {
@@ -260,17 +260,17 @@ namespace MadSmith.Scripts.UI.Managers
             }
         }
 
-        private void OpenCharacterSelect()
-        {
-            _characterSelectCamera.SetActive(true);
-            _characterSelectUI.gameObject.SetActive(true);
-        }
+        // private void OpenCharacterSelect()
+        // {
+        //     _characterSelectCamera.SetActive(true);
+        //     _characterSelectUI.gameObject.SetActive(true);
+        // }
 
-        public void CloseCharacterSelect()
-        {
-            _characterSelectUI.gameObject.SetActive(false);
-            _characterSelectCamera.SetActive(false);
-        }
+        // public void CloseCharacterSelect()
+        // {
+        //     _characterSelectUI.gameObject.SetActive(false);
+        //     _characterSelectCamera.SetActive(false);
+        // }
         #endregion
 
         #region Tutorial
@@ -505,7 +505,7 @@ namespace MadSmith.Scripts.UI.Managers
             CloseSettingsScreen();
             CloseCreditsScreen();
             CloseTutorialScreen();
-            CloseCharacterSelect();
+            // CloseCharacterSelect();
             CloseLevelSelect();
             CloseHost();
             CloseJoin();

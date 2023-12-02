@@ -240,18 +240,20 @@ namespace MadSmith.Scripts.Multiplayer.Managers
             // if (hasAuthority)
             // {
             // }
+            Debug.Log("Can Start Game");
             CmdFinishCharacterSelection();
         }
         [Command]
         public void CmdFinishCharacterSelection()
         {
             // _manager.StartGame(sceneName);
+            Debug.Log("CmdFinishCharacterSelection");
             RpcFinishCharacterSelection();
         }
         [ClientRpc]
         private void RpcFinishCharacterSelection()
         {
-            Debug.Log("RpcStartGame");
+            Debug.Log("RpcFinishCharacterSelection");
             // NetworkClient.PrepareToSpawnSceneObjects();
             LobbyController.Instance.FinishCharacterSelectionPage();
         }

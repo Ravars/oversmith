@@ -30,7 +30,7 @@ namespace MadSmith.Scripts.Multiplayer.Managers
         public ulong CurrentLobbyID;
         public bool PlayerItemCreated = false;
         private List<PlayerListItem> PlayerListItems = new();
-        public LobbyClient lobbyClient;
+        [HideInInspector] public LobbyClient lobbyClient;
         
         //Ready
         public Button StartGameButton;
@@ -235,9 +235,10 @@ namespace MadSmith.Scripts.Multiplayer.Managers
                 lobbyClient.PreviousCharacter();
             }
         }
+        
         public void FinishCharacterSelectionButton()
         {
-            Debug.Log("Lobby controller StartGame" );
+            Debug.Log("FinishCharacterSelectionButton" + ReferenceEquals(lobbyClient, null));
             if (!ReferenceEquals(lobbyClient, null))
             {
                 lobbyClient.CanStartGame();
