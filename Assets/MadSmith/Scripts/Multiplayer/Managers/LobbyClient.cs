@@ -99,7 +99,7 @@ namespace MadSmith.Scripts.Multiplayer.Managers
             
         }
         
-        private void OnSceneReady()
+        public void OnSceneReady()
         {
             //Debug.Log("OnSceneReady");
             CmdSceneReady();

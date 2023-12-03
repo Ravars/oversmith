@@ -198,12 +198,7 @@ namespace MadSmith.Scripts.Multiplayer.Managers
             base.OnClientChangeScene(newSceneName, sceneOperation, customHandling);
             Debug.Log("OnClientChangeScene");
         }
-        [Command]
-        private void CmdSceneReady()
-        {
-            //Debug.Log("CMD Scene ready");
-            ClientSceneReady();
-        }
+        
         // public override void OnClientChangeScene(string newSceneName, SceneOperation sceneOperation, bool customHandling)
         // {
         //     
@@ -220,7 +215,12 @@ namespace MadSmith.Scripts.Multiplayer.Managers
         {
             base.OnClientSceneChanged();
             Debug.Log("OnClientSceneChanged");
-            CmdSceneReady();
+            NetworkClient.localPlayer.TryGetComponent(out LobbyClient lobbyClient);
+            if (lobbyClient != null)
+            {
+                lobbyClient.OnSceneReady();
+            }
+            // CmdSceneReady();
             // ClientSceneReady(); //Deveria usar isso?
         }
 

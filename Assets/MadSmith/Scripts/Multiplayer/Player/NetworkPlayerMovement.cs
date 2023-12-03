@@ -18,12 +18,17 @@ namespace MadSmith.Scripts.Multiplayer.Player
         [SerializeField] private Animator _animator; // temporary
         public override void OnStartAuthority()
         {
-            //Debug.Log("OnStartAuthority");
+            Debug.Log("OnStartAuthority");
             enabled = true;
             
             // NetworkClient.PrepareToSpawnSceneObjects();
         }
-
+        [Command]
+        private void CmdSceneReady()
+        {
+            //Debug.Log("CMD Scene ready");
+            // Manager.ClientSceneReady();
+        }
         private void Start()
         {
             //Debug.Log("Start");
