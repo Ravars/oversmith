@@ -58,6 +58,7 @@ namespace MadSmith.Scripts.Multiplayer.Managers
             sceneReady.OnEventRaised -= OnSceneReady;
             // inputReader.MenuPauseEvent -= InputReaderOnMenuPauseEvent;
         }
+        
         public override void OnStartAuthority()
         {
             //Debug.Log("LobbyClient - OnStartAuthority " + hasAuthority);
@@ -95,6 +96,7 @@ namespace MadSmith.Scripts.Multiplayer.Managers
             Manager.lobbyPlayers.Add(this);
             LobbyController.Instance.UpdateLobbyName();
             LobbyController.Instance.UpdatePlayerList();
+            
         }
         
         private void OnSceneReady()
@@ -104,6 +106,7 @@ namespace MadSmith.Scripts.Multiplayer.Managers
             // Debug.Log("PrepareToSpawnSceneObjects");
             // NetworkClient.PrepareToSpawnSceneObjects(); //Aparentemente tenho que fazer isso aqui
         }
+        
         /// <summary>
         /// Quando o SceneLoader termina de carregar o level ele executa um evento.
         /// Esse evento vai ser executado 

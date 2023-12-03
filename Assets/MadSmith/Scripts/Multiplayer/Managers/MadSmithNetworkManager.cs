@@ -198,6 +198,12 @@ namespace MadSmith.Scripts.Multiplayer.Managers
             base.OnClientChangeScene(newSceneName, sceneOperation, customHandling);
             Debug.Log("OnClientChangeScene");
         }
+        [Command]
+        private void CmdSceneReady()
+        {
+            //Debug.Log("CMD Scene ready");
+            ClientSceneReady();
+        }
         // public override void OnClientChangeScene(string newSceneName, SceneOperation sceneOperation, bool customHandling)
         // {
         //     
@@ -214,7 +220,8 @@ namespace MadSmith.Scripts.Multiplayer.Managers
         {
             base.OnClientSceneChanged();
             Debug.Log("OnClientSceneChanged");
-            ClientSceneReady(); //Deveria usar isso?
+            CmdSceneReady();
+            // ClientSceneReady(); //Deveria usar isso?
         }
 
         /// <summary>
@@ -236,14 +243,15 @@ namespace MadSmith.Scripts.Multiplayer.Managers
         /// </summary>
         public void ClientSceneReady()
         {
-            // Debug.Log("ClientSceneReady before");
+            Debug.Log("ClientSceneReady before: " + _playersNotReady);
             //TODO: if Level scene only   
             --_playersNotReady;
             //Debug.Log("ClientSceneReady");
             if (_playersNotReady <= 0)
             {
-                // Debug.Log("ClientSceneReady inside");
+                Debug.Log("ClientSceneReady inside");
                 var currentSceneLoaded = SceneLoader.Instance.GetCurrentSceneLoaded();
+                Debug.Log("Scene: " + currentSceneLoaded.sceneType);
                 if (currentSceneLoaded.sceneType == GameSceneType.Location)
                 {
                     GamePlayers.Clear();
