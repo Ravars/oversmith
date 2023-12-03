@@ -285,7 +285,7 @@ namespace MadSmith.Scripts.Multiplayer.Managers
         /// </summary>
         public void EnableMovement()
         {
-            //Debug.Log("EnableMovement: " + GamePlayers.Count);
+            Debug.Log("EnableMovement: " + lobbyPlayers.Count);
             for (int i = lobbyPlayers.Count - 1; i >= 0; i--)
             {
                 var conn = lobbyPlayers[i].connectionToClient;
