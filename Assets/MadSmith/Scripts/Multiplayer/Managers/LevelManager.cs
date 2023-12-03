@@ -54,7 +54,10 @@ namespace MadSmith.Scripts.Multiplayer.Managers
         private void RpcStartRound()
         {
             //Debug.Log("RpcStartRound");
-            Manager.EnableMovement();
+            if (isServer)
+            {
+                Manager.EnableMovement();
+            }
         }
 
         // [Command]
