@@ -39,6 +39,7 @@ namespace MadSmith.Scripts.Multiplayer.Managers
         [SerializeField] private NetworkPlayerMovement[] inGamePlayerPrefab;
         [SerializeField] private GameObject roundSystem = null;
         [SerializeField] private GameObject orderManager = null;
+        [SerializeField] private PlayerSpawnSystem playerSpawnSystem = null;
         [Tooltip("Player lobby prefab")][SerializeField] private LobbyClient lobbyPrefab;
         [SerializeField] private LobbiesListManager lobbiesListManager;
         
@@ -180,6 +181,7 @@ namespace MadSmith.Scripts.Multiplayer.Managers
                     var conn = lobbyPlayers[i].connectionToClient;
                     // var gamePlayerInstance = Instantiate(inGamePlayerPrefab[lobbyPlayers[i].CharacterId]);
                     var gamePlayerInstance = Instantiate(gamePlayerPrefab);
+                    gamePlayerInstance.SetDisplayName(lobbyPlayers[i].PlayerName);
                     
                     NetworkServer.Destroy(conn.identity.gameObject);
                     Debug.Log("ServerChangeScene" + gamePlayerInstance.name);
@@ -196,6 +198,8 @@ namespace MadSmith.Scripts.Multiplayer.Managers
             {
                 GameObject orderManagerInstance = Instantiate(orderManager);
                 NetworkServer.Spawn(orderManagerInstance);
+                GameObject playerSpawnSystemInstance = Instantiate(playerSpawnSystem.gameObject);
+                NetworkServer.Spawn(playerSpawnSystemInstance);
         
                 GameObject roundSystemInstance = Instantiate(roundSystem);
                 NetworkServer.Spawn(roundSystemInstance);
