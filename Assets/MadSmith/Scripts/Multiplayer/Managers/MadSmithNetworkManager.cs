@@ -180,18 +180,25 @@ namespace MadSmith.Scripts.Multiplayer.Managers
             
             base.ServerChangeScene(newSceneName);
         }
-        // public override void OnServerSceneChanged(string sceneName)
-        // {
-        //     //Debug.Log("sceneName");
-        //     if (sceneName.StartsWith("Level"))
-        //     {
-        //         GameObject orderManagerInstance = Instantiate(orderManager);
-        //         NetworkServer.Spawn(orderManagerInstance);
-        //
-        //         GameObject roundSystemInstance = Instantiate(roundSystem);
-        //         NetworkServer.Spawn(roundSystemInstance);
-        //     }
-        // }
+        public override void OnServerSceneChanged(string sceneName)
+        {
+            //Debug.Log("sceneName");
+            if (sceneName.StartsWith("Level"))
+            {
+                GameObject orderManagerInstance = Instantiate(orderManager);
+                NetworkServer.Spawn(orderManagerInstance);
+        
+                GameObject roundSystemInstance = Instantiate(roundSystem);
+                NetworkServer.Spawn(roundSystemInstance);
+            }
+        }
+
+        public override void OnServerReady(NetworkConnectionToClient conn)
+        {
+            base.OnServerReady(conn);
+            OnServerReadied?.Invoke(conn);
+        }
+        
 
         public override void OnClientChangeScene(string newSceneName, SceneOperation sceneOperation, bool customHandling)
         {
@@ -214,12 +221,13 @@ namespace MadSmith.Scripts.Multiplayer.Managers
         public override void OnClientSceneChanged()
         {
             base.OnClientSceneChanged();
+            
             Debug.Log("OnClientSceneChanged");
-            NetworkClient.localPlayer.TryGetComponent(out LobbyClient lobbyClient);
-            if (lobbyClient != null)
-            {
-                lobbyClient.OnSceneReady();
-            }
+            // NetworkClient.localPlayer.TryGetComponent(out LobbyClient lobbyClient);
+            // if (lobbyClient != null)
+            // {
+            //     lobbyClient.OnSceneReady();
+            // }
             // CmdSceneReady();
             // ClientSceneReady(); //Deveria usar isso?
         }
@@ -285,18 +293,18 @@ namespace MadSmith.Scripts.Multiplayer.Managers
         /// </summary>
         public void EnableMovement()
         {
-            Debug.Log("EnableMovement: " + lobbyPlayers.Count);
-            for (int i = lobbyPlayers.Count - 1; i >= 0; i--)
-            {
-                var conn = lobbyPlayers[i].connectionToClient;
-                var gamePlayerInstance = Instantiate(inGamePlayerPrefab[lobbyPlayers[i].CharacterId]);
-                // gameplayerInstance.SetDisplayName(RoomPlayers[i].DisplayName);
-                //Debug.Log("conn.identity" + conn.identity.netId + " " + conn.isReady);
-                GamePlayers.Add(gamePlayerInstance);
-                NetworkServer.Destroy(conn.identity.gameObject);
-                //Debug.Log("EnableMovement" + gamePlayerInstance.name);
-                NetworkServer.ReplacePlayerForConnection(conn, gamePlayerInstance.gameObject);
-            }
+            Debug.Log("EnableMovement: " + GamePlayers.Count);
+            // for (int i = lobbyPlayers.Count - 1; i >= 0; i--)
+            // {
+            //     var conn = lobbyPlayers[i].connectionToClient;
+            //     var gamePlayerInstance = Instantiate(inGamePlayerPrefab[lobbyPlayers[i].CharacterId]);
+            //     // gameplayerInstance.SetDisplayName(RoomPlayers[i].DisplayName);
+            //     //Debug.Log("conn.identity" + conn.identity.netId + " " + conn.isReady);
+            //     GamePlayers.Add(gamePlayerInstance);
+            //     NetworkServer.Destroy(conn.identity.gameObject);
+            //     //Debug.Log("EnableMovement" + gamePlayerInstance.name);
+            //     NetworkServer.ReplacePlayerForConnection(conn, gamePlayerInstance.gameObject);
+            // }
             
             
             foreach (var playerMovement in GamePlayers)
