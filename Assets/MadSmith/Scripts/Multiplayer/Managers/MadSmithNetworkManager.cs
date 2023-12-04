@@ -25,7 +25,7 @@ namespace MadSmith.Scripts.Multiplayer.Managers
         // Variable
         private int _playersNotReady;
         public List<LobbyClient> lobbyPlayers = new();
-        private List<NetworkPlayerMovement> GamePlayers { get; } = new();
+        public List<NetworkGamePlayer> GamePlayers { get; } = new();
         public TransportLayer TransportLayer { get; private set; }
         public SteamLobby SteamLobby { get; private set; }
         [SerializeField] private bool startWithSteam;
@@ -35,6 +35,7 @@ namespace MadSmith.Scripts.Multiplayer.Managers
         private FizzySteamworks _fizzySteamworksTransport;
         
         // Prefabs
+        [SerializeField] private NetworkGamePlayer gamePlayerPrefab = null;
         [SerializeField] private NetworkPlayerMovement[] inGamePlayerPrefab;
         [SerializeField] private GameObject roundSystem = null;
         [SerializeField] private GameObject orderManager = null;
@@ -87,6 +88,7 @@ namespace MadSmith.Scripts.Multiplayer.Managers
             SteamLobby.enabled = false;
             _steamManager.enabled = false;
             lobbyController.gameObject.SetActive(false);
+            
         }
         private void DisableLocalhostResources()
         {
@@ -151,6 +153,13 @@ namespace MadSmith.Scripts.Multiplayer.Managers
             base.OnStopClient();
             OnClientDisconnected?.Invoke();
         }
+        public override void OnStopServer()
+        {
+            OnServerStopped?.Invoke();
+
+            lobbyPlayers.Clear();
+            GamePlayers.Clear();
+        }
         #endregion
         public void StartGame(string sceneName)
         {
@@ -166,16 +175,16 @@ namespace MadSmith.Scripts.Multiplayer.Managers
             {
                 GameManager.Instance.SetGameSceneSo(newSceneName);
                 _playersNotReady = lobbyPlayers.Count;
-                // for (int i = lobbyPlayers.Count - 1; i >= 0; i--)
-                // {
-                // var conn = lobbyPlayers[i].connectionToClient;
-                // var gamePlayerInstance = Instantiate(inGamePlayerPrefab[lobbyPlayers[i].CharacterId]);
-                // // gameplayerInstance.SetDisplayName(RoomPlayers[i].DisplayName);
-                //
-                // NetworkServer.Destroy(conn.identity.gameObject);
-                // Debug.Log("ServerChangeScene" + gamePlayerInstance.name);
-                // NetworkServer.ReplacePlayerForConnection(conn, gamePlayerInstance.gameObject);
-                // }
+                for (int i = lobbyPlayers.Count - 1; i >= 0; i--)
+                {
+                    var conn = lobbyPlayers[i].connectionToClient;
+                    // var gamePlayerInstance = Instantiate(inGamePlayerPrefab[lobbyPlayers[i].CharacterId]);
+                    var gamePlayerInstance = Instantiate(gamePlayerPrefab);
+                    
+                    NetworkServer.Destroy(conn.identity.gameObject);
+                    Debug.Log("ServerChangeScene" + gamePlayerInstance.name);
+                    NetworkServer.ReplacePlayerForConnection(conn, gamePlayerInstance.gameObject);
+                }
             }
             
             base.ServerChangeScene(newSceneName);
@@ -245,47 +254,47 @@ namespace MadSmith.Scripts.Multiplayer.Managers
             _playersNotReady = lobbyPlayers.Count;
         }
 
-        /// <summary>
-        /// Os clients chamam essa função depois que o SceneLoader sinaliza que o level foi carregado.
-        /// Essa função vai destruir o "lobby client" e spawnar o personagem de fato.
-        /// </summary>
-        public void ClientSceneReady()
-        {
-            Debug.Log("ClientSceneReady before: " + _playersNotReady);
-            //TODO: if Level scene only   
-            --_playersNotReady;
-            //Debug.Log("ClientSceneReady");
-            if (_playersNotReady <= 0)
-            {
-                Debug.Log("ClientSceneReady inside");
-                var currentSceneLoaded = SceneLoader.Instance.GetCurrentSceneLoaded();
-                Debug.Log("Scene: " + currentSceneLoaded.sceneType);
-                if (currentSceneLoaded.sceneType == GameSceneType.Location)
-                {
-                    GamePlayers.Clear();
-                    float offset = 0;
-                    foreach (var lobbyClient in lobbyPlayers)
-                    {
-                        var conn = lobbyClient.connectionToClient;
-                        GameObject oldPlayer = conn.identity.gameObject;
-                        var instance = Instantiate(inGamePlayerPrefab[lobbyClient.CharacterId], new Vector3(-8f + offset, 0, -8f), Quaternion.identity);
-                        GamePlayers.Add(instance);
-                        NetworkServer.ReplacePlayerForConnection(conn, instance.gameObject);
-                        Destroy(oldPlayer, 0.1f);
-                        
-                        offset += 1f;
-                    }
-                }
-                GameObject roundSystemInstance = Instantiate(roundSystem);
-                NetworkServer.Spawn(roundSystemInstance);
-                GameObject orderManagerInstance = Instantiate(orderManager);
-                NetworkServer.Spawn(orderManagerInstance);
-            }
-            else
-            {
-                //Debug.Log("Still loading " + _playersNotReady);
-            }
-        }
+        // /// <summary>
+        // /// Os clients chamam essa função depois que o SceneLoader sinaliza que o level foi carregado.
+        // /// Essa função vai destruir o "lobby client" e spawnar o personagem de fato.
+        // /// </summary>
+        // public void ClientSceneReady()
+        // {
+        //     Debug.Log("ClientSceneReady before: " + _playersNotReady);
+        //     //TODO: if Level scene only   
+        //     --_playersNotReady;
+        //     //Debug.Log("ClientSceneReady");
+        //     if (_playersNotReady <= 0)
+        //     {
+        //         Debug.Log("ClientSceneReady inside");
+        //         var currentSceneLoaded = SceneLoader.Instance.GetCurrentSceneLoaded();
+        //         Debug.Log("Scene: " + currentSceneLoaded.sceneType);
+        //         if (currentSceneLoaded.sceneType == GameSceneType.Location)
+        //         {
+        //             GamePlayers.Clear();
+        //             float offset = 0;
+        //             foreach (var lobbyClient in lobbyPlayers)
+        //             {
+        //                 var conn = lobbyClient.connectionToClient;
+        //                 GameObject oldPlayer = conn.identity.gameObject;
+        //                 var instance = Instantiate(inGamePlayerPrefab[lobbyClient.CharacterId], new Vector3(-8f + offset, 0, -8f), Quaternion.identity);
+        //                 GamePlayers.Add(instance);
+        //                 NetworkServer.ReplacePlayerForConnection(conn, instance.gameObject);
+        //                 Destroy(oldPlayer, 0.1f);
+        //                 
+        //                 offset += 1f;
+        //             }
+        //         }
+        //         GameObject roundSystemInstance = Instantiate(roundSystem);
+        //         NetworkServer.Spawn(roundSystemInstance);
+        //         GameObject orderManagerInstance = Instantiate(orderManager);
+        //         NetworkServer.Spawn(orderManagerInstance);
+        //     }
+        //     else
+        //     {
+        //         //Debug.Log("Still loading " + _playersNotReady);
+        //     }
+        // }
 
         /// <summary>
         /// Esta função vai ser chamada pelo "levelManager" depois do termino do timer de countdown.
@@ -307,10 +316,10 @@ namespace MadSmith.Scripts.Multiplayer.Managers
             // }
             
             
-            foreach (var playerMovement in GamePlayers)
-            {
-                playerMovement.CmdEnableMovement();
-            }
+            // foreach (var playerMovement in GamePlayers)
+            // {
+            //     playerMovement.CmdEnableMovement();
+            // }
             // GameObject orderManagerInstance = Instantiate(orderManager);
             // NetworkServer.Spawn(orderManagerInstance);
         }

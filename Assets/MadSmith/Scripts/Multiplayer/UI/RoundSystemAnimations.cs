@@ -5,22 +5,24 @@ namespace MadSmith.Scripts.Multiplayer.UI
 {
     public class RoundSystemAnimations : MonoBehaviour
     {
-        private LevelManager _levelManager;
+        private RoundSystem _roundSystem;
 
         private void Awake()
         {
-            _levelManager = GetComponentInParent<LevelManager>();
+            _roundSystem = GetComponentInParent<RoundSystem>();
         }
 
         public void StartRound()
         {
-            //Debug.Log("Start round");
-            _levelManager.StartRoundAnimation();
+            // //Debug.Log("Start round");
+            // _levelManager.StartRoundAnimation();
+            _roundSystem.StartRound();
         }
         public void CountdownEnded()
         {
+            _roundSystem.CountdownEnded();
             //Debug.Log("CountdownEnded");
-            _levelManager.CountdownEnded();
+            // _levelManager.CountdownEnded();
         }
     }
 }

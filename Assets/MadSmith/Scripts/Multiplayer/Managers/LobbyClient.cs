@@ -55,7 +55,7 @@ namespace MadSmith.Scripts.Multiplayer.Managers
         // [Header("Broadcasting on")]
         private void OnDestroy()
         {
-            sceneReady.OnEventRaised -= OnSceneReady;
+            // sceneReady.OnEventRaised -= OnSceneReady;
             // inputReader.MenuPauseEvent -= InputReaderOnMenuPauseEvent;
         }
         
@@ -65,7 +65,7 @@ namespace MadSmith.Scripts.Multiplayer.Managers
             // var currentSceneLoaded = SceneLoader.Instance.GetCurrentSceneLoaded();
             // if (currentSceneLoaded.sceneType == GameSceneType.Location) return;
             gameObject.name = "LocalGamePlayer";
-            sceneReady.OnEventRaised += OnSceneReady;
+            // sceneReady.OnEventRaised += OnSceneReady;
             // var currentSceneLoaded = SceneLoader.Instance.GetCurrentSceneLoaded();
             // Debug.Log("Scene " + currentSceneLoaded.sceneType);
             // if (currentSceneLoaded.sceneType == GameSceneType.Location) return;
@@ -99,24 +99,24 @@ namespace MadSmith.Scripts.Multiplayer.Managers
             
         }
         
-        public void OnSceneReady()
-        {
-            //Debug.Log("OnSceneReady");
-            CmdSceneReady();
-            // Debug.Log("PrepareToSpawnSceneObjects");
-            // NetworkClient.PrepareToSpawnSceneObjects(); //Aparentemente tenho que fazer isso aqui
-        }
+        // public void OnSceneReady()
+        // {
+        //     //Debug.Log("OnSceneReady");
+        //     CmdSceneReady();
+        //     // Debug.Log("PrepareToSpawnSceneObjects");
+        //     // NetworkClient.PrepareToSpawnSceneObjects(); //Aparentemente tenho que fazer isso aqui
+        // }
         
         /// <summary>
         /// Quando o SceneLoader termina de carregar o level ele executa um evento.
         /// Esse evento vai ser executado 
         /// </summary>
-        [Command]
-        private void CmdSceneReady()
-        {
-            //Debug.Log("CMD Scene ready");
-            Manager.ClientSceneReady();
-        }
+        // [Command]
+        // private void CmdSceneReady()
+        // {
+        //     //Debug.Log("CMD Scene ready");
+        //     Manager.ClientSceneReady();
+        // }
         
         [Command]
         public void CmdSetPlayerName(string playerName)
