@@ -30,7 +30,7 @@ namespace MadSmith.Scripts.Multiplayer.Managers
             // InputManager.Controls.Player.Look.Enable();
         }
 
-        [ServerCallback]
+        // [ServerCallback]
         private void OnDestroy() => MadSmithNetworkManager.OnServerReadied -= SpawnPlayer;
 
         [Server]

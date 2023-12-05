@@ -75,11 +75,11 @@ namespace MadSmith.Scripts.Multiplayer.Managers
                 EnableLocalhostResources();
             }
         }
-        public override void OnDestroy()
-        {
-            base.OnDestroy();
-            _loadEventChannelSo.OnLoadingRequested -= OnLoadingRequested;
-        }
+        // public override void OnDestroy()
+        // {
+        //     base.OnDestroy();
+        //     // _loadEventChannelSo.OnLoadingRequested -= OnLoadingRequested;
+        // }
 
         #region Enable/Disable Resources
 
@@ -132,7 +132,7 @@ namespace MadSmith.Scripts.Multiplayer.Managers
         {
             //Debug.Log("OnStartServer");
             spawnPrefabs = Resources.LoadAll<GameObject>(ResourcesPath).ToList();
-            _loadEventChannelSo.OnLoadingRequested += OnLoadingRequested;
+            // _loadEventChannelSo.OnLoadingRequested += OnLoadingRequested;
         }
 
         public override void OnStartClient()
@@ -231,19 +231,19 @@ namespace MadSmith.Scripts.Multiplayer.Managers
         //     base.OnClientChangeScene(newSceneName, sceneOperation, customHandling);
         // }
 
-        public override void OnClientSceneChanged()
-        {
-            base.OnClientSceneChanged();
-            
-            Debug.Log("OnClientSceneChanged");
-            // NetworkClient.localPlayer.TryGetComponent(out LobbyClient lobbyClient);
-            // if (lobbyClient != null)
-            // {
-            //     lobbyClient.OnSceneReady();
-            // }
-            // CmdSceneReady();
-            // ClientSceneReady(); //Deveria usar isso?
-        }
+        // public override void OnClientSceneChanged()
+        // {
+        //     base.OnClientSceneChanged();
+        //     
+        //     Debug.Log("OnClientSceneChanged");
+        //     // NetworkClient.localPlayer.TryGetComponent(out LobbyClient lobbyClient);
+        //     // if (lobbyClient != null)
+        //     // {
+        //     //     lobbyClient.OnSceneReady();
+        //     // }
+        //     // CmdSceneReady();
+        //     // ClientSceneReady(); //Deveria usar isso?
+        // }
 
         /// <summary>
         /// Evento do SceneLoader que avisa quando foi requisitado um loading.
