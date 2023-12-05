@@ -19,7 +19,7 @@ namespace MadSmith.Scripts.UI.SettingsScripts
         [SerializeField] private CinemachineVirtualCamera virtualCamera;
         private CinemachineTrackedDolly dolly;
         [SerializeField] private CinemachineSmoothPath dollyPath;
-        [SerializeField] private int currentLevelSelected = 0;
+        // [field: SerializeField] public int CurrentLevelSelected { get; private set; } = 0;
 
         [SerializeField] private TextMeshProUGUI levelScoreText;
         [SerializeField] private TextMeshProUGUI levelIndexText;
@@ -61,13 +61,13 @@ namespace MadSmith.Scripts.UI.SettingsScripts
         private void Setup()
         {
             dolly.m_PathPosition = dollyPath.m_Waypoints[0].position.x;
-            SetLevelData();
+            SetLevelData(0);
         }
 
-        public void SetLevelData()
+        public void SetLevelData(int levelSelected)
         {
             //Debug.Log("SetLevelData");
-            SerializedLevelScore serializedLevelScore = currentGameData.LevelScores.Find(x => (int)x.Level == currentLevelSelected);
+            SerializedLevelScore serializedLevelScore = currentGameData.LevelScores.Find(x => (int)x.Level == levelSelected);
             // if (serializedLevelScore != null)
             // {
             //     levelScoreText.text = GameManager.CalculateScore(serializedLevelScore.score);
@@ -77,52 +77,61 @@ namespace MadSmith.Scripts.UI.SettingsScripts
             //     levelScoreText.text = String.Empty;
             // }
 
-            levelImage.sprite = levelImages[currentLevelSelected];
-            levelIndexText.text = levelNames[currentLevelSelected];
+            levelImage.sprite = levelImages[levelSelected];
+            levelIndexText.text = levelNames[levelSelected];
         }
 
-        public void Play() // talvez adicionar aqui um Cmd
+        // public void Play() // talvez adicionar aqui um Cmd
+        // {
+        //     OnLevelSelected?.Invoke();
+        //     var manager = NetworkManager.singleton as MadSmithNetworkManager;
+        //     // if (manager != null) manager.StartGame("Level01-1");
+        //     if (manager != null)
+        //     {
+        //         manager.StartGame(GameManager.Instance.sceneSos[CurrentLevelSelected + 1].name);
+        //     }
+        //     // _onLoadScene.RaiseEvent(GameManager.Instance.sceneSos[currentLevelSelected],true);
+        // }
+
+        // public void LeftButton()
+        // {
+        //     //Debug.Log("LeftButton" + currentLevelSelected);
+        //     if (CurrentLevelSelected == 0)
+        //     {
+        //         CurrentLevelSelected = GameManager.Instance.sceneSos.Length - 1;
+        //     }
+        //     else
+        //     {
+        //         CurrentLevelSelected--;
+        //     }
+        //     dolly.m_PathPosition = Mathf.Floor((int)(CurrentLevelSelected / 3));
+        //     SetLevelData();
+        // }
+
+        public void UpdateLevelSelected(int levelSelected)
         {
-            OnLevelSelected?.Invoke();
-            var manager = NetworkManager.singleton as MadSmithNetworkManager;
-            // if (manager != null) manager.StartGame("Level01-1");
-            if (manager != null) manager.StartGame(GameManager.Instance.sceneSos[currentLevelSelected+1].name);
-            // _onLoadScene.RaiseEvent(GameManager.Instance.sceneSos[currentLevelSelected],true);
-        }
-
-        public void LeftButton()
-        {
-            //Debug.Log("LeftButton" + currentLevelSelected);
-            if (currentLevelSelected == 0)
-            {
-                currentLevelSelected = GameManager.Instance.sceneSos.Length - 1;
-            }
-            else
-            {
-                currentLevelSelected--;
-            }
-            dolly.m_PathPosition = Mathf.Floor((int)(currentLevelSelected / 3));
-            SetLevelData();
+            dolly.m_PathPosition = Mathf.Floor((int)(levelSelected / 3));
+            SetLevelData(levelSelected);
         }
 
 
 
-        public void RightButton()
-        {
-            //Debug.Log("RightButton" + currentLevelSelected + ", GameManager: " + GameManager.InstanceExists);
-            if (currentLevelSelected == GameManager.Instance.sceneSos.Length - 1)
-            {
-                currentLevelSelected = 0;
-            }
-            else
-            {
-                currentLevelSelected++;
-            }
-
-            //Debug.Log("dolly.m_PathPosition" + ReferenceEquals(dolly, null) + ":" + currentLevelSelected);
-            dolly.m_PathPosition = Mathf.Floor((int)(currentLevelSelected / 3));
-            //Debug.Log("dolly.m_PathPosition");
-            SetLevelData();
-        }
+        // public void RightButton()
+        // {
+        //     //Debug.Log("RightButton" + currentLevelSelected + ", GameManager: " + GameManager.InstanceExists);
+        //     if (CurrentLevelSelected == GameManager.Instance.sceneSos.Length - 1)
+        //     {
+        //         CurrentLevelSelected = 0;
+        //     }
+        //     else
+        //     {
+        //         CurrentLevelSelected++;
+        //     }
+        //
+        //     //Debug.Log("dolly.m_PathPosition" + ReferenceEquals(dolly, null) + ":" + currentLevelSelected);
+        //     dolly.m_PathPosition = Mathf.Floor((int)(CurrentLevelSelected / 3));
+        //     //Debug.Log("dolly.m_PathPosition");
+        //     SetLevelData();
+        // }
     }
 }

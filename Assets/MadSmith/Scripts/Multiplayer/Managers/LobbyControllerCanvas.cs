@@ -12,7 +12,7 @@ using UnityEngine.UI;
 
 namespace MadSmith.Scripts.Multiplayer.Managers
 {
-    public class LobbyController : Singleton<LobbyController>
+    public class LobbyControllerCanvas : Singleton<LobbyControllerCanvas>
     {
         public UnityAction Closed;
         public UnityAction NextPage;
@@ -233,6 +233,13 @@ namespace MadSmith.Scripts.Multiplayer.Managers
             if (!ReferenceEquals(lobbyClient, null))
             {
                 lobbyClient.PreviousCharacter();
+            }
+        }
+        public void StartGame()
+        {
+            if (!ReferenceEquals(lobbyClient, null))
+            {
+                lobbyClient.StartGame();
             }
         }
         

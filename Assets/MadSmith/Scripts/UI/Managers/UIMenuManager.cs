@@ -47,7 +47,7 @@ namespace MadSmith.Scripts.UI.Managers
         [SerializeField] private UILevelSelection _levelSelectUI;
         [SerializeField] private UITutorial uiTutorial;
         [SerializeField] private UIHost uiHostPanel;
-        [SerializeField] private LobbyController uiLobbyControllerPanel;
+        [SerializeField] private LobbyControllerCanvas uiLobbyControllerCanvasPanel;
         [SerializeField] private UIJoin uiJoinPanel;
         [SerializeField] private UILobbyList uiLobbiesListPanel;
         
@@ -427,34 +427,34 @@ namespace MadSmith.Scripts.UI.Managers
         private void SetLobbyScreen()
         {
             // uiLobbyControllerPanel
-            uiLobbyControllerPanel.Closed += () =>
+            uiLobbyControllerCanvasPanel.Closed += () =>
             {
                 Manager.StopHostOrClientOnLobbyMenu();
                 SetState(MenuState.MainMenu);
             };
-            uiLobbyControllerPanel.NextPage += () => { SetState(MenuState.LevelSelection); };
+            uiLobbyControllerCanvasPanel.NextPage += () => { SetState(MenuState.LevelSelection); };
             Manager.SteamLobby.OnLobbyEnteredEvent += () => SetState(MenuState.Lobby);
         }
         private void UnsetLobbyScreen()
         {
-            if (ReferenceEquals(uiLobbyControllerPanel, null)) return;
-            uiLobbyControllerPanel.Closed -= () =>
+            if (ReferenceEquals(uiLobbyControllerCanvasPanel, null)) return;
+            uiLobbyControllerCanvasPanel.Closed -= () =>
             {
                 Manager.StopHostOrClientOnLobbyMenu();
                 SetState(MenuState.MainMenu);
             };
-            uiLobbyControllerPanel.NextPage -= () => { SetState(MenuState.LevelSelection); };
+            uiLobbyControllerCanvasPanel.NextPage -= () => { SetState(MenuState.LevelSelection); };
             Manager.SteamLobby.OnLobbyEnteredEvent -= () => SetState(MenuState.Lobby);
         }
         private void OpenLobby()
         {
             _mainMenuCamera.SetActive(true);
-            uiLobbyControllerPanel.gameObject.SetActive(true);
+            uiLobbyControllerCanvasPanel.gameObject.SetActive(true);
         }
         private void CloseLobby()
         {
             _mainMenuCamera.SetActive(false);
-            uiLobbyControllerPanel.gameObject.SetActive(false);
+            uiLobbyControllerCanvasPanel.gameObject.SetActive(false);
         }
         #endregion
         

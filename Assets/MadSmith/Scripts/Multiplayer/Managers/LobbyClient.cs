@@ -5,6 +5,7 @@ using MadSmith.Scripts.Multiplayer.UI;
 using MadSmith.Scripts.SceneManagement;
 using MadSmith.Scripts.SceneManagement.ScriptableObjects;
 using MadSmith.Scripts.UI.Managers;
+using MadSmith.Scripts.UI.SettingsScripts;
 using Mirror;
 using Steamworks;
 using UnityEngine;
@@ -76,17 +77,18 @@ namespace MadSmith.Scripts.Multiplayer.Managers
                 ? SteamFriends.GetPersonaName().ToString()
                 : PlayerNameInput.DisplayName); 
             LobbiesListManager.Instance.DestroyLobbies();
-            LobbyController.Instance.SetLocalPlayer(this);
+            LobbyControllerCanvas.Instance.SetLocalPlayer(this);
             // LobbyController.Instance.FindLocalPlayer();
-            LobbyController.Instance.UpdateLobbyName();
+            LobbyControllerCanvas.Instance.UpdateLobbyName();
+            
         }
 
         public override void OnStopClient()
         {
             Manager.lobbyPlayers.Remove(this);
-            if (LobbyController.InstanceExists)
+            if (LobbyControllerCanvas.InstanceExists)
             {
-                LobbyController.Instance.UpdatePlayerList();
+                LobbyControllerCanvas.Instance.UpdatePlayerList();
             }
         }
         public override void OnStartClient()
@@ -94,8 +96,8 @@ namespace MadSmith.Scripts.Multiplayer.Managers
             //Debug.Log("LobbyClient - OnStartClient" + hasAuthority);   
             if (SceneManager.GetActiveScene().name.StartsWith("Level")) return;
             Manager.lobbyPlayers.Add(this);
-            LobbyController.Instance.UpdateLobbyName();
-            LobbyController.Instance.UpdatePlayerList();
+            LobbyControllerCanvas.Instance.UpdateLobbyName();
+            LobbyControllerCanvas.Instance.UpdatePlayerList();
             
         }
         
@@ -125,7 +127,7 @@ namespace MadSmith.Scripts.Multiplayer.Managers
         }
         public void PlayerNameUpdate(string oldValue, string newValue)
         {
-            if (!LobbyController.InstanceExists) return;
+            if (!LobbyControllerCanvas.InstanceExists) return;
             if (isServer)
             {
                 this.PlayerName = newValue;
@@ -133,7 +135,7 @@ namespace MadSmith.Scripts.Multiplayer.Managers
 
             if (isClient)
             {
-                LobbyController.Instance.UpdatePlayerList(); // Verificar pq esse atualiza a lista e o ready usa  Item
+                LobbyControllerCanvas.Instance.UpdatePlayerList(); // Verificar pq esse atualiza a lista e o ready usa  Item
             }
         }
 
@@ -159,7 +161,7 @@ namespace MadSmith.Scripts.Multiplayer.Managers
             
             if (isClient)
             {
-                LobbyController.Instance.UpdatePlayerList();
+                LobbyControllerCanvas.Instance.UpdatePlayerList();
             }
         }
         #endregion
@@ -196,10 +198,21 @@ namespace MadSmith.Scripts.Multiplayer.Managers
             
             if (isClient)
             {
-                LobbyController.Instance.UpdatePlayerList();
+                LobbyControllerCanvas.Instance.UpdatePlayerList();
             }
         }
         #endregion
+
+        #region StartGame
+
+        public void StartGame()
+        {
+            if (!isLeader) return;
+            _manager.StartGame();
+        }
+
+        #endregion
+        
         
         #region Level
         public void NextLevel()
@@ -260,7 +273,7 @@ namespace MadSmith.Scripts.Multiplayer.Managers
         {
             //Debug.Log("RpcFinishCharacterSelection");
             // NetworkClient.PrepareToSpawnSceneObjects();
-            LobbyController.Instance.FinishCharacterSelectionPage();
+            LobbyControllerCanvas.Instance.FinishCharacterSelectionPage();
         }
     }
 }

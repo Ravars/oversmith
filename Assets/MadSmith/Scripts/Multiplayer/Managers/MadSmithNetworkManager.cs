@@ -46,7 +46,7 @@ namespace MadSmith.Scripts.Multiplayer.Managers
         // 
         private readonly string ResourcesPath = "NetworkResources";
         private SteamManager _steamManager;
-        [SerializeField] private LobbyController lobbyController;
+        [SerializeField] private LobbyControllerCanvas lobbyControllerCanvas;
         
         // Actions
         public static event Action OnClientConnected;
@@ -88,7 +88,7 @@ namespace MadSmith.Scripts.Multiplayer.Managers
             _fizzySteamworksTransport.enabled = false;
             SteamLobby.enabled = false;
             _steamManager.enabled = false;
-            lobbyController.gameObject.SetActive(false);
+            lobbyControllerCanvas.gameObject.SetActive(false);
             
         }
         private void DisableLocalhostResources()
@@ -162,9 +162,9 @@ namespace MadSmith.Scripts.Multiplayer.Managers
             GamePlayers.Clear();
         }
         #endregion
-        public void StartGame(string sceneName)
+        public void StartGame()
         {
-            //Debug.Log("Scene name: " + sceneName);
+            string sceneName = GameManager.Instance.sceneSos[UiNetworkHandler.Instance.currentLevelSelected + 1].name;
             ServerChangeScene(sceneName);
         }
         public override void ServerChangeScene(string newSceneName)
@@ -355,7 +355,7 @@ namespace MadSmith.Scripts.Multiplayer.Managers
             TransportLayer = TransportLayer.LocalHost;
             transport = _localHostTransport;
             _localHostTransport.enabled = true;
-            lobbyController.gameObject.SetActive(true);
+            lobbyControllerCanvas.gameObject.SetActive(true);
             StartHost();
         }
         public void StopHostOrClientOnLobbyMenu()
