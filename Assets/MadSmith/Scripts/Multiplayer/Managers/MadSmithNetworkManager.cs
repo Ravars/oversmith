@@ -23,7 +23,7 @@ namespace MadSmith.Scripts.Multiplayer.Managers
     public class MadSmithNetworkManager : NetworkManager
     {
         // Variable
-        private int _playersNotReady;
+        // private int _playersNotReady;
         public List<LobbyClient> lobbyPlayers = new();
         public List<NetworkGamePlayer> GamePlayers { get; } = new();
         public TransportLayer TransportLayer { get; private set; }
@@ -170,12 +170,14 @@ namespace MadSmith.Scripts.Multiplayer.Managers
         public override void ServerChangeScene(string newSceneName)
         {
             // From menu to game
+            Debug.Log("Scene loaded instance" + SceneLoader.InstanceExists);
             var currentSceneLoaded = SceneLoader.Instance.GetCurrentSceneLoaded();
             // if (SceneManager.GetActiveScene().name == menuScene && newSceneName.StartsWith("Scene_Map"))
             if (currentSceneLoaded.sceneType == GameSceneType.Menu)
             {
                 GameManager.Instance.SetGameSceneSo(newSceneName);
-                _playersNotReady = lobbyPlayers.Count;
+                Debug.Log("lobbyPlayers.Count: " + lobbyPlayers.Count);
+                // _playersNotReady = lobbyPlayers.Count;
                 for (int i = lobbyPlayers.Count - 1; i >= 0; i--)
                 {
                     var conn = lobbyPlayers[i].connectionToClient;
@@ -213,11 +215,11 @@ namespace MadSmith.Scripts.Multiplayer.Managers
         }
         
 
-        public override void OnClientChangeScene(string newSceneName, SceneOperation sceneOperation, bool customHandling)
-        {
-            base.OnClientChangeScene(newSceneName, sceneOperation, customHandling);
-            Debug.Log("OnClientChangeScene");
-        }
+        // public override void OnClientChangeScene(string newSceneName, SceneOperation sceneOperation, bool customHandling)
+        // {
+        //     base.OnClientChangeScene(newSceneName, sceneOperation, customHandling);
+        //     Debug.Log("OnClientChangeScene");
+        // }
         
         // public override void OnClientChangeScene(string newSceneName, SceneOperation sceneOperation, bool customHandling)
         // {
@@ -245,18 +247,18 @@ namespace MadSmith.Scripts.Multiplayer.Managers
         //     // ClientSceneReady(); //Deveria usar isso?
         // }
 
-        /// <summary>
-        /// Evento do SceneLoader que avisa quando foi requisitado um loading.
-        /// A ideia aqui é só inicializar a quantidade de players in-game
-        /// </summary>
-        /// <param name="arg0"></param>
-        /// <param name="arg1"></param>
-        /// <param name="arg2"></param>
-        private void OnLoadingRequested(GameSceneSO arg0, bool arg1, bool arg2)
-        {
-            //Debug.Log("OnLoadingRequested");
-            _playersNotReady = lobbyPlayers.Count;
-        }
+        // /// <summary>
+        // /// Evento do SceneLoader que avisa quando foi requisitado um loading.
+        // /// A ideia aqui é só inicializar a quantidade de players in-game
+        // /// </summary>
+        // /// <param name="arg0"></param>
+        // /// <param name="arg1"></param>
+        // /// <param name="arg2"></param>
+        // private void OnLoadingRequested(GameSceneSO arg0, bool arg1, bool arg2)
+        // {
+        //     //Debug.Log("OnLoadingRequested");
+        //     // _playersNotReady = lobbyPlayers.Count;
+        // }
 
         // /// <summary>
         // /// Os clients chamam essa função depois que o SceneLoader sinaliza que o level foi carregado.
