@@ -218,8 +218,8 @@ namespace MadSmith.Scripts.Multiplayer.Managers
         public override void ServerChangeScene(string newSceneName)
         {
             // From menu to game
+            Debug.Log("ServerChangeScene");
             var currentSceneLoaded = GameManager.Instance.GetSceneSo();
-            Debug.Log("Scene loaded instance" + currentSceneLoaded.level);
             // if (SceneManager.GetActiveScene().name == menuScene && newSceneName.StartsWith("Scene_Map"))
             if (currentSceneLoaded.sceneType == GameSceneType.Menu)
             {
@@ -244,6 +244,7 @@ namespace MadSmith.Scripts.Multiplayer.Managers
         public override void OnServerSceneChanged(string sceneName)
         {
             //Debug.Log("sceneName");
+            Debug.Log("OnServerSceneChanged");
             if (sceneName.StartsWith("Level"))
             {
                 GameObject orderManagerInstance = Instantiate(orderManager);

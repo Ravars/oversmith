@@ -239,7 +239,7 @@ namespace MadSmith.Scripts.Multiplayer.Managers
         {
             if (!ReferenceEquals(lobbyClient, null))
             {
-                lobbyClient.StartGame();
+                lobbyClient.CmdStartGame();
             }
         }
         
