@@ -244,16 +244,17 @@ namespace MadSmith.Scripts.Multiplayer.Managers
         public override void OnServerSceneChanged(string sceneName)
         {
             //Debug.Log("sceneName");
-            Debug.Log("OnServerSceneChanged");
+            Debug.Log("OnServerSceneChanged" + sceneName);
             if (sceneName.StartsWith("Level"))
             {
-                GameObject orderManagerInstance = Instantiate(orderManager);
-                NetworkServer.Spawn(orderManagerInstance);
                 GameObject playerSpawnSystemInstance = Instantiate(playerSpawnSystem.gameObject);
                 NetworkServer.Spawn(playerSpawnSystemInstance);
         
                 GameObject roundSystemInstance = Instantiate(roundSystem);
                 NetworkServer.Spawn(roundSystemInstance);
+                
+                GameObject orderManagerInstance = Instantiate(orderManager);
+                NetworkServer.Spawn(orderManagerInstance);
             }
         }
 
