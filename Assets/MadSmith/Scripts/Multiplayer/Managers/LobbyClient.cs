@@ -205,7 +205,8 @@ namespace MadSmith.Scripts.Multiplayer.Managers
 
         #region StartGame
 
-        public void StartGame()
+        [Command]
+        public void CmdStartGame()
         {
             if (!isLeader) return;
             _manager.StartGame();

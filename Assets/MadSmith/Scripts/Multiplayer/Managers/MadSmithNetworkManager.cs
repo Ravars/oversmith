@@ -128,6 +128,29 @@ namespace MadSmith.Scripts.Multiplayer.Managers
             NetworkServer.AddPlayerForConnection(conn, lobbyClient.gameObject);
         }
 
+        public override void OnServerDisconnect(NetworkConnectionToClient conn)
+        {
+            if (conn.identity != null)
+            {
+                conn.identity.TryGetComponent(out LobbyClient player);
+                if (player != null)
+                {
+                    lobbyPlayers.Remove(player);
+                }
+                else
+                {
+                    conn.identity.TryGetComponent(out NetworkGamePlayer playerMovement);
+                    if (playerMovement != null)
+                    {
+                        GamePlayers.Remove(playerMovement);
+                    }
+                }
+                
+                // NotifyPlayersOfReadyState
+            }
+            base.OnServerDisconnect(conn);
+        }
+
         public override void OnStartServer()
         {
             //Debug.Log("OnStartServer");
@@ -147,7 +170,19 @@ namespace MadSmith.Scripts.Multiplayer.Managers
 
             OnClientConnected?.Invoke();
         }
-        
+
+        public override void OnClientConnect()
+        {
+            base.OnClientConnect();
+            OnClientConnected?.Invoke();
+        }
+
+        public override void OnClientDisconnect()
+        {
+            base.OnClientDisconnect();
+            OnClientDisconnected?.Invoke();
+        }
+
 
         public override void OnStopClient()
         {
@@ -161,17 +196,30 @@ namespace MadSmith.Scripts.Multiplayer.Managers
             lobbyPlayers.Clear();
             GamePlayers.Clear();
         }
-        #endregion
-        public void StartGame()
+
+        public override void OnServerConnect(NetworkConnectionToClient conn)
         {
-            string sceneName = GameManager.Instance.sceneSos[UiNetworkHandler.Instance.currentLevelSelected + 1].name;
-            ServerChangeScene(sceneName);
+            base.OnServerConnect(conn);
+            // if(numPlayers >= max)
+            // {
+            //     conn.Disconnect();
+            //     return;
+            // }
+            var currentSceneLoaded = GameManager.Instance.GetSceneSo();
+            if (currentSceneLoaded.sceneType != GameSceneType.Menu)
+            {
+                conn.Disconnect();
+                return;
+            }
         }
+
+        #endregion
+        
         public override void ServerChangeScene(string newSceneName)
         {
             // From menu to game
-            Debug.Log("Scene loaded instance" + SceneLoader.InstanceExists);
-            var currentSceneLoaded = SceneLoader.Instance.GetCurrentSceneLoaded();
+            Debug.Log("ServerChangeScene");
+            var currentSceneLoaded = GameManager.Instance.GetSceneSo();
             // if (SceneManager.GetActiveScene().name == menuScene && newSceneName.StartsWith("Scene_Map"))
             if (currentSceneLoaded.sceneType == GameSceneType.Menu)
             {
@@ -196,15 +244,17 @@ namespace MadSmith.Scripts.Multiplayer.Managers
         public override void OnServerSceneChanged(string sceneName)
         {
             //Debug.Log("sceneName");
+            Debug.Log("OnServerSceneChanged" + sceneName);
             if (sceneName.StartsWith("Level"))
             {
-                GameObject orderManagerInstance = Instantiate(orderManager);
-                NetworkServer.Spawn(orderManagerInstance);
                 GameObject playerSpawnSystemInstance = Instantiate(playerSpawnSystem.gameObject);
                 NetworkServer.Spawn(playerSpawnSystemInstance);
         
                 GameObject roundSystemInstance = Instantiate(roundSystem);
                 NetworkServer.Spawn(roundSystemInstance);
+                
+                GameObject orderManagerInstance = Instantiate(orderManager);
+                NetworkServer.Spawn(orderManagerInstance);
             }
         }
 
@@ -402,5 +452,10 @@ namespace MadSmith.Scripts.Multiplayer.Managers
         // {
         //     
         // }
+        public void StartGame()
+        {
+            string sceneName = GameManager.Instance.sceneSos[UiNetworkHandler.Instance.currentLevelSelected + 1].name;
+            ServerChangeScene(sceneName);
+        }
     }
 }
