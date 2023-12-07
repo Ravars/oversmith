@@ -105,7 +105,7 @@ namespace MadSmith.Scripts.SceneManagement
             // {
             //     _toggleLoadingScreen.RaiseEvent(true);
             // }
-            Debug.Log("LoadNewScene");
+            //Debug.Log("LoadNewScene");
             SceneManager.LoadSceneAsync(_sceneToLoad.sceneId, LoadSceneMode.Additive).completed += OnCompleted;
             _currentlyLoadedSceneIndex = _sceneToLoad.sceneId;
             _currentlyLoadedScene = _sceneToLoad;

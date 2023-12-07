@@ -47,7 +47,7 @@ namespace MadSmith.Scripts.Systems.Settings
 
         public void LoadDefaultSettings()
         {
-            Debug.Log("Load default");
+            //Debug.Log("Load default");
             masterVolume = 8;
             musicVolume = 8;
             sfxVolume = 10;

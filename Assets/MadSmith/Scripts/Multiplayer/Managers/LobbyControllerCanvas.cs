@@ -12,7 +12,7 @@ using UnityEngine.UI;
 
 namespace MadSmith.Scripts.Multiplayer.Managers
 {
-    public class LobbyController : Singleton<LobbyController>
+    public class LobbyControllerCanvas : Singleton<LobbyControllerCanvas>
     {
         public UnityAction Closed;
         public UnityAction NextPage;
@@ -30,7 +30,7 @@ namespace MadSmith.Scripts.Multiplayer.Managers
         public ulong CurrentLobbyID;
         public bool PlayerItemCreated = false;
         private List<PlayerListItem> PlayerListItems = new();
-        public LobbyClient lobbyClient;
+        [HideInInspector] public LobbyClient lobbyClient;
         
         //Ready
         public Button StartGameButton;
@@ -73,7 +73,7 @@ namespace MadSmith.Scripts.Multiplayer.Managers
         
         private void CreateHostPlayerItem()
         {
-            Debug.Log("CreateHostPlayerItem");
+            //Debug.Log("CreateHostPlayerItem");
             foreach (LobbyClient player in Manager.lobbyPlayers)
             {
                 GameObject newPlayerItem = Instantiate(PlayerListItemPrefab, PlayerListViewContent.transform, true) as GameObject;
@@ -93,7 +93,7 @@ namespace MadSmith.Scripts.Multiplayer.Managers
         }
         private void CreateClientPlayerItem()
         {
-            Debug.Log("CreateClientPlayerItem");
+            //Debug.Log("CreateClientPlayerItem");
             foreach (LobbyClient player in Manager.lobbyPlayers)
             {
                 if (PlayerListItems.All(b => b.ConnectionID != player.ConnectionID))
@@ -235,12 +235,20 @@ namespace MadSmith.Scripts.Multiplayer.Managers
                 lobbyClient.PreviousCharacter();
             }
         }
-        public void FinishCharacterSelectionButton()
+        public void StartGame()
         {
-            Debug.Log("Lobby controller StartGame" );
             if (!ReferenceEquals(lobbyClient, null))
             {
-                lobbyClient.CanStartGame();
+                lobbyClient.CmdStartGame();
+            }
+        }
+        
+        public void FinishCharacterSelectionButton()
+        {
+            //Debug.Log("FinishCharacterSelectionButton" + ReferenceEquals(lobbyClient, null));
+            if (!ReferenceEquals(lobbyClient, null))
+            {
+                lobbyClient.FinishCharacterSelection();
             }
         }
 
@@ -249,10 +257,16 @@ namespace MadSmith.Scripts.Multiplayer.Managers
             Closed?.Invoke();
         }
         
-        public void FindLocalPlayer()
+        // public void FindLocalPlayer()
+        // {
+        //     LocalPlayerObject = GameObject.Find("LocalGamePlayer");
+        //     lobbyClient = LocalPlayerObject.GetComponent<LobbyClient>();
+        // }
+
+        public void SetLocalPlayer(LobbyClient localGamePlayerLobbyClient)
         {
-            LocalPlayerObject = GameObject.Find("LocalGamePlayer");
-            lobbyClient = LocalPlayerObject.GetComponent<LobbyClient>();
+            LocalPlayerObject = localGamePlayerLobbyClient.gameObject;
+            lobbyClient = localGamePlayerLobbyClient;
         }
 
         public void UpdateLobbyName()
@@ -263,7 +277,7 @@ namespace MadSmith.Scripts.Multiplayer.Managers
 
         public void FinishCharacterSelectionPage()
         {
-            Debug.Log("FinishCharacterSelectionPage");
+            //Debug.Log("FinishCharacterSelectionPage");
             foreach (var playerListItem in PlayerListItems)
             {
                 Destroy(playerListItem.gameObject);

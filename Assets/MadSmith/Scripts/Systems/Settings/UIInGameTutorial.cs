@@ -34,7 +34,7 @@ namespace MadSmith.Scripts.Systems.Settings
 
         public void Setup(LocationSO level)
         {
-            Debug.Log("UI Setup." + level.tutorialDataSo == null + " " + ReferenceEquals(level.tutorialDataSo, null));
+            //Debug.Log("UI Setup." + level.tutorialDataSo == null + " " + ReferenceEquals(level.tutorialDataSo, null));
             //TODO verificacao com null nao funfa
             if (level.tutorialDataSo == null)
             {
@@ -52,7 +52,7 @@ namespace MadSmith.Scripts.Systems.Settings
 
         public void CloseTutorialButton()
         {
-            Debug.Log("Closed");
+            //Debug.Log("Closed");
             Closed?.Invoke();
         }
     }
