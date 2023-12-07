@@ -34,7 +34,7 @@ namespace MadSmith.Scripts.Menu.Old
                 if (!isFadingIn)
                 {
                     onFadeInEnd.Invoke();
-                    Debug.Log(gameObject.name + ": Fade in end");
+                    //Debug.Log(gameObject.name + ": Fade in end");
                 }
             }
             else if (isFadingOut)
@@ -43,7 +43,7 @@ namespace MadSmith.Scripts.Menu.Old
                 if (!isFadingOut)
                 {
                     onFadeOutEnd.Invoke();
-                    Debug.Log(gameObject.name + ": Fade out end");
+                    //Debug.Log(gameObject.name + ": Fade out end");
                 }
             }
         }
@@ -52,7 +52,7 @@ namespace MadSmith.Scripts.Menu.Old
         {
             isFadingOut = false;
             isFadingIn = true;
-            Debug.Log(gameObject.name + ": Fade in begin");
+            //Debug.Log(gameObject.name + ": Fade in begin");
         }
 
         public void FadeIn(float time, UnityAction ender)
@@ -71,7 +71,7 @@ namespace MadSmith.Scripts.Menu.Old
         {
             isFadingIn = false;
             isFadingOut = true;
-            Debug.Log(gameObject.name + ": Fade out begin");
+            //Debug.Log(gameObject.name + ": Fade out begin");
         }
 
         public void FadeOut(float time, UnityAction ender)

@@ -61,7 +61,7 @@ namespace MadSmith.Scripts.Multiplayer.Managers
         {
             if (callback.m_eResult != EResult.k_EResultOK) return;
             
-            Debug.Log("Lobby created Successfully!");
+            //Debug.Log("Lobby created Successfully!");
             
             _manager.StartHost();
             SteamMatchmaking.SetLobbyData(new CSteamID(callback.m_ulSteamIDLobby), HostAddressKey,
@@ -73,19 +73,19 @@ namespace MadSmith.Scripts.Multiplayer.Managers
 
         private void OnJoinRequest(GameLobbyJoinRequested_t callback)
         {
-            Debug.Log("Request to join lobby");
+            //Debug.Log("Request to join lobby");
             SteamMatchmaking.JoinLobby(callback.m_steamIDLobby);
         }
 
         private void OnLobbyEntered(LobbyEnter_t callback)
         {
-            Debug.Log("Lobby Entered");
+            //Debug.Log("Lobby Entered");
             //Everyone
             currentLobbyID = callback.m_ulSteamIDLobby;
             OnLobbyEnteredEvent?.Invoke();
             //Client
             if(NetworkServer.active) return;
-            Debug.Log("Lobby Entered client");
+            //Debug.Log("Lobby Entered client");
             _manager.networkAddress =
                 SteamMatchmaking.GetLobbyData(new CSteamID(callback.m_ulSteamIDLobby), HostAddressKey);
             _manager.StartClient();

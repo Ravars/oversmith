@@ -37,7 +37,7 @@ namespace MadSmith.Scripts.Interaction
                     if (CurrentInteractable != closestInteractable)
                     {
                         closestInteractable = _interactableList[0];
-                        Debug.Log(closestInteractable.InteractableHolder.gameObject.name);
+                        //Debug.Log(closestInteractable.InteractableHolder.gameObject.name);
                     }
                 }
                 else if(_interactableList.Count > 1)

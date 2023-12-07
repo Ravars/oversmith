@@ -23,10 +23,15 @@ namespace MadSmith.Scripts.Multiplayer.Player
             
             // NetworkClient.PrepareToSpawnSceneObjects();
         }
-
+        [Command]
+        private void CmdSceneReady()
+        {
+            //Debug.Log("CMD Scene ready");
+            // Manager.ClientSceneReady();
+        }
         private void Start()
         {
-            Debug.Log("Start");
+            //Debug.Log("Start");
             // DontDestroyOnLoad(gameObject);
         }
 

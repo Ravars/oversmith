@@ -16,6 +16,8 @@ public class NPCWarriorMovement : MonoBehaviour
 
     private bool isMoving = false;
 	private Vector3 direction;
+	public AudioSource[] audios;
+	public AudioSource horn = null;
 
 	private void Start()
 	{
@@ -36,6 +38,10 @@ public class NPCWarriorMovement : MonoBehaviour
 		if (Vector3.Distance(warriorColumn.transform.position, endPosition) < 0.1f)
 		{
 			isMoving = false;
+			foreach (var source in audios)
+			{
+				source.Stop();
+			}
 			warriorColumn.transform.position = startPosition;
 			warriorsParent.SetActive(false);
 
@@ -46,8 +52,18 @@ public class NPCWarriorMovement : MonoBehaviour
 	IEnumerator SpawnTimer(float seconds)
 	{
 		yield return new WaitForSeconds(seconds);
-
+		if (horn != null)
+		{
+			horn.Play();
+		}
+		yield return new WaitForSeconds(2);
 		warriorsParent.SetActive(true);
 		isMoving = true;
+		
+		foreach (var source in audios)
+		{
+			source.time = 2.9f + Random.Range(-0.5f, 1.0f);
+			source.Play();
+		}
 	}
 }

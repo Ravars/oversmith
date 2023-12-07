@@ -44,7 +44,7 @@ namespace MadSmith.Scripts.UI
 
         private void DeleteOrder(OrderData orderData)
         {
-            Debug.Log("Delete order");
+            //Debug.Log("Delete order");
             var a = ItemCardHolders.Find(x => x.id == orderData.Id);
             
             if (ReferenceEquals(a, null)) return;

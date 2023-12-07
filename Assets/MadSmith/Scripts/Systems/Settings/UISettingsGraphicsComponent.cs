@@ -190,7 +190,7 @@ namespace MadSmith.Scripts.Systems.Settings
         #region Resolution
         private void NextResolution()
         {
-            Debug.Log("next");
+            //Debug.Log("next");
             _currentResolutionIndex++;
             _currentResolutionIndex = Mathf.Clamp(_currentResolutionIndex, 0, resolutionsList.Count - 1);
             OnResolutionChange();
@@ -230,14 +230,14 @@ namespace MadSmith.Scripts.Systems.Settings
         private void SetResolutionField()
         {
             string displayText = resolutionsList[_currentResolutionIndex].ToString();
-            Debug.Log(displayText);
+            //Debug.Log(displayText);
             resolutionField.FillSettingField(resolutionsList.Count, _currentResolutionIndex, displayText);
         }
         #endregion
         #region Anti Aliasing
         void SetAntiAliasingField()
         {
-            Debug.Log(_currentAntiAliasingIndex);
+            //Debug.Log(_currentAntiAliasingIndex);
             _currentAntiAliasingIndex = 0;
             string optionDisplay = _currentAntiAliasingList[_currentAntiAliasingIndex].Replace("_", "");
             _antiAliasingField.FillSettingField(_currentAntiAliasingList.Count, _currentAntiAliasingIndex, optionDisplay);
