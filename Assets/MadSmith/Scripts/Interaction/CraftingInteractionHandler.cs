@@ -45,7 +45,7 @@ namespace MadSmith.Scripts.Interaction
                     // error VFX
                     return;
                 }
-                Debug.Log($"Init {a.Value.itemGenerated.itemName}");
+                //Debug.Log($"Init {a.Value.itemGenerated.itemName}");
                 
                 _timeToPrepareItem = timeToPrepareItem;
                 

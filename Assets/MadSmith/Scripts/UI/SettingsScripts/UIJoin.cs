@@ -12,7 +12,7 @@ namespace MadSmith.Scripts.UI.SettingsScripts
         [SerializeField] private InputReader _inputReader;
         public void SetJoinHost()
         {
-            Debug.Log("Set join host");
+            //Debug.Log("Set join host");
         }
         private void OnEnable()
         {

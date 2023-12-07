@@ -71,6 +71,7 @@ namespace MadSmith.Scripts.UI.SettingsScripts
 		public void SetCurrentPagination(int selectedPaginationIndex)
 		{
 			if (_instantiatedImages.Count > selectedPaginationIndex)
+			{
 				for (int i = 0; i < _instantiatedImages.Count; i++)
 				{
 					if (i == selectedPaginationIndex)
@@ -83,8 +84,8 @@ namespace MadSmith.Scripts.UI.SettingsScripts
 						_instantiatedImages[i].sprite = _emptyPagination;
 					}
 				}
-			else
-				Debug.LogError("Error in pagination number");
+			}
+				
 		}
     }
 }

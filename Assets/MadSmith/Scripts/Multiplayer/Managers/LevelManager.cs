@@ -29,7 +29,7 @@ namespace MadSmith.Scripts.Multiplayer.Managers
         [ServerCallback]
         public void StartRoundAnimation()  // Used by animation event
         {
-            Debug.Log("StartRoundAnimation");
+            //Debug.Log("StartRoundAnimation");
             RpcStartRound();
             // CmdSpawnOrderManager();
         }
@@ -54,7 +54,10 @@ namespace MadSmith.Scripts.Multiplayer.Managers
         private void RpcStartRound()
         {
             Debug.Log("RpcStartRound");
-            Manager.EnableMovement();
+            // if (isServer)
+            // {
+                Manager.EnableMovement();
+            // }
         }
 
         // [Command]

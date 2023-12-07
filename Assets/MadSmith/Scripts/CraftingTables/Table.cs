@@ -165,7 +165,7 @@ namespace MadSmith.Scripts.CraftingTables
         }
         private void SpawnNewItem(BaseItem newItem) // Provavelmente quebrado
         {
-            Debug.Log($"Spawn {newItem.name}");
+            //Debug.Log($"Spawn {newItem.name}");
             _itemTransform = Instantiate(newItem.prefab, pointToSpawnItem.position, pointToSpawnItem.rotation,
                 pointToSpawnItem).transform;
             ItemScript = _itemTransform.GetComponent<Item>();
