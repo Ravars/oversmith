@@ -94,32 +94,13 @@ namespace MadSmith.Scripts.Multiplayer.Managers
         public override void OnStartClient()
         {
             //Debug.Log("LobbyClient - OnStartClient" + hasAuthority);   
-            if (SceneManager.GetActiveScene().name.StartsWith("Level")) return;
+            // if (SceneManager.GetActiveScene().name.StartsWith("Level")) return;
             Manager.lobbyPlayers.Add(this);
             LobbyControllerCanvas.Instance.UpdateLobbyName();
             LobbyControllerCanvas.Instance.UpdatePlayerList();
             
         }
-        
-        // public void OnSceneReady()
-        // {
-        //     //Debug.Log("OnSceneReady");
-        //     CmdSceneReady();
-        //     // Debug.Log("PrepareToSpawnSceneObjects");
-        //     // NetworkClient.PrepareToSpawnSceneObjects(); //Aparentemente tenho que fazer isso aqui
-        // }
-        
-        /// <summary>
-        /// Quando o SceneLoader termina de carregar o level ele executa um evento.
-        /// Esse evento vai ser executado 
-        /// </summary>
-        // [Command]
-        // private void CmdSceneReady()
-        // {
-        //     //Debug.Log("CMD Scene ready");
-        //     Manager.ClientSceneReady();
-        // }
-        
+
         [Command]
         public void CmdSetPlayerName(string playerName)
         {
@@ -218,8 +199,10 @@ namespace MadSmith.Scripts.Multiplayer.Managers
         #region Level
         public void NextLevel()
         {
+            
             if (hasAuthority)
             {
+                Debug.Log("NextLevel");
                 int id = (this.levelSelected + 1) % NumberOfLevels;
                 CmdChangeLevelSelected(this.levelSelected, id);
             }
@@ -229,6 +212,7 @@ namespace MadSmith.Scripts.Multiplayer.Managers
         {
             if (hasAuthority)
             {
+                Debug.Log("PreviousLevel");
                 int id = this.levelSelected - 1 < 0 ? NumberOfLevels - 1 : this.levelSelected - 1;
                 CmdChangeLevelSelected(this.levelSelected,id);
             }
