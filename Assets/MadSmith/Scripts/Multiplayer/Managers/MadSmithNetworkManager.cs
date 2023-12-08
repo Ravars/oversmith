@@ -221,8 +221,8 @@ namespace MadSmith.Scripts.Multiplayer.Managers
             Debug.Log("OnServerSceneChanged" + sceneName);
             if (sceneName.StartsWith("Level"))
             {
-                GameObject playerSpawnSystemInstance = Instantiate(playerSpawnSystem.gameObject);
-                NetworkServer.Spawn(playerSpawnSystemInstance);
+                // GameObject playerSpawnSystemInstance = Instantiate(playerSpawnSystem.gameObject);
+                // NetworkServer.Spawn(playerSpawnSystemInstance);
         
                 // GameObject roundSystemInstance = Instantiate(roundSystem);
                 // NetworkServer.Spawn(roundSystemInstance);
