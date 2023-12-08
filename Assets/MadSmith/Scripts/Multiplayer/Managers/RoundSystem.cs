@@ -1,3 +1,4 @@
+using System;
 using Mirror;
 using System.Linq;
 using MadSmith.Scripts.Input;
@@ -17,6 +18,11 @@ namespace MadSmith.Scripts.Multiplayer.Managers
                 if (room != null) { return room; }
                 return room = NetworkManager.singleton as MadSmithNetworkManager;
             }
+        }
+
+        private void Start()
+        {
+            Debug.Log("Start RoundSystem");
         }
 
         public void CountdownEnded()

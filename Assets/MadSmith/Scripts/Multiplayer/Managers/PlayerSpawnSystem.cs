@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using Mirror;
@@ -13,6 +14,11 @@ namespace MadSmith.Scripts.Multiplayer.Managers
 
         private int nextIndex = 0;
 
+        private void Start()
+        {
+            Debug.Log("PlayerSpawnSystem");
+        }
+
         public static void AddSpawnPoint(Transform transform)
         {
             spawnPoints.Add(transform);
@@ -21,7 +27,11 @@ namespace MadSmith.Scripts.Multiplayer.Managers
         }
         public static void RemoveSpawnPoint(Transform transform) => spawnPoints.Remove(transform);
 
-        public override void OnStartServer() => MadSmithNetworkManager.OnServerReadied += SpawnPlayer;
+        public override void OnStartServer()
+        {
+            Debug.Log("OnStartServer PlayerSpawnSystem");
+            MadSmithNetworkManager.OnServerReadied += SpawnPlayer;
+        }
 
         public override void OnStartClient()
         {
