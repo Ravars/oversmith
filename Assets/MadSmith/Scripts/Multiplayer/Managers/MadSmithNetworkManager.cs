@@ -197,26 +197,26 @@ namespace MadSmith.Scripts.Multiplayer.Managers
         }
         public override void ServerChangeScene(string newSceneName)
         {
-            // From menu to game
-            var currentSceneLoaded = GameManager.Instance.GetSceneSo();
-            // if (SceneManager.GetActiveScene().name == menuScene && newSceneName.StartsWith("Scene_Map"))
-            Debug.Log("ServerChangeScene: " + currentSceneLoaded.name + " - " + newSceneName);
-            if (currentSceneLoaded.sceneType == GameSceneType.Menu)
-            {
-                GameManager.Instance.SetGameSceneSo(newSceneName);
-                for (int i = lobbyPlayers.Count - 1; i >= 0; i--)
-                {
-                    var conn = lobbyPlayers[i].connectionToClient;
-                    var gamePlayerInstance = Instantiate(gamePlayerPrefab);
-                    NetworkServer.Spawn(gamePlayerInstance.gameObject);
-                    gamePlayerInstance.SetDisplayName(lobbyPlayers[i].PlayerName);
-                    
-                    NetworkServer.Destroy(conn.identity.gameObject);
-                    
-                    NetworkServer.ReplacePlayerForConnection(conn, gamePlayerInstance.gameObject);
-                }
-                lobbyPlayers.Clear();
-            }
+            // // From menu to game
+            // var currentSceneLoaded = GameManager.Instance.GetSceneSo();
+            // // if (SceneManager.GetActiveScene().name == menuScene && newSceneName.StartsWith("Scene_Map"))
+            // Debug.Log("ServerChangeScene: " + currentSceneLoaded.name + " - " + newSceneName);
+            // if (currentSceneLoaded.sceneType == GameSceneType.Menu)
+            // {
+            //     GameManager.Instance.SetGameSceneSo(newSceneName);
+            //     for (int i = lobbyPlayers.Count - 1; i >= 0; i--)
+            //     {
+            //         var conn = lobbyPlayers[i].connectionToClient;
+            //         var gamePlayerInstance = Instantiate(gamePlayerPrefab);
+            //         // NetworkServer.Spawn(gamePlayerInstance.gameObject);
+            //         gamePlayerInstance.SetDisplayName(lobbyPlayers[i].PlayerName);
+            //         
+            //         NetworkServer.Destroy(conn.identity.gameObject);
+            //         
+            //         NetworkServer.ReplacePlayerForConnection(conn, gamePlayerInstance.gameObject);
+            //     }
+            //     lobbyPlayers.Clear();
+            // }
             
             base.ServerChangeScene(newSceneName);
         }
@@ -225,14 +225,14 @@ namespace MadSmith.Scripts.Multiplayer.Managers
             Debug.Log("OnServerSceneChanged" + sceneName);
             if (sceneName.StartsWith("Level"))
             {
-                // GameObject playerSpawnSystemInstance = Instantiate(playerSpawnSystem.gameObject);
-                // NetworkServer.Spawn(playerSpawnSystemInstance);
+                GameObject playerSpawnSystemInstance = Instantiate(playerSpawnSystem.gameObject);
+                NetworkServer.Spawn(playerSpawnSystemInstance);
         
-                // GameObject roundSystemInstance = Instantiate(roundSystem);
-                // NetworkServer.Spawn(roundSystemInstance);
+                GameObject roundSystemInstance = Instantiate(roundSystem);
+                NetworkServer.Spawn(roundSystemInstance);
                 
-                // GameObject orderManagerInstance = Instantiate(orderManager);
-                // NetworkServer.Spawn(orderManagerInstance);
+                GameObject orderManagerInstance = Instantiate(orderManager);
+                NetworkServer.Spawn(orderManagerInstance);
             }
         }
         public override void OnServerReady(NetworkConnectionToClient conn)
