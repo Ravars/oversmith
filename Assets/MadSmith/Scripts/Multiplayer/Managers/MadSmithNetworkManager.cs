@@ -191,33 +191,34 @@ namespace MadSmith.Scripts.Multiplayer.Managers
         }
         public void StartGame()
         {
+            Debug.Log("StartGame");
             string sceneName = GameManager.Instance.sceneSos[UiNetworkHandler.Instance.currentLevelSelected + 1].name;
             ServerChangeScene(sceneName);
         }
-        // public override void ServerChangeScene(string newSceneName)
-        // {
-        //     // From menu to game
-        //     var currentSceneLoaded = GameManager.Instance.GetSceneSo();
-        //     // if (SceneManager.GetActiveScene().name == menuScene && newSceneName.StartsWith("Scene_Map"))
-        //     Debug.Log("ServerChangeScene: " + currentSceneLoaded.name + " - " + newSceneName);
-        //     if (currentSceneLoaded.sceneType == GameSceneType.Menu)
-        //     {
-        //         GameManager.Instance.SetGameSceneSo(newSceneName);
-        //         for (int i = lobbyPlayers.Count - 1; i >= 0; i--)
-        //         {
-        //             var conn = lobbyPlayers[i].connectionToClient;
-        //             var gamePlayerInstance = Instantiate(gamePlayerPrefab);
-        //             gamePlayerInstance.SetDisplayName(lobbyPlayers[i].PlayerName);
-        //             
-        //             NetworkServer.Destroy(conn.identity.gameObject);
-        //             
-        //             NetworkServer.ReplacePlayerForConnection(conn, gamePlayerInstance.gameObject);
-        //         }
-        //         lobbyPlayers.Clear();
-        //     }
-        //     
-        //     base.ServerChangeScene(newSceneName);
-        // }
+        public override void ServerChangeScene(string newSceneName)
+        {
+            // From menu to game
+            var currentSceneLoaded = GameManager.Instance.GetSceneSo();
+            // if (SceneManager.GetActiveScene().name == menuScene && newSceneName.StartsWith("Scene_Map"))
+            Debug.Log("ServerChangeScene: " + currentSceneLoaded.name + " - " + newSceneName);
+            if (currentSceneLoaded.sceneType == GameSceneType.Menu)
+            {
+                GameManager.Instance.SetGameSceneSo(newSceneName);
+                for (int i = lobbyPlayers.Count - 1; i >= 0; i--)
+                {
+                    var conn = lobbyPlayers[i].connectionToClient;
+                    var gamePlayerInstance = Instantiate(gamePlayerPrefab);
+                    gamePlayerInstance.SetDisplayName(lobbyPlayers[i].PlayerName);
+                    
+                    NetworkServer.Destroy(conn.identity.gameObject);
+                    
+                    NetworkServer.ReplacePlayerForConnection(conn, gamePlayerInstance.gameObject);
+                }
+                lobbyPlayers.Clear();
+            }
+            
+            base.ServerChangeScene(newSceneName);
+        }
         public override void OnServerSceneChanged(string sceneName)
         {
             Debug.Log("OnServerSceneChanged" + sceneName);
