@@ -5,6 +5,7 @@ using UnityEngine;
 
 namespace MadSmith.Scripts.Animations
 {
+    [RequireComponent(typeof(AudioSource))]
     public class BridgeAnimation : MonoBehaviour
     {
         private List<Animator> _animators = new List<Animator>();
@@ -15,10 +16,11 @@ namespace MadSmith.Scripts.Animations
         [SerializeField] private GameObject collider;
 
         public bool hasFallen = false;
-
+        private AudioSource _audioSource;
         private void Awake()
         {
             var a = GetComponentsInChildren<Animator>();
+            _audioSource = GetComponent<AudioSource>();
             _animators.AddRange(a);
             foreach (var animator in _animators)
             {
@@ -50,6 +52,8 @@ namespace MadSmith.Scripts.Animations
             hasFallen = true;
             bridgeFallEffect.gameObject.SetActive(true);
             bridgeFallEffect.Play();
+            _audioSource.time = 0;
+            _audioSource.Play();
             foreach (var bridgeInteractableFix in bridgeInteractableFixes)
             {
                 bridgeInteractableFix.gameObject.SetActive(true);
