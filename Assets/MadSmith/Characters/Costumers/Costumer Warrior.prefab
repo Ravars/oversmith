@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2368182587583782133}
   - component: {fileID: 3674692404318671292}
+  - component: {fileID: 7268447043553789354}
   m_Layer: 0
   m_Name: Costumer Warrior
   m_TagString: Untagged
@@ -55,6 +56,36 @@ NavMeshAgent:
   m_BaseOffset: 0
   m_WalkableMask: 4294967295
   m_ObstacleAvoidanceType: 3
+--- !u!114 &7268447043553789354
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7056972501559553114}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c6a63039b0388744684a19b401139905, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  threshold: 0.1
+  limitTime: 20
+  OnArrival:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 0}
+        m_TargetAssemblyTypeName: MadSmith.Scripts.Figurants.FigurantsManager, Assembly-CSharp
+        m_MethodName: SetAgent
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 1
+  animator: {fileID: 1840186570205109756}
 --- !u!1 &8207755511924842779
 GameObject:
   m_ObjectHideFlags: 0
