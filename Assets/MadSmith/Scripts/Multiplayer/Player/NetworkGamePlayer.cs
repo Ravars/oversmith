@@ -18,6 +18,12 @@ namespace MadSmith.Scripts.Multiplayer.Player
             }
         }
 
+        public override void OnStartAuthority()
+        {
+            // base.OnStartAuthority();
+            NetworkClient.PrepareToSpawnSceneObjects();
+        }
+
         public override void OnStartClient()
         {
             DontDestroyOnLoad(gameObject);
