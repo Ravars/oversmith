@@ -227,8 +227,8 @@ namespace MadSmith.Scripts.Multiplayer.Managers
                 GameObject roundSystemInstance = Instantiate(roundSystem);
                 NetworkServer.Spawn(roundSystemInstance);
                 
-                GameObject orderManagerInstance = Instantiate(orderManager);
-                NetworkServer.Spawn(orderManagerInstance);
+                // GameObject orderManagerInstance = Instantiate(orderManager);
+                // NetworkServer.Spawn(orderManagerInstance);
             }
         }
         public override void OnServerReady(NetworkConnectionToClient conn)
