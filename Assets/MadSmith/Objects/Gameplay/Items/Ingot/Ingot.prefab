@@ -24,13 +24,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 694044419}
+  serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 4327141308707055151}
-  m_RootOrder: -1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!65 &694044421
 BoxCollider:
@@ -76,6 +76,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1864292738334474657}
+  serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
@@ -83,7 +84,6 @@ Transform:
   m_Children:
   - {fileID: 1310838930911123324}
   m_Father: {fileID: 4327141308707055151}
-  m_RootOrder: -1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &7623696291290463729
 GameObject:
@@ -110,6 +110,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7623696291290463729}
+  serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
@@ -119,7 +120,6 @@ Transform:
   - {fileID: 694044420}
   - {fileID: 2488507904664310767}
   m_Father: {fileID: 0}
-  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &4573368096826211165
 MonoBehaviour:
@@ -135,8 +135,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   slider: {fileID: 2311003795294942772}
   baseItem: {fileID: 11400000, guid: 42648f4a321050748932f8357b7950fb, type: 2}
-  soundIn: {fileID: 8300000, guid: f84656f8e994a7c4085b999788f0b568, type: 3}
-  soundOut: {fileID: 8300000, guid: f84656f8e994a7c4085b999788f0b568, type: 3}
+  soundIn: {fileID: 8300000, guid: 0a0a19c2fab520b408dc4c1175bab324, type: 3}
+  soundOut: {fileID: 8300000, guid: cc5b6c28ea0c7824da35541028c6e1ad, type: 3}
   craftSound: {fileID: 8300000, guid: f84656f8e994a7c4085b999788f0b568, type: 3}
 --- !u!82 &3123819190629840724
 AudioSource:
