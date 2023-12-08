@@ -208,6 +208,7 @@ namespace MadSmith.Scripts.Multiplayer.Managers
                 {
                     var conn = lobbyPlayers[i].connectionToClient;
                     var gamePlayerInstance = Instantiate(gamePlayerPrefab);
+                    NetworkServer.Spawn(gamePlayerInstance.gameObject);
                     gamePlayerInstance.SetDisplayName(lobbyPlayers[i].PlayerName);
                     
                     NetworkServer.Destroy(conn.identity.gameObject);
