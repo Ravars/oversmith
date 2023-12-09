@@ -105,8 +105,8 @@ namespace MadSmith.Scripts.Multiplayer.Managers
 
         public override void OnServerAddPlayer(NetworkConnectionToClient conn)
         {
-            base.OnServerAddPlayer(conn);
             Debug.Log("OnServerAddPlayer");
+            base.OnServerAddPlayer(conn);
             
             MadSmithNetworkRoomPlayer lobbyClient = Instantiate(roomPlayerPrefab) as MadSmithNetworkRoomPlayer;
             lobbyClient.isLeader = roomSlots.Count == 0;
