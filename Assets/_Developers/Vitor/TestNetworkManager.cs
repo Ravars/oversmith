@@ -1,4 +1,4 @@
-using MadSmith.Scripts.Multiplayer.Player;
+using MadSmith.Scripts.Multiplayer.Old.Player;
 using Mirror;
 using UnityEngine;
 using UnityEngine.SceneManagement;

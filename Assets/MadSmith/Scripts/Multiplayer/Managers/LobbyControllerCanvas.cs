@@ -1,6 +1,8 @@
- using System.Collections.Generic;
+using System.Collections.Generic;
 using System.Linq;
 using MadSmith.Scripts.Input;
+using MadSmith.Scripts.Multiplayer.Old.Managers;
+using MadSmith.Scripts.Multiplayer.Old.UI;
 using MadSmith.Scripts.Multiplayer.UI;
 using MadSmith.Scripts.Utils;
 using Mirror;
@@ -14,8 +16,8 @@ namespace MadSmith.Scripts.Multiplayer.Managers
 {
     public class LobbyControllerCanvas : Singleton<LobbyControllerCanvas>
     {
-        public UnityAction Closed;
-        public UnityAction NextPage;
+        // public UnityAction Closed;
+        // public UnityAction NextPage;
         [SerializeField] private InputReader _inputReader;
         
         //UI Element
@@ -38,12 +40,12 @@ namespace MadSmith.Scripts.Multiplayer.Managers
 
         public GameObject canvasView;
         //Manager
-        private MadSmithNetworkManager _manager;
-        public MadSmithNetworkManager Manager
+        private MadSmithNetworkRoomManager _manager;
+        public MadSmithNetworkRoomManager Manager
         { get
             {
                 if (!ReferenceEquals(_manager, null)) return _manager;
-                return _manager = NetworkManager.singleton as MadSmithNetworkManager;
+                return _manager = NetworkManager.singleton as MadSmithNetworkRoomManager;
             }
         }
         
@@ -51,6 +53,7 @@ namespace MadSmith.Scripts.Multiplayer.Managers
         {
             _inputReader.MenuCloseEvent += CloseScreen;
             canvasView.SetActive(true);
+            
         }
         private void OnDisable()
         {
@@ -65,17 +68,19 @@ namespace MadSmith.Scripts.Multiplayer.Managers
         public void UpdatePlayerList()
         {
             if (!PlayerItemCreated) { CreateHostPlayerItem(); } // Host
-            if (PlayerListItems.Count < Manager.lobbyPlayers.Count){ CreateClientPlayerItem();}
-            if (PlayerListItems.Count > Manager.lobbyPlayers.Count) { RemovePlayerItem();}
-            if (PlayerListItems.Count == Manager.lobbyPlayers.Count) { UpdatePlayerItem();}
+            if (PlayerListItems.Count < Manager.roomSlots.Count){ CreateClientPlayerItem();}
+            if (PlayerListItems.Count > Manager.roomSlots.Count) { RemovePlayerItem();}
+            if (PlayerListItems.Count == Manager.roomSlots.Count) { UpdatePlayerItem();}
         }
         
         
         private void CreateHostPlayerItem()
         {
-            //Debug.Log("CreateHostPlayerItem");
-            foreach (LobbyClient player in Manager.lobbyPlayers)
+            Debug.Log("CreateHostPlayerItem: " + Manager.roomSlots.Count);
+            foreach (var networkRoomPlayer in Manager.roomSlots)
             {
+                Debug.Log("networkRoomPlayer:  " + networkRoomPlayer.index);
+                var player = (MadSmithNetworkRoomPlayer)networkRoomPlayer;
                 GameObject newPlayerItem = Instantiate(PlayerListItemPrefab, PlayerListViewContent.transform, true) as GameObject;
                 PlayerListItem newPlayerItemScript = newPlayerItem.GetComponent<PlayerListItem>();
                 
@@ -93,9 +98,10 @@ namespace MadSmith.Scripts.Multiplayer.Managers
         }
         private void CreateClientPlayerItem()
         {
-            //Debug.Log("CreateClientPlayerItem");
-            foreach (LobbyClient player in Manager.lobbyPlayers)
+            Debug.Log("CreateClientPlayerItem");
+            foreach (var networkRoomPlayer in Manager.roomSlots)
             {
+                var player = (MadSmithNetworkRoomPlayer)networkRoomPlayer;
                 if (PlayerListItems.All(b => b.ConnectionID != player.ConnectionID))
                 {
                     GameObject newPlayerItem = Instantiate(PlayerListItemPrefab, PlayerListViewContent.transform, true) as GameObject;
@@ -119,7 +125,8 @@ namespace MadSmith.Scripts.Multiplayer.Managers
 
             foreach (PlayerListItem playerListItem in PlayerListItems)
             {
-                if (Manager.lobbyPlayers.All(b => b.ConnectionID != playerListItem.ConnectionID))
+                
+                if (Manager.roomSlots.All(b => ((MadSmithNetworkRoomPlayer)b).ConnectionID != playerListItem.ConnectionID))
                 {
                     playerListItemsToRemove.Add(playerListItem);
                 }
@@ -140,8 +147,9 @@ namespace MadSmith.Scripts.Multiplayer.Managers
         }
         public void UpdatePlayerItem()
         {
-            foreach (LobbyClient player in Manager.lobbyPlayers)
+            foreach (var networkRoomPlayer in Manager.roomSlots)
             {
+                var player = (MadSmithNetworkRoomPlayer)networkRoomPlayer;
                 foreach (PlayerListItem playerListItemScript in PlayerListItems)
                 {
                     if (playerListItemScript.ConnectionID == player.ConnectionID)
@@ -167,8 +175,9 @@ namespace MadSmith.Scripts.Multiplayer.Managers
         
         private void CheckIfAllReady()
         {
-            foreach (LobbyClient player in Manager.lobbyPlayers)
+            foreach (var networkRoomPlayer in Manager.roomSlots)
             {
+                var player = (MadSmithNetworkRoomPlayer)networkRoomPlayer;
                 foreach (PlayerListItem playerListItemScript in PlayerListItems)
                 {
                     if (playerListItemScript.ConnectionID == player.ConnectionID)
@@ -182,8 +191,9 @@ namespace MadSmith.Scripts.Multiplayer.Managers
             }
             bool allReady = false;
             
-            foreach (LobbyClient playerObjectController in Manager.lobbyPlayers)
+            foreach (var networkRoomPlayer in Manager.roomSlots)
             {
+                var playerObjectController = (MadSmithNetworkRoomPlayer)networkRoomPlayer;
                 if (playerObjectController.ready)
                 {
                     allReady = true;
@@ -254,7 +264,7 @@ namespace MadSmith.Scripts.Multiplayer.Managers
 
         public void CloseScreen()
         {
-            Closed?.Invoke();
+            // Closed?.Invoke();
         }
         
         // public void FindLocalPlayer()
@@ -284,7 +294,13 @@ namespace MadSmith.Scripts.Multiplayer.Managers
             }
             canvasView.SetActive(false);
             PlayerListItems.Clear();
-            NextPage?.Invoke();
+            // NextPage?.Invoke();
+        }
+
+        [ContextMenu("Update")]
+        public void UpdateLobby()
+        {
+            UpdatePlayerList();
         }
     }
 }

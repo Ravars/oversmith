@@ -3,7 +3,7 @@ using MadSmith.Scripts.Events.ScriptableObjects;
 using MadSmith.Scripts.Gameplay;
 using MadSmith.Scripts.Input;
 using MadSmith.Scripts.Menu;
-using MadSmith.Scripts.Multiplayer.Managers;
+using MadSmith.Scripts.Multiplayer.Old.Managers;
 using MadSmith.Scripts.SceneManagement.ScriptableObjects;
 using MadSmith.Scripts.Systems.Settings;
 using MadSmith.Scripts.UI;

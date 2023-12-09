@@ -33,7 +33,7 @@ namespace MadSmith.Scripts.UI.SettingsScripts
 
         public void SteamHostButton()
         {
-            SteamHostButtonAction.Invoke();
+            SteamHostButtonAction?.Invoke();
         }
         public void LocalHostButton()
         {

@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Generic;
 using MadSmith.Scripts.Input;
-using MadSmith.Scripts.Multiplayer.Player;
 using Mirror;
 using UnityEngine;
 

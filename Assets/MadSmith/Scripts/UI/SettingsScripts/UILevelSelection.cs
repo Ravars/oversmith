@@ -3,7 +3,6 @@ using Cinemachine;
 using MadSmith.Scripts.Events.ScriptableObjects;
 using MadSmith.Scripts.Input;
 using MadSmith.Scripts.Managers;
-using MadSmith.Scripts.Multiplayer.Managers;
 using MadSmith.Scripts.SavingSystem;
 using MadSmith.Scripts.Systems.Settings;
 using Mirror;

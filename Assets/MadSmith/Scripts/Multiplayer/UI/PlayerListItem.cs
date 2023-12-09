@@ -4,7 +4,7 @@ using Steamworks;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
-
+using TransportLayer = MadSmith.Scripts.Multiplayer.Managers.TransportLayer;
 namespace MadSmith.Scripts.Multiplayer.UI
 {
     public class PlayerListItem : MonoBehaviour
@@ -24,13 +24,13 @@ namespace MadSmith.Scripts.Multiplayer.UI
         [SerializeField] private Sprite[] charactersImages;
         protected Callback ImageLoaded;
         //Manager
-        private MadSmithNetworkManager _manager;
-        public MadSmithNetworkManager Manager
+        private MadSmithNetworkRoomManager _manager;
+        public MadSmithNetworkRoomManager Manager
         {
             get
             {
                 if (!ReferenceEquals(_manager, null)) return _manager;
-                return _manager = NetworkManager.singleton as MadSmithNetworkManager;
+                return _manager = NetworkManager.singleton as MadSmithNetworkRoomManager;
             }
         }
         private void Start()
