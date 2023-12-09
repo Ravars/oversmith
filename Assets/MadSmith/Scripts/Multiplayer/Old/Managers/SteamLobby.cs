@@ -64,6 +64,7 @@ namespace MadSmith.Scripts.Multiplayer.Old.Managers
 
         public void JoinLobby(CSteamID lobbyID)
         {
+            Debug.Log("JoinLobby");
             SteamMatchmaking.JoinLobby(lobbyID);
         }
 
@@ -83,7 +84,7 @@ namespace MadSmith.Scripts.Multiplayer.Old.Managers
 
         private void OnJoinRequest(GameLobbyJoinRequested_t callback)
         {
-            //Debug.Log("Request to join lobby");
+            Debug.Log("Request to join lobby");
             SteamMatchmaking.JoinLobby(callback.m_steamIDLobby);
         }
 
