@@ -30,6 +30,16 @@ namespace MadSmith.Scripts.Multiplayer.Managers
             _fizzySteamworksTransport = GetComponent<FizzySteamworks>();
         }
 
+        private bool _showStartButton;
+        public override void OnRoomServerPlayersReady()
+        {
+            // calling the base method calls ServerChangeScene as soon as all players are in Ready state.
+#if UNITY_SERVER
+            base.OnRoomServerPlayersReady();
+#else
+            _showStartButton = true;
+#endif
+        }
 
         public void HostBySteam()
         {
@@ -57,6 +67,18 @@ namespace MadSmith.Scripts.Multiplayer.Managers
             _fizzySteamworksTransport.enabled = true;
             SteamLobby.enabled = true;
             _steamManager.enabled = true;
+        }
+        public override void OnGUI()
+        {
+            base.OnGUI();
+
+            if (allPlayersReady && _showStartButton && GUI.Button(new Rect(150, 300, 120, 20), "START GAME"))
+            {
+                // set to false to hide it in the game scene
+                _showStartButton = false;
+
+                ServerChangeScene(GameplayScene);
+            }
         }
     }
 }
