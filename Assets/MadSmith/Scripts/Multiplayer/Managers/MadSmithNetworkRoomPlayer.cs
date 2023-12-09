@@ -11,6 +11,7 @@ namespace MadSmith.Scripts.Multiplayer.Managers
         [SyncVar] public string PlayerName;
         [SyncVar] public bool ready;
         [SyncVar] public int CharacterId;
+        public bool isLeader;
         // [SyncVar(hook = nameof(ChangeCharacter))] public int CharacterId;
         // [SyncVar(hook = nameof(PlayerReadyUpdate))] public bool ready;
         public override void OnStartClient()

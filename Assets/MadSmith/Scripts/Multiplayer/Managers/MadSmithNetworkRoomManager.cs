@@ -2,6 +2,7 @@ using kcp2k;
 using MadSmith.Scripts.Multiplayer.Old.Managers;
 using Mirror;
 using Mirror.FizzySteam;
+using Steamworks;
 using UnityEngine;
 
 namespace MadSmith.Scripts.Multiplayer.Managers
@@ -106,6 +107,15 @@ namespace MadSmith.Scripts.Multiplayer.Managers
         {
             base.OnServerAddPlayer(conn);
             Debug.Log("OnServerAddPlayer");
+            
+            MadSmithNetworkRoomPlayer lobbyClient = Instantiate(roomPlayerPrefab) as MadSmithNetworkRoomPlayer;
+            lobbyClient.isLeader = roomSlots.Count == 0;
+            lobbyClient.ConnectionID = conn.connectionId;
+            if (TransportLayer == TransportLayer.Steam)
+            {
+                lobbyClient.PlayerSteamID = (ulong) SteamMatchmaking.GetLobbyMemberByIndex((CSteamID)SteamLobby.Instance.currentLobbyID, roomSlots.Count);
+            }
+            NetworkServer.AddPlayerForConnection(conn, lobbyClient.gameObject);
         }
     }
 }
