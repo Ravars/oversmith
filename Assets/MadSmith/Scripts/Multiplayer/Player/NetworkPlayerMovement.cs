@@ -1,5 +1,6 @@
 using System;
 using MadSmith.Scripts.Input;
+using MadSmith.Scripts.Multiplayer.Managers;
 using Mirror;
 using UnityEngine;
 
@@ -16,11 +17,20 @@ namespace MadSmith.Scripts.Multiplayer.Player
         private Quaternion _targetRotation;
         private static readonly int Run = Animator.StringToHash("Run");
         [SerializeField] private Animator _animator; // temporary
+        private MadSmithNetworkManager room;
+        private MadSmithNetworkManager Room
+        {
+            get
+            {
+                if (room != null) { return room; }
+                return room = NetworkManager.singleton as MadSmithNetworkManager;
+            }
+        }
         public override void OnStartAuthority()
         {
             Debug.Log("OnStartAuthority");
             enabled = true;
-            
+            Room.GamePlayers.Add(this);
             // NetworkClient.PrepareToSpawnSceneObjects();
         }
         [Command]

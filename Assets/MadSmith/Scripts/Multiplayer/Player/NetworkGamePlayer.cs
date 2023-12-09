@@ -28,12 +28,12 @@ namespace MadSmith.Scripts.Multiplayer.Player
         {
             DontDestroyOnLoad(gameObject);
 
-            Room.GamePlayers.Add(this);
+            // Room.GamePlayers.Add(this);
         }
 
         public override void OnStopClient()
         {
-            Room.GamePlayers.Remove(this);
+            // Room.GamePlayers.Remove(this);
         }
 
         [Server]

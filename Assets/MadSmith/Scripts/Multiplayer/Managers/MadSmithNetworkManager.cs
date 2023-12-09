@@ -25,7 +25,8 @@ namespace MadSmith.Scripts.Multiplayer.Managers
         // Variable
         // private int _playersNotReady;
         public List<LobbyClient> lobbyPlayers = new();
-        public List<NetworkGamePlayer> GamePlayers { get; } = new();
+        // public List<NetworkGamePlayer> GamePlayers { get; } = new();
+        public List<NetworkPlayerMovement> GamePlayers { get; } = new();
         public TransportLayer TransportLayer { get; private set; }
         public SteamLobby SteamLobby { get; private set; }
         [SerializeField] private bool startWithSteam;
@@ -113,11 +114,11 @@ namespace MadSmith.Scripts.Multiplayer.Managers
                 }
                 else
                 {
-                    conn.identity.TryGetComponent(out NetworkGamePlayer playerMovement);
-                    if (playerMovement != null)
-                    {
-                        GamePlayers.Remove(playerMovement);
-                    }
+                    // conn.identity.TryGetComponent(out NetworkGamePlayer playerMovement);
+                    // if (playerMovement != null)
+                    // {
+                    //     GamePlayers.Remove(playerMovement);
+                    // }
                 }
                 
                 // NotifyPlayersOfReadyState
@@ -248,6 +249,7 @@ namespace MadSmith.Scripts.Multiplayer.Managers
         public void NotifyPlayerReady(NetworkConnectionToClient identity)
         {
             _playersReady++;
+            // identity.clientOwnedObjects.
             VerifyAllClientsReady();
         }
         
@@ -303,10 +305,10 @@ namespace MadSmith.Scripts.Multiplayer.Managers
             // }
             
             
-            // foreach (var playerMovement in GamePlayers)
-            // {
-            //     playerMovement.CmdEnableMovement();
-            // }
+            foreach (var playerMovement in GamePlayers)
+            {
+                playerMovement.CmdEnableMovement();
+            }
             // GameObject orderManagerInstance = Instantiate(orderManager);
             // NetworkServer.Spawn(orderManagerInstance);
         }
