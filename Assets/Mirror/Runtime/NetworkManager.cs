@@ -319,9 +319,10 @@ namespace Mirror
             mode = NetworkManagerMode.ClientOnly;
 
             InitializeSingleton();
-
+            Debug.Log("1");
             if (runInBackground)
                 Application.runInBackground = true;
+            Debug.Log("2");
 
             if (authenticator != null)
             {
@@ -329,8 +330,10 @@ namespace Mirror
                 authenticator.OnClientAuthenticated.AddListener(OnClientAuthenticated);
             }
 
+            Debug.Log("3");
             // In case this is a headless client...
             ConfigureHeadlessFrameRate();
+            Debug.Log("4");
 
             RegisterClientMessages();
 
