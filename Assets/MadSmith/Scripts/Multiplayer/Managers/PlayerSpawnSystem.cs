@@ -13,6 +13,13 @@ namespace MadSmith.Scripts.Multiplayer.Managers
         private static List<Transform> spawnPoints = new List<Transform>();
 
         private int nextIndex = 0;
+        private MadSmithNetworkManager _manager;
+        private MadSmithNetworkManager Manager
+        { get {
+                if (!ReferenceEquals(_manager, null)) return _manager;
+                return _manager = NetworkManager.singleton as MadSmithNetworkManager;
+            }
+        }
 
         private void Start()
         {
@@ -27,6 +34,7 @@ namespace MadSmith.Scripts.Multiplayer.Managers
         }
         public static void RemoveSpawnPoint(Transform transform) => spawnPoints.Remove(transform);
 
+        
         public override void OnStartServer()
         {
             Debug.Log("OnStartServer PlayerSpawnSystem");
@@ -36,6 +44,7 @@ namespace MadSmith.Scripts.Multiplayer.Managers
         public override void OnStartClient()
         {
             Debug.Log("Enable Look");
+            Manager.NotifyPlayerReady(NetworkClient.localPlayer.connectionToClient);
             // InputManager.Add(ActionMapNames.Player);
             // InputManager.Controls.Player.Look.Enable();
         }
@@ -55,8 +64,10 @@ namespace MadSmith.Scripts.Multiplayer.Managers
                 return;
             }
 
-            // GameObject playerInstance = Instantiate(playerPrefab, spawnPoints[nextIndex].position, spawnPoints[nextIndex].rotation);
-            // NetworkServer.Spawn(playerInstance, conn);
+            var prefab = Manager.GetPlayerGameObject(conn.identity.connectionToClient);
+
+            GameObject playerInstance = Instantiate(prefab.gameObject, spawnPoints[nextIndex].position, spawnPoints[nextIndex].rotation);
+            NetworkServer.Spawn(playerInstance, conn);
 
             nextIndex++;
         }

@@ -42,7 +42,8 @@ namespace MadSmith.Scripts.Multiplayer.Managers
         [SerializeField] private PlayerSpawnSystem playerSpawnSystem = null;
         [Tooltip("Player lobby prefab")][SerializeField] private LobbyClient lobbyPrefab;
         [SerializeField] private LobbiesListManager lobbiesListManager;
-        
+
+        private int _playersReady;
         // 
         private readonly string ResourcesPath = "NetworkResources";
         private SteamManager _steamManager;
@@ -57,6 +58,8 @@ namespace MadSmith.Scripts.Multiplayer.Managers
         [Header("Listening to")] 
         [SerializeField] private LoadEventChannelSO _loadEventChannelSo;
 
+        [Header("Broadcasting to")]
+        [SerializeField] private VoidEventChannelSO _onSceneReady = default;
         public override void Awake()
         {
             base.Awake();
@@ -197,26 +200,26 @@ namespace MadSmith.Scripts.Multiplayer.Managers
         }
         public override void ServerChangeScene(string newSceneName)
         {
-            // // From menu to game
-            // var currentSceneLoaded = GameManager.Instance.GetSceneSo();
-            // // if (SceneManager.GetActiveScene().name == menuScene && newSceneName.StartsWith("Scene_Map"))
-            // Debug.Log("ServerChangeScene: " + currentSceneLoaded.name + " - " + newSceneName);
-            // if (currentSceneLoaded.sceneType == GameSceneType.Menu)
-            // {
-            //     GameManager.Instance.SetGameSceneSo(newSceneName);
-            //     for (int i = lobbyPlayers.Count - 1; i >= 0; i--)
-            //     {
-            //         var conn = lobbyPlayers[i].connectionToClient;
-            //         var gamePlayerInstance = Instantiate(gamePlayerPrefab);
-            //         // NetworkServer.Spawn(gamePlayerInstance.gameObject);
-            //         gamePlayerInstance.SetDisplayName(lobbyPlayers[i].PlayerName);
-            //         
-            //         NetworkServer.Destroy(conn.identity.gameObject);
-            //         
-            //         NetworkServer.ReplacePlayerForConnection(conn, gamePlayerInstance.gameObject);
-            //     }
-            //     lobbyPlayers.Clear();
-            // }
+            // From menu to game
+            var currentSceneLoaded = GameManager.Instance.GetSceneSo();
+            Debug.Log("ServerChangeScene: " + currentSceneLoaded.name + " - " + newSceneName);
+            if (currentSceneLoaded.sceneType == GameSceneType.Menu)
+            {
+                GameManager.Instance.SetGameSceneSo(newSceneName);
+                _playersReady = 0;
+                // for (int i = lobbyPlayers.Count - 1; i >= 0; i--)
+                // {
+                //     var conn = lobbyPlayers[i].connectionToClient;
+                //     var gamePlayerInstance = Instantiate(gamePlayerPrefab);
+                //     // NetworkServer.Spawn(gamePlayerInstance.gameObject);
+                //     gamePlayerInstance.SetDisplayName(lobbyPlayers[i].PlayerName);
+                //     
+                //     NetworkServer.Destroy(conn.identity.gameObject);
+                //     
+                //     NetworkServer.ReplacePlayerForConnection(conn, gamePlayerInstance.gameObject);
+                // }
+                // lobbyPlayers.Clear();
+            }
             
             base.ServerChangeScene(newSceneName);
         }
@@ -238,8 +241,17 @@ namespace MadSmith.Scripts.Multiplayer.Managers
         public override void OnServerReady(NetworkConnectionToClient conn)
         {
             base.OnServerReady(conn);
+            Debug.Log("OnServerReady");
             OnServerReadied?.Invoke(conn);
         }
+
+        public void NotifyPlayerReady(NetworkConnectionToClient identity)
+        {
+            _playersReady++;
+            VerifyAllClientsReady();
+        }
+        
+
         #endregion
 
 
@@ -249,6 +261,19 @@ namespace MadSmith.Scripts.Multiplayer.Managers
         {
             base.OnStopClient();
             OnClientDisconnected?.Invoke();
+        }
+
+        private void VerifyAllClientsReady()
+        {
+            var currentSceneLoaded = GameManager.Instance.GetSceneSo();
+            if (currentSceneLoaded.sceneType != GameSceneType.Location) return;
+            if (_playersReady == lobbyPlayers.Count)
+            {
+                Debug.Log("VerifyAllClientsReady");
+                _onSceneReady.RaiseEvent();
+            }
+
+            
         }
         #endregion
         
@@ -289,6 +314,19 @@ namespace MadSmith.Scripts.Multiplayer.Managers
         public bool SteamIsOpen()
         {
             return SteamManager.Initialized;
+        }
+
+        public NetworkPlayerMovement GetPlayerGameObject(NetworkConnectionToClient connectionToClient)
+        {
+            foreach (var lobbyPlayer in lobbyPlayers)
+            {
+                if (lobbyPlayer.connectionToClient == connectionToClient)
+                {
+                    return inGamePlayerPrefab[lobbyPlayer.CharacterId];
+                }
+            }
+
+            return null;
         }
 
         public void HostBySteam()

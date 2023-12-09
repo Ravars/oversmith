@@ -39,6 +39,7 @@ namespace MadSmith.Scripts.Multiplayer.Managers
         [Header("Listening on")]
         [SerializeField] private VoidEventChannelSO sceneReady;
         [SerializeField] private LoadEventChannelSO loadLocation = default;
+        [SerializeField] private GameSceneSO gameplayScene = default;
 
         private void Start()
         {
@@ -190,7 +191,16 @@ namespace MadSmith.Scripts.Multiplayer.Managers
         public void CmdStartGame()
         {
             if (!isLeader) return;
+            RpcLoadGameplayScene();
             _manager.StartGame();
+        }
+
+        [ClientRpc]
+        private void RpcLoadGameplayScene()
+        {
+            Debug.Log("RpcLoadGameplayScene");
+            // loadLocation.RaiseEvent(gameplayScene);
+            SceneManager.LoadSceneAsync(3, LoadSceneMode.Additive);
         }
 
         #endregion

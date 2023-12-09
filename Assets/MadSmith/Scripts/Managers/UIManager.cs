@@ -3,10 +3,12 @@ using MadSmith.Scripts.Events.ScriptableObjects;
 using MadSmith.Scripts.Gameplay;
 using MadSmith.Scripts.Input;
 using MadSmith.Scripts.Menu;
+using MadSmith.Scripts.Multiplayer.Managers;
 using MadSmith.Scripts.SceneManagement.ScriptableObjects;
 using MadSmith.Scripts.Systems.Settings;
 using MadSmith.Scripts.UI;
 using MadSmith.Scripts.UI.Canvas;
+using Mirror;
 using UnityEngine;
 
 namespace MadSmith.Scripts.Managers
@@ -35,21 +37,34 @@ namespace MadSmith.Scripts.Managers
         [SerializeField] private LoadEventChannelSO _loadMenuEvent = default;
         [SerializeField] private LoadEventChannelSO _loadNextLevel = default;
         [SerializeField] private VoidEventChannelSO _onGameStart = default;
-
+        private MadSmithNetworkManager _manager;
+        private MadSmithNetworkManager Manager
+        { get {
+                if (!ReferenceEquals(_manager, null)) return _manager;
+                return _manager = NetworkManager.singleton as MadSmithNetworkManager;
+            }
+        }
 
         private void Awake()
         {
             CloseAll();
+            
         }
 
         private void OnEnable()
         {
-            
-            _onSceneReady.OnEventRaised += StartUp;
+            Debug.Log("UI Manager OnEnable");
+            // _onSceneReady.OnEventRaised += StartUp;
             _onLevelCompleted.OnEventRaised += OpenEndGameScreen;
             _inputReader.MenuPauseEvent += OpenUIPause;
-
+            StartUp();
+            // MadSmithNetworkManager.OnServerReadied += MadSmithNetworkManagerOnOnServerReadied;
         }
+
+        // private void MadSmithNetworkManagerOnOnServerReadied(NetworkConnection obj)
+        // {
+        //     StartUp();
+        // }
 
         private void OpenEndGameScreen(float finalScore)
         {
@@ -79,6 +94,7 @@ namespace MadSmith.Scripts.Managers
             _onSceneReady.OnEventRaised -= StartUp;
             _onLevelCompleted.OnEventRaised -= OpenEndGameScreen;
             _inputReader.MenuPauseEvent -= OpenUIPause;
+            // MadSmithNetworkManager.OnServerReadied -= MadSmithNetworkManagerOnOnServerReadied;
         }
 
         private void CloseAll()

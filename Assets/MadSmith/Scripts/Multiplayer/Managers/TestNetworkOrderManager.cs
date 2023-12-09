@@ -59,7 +59,7 @@ namespace MadSmith.Scripts.Multiplayer.Managers
         private void Setup()
         {
             var currentSceneSo = GameManager.Instance.GetSceneSo();
-            //Debug.Log("CurrentSceneSo" + currentSceneSo.name);
+            Debug.Log("CurrentSceneSo" + currentSceneSo.name);
             if (currentSceneSo.sceneType == GameSceneType.Location)
             {
                 var location = (LocationSO)currentSceneSo;
