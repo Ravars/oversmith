@@ -318,7 +318,7 @@ namespace Mirror
         {
             // increment the index before adding the player, so first player starts at 1
             clientIndex++;
-
+            Debug.Log(IsSceneActive(RoomScene) + " + " + roomSlots.Count  + " - " + (roomSlots.Count == maxConnections));
             if (IsSceneActive(RoomScene))
             {
                 if (roomSlots.Count == maxConnections)
@@ -587,6 +587,7 @@ namespace Mirror
         /// <param name="conn">The connection the player object is for.</param>
         public virtual void OnRoomServerAddPlayer(NetworkConnectionToClient conn)
         {
+            Debug.Log("OnRoomServerAddPlayer");
             base.OnServerAddPlayer(conn);
         }
 

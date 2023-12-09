@@ -342,11 +342,14 @@ namespace Mirror
                 Debug.LogError("Must set the Network Address field in the manager");
                 return;
             }
+            Debug.Log("5");
             // Debug.Log($"NetworkManager StartClient address:{networkAddress}");
 
             NetworkClient.Connect(networkAddress);
+            Debug.Log("6");
 
             OnStartClient();
+            Debug.Log("7");
         }
 
         /// <summary>Starts the client, connects it to the server via Uri</summary>
