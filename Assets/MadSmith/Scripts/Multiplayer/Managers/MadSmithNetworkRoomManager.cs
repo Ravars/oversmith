@@ -117,19 +117,19 @@ namespace MadSmith.Scripts.Multiplayer.Managers
             Debug.Log("OnStartClient server");
         }
 
-        // public override void OnServerAddPlayer(NetworkConnectionToClient conn)
-        // {
-        //     Debug.Log("OnServerAddPlayer");
-        //     base.OnServerAddPlayer(conn);
-        //     
-        //     MadSmithNetworkRoomPlayer lobbyClient = Instantiate(roomPlayerPrefab) as MadSmithNetworkRoomPlayer;
-        //     lobbyClient.isLeader = roomSlots.Count == 0;
-        //     lobbyClient.ConnectionID = conn.connectionId;
-        //     if (TransportLayer == TransportLayer.Steam)
-        //     {
-        //         lobbyClient.PlayerSteamID = (ulong) SteamMatchmaking.GetLobbyMemberByIndex((CSteamID)SteamLobby.Instance.currentLobbyID, roomSlots.Count);
-        //     }
-        //     NetworkServer.AddPlayerForConnection(conn, lobbyClient.gameObject);
-        // }
+        public override void OnServerAddPlayer(NetworkConnectionToClient conn)
+        {
+            Debug.Log("OnServerAddPlayer");
+            base.OnServerAddPlayer(conn);
+            
+            MadSmithNetworkRoomPlayer lobbyClient = Instantiate(roomPlayerPrefab) as MadSmithNetworkRoomPlayer;
+            lobbyClient.isLeader = roomSlots.Count == 0;
+            lobbyClient.ConnectionID = conn.connectionId;
+            if (TransportLayer == TransportLayer.Steam)
+            {
+                lobbyClient.PlayerSteamID = (ulong) SteamMatchmaking.GetLobbyMemberByIndex((CSteamID)SteamLobby.Instance.currentLobbyID, roomSlots.Count);
+            }
+            NetworkServer.AddPlayerForConnection(conn, lobbyClient.gameObject);
+        }
     }
 }
