@@ -53,6 +53,7 @@ namespace MadSmith.Scripts.Multiplayer.Old.Managers
             
             LobbyList = Callback<LobbyMatchList_t>.Create(OnGetLobbyList);
             LobbyDataUpdated = Callback<LobbyDataUpdate_t>.Create(OnGetLobbyData);
+            Debug.Log("Start");
         }
 
         

@@ -14,6 +14,9 @@ namespace MadSmith.Scripts.Multiplayer.Managers
     }
     public class MadSmithNetworkRoomManager : NetworkRoomManager
     {
+        [Header("Spawner Setup")]
+        [Tooltip("Reward Prefab for the Spawner")]
+        public GameObject rewardPrefab;
         // Transport Layers
         public TransportLayer TransportLayer { get; private set; }
         private KcpTransport _localHostTransport;
@@ -24,12 +27,23 @@ namespace MadSmith.Scripts.Multiplayer.Managers
 
         public override void Awake()
         {
-            base.Awake();
             SteamLobby = GetComponent<SteamLobby>();
             _steamManager = GetComponent<SteamManager>();
             _localHostTransport = GetComponent<KcpTransport>();
             _fizzySteamworksTransport = GetComponent<FizzySteamworks>();
+            base.Awake();
         }
+        /// <summary>
+        /// This is called on the server when a networked scene finishes loading.
+        /// </summary>
+        /// <param name="sceneName">Name of the new scene.</param>
+        public override void OnRoomServerSceneChanged(string sceneName)
+        {
+            // spawn the initial batch of Rewards
+            if (sceneName == GameplayScene)
+                Spawner.InitialSpawn();
+        }
+        
 
         private bool _showStartButton;
         public override void OnRoomServerPlayersReady()
@@ -103,19 +117,19 @@ namespace MadSmith.Scripts.Multiplayer.Managers
             Debug.Log("OnStartClient server");
         }
 
-        public override void OnServerAddPlayer(NetworkConnectionToClient conn)
-        {
-            Debug.Log("OnServerAddPlayer");
-            base.OnServerAddPlayer(conn);
-            
-            MadSmithNetworkRoomPlayer lobbyClient = Instantiate(roomPlayerPrefab) as MadSmithNetworkRoomPlayer;
-            lobbyClient.isLeader = roomSlots.Count == 0;
-            lobbyClient.ConnectionID = conn.connectionId;
-            if (TransportLayer == TransportLayer.Steam)
-            {
-                lobbyClient.PlayerSteamID = (ulong) SteamMatchmaking.GetLobbyMemberByIndex((CSteamID)SteamLobby.Instance.currentLobbyID, roomSlots.Count);
-            }
-            NetworkServer.AddPlayerForConnection(conn, lobbyClient.gameObject);
-        }
+        // public override void OnServerAddPlayer(NetworkConnectionToClient conn)
+        // {
+        //     Debug.Log("OnServerAddPlayer");
+        //     base.OnServerAddPlayer(conn);
+        //     
+        //     MadSmithNetworkRoomPlayer lobbyClient = Instantiate(roomPlayerPrefab) as MadSmithNetworkRoomPlayer;
+        //     lobbyClient.isLeader = roomSlots.Count == 0;
+        //     lobbyClient.ConnectionID = conn.connectionId;
+        //     if (TransportLayer == TransportLayer.Steam)
+        //     {
+        //         lobbyClient.PlayerSteamID = (ulong) SteamMatchmaking.GetLobbyMemberByIndex((CSteamID)SteamLobby.Instance.currentLobbyID, roomSlots.Count);
+        //     }
+        //     NetworkServer.AddPlayerForConnection(conn, lobbyClient.gameObject);
+        // }
     }
 }
