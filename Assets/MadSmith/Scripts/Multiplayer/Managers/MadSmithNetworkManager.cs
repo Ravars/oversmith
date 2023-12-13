@@ -191,6 +191,7 @@ namespace MadSmith.Scripts.Multiplayer.Managers
         }
         public void StartGame()
         {
+            Debug.Log("StartGame");
             string sceneName = GameManager.Instance.sceneSos[UiNetworkHandler.Instance.currentLevelSelected + 1].name;
             ServerChangeScene(sceneName);
         }
@@ -210,8 +211,10 @@ namespace MadSmith.Scripts.Multiplayer.Managers
                     gamePlayerInstance.SetDisplayName(lobbyPlayers[i].PlayerName);
                     
                     NetworkServer.Destroy(conn.identity.gameObject);
+                    
                     NetworkServer.ReplacePlayerForConnection(conn, gamePlayerInstance.gameObject);
                 }
+                lobbyPlayers.Clear();
             }
             
             base.ServerChangeScene(newSceneName);
@@ -221,11 +224,11 @@ namespace MadSmith.Scripts.Multiplayer.Managers
             Debug.Log("OnServerSceneChanged" + sceneName);
             if (sceneName.StartsWith("Level"))
             {
-                GameObject playerSpawnSystemInstance = Instantiate(playerSpawnSystem.gameObject);
-                NetworkServer.Spawn(playerSpawnSystemInstance);
+                // GameObject playerSpawnSystemInstance = Instantiate(playerSpawnSystem.gameObject);
+                // NetworkServer.Spawn(playerSpawnSystemInstance);
         
-                GameObject roundSystemInstance = Instantiate(roundSystem);
-                NetworkServer.Spawn(roundSystemInstance);
+                // GameObject roundSystemInstance = Instantiate(roundSystem);
+                // NetworkServer.Spawn(roundSystemInstance);
                 
                 // GameObject orderManagerInstance = Instantiate(orderManager);
                 // NetworkServer.Spawn(orderManagerInstance);

@@ -55,8 +55,8 @@ namespace MadSmith.Scripts.Multiplayer.Managers
                 return;
             }
 
-            GameObject playerInstance = Instantiate(playerPrefab, spawnPoints[nextIndex].position, spawnPoints[nextIndex].rotation);
-            NetworkServer.Spawn(playerInstance, conn);
+            // GameObject playerInstance = Instantiate(playerPrefab, spawnPoints[nextIndex].position, spawnPoints[nextIndex].rotation);
+            // NetworkServer.Spawn(playerInstance, conn);
 
             nextIndex++;
         }
