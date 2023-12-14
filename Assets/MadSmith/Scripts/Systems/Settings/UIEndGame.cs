@@ -1,5 +1,4 @@
-using MadSmith.Scripts.Managers;
-using MadSmith.Scripts.Events.ScriptableObjects;
+using MadSmith.Scripts.Multiplayer.Managers;
 using TMPro;
 using UnityEngine;
 using UnityEngine.Events;

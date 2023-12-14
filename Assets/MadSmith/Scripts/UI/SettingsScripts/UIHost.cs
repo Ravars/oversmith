@@ -37,7 +37,7 @@ namespace MadSmith.Scripts.UI.SettingsScripts
         }
         public void LocalHostButton()
         {
-            LocalHostButtonAction.Invoke();
+            LocalHostButtonAction?.Invoke();
         }
         public void CloseScreen()
         {

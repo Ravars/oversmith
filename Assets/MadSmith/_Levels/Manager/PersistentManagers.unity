@@ -411,7 +411,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &253771588
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -433,7 +433,6 @@ MonoBehaviour:
   - {fileID: 3836822279667091582, guid: 1f772b236511eee4980facbb93895370, type: 3}
   saveSystem: {fileID: 11400000, guid: 2b15ecd60be148f43aff11a8e48649a1, type: 2}
   sceneSos:
-  - {fileID: 11400000, guid: 9fca6b5745d4e9f4fa61767c2282e374, type: 2}
   - {fileID: 11400000, guid: 1e8ca08c25bb68944a0bb0bae20d6eef, type: 2}
   - {fileID: 11400000, guid: 7d9fc202bcf774543a40689996da658a, type: 2}
   - {fileID: 11400000, guid: f33b158fe6020ea4d98ae18cc1df1189, type: 2}
@@ -1617,57 +1616,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1379494026}
   m_CullTransparentMesh: 1
---- !u!1 &1462531410
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1462531411}
-  - component: {fileID: 1462531412}
-  m_Layer: 0
-  m_Name: SceneLoader
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &1462531411
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1462531410}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1462531412
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1462531410}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c52a00dcda8f4b46a99b51235cbab2b9, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  gameplayScene: {fileID: 11400000, guid: 97dd782926ab0ad498366c36563972da, type: 2}
-  _inputReader: {fileID: 11400000, guid: 4fdb545f14be303468b5a23fe102e2e5, type: 2}
-  loadLocation: {fileID: 11400000, guid: c991a83e63337eb4f9962f1d4ed3fdc4, type: 2}
-  loadMenu: {fileID: 11400000, guid: cb8ed3db854e50d49999f946a8d08429, type: 2}
-  _toggleLoadingScreen: {fileID: 11400000, guid: 9e6187b51756b52419f28d185e25cb8d,
-    type: 2}
-  _onSceneReady: {fileID: 11400000, guid: df6aead758def0e408c9231e08fef990, type: 2}
 --- !u!1 &1542103566
 GameObject:
   m_ObjectHideFlags: 0
@@ -2343,7 +2291,6 @@ SceneRoots:
   m_ObjectHideFlags: 0
   m_Roots:
   - {fileID: 405050595}
-  - {fileID: 1462531411}
   - {fileID: 1258875317}
   - {fileID: 490933103}
   - {fileID: 1020428919}

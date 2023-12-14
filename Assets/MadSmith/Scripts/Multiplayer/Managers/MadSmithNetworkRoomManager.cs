@@ -1,3 +1,4 @@
+using System.Linq;
 using kcp2k;
 using MadSmith.Scripts.Multiplayer.Old.Managers;
 using Mirror;
@@ -24,7 +25,8 @@ namespace MadSmith.Scripts.Multiplayer.Managers
         //Steam
         public SteamLobby SteamLobby { get; private set; }
         private SteamManager _steamManager;
-
+        public GameObject[] gamePlayersPrefabs;
+        private readonly string ResourcesPath = "NewNetworkResources";
         public override void Awake()
         {
             SteamLobby = GetComponent<SteamLobby>();
@@ -40,8 +42,8 @@ namespace MadSmith.Scripts.Multiplayer.Managers
         public override void OnRoomServerSceneChanged(string sceneName)
         {
             // spawn the initial batch of Rewards
-            if (sceneName == GameplayScene)
-                Spawner.InitialSpawn();
+            // if (sceneName == GameplayScene)
+            //     Spawner.InitialSpawn();
         }
         
 
@@ -66,11 +68,23 @@ namespace MadSmith.Scripts.Multiplayer.Managers
         /// <returns>true unless some code in here decides it needs to abort the replacement</returns>
         public override bool OnRoomServerSceneLoadedForPlayer(NetworkConnectionToClient conn, GameObject roomPlayer, GameObject gamePlayer)
         {
-            Debug.Log("OnRoomServerSceneLoadedForPlayer");
+            Debug.Log("OnRoomServerSceneLoadedForPlayer" + " - " + roomPlayer.name + " - " + gamePlayer.name);
+            // gamePlayer = playerTest;
+            // playerPrefab = playerTest;
             // PlayerScore playerScore = gamePlayer.GetComponent<PlayerScore>();
             // playerScore.index = roomPlayer.GetComponent<NetworkRoomPlayer>().index;
             return true;
         }
+
+        public override GameObject OnRoomServerCreateGamePlayer(NetworkConnectionToClient conn, GameObject roomPlayer)
+        {
+            MadSmithNetworkRoomPlayer madSmithNetworkRoomPlayer = roomPlayer.GetComponent<MadSmithNetworkRoomPlayer>();
+            var gamePlayer = gamePlayersPrefabs[madSmithNetworkRoomPlayer.CharacterId];
+            var player = Instantiate(gamePlayer,GetStartPosition().position, Quaternion.identity);
+            NetworkServer.Spawn(player, conn);
+            return player;
+        }
+
         public void HostBySteam()
         {
             TransportLayer = TransportLayer.Steam;
@@ -111,15 +125,25 @@ namespace MadSmith.Scripts.Multiplayer.Managers
             }
         }
 
+        public override void OnStartServer()
+        {
+            base.OnStartServer();
+            spawnPrefabs = Resources.LoadAll<GameObject>(ResourcesPath).ToList();
+        }
+
         public override void OnStartClient()
         {
             base.OnStartClient();
-            Debug.Log("OnStartClient server");
+            var spawnablePrefabs = Resources.LoadAll<GameObject>(ResourcesPath);
+            foreach (var spawnablePrefab in spawnablePrefabs)
+            {
+                NetworkClient.RegisterPrefab(spawnablePrefab);
+            }
         }
 
         public override void OnServerAddPlayer(NetworkConnectionToClient conn)
         {
-            Debug.Log("OnServerAddPlayer");
+            // Debug.Log("OnServerAddPlayer");
             // base.OnServerAddPlayer(conn);
             
             MadSmithNetworkRoomPlayer lobbyClient = Instantiate(roomPlayerPrefab) as MadSmithNetworkRoomPlayer;
@@ -130,6 +154,52 @@ namespace MadSmith.Scripts.Multiplayer.Managers
                 lobbyClient.PlayerSteamID = (ulong) SteamMatchmaking.GetLobbyMemberByIndex((CSteamID)SteamLobby.Instance.currentLobbyID, roomSlots.Count);
             }
             NetworkServer.AddPlayerForConnection(conn, lobbyClient.gameObject);
+        }
+
+        public void HostByLocalHost()
+        {
+            TransportLayer = TransportLayer.LocalHost;
+            transport = _localHostTransport;
+            _localHostTransport.enabled = true;
+            // lobbyControllerCanvas.gameObject.SetActive(true);
+            StartHost();
+        }
+        private void DisableSteamResources()
+        {
+            if (_fizzySteamworksTransport != null)
+            {
+                _fizzySteamworksTransport.enabled = false;
+            }
+            if (SteamLobby != null)
+            {
+                SteamLobby.enabled = false;
+            }
+            if (_steamManager != null)
+            {
+                _steamManager.enabled = false;
+            }
+            
+            // lobbyControllerCanvas.gameObject.SetActive(false);
+        }
+        public void EnableJoinByLocalhost()
+        {
+            DisableSteamResources();
+            TransportLayer = TransportLayer.LocalHost;
+            
+            transport = _localHostTransport;
+            _localHostTransport.enabled = true;
+            // lobbyController.gameObject.SetActive(true);
+            
+            // lobbyController.gameObject.SetActive(true);
+            // StartClient();
+            // transport.ClientConnect("localhost");
+            
+            // Invoke(nameof(StartClient),3f);
+        }
+
+        public void JoinByLocalHost()
+        {
+            StartClient();
         }
     }
 }

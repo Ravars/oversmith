@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
+using MadSmith.Scripts.Events.ScriptableObjects;
 using MadSmith.Scripts.Input;
 using MadSmith.Scripts.Multiplayer.Old.Managers;
 using MadSmith.Scripts.Multiplayer.Old.UI;
@@ -16,7 +17,7 @@ namespace MadSmith.Scripts.Multiplayer.Managers
 {
     public class LobbyControllerCanvas : Singleton<LobbyControllerCanvas>
     {
-        // public UnityAction Closed;
+        public UnityAction Closed;
         // public UnityAction NextPage;
         [SerializeField] private InputReader _inputReader;
         
@@ -26,17 +27,17 @@ namespace MadSmith.Scripts.Multiplayer.Managers
         //Player Data
         public GameObject PlayerListViewContent;
         public GameObject PlayerListItemPrefab;
-        public GameObject LocalPlayerObject;
+        // private MadSmithNetworkRoomPlayer _localMadSmithNetworkRoomPlayer;
         
         //Other Data
         public ulong CurrentLobbyID;
         public bool PlayerItemCreated = false;
         private List<PlayerListItem> PlayerListItems = new();
-        [HideInInspector] public LobbyClient lobbyClient;
-        
+
         //Ready
         public Button StartGameButton;
         public TextMeshProUGUI ReadyButtonText;
+        [SerializeField] private VoidEventChannelSO onUpdatePlayerList = default;
 
         public GameObject canvasView;
         //Manager
@@ -48,16 +49,32 @@ namespace MadSmith.Scripts.Multiplayer.Managers
                 return _manager = NetworkManager.singleton as MadSmithNetworkRoomManager;
             }
         }
+        private MadSmithNetworkRoomPlayer _localMadSmithNetworkRoomPlayer;
+        public MadSmithNetworkRoomPlayer LocalPlayer
+        { get
+            {
+                if (!ReferenceEquals(_localMadSmithNetworkRoomPlayer, null)) return _localMadSmithNetworkRoomPlayer;
+                return _localMadSmithNetworkRoomPlayer = UiRoomManager.Instance.LocalClient;
+            }
+        }
+
+        public void Setup(MadSmithNetworkRoomPlayer localClient)
+        {
+            Debug.Log("Setup");
+            _localMadSmithNetworkRoomPlayer = localClient;
+        }
         
         private void OnEnable()
         {
             _inputReader.MenuCloseEvent += CloseScreen;
+            onUpdatePlayerList.OnEventRaised += UpdatePlayerList;
             canvasView.SetActive(true);
             
         }
         private void OnDisable()
         {
             _inputReader.MenuCloseEvent -= CloseScreen;
+            onUpdatePlayerList.OnEventRaised -= UpdatePlayerList;
             // NullReference exception
             // if (!ReferenceEquals(canvasView, null))
             // {
@@ -76,10 +93,8 @@ namespace MadSmith.Scripts.Multiplayer.Managers
         
         private void CreateHostPlayerItem()
         {
-            Debug.Log("CreateHostPlayerItem: " + Manager.roomSlots.Count);
             foreach (var networkRoomPlayer in Manager.roomSlots)
             {
-                Debug.Log("networkRoomPlayer:  " + networkRoomPlayer.index);
                 var player = (MadSmithNetworkRoomPlayer)networkRoomPlayer;
                 GameObject newPlayerItem = Instantiate(PlayerListItemPrefab, PlayerListViewContent.transform, true) as GameObject;
                 PlayerListItem newPlayerItemScript = newPlayerItem.GetComponent<PlayerListItem>();
@@ -87,7 +102,7 @@ namespace MadSmith.Scripts.Multiplayer.Managers
                 newPlayerItemScript.PlayerName = player.PlayerName;
                 newPlayerItemScript.ConnectionID = player.ConnectionID;
                 newPlayerItemScript.PlayerSteamID = player.PlayerSteamID;
-                newPlayerItemScript.Ready = player.ready;
+                newPlayerItemScript.Ready = player.readyToBegin;
                 newPlayerItemScript.SetPlayerValues();
 
                 newPlayerItem.transform.localScale = Vector3.one;
@@ -98,7 +113,6 @@ namespace MadSmith.Scripts.Multiplayer.Managers
         }
         private void CreateClientPlayerItem()
         {
-            Debug.Log("CreateClientPlayerItem");
             foreach (var networkRoomPlayer in Manager.roomSlots)
             {
                 var player = (MadSmithNetworkRoomPlayer)networkRoomPlayer;
@@ -110,7 +124,6 @@ namespace MadSmith.Scripts.Multiplayer.Managers
                     newPlayerItemScript.PlayerName = player.PlayerName;
                     newPlayerItemScript.ConnectionID = player.ConnectionID;
                     newPlayerItemScript.PlayerSteamID = player.PlayerSteamID;
-                    newPlayerItemScript.Ready = player.ready;
                     newPlayerItemScript.SetPlayerValues();
 
                     newPlayerItem.transform.localScale = Vector3.one;
@@ -147,6 +160,7 @@ namespace MadSmith.Scripts.Multiplayer.Managers
         }
         public void UpdatePlayerItem()
         {
+            Debug.Log("Update");
             foreach (var networkRoomPlayer in Manager.roomSlots)
             {
                 var player = (MadSmithNetworkRoomPlayer)networkRoomPlayer;
@@ -155,116 +169,116 @@ namespace MadSmith.Scripts.Multiplayer.Managers
                     if (playerListItemScript.ConnectionID == player.ConnectionID)
                     {
                         playerListItemScript.PlayerName = player.PlayerName;
-                        playerListItemScript.Ready = player.ready;
+                        playerListItemScript.Ready = player.readyToBegin;
                         playerListItemScript.CharacterID = player.CharacterId;
                         playerListItemScript.SetPlayerValues();
-                        if (player == lobbyClient)
+                        if (player.ConnectionID == LocalPlayer.ConnectionID)
                         {
                             UpdateButton();
                         }
                     }
                 }
-            }
-            
-            CheckIfAllReady();
+            }   
+            // CheckIfAllReady();
         }
         private void UpdateButton()
         {
-            ReadyButtonText.text = lobbyClient.ready? "Unready" : "Ready";
+            ReadyButtonText.text = LocalPlayer.readyToBegin? "Unready" : "Ready";
         }
         
-        private void CheckIfAllReady()
-        {
-            foreach (var networkRoomPlayer in Manager.roomSlots)
-            {
-                var player = (MadSmithNetworkRoomPlayer)networkRoomPlayer;
-                foreach (PlayerListItem playerListItemScript in PlayerListItems)
-                {
-                    if (playerListItemScript.ConnectionID == player.ConnectionID)
-                    {
-                        if (player == lobbyClient && !lobbyClient.isLeader)
-                        {
-                            return;
-                        }
-                    }
-                }
-            }
-            bool allReady = false;
-            
-            foreach (var networkRoomPlayer in Manager.roomSlots)
-            {
-                var playerObjectController = (MadSmithNetworkRoomPlayer)networkRoomPlayer;
-                if (playerObjectController.ready)
-                {
-                    allReady = true;
-                }
-                else
-                {
-                    allReady = false;
-                    break;
-                }
-            }
-
-            if (ReferenceEquals(lobbyClient, null)) return;
-            
-            if (allReady)
-            {
-                if (lobbyClient.ConnectionID == 0)
-                {
-                    StartGameButton.interactable = true;
-                }
-                else
-                {
-                    StartGameButton.interactable = false;
-                }
-            }
-            else
-            {
-                StartGameButton.interactable = false;
-            }
-        }
-        public void ReadyPlayer()
-        {
-            if (!ReferenceEquals(lobbyClient, null))
-            {
-                lobbyClient.ChangeReady();
-            }
-        }
+        // private void CheckIfAllReady()
+        // {
+        //     foreach (var networkRoomPlayer in Manager.roomSlots)
+        //     {
+        //         var player = (MadSmithNetworkRoomPlayer)networkRoomPlayer;
+        //         foreach (PlayerListItem playerListItemScript in PlayerListItems)
+        //         {
+        //             if (playerListItemScript.ConnectionID == player.ConnectionID)
+        //             {
+        //                 if (player.ConnectionID == lobbyClient.ConnectionID && !lobbyClient.isLeader)
+        //                 {
+        //                     return;
+        //                 }
+        //             }
+        //         }
+        //     }
+        //     bool allReady = false;
+        //     
+        //     foreach (var networkRoomPlayer in Manager.roomSlots)
+        //     {
+        //         var playerObjectController = (MadSmithNetworkRoomPlayer)networkRoomPlayer;
+        //         if (playerObjectController.readyToBegin)
+        //         {
+        //             allReady = true;
+        //         }
+        //         else
+        //         {
+        //             allReady = false;
+        //             break;
+        //         }
+        //     }
+        //
+        //     if (ReferenceEquals(lobbyClient, null)) return;
+        //     
+        //     if (allReady)
+        //     {
+        //         if (lobbyClient.ConnectionID == 0)
+        //         {
+        //             // StartGameButton.interactable = true;
+        //         }
+        //         else
+        //         {
+        //             // StartGameButton.interactable = false;
+        //         }
+        //     }
+        //     else
+        //     {
+        //         // StartGameButton.interactable = false;
+        //     }
+        // }
+        
         public void NextCharacter()
         {
-            if (!ReferenceEquals(lobbyClient, null))
+            if (!ReferenceEquals(LocalPlayer, null))
             {
-                lobbyClient.NextCharacter();
-            }
-        }
-
-        public void PreviousCharacter()
-        {
-            if (!ReferenceEquals(lobbyClient, null))
-            {
-                lobbyClient.PreviousCharacter();
-            }
-        }
-        public void StartGame()
-        {
-            if (!ReferenceEquals(lobbyClient, null))
-            {
-                lobbyClient.CmdStartGame();
+                LocalPlayer.NextCharacter();
             }
         }
         
-        public void FinishCharacterSelectionButton()
+        public void PreviousCharacter()
         {
-            //Debug.Log("FinishCharacterSelectionButton" + ReferenceEquals(lobbyClient, null));
-            if (!ReferenceEquals(lobbyClient, null))
+            if (!ReferenceEquals(LocalPlayer, null))
             {
-                lobbyClient.FinishCharacterSelection();
+                LocalPlayer.PreviousCharacter();
             }
         }
+        public void ReadyPlayerButton()
+        {
+            if (!ReferenceEquals(LocalPlayer, null))
+            {
+                LocalPlayer.ToggleReadyButton();
+            }
+        }
+        public void NextPageButton()
+        {
+            if (!ReferenceEquals(LocalPlayer, null))
+            {
+                LocalPlayer.NextPageButton();
+            }
+        }
+        
+        // public void FinishCharacterSelectionButton()
+        // {
+        //     //Debug.Log("FinishCharacterSelectionButton" + ReferenceEquals(lobbyClient, null));
+        //     if (!ReferenceEquals(lobbyClient, null))
+        //     {
+        //         lobbyClient.FinishCharacterSelection();
+        //     }
+        // }
 
         public void CloseScreen()
         {
-            // Closed?.Invoke();
+            Closed?.Invoke();
         }
         
         // public void FindLocalPlayer()
@@ -273,11 +287,7 @@ namespace MadSmith.Scripts.Multiplayer.Managers
         //     lobbyClient = LocalPlayerObject.GetComponent<LobbyClient>();
         // }
 
-        public void SetLocalPlayer(LobbyClient localGamePlayerLobbyClient)
-        {
-            LocalPlayerObject = localGamePlayerLobbyClient.gameObject;
-            lobbyClient = localGamePlayerLobbyClient;
-        }
+
 
         public void UpdateLobbyName()
         {
@@ -297,10 +307,10 @@ namespace MadSmith.Scripts.Multiplayer.Managers
             // NextPage?.Invoke();
         }
 
-        [ContextMenu("Update")]
-        public void UpdateLobby()
-        {
-            UpdatePlayerList();
-        }
+        // [ContextMenu("Update")]
+        // public void UpdateLobby()
+        // {
+        //     UpdatePlayerList();
+        // }
     }
 }

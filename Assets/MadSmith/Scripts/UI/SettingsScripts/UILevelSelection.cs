@@ -3,6 +3,8 @@ using Cinemachine;
 using MadSmith.Scripts.Events.ScriptableObjects;
 using MadSmith.Scripts.Input;
 using MadSmith.Scripts.Managers;
+using MadSmith.Scripts.Multiplayer.Managers;
+using MadSmith.Scripts.Multiplayer.UI;
 using MadSmith.Scripts.SavingSystem;
 using MadSmith.Scripts.Systems.Settings;
 using Mirror;
@@ -29,8 +31,18 @@ namespace MadSmith.Scripts.UI.SettingsScripts
         public UnityAction OnLevelSelected;
 
         [SerializeField] private Button levelSelectButton;
-        [Header("Broadcasting to")]
-        [SerializeField] private LoadEventChannelSO _onLoadScene = default;
+        private MadSmithNetworkRoomPlayer _localMadSmithNetworkRoomPlayer;
+        public MadSmithNetworkRoomPlayer LocalPlayer
+        { get
+            {
+                if (!ReferenceEquals(_localMadSmithNetworkRoomPlayer, null)) return _localMadSmithNetworkRoomPlayer;
+                return _localMadSmithNetworkRoomPlayer = UiRoomManager.Instance.LocalClient;
+            }
+        }
+        
+        [Header("Listening to")]
+        [SerializeField] private IntEventChannelSO onUpdateLevel = default;
+        // [SerializeField] private LoadEventChannelSO _onLoadScene = default;
 
         [SerializeField] private Sprite[] levelImages;
         [SerializeField] private string[] levelNames;
@@ -39,16 +51,27 @@ namespace MadSmith.Scripts.UI.SettingsScripts
         {
             dolly = virtualCamera.GetCinemachineComponent<CinemachineTrackedDolly>();
         }
+        public void Setup(MadSmithNetworkRoomPlayer localClient)
+        {
+            _localMadSmithNetworkRoomPlayer = localClient;
+        }
 
         private void OnEnable()
         {
             _inputReader.MenuCloseEvent += CloseLevelSelection;
+            onUpdateLevel.OnEventRaised += OnEventRaised;
             Setup();
+        }
+
+        private void OnEventRaised(int levelIndex)
+        {
+            UpdateLevelSelected(levelIndex);
         }
 
         private void OnDisable()
         {
             _inputReader.MenuCloseEvent -= CloseLevelSelection;
+            onUpdateLevel.OnEventRaised -= OnEventRaised;
         }
 
         public void CloseLevelSelection()
@@ -80,57 +103,32 @@ namespace MadSmith.Scripts.UI.SettingsScripts
             levelIndexText.text = levelNames[levelSelected];
         }
 
-        // public void Play() // talvez adicionar aqui um Cmd
-        // {
-        //     OnLevelSelected?.Invoke();
-        //     var manager = NetworkManager.singleton as MadSmithNetworkManager;
-        //     // if (manager != null) manager.StartGame("Level01-1");
-        //     if (manager != null)
-        //     {
-        //         manager.StartGame(GameManager.Instance.sceneSos[CurrentLevelSelected + 1].name);
-        //     }
-        //     // _onLoadScene.RaiseEvent(GameManager.Instance.sceneSos[currentLevelSelected],true);
-        // }
-
-        // public void LeftButton()
-        // {
-        //     //Debug.Log("LeftButton" + currentLevelSelected);
-        //     if (CurrentLevelSelected == 0)
-        //     {
-        //         CurrentLevelSelected = GameManager.Instance.sceneSos.Length - 1;
-        //     }
-        //     else
-        //     {
-        //         CurrentLevelSelected--;
-        //     }
-        //     dolly.m_PathPosition = Mathf.Floor((int)(CurrentLevelSelected / 3));
-        //     SetLevelData();
-        // }
-
         public void UpdateLevelSelected(int levelSelected)
         {
             dolly.m_PathPosition = Mathf.Floor((int)(levelSelected / 3));
             SetLevelData(levelSelected);
         }
+        public void NextLevel()
+        {
+            if (!ReferenceEquals(LocalPlayer, null))
+            {
+                LocalPlayer.NextLevel();
+            }
+        }
+        public void PreviousLevel()
+        {
+            if (!ReferenceEquals(LocalPlayer, null))
+            {
+                LocalPlayer.PreviousLevel();
+            }
+        }
 
-
-
-        // public void RightButton()
-        // {
-        //     //Debug.Log("RightButton" + currentLevelSelected + ", GameManager: " + GameManager.InstanceExists);
-        //     if (CurrentLevelSelected == GameManager.Instance.sceneSos.Length - 1)
-        //     {
-        //         CurrentLevelSelected = 0;
-        //     }
-        //     else
-        //     {
-        //         CurrentLevelSelected++;
-        //     }
-        //
-        //     //Debug.Log("dolly.m_PathPosition" + ReferenceEquals(dolly, null) + ":" + currentLevelSelected);
-        //     dolly.m_PathPosition = Mathf.Floor((int)(CurrentLevelSelected / 3));
-        //     //Debug.Log("dolly.m_PathPosition");
-        //     SetLevelData();
-        // }
+        public void SelectLevel()
+        {
+            if (!ReferenceEquals(LocalPlayer, null))
+            {
+                LocalPlayer.PlayGameButton();
+            }
+        }
     }
 }

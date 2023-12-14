@@ -3,7 +3,7 @@ using MadSmith.Scripts.Events.ScriptableObjects;
 using MadSmith.Scripts.Gameplay;
 using MadSmith.Scripts.Input;
 using MadSmith.Scripts.Menu;
-using MadSmith.Scripts.Multiplayer.Old.Managers;
+using MadSmith.Scripts.Multiplayer.Managers;
 using MadSmith.Scripts.SceneManagement.ScriptableObjects;
 using MadSmith.Scripts.Systems.Settings;
 using MadSmith.Scripts.UI;
@@ -37,13 +37,13 @@ namespace MadSmith.Scripts.Managers
         [SerializeField] private LoadEventChannelSO _loadMenuEvent = default;
         [SerializeField] private LoadEventChannelSO _loadNextLevel = default;
         [SerializeField] private VoidEventChannelSO _onGameStart = default;
-        private MadSmithNetworkManager _manager;
-        private MadSmithNetworkManager Manager
-        { get {
-                if (!ReferenceEquals(_manager, null)) return _manager;
-                return _manager = NetworkManager.singleton as MadSmithNetworkManager;
-            }
-        }
+        // private MadSmithNetworkRoomManager _manager;
+        // private MadSmithNetworkRoomManager Manager
+        // { get {
+        //         if (!ReferenceEquals(_manager, null)) return _manager;
+        //         return _manager = NetworkManager.singleton as MadSmithNetworkRoomManager;
+        //     }
+        // }
 
         private void Awake()
         {
@@ -117,6 +117,12 @@ namespace MadSmith.Scripts.Managers
 
 
         [ContextMenu("Open Config")]
+
+        #region Ui Menu
+
+        
+
+        
         private void OpenUIPause()
         {
             if (pauseScreen == null) return; 
@@ -154,7 +160,9 @@ namespace MadSmith.Scripts.Managers
             }
             _selectionHandler.Unselect();
         }
-        
+        #endregion
+
+        #region Settings
         void OpenSettingScreen()
         {
             _settingScreen.Closed += CloseSettingScreen; // sub to close setting event with event 
@@ -178,6 +186,9 @@ namespace MadSmith.Scripts.Managers
             // time is still set to 0 and Input is still set to menuInput 
             //going out from setting screen gets us back to the pause screen
         }
+        #endregion
+        
+        #region Back To Menu
         void ShowBackToMenuConfirmationPopup()
         {
             pauseScreen.gameObject.SetActive(false); // Set pause screen to inactive
@@ -212,14 +223,18 @@ namespace MadSmith.Scripts.Managers
                 _loadMenuEvent.RaiseEvent(_mainMenu, false); //load main menu
             }
         }
+        #endregion
+        
+        
+        
 
+        #region Tutorial
         private void OpenTutorial()
         {
             inGameTutorialComponent.gameObject.SetActive(true);
             inGameTutorialComponent.Closed += UiTutorialClosed;
             inGameTutorialComponent.Setup((LocationSO)GameManager.Instance.CurrentSceneSo);
         }
-
         private void UiTutorialClosed()
         {
             inGameTutorialComponent.gameObject.SetActive(false);
@@ -228,5 +243,12 @@ namespace MadSmith.Scripts.Managers
             inGameComponent.gameObject.SetActive(true);
             _onGameStart.RaiseEvent();
         }
+        
+
+        #endregion
+        
+        
+
+        
     }
 }

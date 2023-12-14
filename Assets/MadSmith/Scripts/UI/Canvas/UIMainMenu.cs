@@ -23,32 +23,32 @@ namespace MadSmith.Scripts.UI.Canvas
         
         public void HostGameButton()
         {
-            HostGameButtonAction.Invoke();
+            HostGameButtonAction?.Invoke();
         }
 
         public void JoinButton()
         {
-            JoinLobbyButtonAction.Invoke();
+            JoinLobbyButtonAction?.Invoke();
         }
 
         public void SettingsButton()
         {
-            SettingsButtonAction.Invoke();
+            SettingsButtonAction?.Invoke();
         }
 
         public void CreditsButton()
         {
-            CreditsButtonAction.Invoke();
+            CreditsButtonAction?.Invoke();
         }
 
         public void TutorialButton()
         {
-            TutorialButtonAction.Invoke();
+            TutorialButtonAction?.Invoke();
         }
 
         public void ExitButton()
         {
-            ExitButtonAction.Invoke();
+            ExitButtonAction?.Invoke();
         }
     }
 }

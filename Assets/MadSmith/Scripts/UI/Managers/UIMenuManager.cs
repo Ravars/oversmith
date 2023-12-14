@@ -28,7 +28,8 @@ namespace MadSmith.Scripts.UI.Managers
         Host,
         Join,
         // Lobby,
-        LobbiesList
+        LobbiesList,
+        JoinLocalHost
     }
     public class UIMenuManager : Singleton<UIMenuManager>
     {
@@ -47,6 +48,7 @@ namespace MadSmith.Scripts.UI.Managers
         [SerializeField] private UITutorial uiTutorial;
         [SerializeField] private UIHost uiHostPanel;
         [SerializeField] private UIJoin uiJoinPanel;
+        [SerializeField] private UIJoinLocalHost uiJoinLocalHostPanel;
         // [SerializeField] private CharacterSelect _characterSelectUI;
         // [SerializeField] private UILevelSelection _levelSelectUI;
         // [SerializeField] private LobbyControllerCanvas uiLobbyControllerCanvasPanel;
@@ -83,6 +85,7 @@ namespace MadSmith.Scripts.UI.Managers
             SetHostScreen();
             SetJoinScreen();
             SetLobbiesListScreen();
+            SetJoinLocalHostScreen();
             SetState(MenuState.MainMenu);
             // _loadLocation.OnLoadingRequested += (_, _, _) => { CloseAll();};
         }
@@ -97,6 +100,7 @@ namespace MadSmith.Scripts.UI.Managers
             UnsetTutorialScreen();
             UnsetHostScreen();
             UnsetJoinScreen();
+            UnsetJoinLocalHostScreen();
             UnsetLobbiesListScreen();
             // UnsetCharacterSelectScreen();
             // UnsetLevelSelectScreen();
@@ -135,6 +139,9 @@ namespace MadSmith.Scripts.UI.Managers
                     break;
                 case MenuState.Join:
                     OpenJoin();
+                    break;
+                case MenuState.JoinLocalHost:
+                    OpenJoinLocalHost();
                     break;
                 // case MenuState.Lobby:
                 //     OpenLobby();
@@ -349,11 +356,11 @@ namespace MadSmith.Scripts.UI.Managers
                 Manager.HostBySteam();
                 // SetState(MenuState.Lobby);
             };
-            // uiHostPanel.LocalHostButtonAction += () =>
-            // {
-            //     Manager.HostByLocalHost();
-            //     SetState(MenuState.Lobby);
-            // };
+            uiHostPanel.LocalHostButtonAction += () =>
+            {
+                Manager.HostByLocalHost();
+                // SetState(MenuState.Lobby);
+            };
             uiHostPanel.Closed += () => SetState(MenuState.MainMenu);
         }
         private void UnsetHostScreen()
@@ -363,11 +370,11 @@ namespace MadSmith.Scripts.UI.Managers
                 Manager.HostBySteam();
                 // SetState(MenuState.Lobby);
             };
-            // uiHostPanel.LocalHostButtonAction -= () =>
-            // {
-            //     Manager.HostByLocalHost();
-            //     SetState(MenuState.Lobby);
-            // };
+            uiHostPanel.LocalHostButtonAction -= () =>
+            {
+                Manager.HostByLocalHost();
+                // SetState(MenuState.Lobby);
+            };
             uiHostPanel.Closed -= () => SetState(MenuState.MainMenu);
         }
         private void OpenHost()
@@ -382,6 +389,37 @@ namespace MadSmith.Scripts.UI.Managers
         }
         #endregion
         
+        #region JoinLocalHost
+        private void SetJoinLocalHostScreen()
+        {
+            uiJoinLocalHostPanel.SetJoinLocalHost();
+            uiJoinLocalHostPanel.Closed += () => SetState(MenuState.MainMenu);
+            uiJoinLocalHostPanel.JoinButtonAction += () =>
+            {
+                Manager.JoinByLocalHost();
+                // SetState(MenuState.Lobby);
+            };
+        }
+        private void UnsetJoinLocalHostScreen()
+        {
+            
+            uiJoinLocalHostPanel.Closed -= () => SetState(MenuState.MainMenu);
+            uiJoinLocalHostPanel.JoinButtonAction -= () =>
+            {
+                Manager.JoinByLocalHost();
+            };
+        }
+        private void OpenJoinLocalHost()
+        {
+            _mainMenuCamera.SetActive(true);
+            uiJoinLocalHostPanel.gameObject.SetActive(true);
+        }
+        private void CloseJoinLocalHost()
+        {
+            _mainMenuCamera.SetActive(false);
+            uiJoinLocalHostPanel.gameObject.SetActive(false);
+        }
+        #endregion
         #region Join
         private void SetJoinScreen()
         {
@@ -394,8 +432,8 @@ namespace MadSmith.Scripts.UI.Managers
             };
             uiJoinPanel.LocalhostJoinButtonAction += () =>
             {
-                // Manager.JoinByLocalhost();
-                // SetState(MenuState.Lobby);
+                Manager.EnableJoinByLocalhost();
+                SetState(MenuState.JoinLocalHost);
             };
         }
         private void UnsetJoinScreen()
@@ -404,7 +442,12 @@ namespace MadSmith.Scripts.UI.Managers
             uiJoinPanel.SteamJoinButtonAction -= () =>
             {
                 Manager.JoinBySteam();
-                // SetState(MenuState.Lobby);
+                SetState(MenuState.JoinLocalHost);
+            };
+            uiJoinPanel.LocalhostJoinButtonAction -= () =>
+            {
+                Manager.EnableJoinByLocalhost();
+                SetState(MenuState.JoinLocalHost);
             };
         }
         private void OpenJoin()
@@ -457,6 +500,7 @@ namespace MadSmith.Scripts.UI.Managers
         #region Lobbies List
         private void SetLobbiesListScreen()
         {
+            if (!SteamLobby.InstanceExists) return;
             SteamLobby.Instance.OnLobbyListRequestedEvent += () => SetState(MenuState.LobbiesList);
             uiLobbiesListPanel.Closed += () =>
             {
@@ -504,6 +548,7 @@ namespace MadSmith.Scripts.UI.Managers
             CloseTutorialScreen();
             CloseHost();
             CloseJoin();
+            CloseJoinLocalHost();
             CloseLobbiesList();
             // CloseCharacterSelect();
             // CloseLevelSelect();
