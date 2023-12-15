@@ -31,7 +31,7 @@ namespace MadSmith.Scripts.Managers
 
         [Header("Listening on")] 
         [SerializeField] private VoidEventChannelSO _onSceneReady = default;
-        [SerializeField] private FloatEventChannelSO _onLevelCompleted = default;
+        // [SerializeField] private FloatEventChannelSO _onLevelCompleted = default;
 
         [Header("Broadcasting on ")]
         [SerializeField] private LoadEventChannelSO _loadMenuEvent = default;
@@ -51,14 +51,26 @@ namespace MadSmith.Scripts.Managers
             
         }
 
+        private void Start()
+        {
+            DontDestroyOnLoad(gameObject);
+        }
+
         private void OnEnable()
         {
             Debug.Log("UI Manager OnEnable");
-            // _onSceneReady.OnEventRaised += StartUp;
-            _onLevelCompleted.OnEventRaised += OpenEndGameScreen;
+            _onSceneReady.OnEventRaised += StartUp;
+            // _onLevelCompleted.OnEventRaised += OpenEndGameScreen;
             _inputReader.MenuPauseEvent += OpenUIPause;
-            StartUp();
+            // StartUp();
             // MadSmithNetworkManager.OnServerReadied += MadSmithNetworkManagerOnOnServerReadied;
+        }
+        private void OnDisable()
+        {
+            _onSceneReady.OnEventRaised -= StartUp;
+            _inputReader.MenuPauseEvent -= OpenUIPause;
+            // _onLevelCompleted.OnEventRaised -= OpenEndGameScreen;
+            // MadSmithNetworkManager.OnServerReadied -= MadSmithNetworkManagerOnOnServerReadied;
         }
 
         // private void MadSmithNetworkManagerOnOnServerReadied(NetworkConnection obj)
@@ -81,21 +93,16 @@ namespace MadSmith.Scripts.Managers
         {
             _endGameComponent.Continued -= EndGameComponentOnContinued;
             _endGameComponent.BackToMenuClicked -= ShowBackToMenuConfirmationPopup;
-            if (GameManager.Instance.CurrentSceneSo.sceneType == GameSceneType.Location && GameManager.Instance.CurrentSceneSo.nextScene != null)
+            var currentScene = GameManager.Instance.GetCurrentScene();
+            if (currentScene.sceneType == GameSceneType.Location && currentScene.nextScene != null)
             {
                 _endGameComponent.gameObject.SetActive(false);
-                _loadNextLevel.RaiseEvent(GameManager.Instance.CurrentSceneSo.nextScene,true);
+                _loadNextLevel.RaiseEvent(currentScene.nextScene,true);
             }
             // _onScreenEndGameClosed.RaiseEvent();
         }
 
-        private void OnDisable()
-        {
-            _onSceneReady.OnEventRaised -= StartUp;
-            _onLevelCompleted.OnEventRaised -= OpenEndGameScreen;
-            _inputReader.MenuPauseEvent -= OpenUIPause;
-            // MadSmithNetworkManager.OnServerReadied -= MadSmithNetworkManagerOnOnServerReadied;
-        }
+        
 
         private void CloseAll()
         {
@@ -109,11 +116,12 @@ namespace MadSmith.Scripts.Managers
         }
         private void StartUp()
         {
-            if (GameManager.Instance.CurrentSceneSo.sceneType == GameSceneType.Location)
+            var currentScene = GameManager.Instance.GetCurrentScene();
+            if (currentScene.sceneType == GameSceneType.Location)
             {
                 OpenTutorial();
             }
-        }
+        }   
 
 
         [ContextMenu("Open Config")]
@@ -233,7 +241,8 @@ namespace MadSmith.Scripts.Managers
         {
             inGameTutorialComponent.gameObject.SetActive(true);
             inGameTutorialComponent.Closed += UiTutorialClosed;
-            inGameTutorialComponent.Setup((LocationSO)GameManager.Instance.CurrentSceneSo);
+            var currentScene = GameManager.Instance.GetCurrentScene();
+            inGameTutorialComponent.Setup((LocationSO)currentScene);
         }
         private void UiTutorialClosed()
         {

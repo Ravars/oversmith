@@ -1,6 +1,7 @@
 using System.Linq;
 using kcp2k;
 using MadSmith.Scripts.Multiplayer.Old.Managers;
+using MadSmith.Scripts.SceneManagement.ScriptableObjects;
 using Mirror;
 using Mirror.FizzySteam;
 using Steamworks;
@@ -26,6 +27,9 @@ namespace MadSmith.Scripts.Multiplayer.Managers
         public SteamLobby SteamLobby { get; private set; }
         private SteamManager _steamManager;
         public GameObject[] gamePlayersPrefabs;
+        public GameObject gameManagerPrefab;
+        public GameObject orderManagerPrefab;
+        // public GameObject uiGameplayManagerPrefab;
         private readonly string ResourcesPath = "NewNetworkResources";
         public override void Awake()
         {
@@ -42,10 +46,24 @@ namespace MadSmith.Scripts.Multiplayer.Managers
         public override void OnRoomServerSceneChanged(string sceneName)
         {
             // spawn the initial batch of Rewards
+            if (GameManager.InstanceExists && GameManager.Instance.GetCurrentScene().sceneType == GameSceneType.Location)
+            {
+                var orderManagerInstance = Instantiate(orderManagerPrefab);
+                NetworkServer.Spawn(orderManagerInstance);
+                // var uiGameplayManagerInstance = Instantiate(uiGameplayManagerPrefab);
+                // NetworkServer.Spawn(uiGameplayManagerInstance);
+            }
             // if (sceneName == GameplayScene)
             //     Spawner.InitialSpawn();
         }
+
+        public override void OnServerReady(NetworkConnectionToClient conn)
+        {
+            base.OnServerReady(conn);
+            Debug.Log("Server ready: " + conn.isReady + " - " + allPlayersReady + " - " + pendingPlayers.Count);
+        }
         
+
 
         private bool _showStartButton;
         public override void OnRoomServerPlayersReady()
@@ -74,6 +92,19 @@ namespace MadSmith.Scripts.Multiplayer.Managers
             // PlayerScore playerScore = gamePlayer.GetComponent<PlayerScore>();
             // playerScore.index = roomPlayer.GetComponent<NetworkRoomPlayer>().index;
             return true;
+        }
+
+        public override void OnRoomClientSceneChanged()
+        {
+            base.OnRoomClientSceneChanged();
+            Debug.Log("OnRoomClientSceneChanged- " + allPlayersReady);
+        }
+
+        public override void OnClientSceneChanged()
+        {
+            base.OnClientSceneChanged();
+            Debug.Log("OnClientSceneChanged- " + allPlayersReady);
+            
         }
 
         public override GameObject OnRoomServerCreateGamePlayer(NetworkConnectionToClient conn, GameObject roomPlayer)
@@ -129,18 +160,24 @@ namespace MadSmith.Scripts.Multiplayer.Managers
         {
             base.OnStartServer();
             spawnPrefabs = Resources.LoadAll<GameObject>(ResourcesPath).ToList();
+            //Debug.Log("Start client: " + spawnPrefabs.Count);
         }
 
         public override void OnStartClient()
         {
             base.OnStartClient();
             var spawnablePrefabs = Resources.LoadAll<GameObject>(ResourcesPath);
+            //Debug.Log("Start client: " + spawnablePrefabs.Length);
             foreach (var spawnablePrefab in spawnablePrefabs)
             {
                 NetworkClient.RegisterPrefab(spawnablePrefab);
             }
-        }
 
+            //Debug.Log("gameManagerInstance");
+            
+            
+        }
+        
         public override void OnServerAddPlayer(NetworkConnectionToClient conn)
         {
             // Debug.Log("OnServerAddPlayer");
@@ -154,6 +191,10 @@ namespace MadSmith.Scripts.Multiplayer.Managers
                 lobbyClient.PlayerSteamID = (ulong) SteamMatchmaking.GetLobbyMemberByIndex((CSteamID)SteamLobby.Instance.currentLobbyID, roomSlots.Count);
             }
             NetworkServer.AddPlayerForConnection(conn, lobbyClient.gameObject);
+
+            if (!lobbyClient.isServer || GameManager.InstanceExists) return;
+            var gameManagerInstance = Instantiate(gameManagerPrefab);
+            NetworkServer.Spawn(gameManagerInstance);
         }
 
         public void HostByLocalHost()
@@ -161,6 +202,7 @@ namespace MadSmith.Scripts.Multiplayer.Managers
             TransportLayer = TransportLayer.LocalHost;
             transport = _localHostTransport;
             _localHostTransport.enabled = true;
+            
             // lobbyControllerCanvas.gameObject.SetActive(true);
             StartHost();
         }

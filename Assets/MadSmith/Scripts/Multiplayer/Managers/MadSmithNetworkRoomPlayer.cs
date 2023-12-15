@@ -64,13 +64,13 @@ namespace MadSmith.Scripts.Multiplayer.Managers
 
         public override void IndexChanged(int oldIndex, int newIndex)
         {
-            Debug.Log($"IndexChanged {newIndex}");
+            //Debug.Log($"IndexChanged {newIndex}");
             onUpdatePlayerList.RaiseEvent();
         }
 
         public override void ReadyStateChanged(bool oldReadyState, bool newReadyState)
         {
-            Debug.Log($"ReadyStateChanged {newReadyState}");
+            //Debug.Log($"ReadyStateChanged {newReadyState}");
             // SetReadyText();
             onUpdatePlayerList.RaiseEvent();
         }
@@ -182,7 +182,10 @@ namespace MadSmith.Scripts.Multiplayer.Managers
             if (locationSo != null)
             {
                 string sceneName = locationSo.sceneName;
-                GameManager.Instance.SetGameSceneSo(locationSo);
+                if (isClient)
+                {
+                    CmdSetGameSceneSo(LevelSelected);
+                }
                 Manager.ServerChangeScene(sceneName);
             }
             else
@@ -191,12 +194,18 @@ namespace MadSmith.Scripts.Multiplayer.Managers
             }
         }
 
+        [Command]
+        public void CmdSetGameSceneSo(int locationIndex)
+        {
+            GameManager.Instance.SetGameSceneSo(locationIndex);
+        }
+
         #endregion
 
         [ContextMenu("Test")]
         public void Test()
         {
-            Debug.Log(GameManager.Instance.CurrentSceneSo.name);
+            //Debug.Log(GameManager.Instance.CurrentSceneSo.name + " - " + GameManager.Instance.currentSceneIndex);
         }
         
     }

@@ -60,7 +60,7 @@ namespace MadSmith.Scripts.Multiplayer.Managers
 
         public void Setup(MadSmithNetworkRoomPlayer localClient)
         {
-            Debug.Log("Setup");
+            //Debug.Log("Setup");
             _localMadSmithNetworkRoomPlayer = localClient;
         }
         
@@ -160,7 +160,6 @@ namespace MadSmith.Scripts.Multiplayer.Managers
         }
         public void UpdatePlayerItem()
         {
-            Debug.Log("Update");
             foreach (var networkRoomPlayer in Manager.roomSlots)
             {
                 var player = (MadSmithNetworkRoomPlayer)networkRoomPlayer;

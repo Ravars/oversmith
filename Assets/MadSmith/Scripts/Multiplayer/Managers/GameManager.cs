@@ -1,19 +1,22 @@
 using MadSmith.Scripts.Events.ScriptableObjects;
+using MadSmith.Scripts.Managers;
 using MadSmith.Scripts.SavingSystem;
 using MadSmith.Scripts.SceneManagement.ScriptableObjects;
 using MadSmith.Scripts.Systems.Settings;
 using MadSmith.Scripts.Utils;
+using Mirror;
 using UnityEngine;
 
 namespace MadSmith.Scripts.Multiplayer.Managers
 {
-    public class GameManager : Singleton<GameManager>
+    public class GameManager : PersistentNetworkSingleton<GameManager>
     {
         [Header("Scenes control")] 
         public GameSceneSO[] sceneSos;
-        public GameSceneSO CurrentSceneSo { get; private set; }
-        
+        [SyncVar] public int currentSceneIndex;
         [SerializeField] private SaveSystem saveSystem = default;
+        // public UIManager uiGameplayManagerPrefab;
+        // private UIManager _uiGameplayManagerInstance;
         
         [Header("Listening To")] 
         [SerializeField] private SettingsSO currentSettings;
@@ -36,11 +39,20 @@ namespace MadSmith.Scripts.Multiplayer.Managers
                 currentSettings.LoadDefaultSettings();
                 currentGameData.LoadDefaultSettings();
             }
+
+            // _uiGameplayManagerInstance = Instantiate(uiGameplayManagerPrefab);
         }
         
-        public void SetGameSceneSo(GameSceneSO gameSceneSo)
+        // [Command]
+        public void SetGameSceneSo(int gameSceneIndex)
         {
-            CurrentSceneSo = gameSceneSo;
+            currentSceneIndex = gameSceneIndex;
+            // CurrentSceneSo = sceneSos[gameSceneIndex];
+        }
+
+        public GameSceneSO GetCurrentScene()
+        {
+            return sceneSos[currentSceneIndex];
         }
         
         public static string CalculateScore(int finalScore)

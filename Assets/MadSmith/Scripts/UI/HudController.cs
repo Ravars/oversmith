@@ -31,7 +31,7 @@ namespace MadSmith.Scripts.UI
         [SerializeField] private OrderUpdateEventChannelSO onDeleteOrder;
         [SerializeField] private OrderUpdateEventChannelSO onDeliveryOrder;
 
-        private void OnEnable()
+        private void Start() // Era no OnEnable
         {
             _onCountdownTimerUpdated.OnEventRaised += UpdateTimer;
             onPlayerScore.OnEventRaised += UpdatePlayerScore;
