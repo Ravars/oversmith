@@ -13,10 +13,10 @@ namespace MadSmith.Scripts.Multiplayer
 
         private void Awake()
         {
-            // if (!GameManager.InstanceExists)
-            // {
-            // }
+            if (!GameManager.InstanceExists)
+            {
                 SceneManager.LoadSceneAsync(2, LoadSceneMode.Additive).completed += OnCompleted;
+            }
         }
 
         private void OnCompleted(AsyncOperation obj)

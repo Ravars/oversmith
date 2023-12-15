@@ -48,12 +48,12 @@ namespace MadSmith.Scripts.Managers
         private void Awake()
         {
             CloseAll();
-            
+            inGameComponent.gameObject.SetActive(true);
         }
 
         private void Start()
         {
-            DontDestroyOnLoad(gameObject);
+            // DontDestroyOnLoad(gameObject);
         }
 
         private void OnEnable()
@@ -249,7 +249,7 @@ namespace MadSmith.Scripts.Managers
             inGameTutorialComponent.gameObject.SetActive(false);
             inGameTutorialComponent.Closed -= UiTutorialClosed;
             _inputReader.EnableGameplayInput();
-            inGameComponent.gameObject.SetActive(true);
+            inGameComponent.hudPanel.SetActive(true);
             _onGameStart.RaiseEvent();
         }
         

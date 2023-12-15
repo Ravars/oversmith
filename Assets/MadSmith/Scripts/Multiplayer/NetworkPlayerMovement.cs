@@ -1,3 +1,4 @@
+using MadSmith.Scripts.Events.ScriptableObjects;
 using MadSmith.Scripts.Input;
 using MadSmith.Scripts.Multiplayer.Managers;
 using MadSmith.Scripts.Multiplayer.Old.Managers;
@@ -17,6 +18,9 @@ namespace MadSmith.Scripts.Multiplayer.Old.Player
         private Quaternion _targetRotation;
         private static readonly int Run = Animator.StringToHash("Run");
         [SerializeField] private Animator _animator; // temporary
+        
+        
+        [SerializeField] private VoidEventChannelSO _onGameStart = default;
         private MadSmithNetworkRoomManager _room;
         private MadSmithNetworkRoomManager Room
         {
@@ -44,18 +48,15 @@ namespace MadSmith.Scripts.Multiplayer.Old.Player
         private void Start()
         {
             //Debug.Log("Start");
+            _onGameStart.OnEventRaised += OnStartGame;
             // DontDestroyOnLoad(gameObject);
         }
 
-
-        public void CmdEnableMovement()
+        private void OnStartGame()
         {
-            RpcEnableMovement();
-            // Debug.Log("CmdEnableMovement");
+            EnableMovement();
         }
-
-        // [ClientRpc]
-        public void RpcEnableMovement()
+        public void EnableMovement()
         {
             // Debug.Log("before hasAuthority");
             if (!hasAuthority) return;

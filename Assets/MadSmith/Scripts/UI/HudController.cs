@@ -31,6 +31,12 @@ namespace MadSmith.Scripts.UI
         [SerializeField] private OrderUpdateEventChannelSO onDeleteOrder;
         [SerializeField] private OrderUpdateEventChannelSO onDeliveryOrder;
 
+        protected override void Awake()
+        {
+            base.Awake();
+            hudPanel.SetActive(false);
+        }
+
         private void Start() // Era no OnEnable
         {
             _onCountdownTimerUpdated.OnEventRaised += UpdateTimer;
