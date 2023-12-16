@@ -2,6 +2,7 @@
 using System.Linq;
 using MadSmith.Scripts.Input;
 using MadSmith.Scripts.Items;
+using MadSmith.Scripts.Systems;
 using Mirror;
 using UnityEngine;
 
@@ -12,14 +13,15 @@ namespace MadSmith.Scripts.Interaction
     {
         [SerializeField] private InputReader _inputReader;
         private PlayerInteractableHandler _playerInteractableHandler;
-        public Transform _itemTransform;
-        // private BaseItem _baseItemHolding;
+        [SyncVar] public Transform _itemTransform;
+        [SyncVar] private int _baseItemHoldingId;
         public Item ItemScript { get; set; }
         public Transform itemHolder;
-        
+        public BaseItem baseItemTest;
         private void Start()
         {
             _playerInteractableHandler = GetComponent<PlayerInteractableHandler>();
+            // networkTransformChild = GetComponent<NetworkTransformChild>();
         }
 
         private void OnEnable()
@@ -35,7 +37,7 @@ namespace MadSmith.Scripts.Interaction
         }
         private void Interact()
         {
-            //Debug.Log("Interact");
+            Debug.Log("Interact");
             if (_playerInteractableHandler.CurrentInteractable != null)
             {
                 var interactable = _playerInteractableHandler.CurrentInteractable.InteractableHolder;
@@ -52,9 +54,57 @@ namespace MadSmith.Scripts.Interaction
             
         }
 
+        [Command]
+        private void SetBaseItem(int id)
+        {
+            _baseItemHoldingId = id;
+        }
+
+        [Command]
+        private void CmdSpawn()
+        {
+            // Debug.Log("CMD Nulo" + (_baseItemHolding.prefab == null));
+            if (!isClient) return;
+
+            // Verifica se quem chamou o comando é o servidor
+            if (isServer)
+            {
+                var baseItem = BaseItemsManager.Instance.GetBaseItemById(_baseItemHoldingId);
+                GameObject itemTransform = Instantiate(baseItem.prefab, itemHolder.position, Quaternion.identity,this.itemHolder);
+                _itemTransform = itemTransform.transform;
+                Quaternion quaternion = itemTransform.transform.rotation;
+                NetworkServer.Spawn(itemTransform);
+                
+                ItemScript = _itemTransform.GetComponent<Item>();
+                // RpcSyncItem(itemTransform);
+                RpcSyncItem(itemTransform,quaternion);
+                
+            }
+        }
+        [ClientRpc]
+        void RpcSyncItem(GameObject item,Quaternion quaternion)
+        {
+            Debug.Log("Item" + item.name);
+            // Define o item como filho do jogador em cada cliente
+            item.transform.SetParent(this.itemHolder);
+            item.transform.localPosition = Vector3.zero;
+            item.transform.rotation = quaternion;
+            item.transform.localScale = Vector3.one;
+            // item.transform.SetLocalPositionAndRotation(Vector3.zero,Quaternion.identity);
+        }
+        // [ClientRpc]
+        // void RpcSyncItem(GameObject item, NetworkConnection conn)
+        // {
+        //     // Envia uma mensagem para o cliente para que ele faça a sincronização do item
+        //     if (conn == connectionToClient && isLocalPlayer)
+        //     {
+        //         item.transform.SetParent(transform);
+        //     }
+        // }
+
         private void Grab()
         {
-            //Debug.Log("Grab");
+            Debug.Log("Grab");
             if (_playerInteractableHandler.CurrentInteractable != null)
             {
                 //Debug.Log("1");
@@ -79,7 +129,7 @@ namespace MadSmith.Scripts.Interaction
                             ItemScript.LastCraftingTable = interactable.craftingTable.type;
                         ItemScript.PlaySound(SoundType.SoundIn);
                         _itemTransform = null;
-                        ItemScript = null;
+                         ItemScript = null;
                         return;
                     }
 
@@ -98,10 +148,9 @@ namespace MadSmith.Scripts.Interaction
                 //Debug.Log("3");
                 if (interactable.hasDispenser && ItemScript == null)
                 {
-                    //Debug.Log("3.1");
-                    var baseItem = _playerInteractableHandler.CurrentInteractable.InteractableHolder.dispenser.rawMaterialSo;
-                    _itemTransform = Instantiate(baseItem.prefab, itemHolder.position, Quaternion.identity,itemHolder).transform;
-                    ItemScript = _itemTransform.GetComponent<Item>();
+                    var id = _playerInteractableHandler.CurrentInteractable.InteractableHolder.dispenser.rawMaterialSo.id;
+                    SetBaseItem(id);
+                    CmdSpawn();
                     return;
                 }
 

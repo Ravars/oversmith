@@ -15,7 +15,7 @@ namespace MadSmith.Scripts.Multiplayer.Managers
         [SerializeField] private float startingDelay = 5;
         [SerializeField] private float firstOrderDelay = 3;
         [SerializeField] private float orderDelay = 11;
-        [SerializeField] private float timeToSingleItem = 60;
+        [SerializeField] private float timeToSingleItem = 200; // 60
         [SerializeField] private int maxConcurrentOrders = 6;
         [SerializeField] private int timeToDeliver = 240;
         private float _timeToSpawn;
