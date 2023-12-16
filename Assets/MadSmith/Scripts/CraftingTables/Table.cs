@@ -2,6 +2,7 @@
 using System.Linq;
 using MadSmith.Scripts.Interaction;
 using MadSmith.Scripts.Items;
+using MadSmith.Scripts.Systems;
 using MadSmith.Scripts.UI;
 using Mirror;
 using UnityEngine;
@@ -14,7 +15,8 @@ namespace MadSmith.Scripts.CraftingTables
         public Item ItemScript { get; private set; }
         // public bool isWorkTable = false;
         // public BaseItem BaseItem { get; private set; }
-        private Transform _itemTransform;
+        [SyncVar] private Transform _itemTransform;
+        [SyncVar] private int _baseItemHoldingId;
         
         private InteractableHolder _interactableHolder;
         [SerializeField] private Transform pointToSpawnItem;
@@ -54,20 +56,138 @@ namespace MadSmith.Scripts.CraftingTables
             return new Tuple<Transform,Item>(tempTransform,tempItem);
         }
 
-        public void PutOnTable(Transform itemTransform, Item itemScript)
+        [Command]
+        public void CmdReceiveItem(NetworkIdentity itemToReceive)
         {
-            //catchSound.Play();
-            ItemScript = itemScript;
-            _itemTransform = itemTransform;
-            _itemTransform.SetParent(pointToSpawnItem);
-            // _itemTransform.SetLocalPositionAndRotation(Vector3.zero, pointToSpawnItem.localRotation);
-            _itemTransform.SetLocalPositionAndRotation(Vector3.zero, Quaternion.identity);
-
-            if (_interactableHolder.hasCraftingTable)
+            Debug.Log("CmdReceiveItem");
+            if (itemToReceive != null)
             {
-                _interactableHolder.craftingTable.ItemAddedToTable();
+                Debug.Log("not null");
+                itemToReceive.transform.SetParent(transform); // Define o objeto recebido como filho deste objeto no cenário
+                RpcSyncItem(itemToReceive.gameObject);
             }
         }
+        [ClientRpc]
+        void RpcSyncItem(GameObject item)
+        {
+            // Realize qualquer outra ação necessária ao receber o item no cliente
+            item.transform.SetParent(transform);
+        }
+        // [ClientCallback]
+        // public void PutOnTable(int id)
+        // {
+        //     Debug.Log("PutOnTable");
+        //     SetBaseItem(id);
+        //     this._baseItemHoldingId = id;
+        //     Debug.Log("PutOnTable" + _baseItemHoldingId);
+        //     // if (isServer) return;
+        //     CmdSpawn();
+        //     Debug.Log("After spawn");
+        //     // //catchSound.Play();
+        //     // ItemScript = itemScript;
+        //     // _itemTransform = itemTransform;
+        //     // _itemTransform.SetParent(pointToSpawnItem);
+        //     // _itemTransform.SetLocalPositionAndRotation(Vector3.zero, Quaternion.identity);
+        //     //
+        //     // if (_interactableHolder.hasCraftingTable)
+        //     // {
+        //     //     _interactableHolder.craftingTable.ItemAddedToTable();
+        //     // }
+        // }
+        // [Command]
+        // private void SetBaseItem(int id)
+        // {
+        //     this._baseItemHoldingId = id;
+        // }
+        // [Command]
+        // public void CmdSpawn()
+        // {
+        //     Debug.Log("Cmd");
+        //     if (!isClient) return;
+        //     Debug.Log("client");
+        //     // Verifica se quem chamou o comando é o servidor
+        //     if (isServer)
+        //     {
+        //         Debug.Log("server");
+        //         var baseItem = BaseItemsManager.Instance.GetBaseItemById(_baseItemHoldingId);
+        //         GameObject itemTransform = Instantiate(baseItem.prefab, pointToSpawnItem.position, Quaternion.identity,this.pointToSpawnItem);
+        //         _itemTransform = itemTransform.transform;
+        //         Quaternion quaternion = itemTransform.transform.rotation;
+        //         NetworkServer.Spawn(itemTransform);
+        //         Debug.Log("after spawn");
+        //         
+        //         ItemScript = _itemTransform.GetComponent<Item>();
+        //         RpcSyncItem(itemTransform,quaternion);
+        //     }
+        // }
+        // [ClientRpc]
+        // void RpcSyncItem(GameObject item,Quaternion quaternion)
+        // {
+        //     Debug.Log("Item" + item.name);
+        //     // Define o item como filho do jogador em cada cliente
+        //     item.transform.SetParent(this.pointToSpawnItem);
+        //     item.transform.SetLocalPositionAndRotation(Vector3.zero,quaternion);
+        //     item.transform.localScale = Vector3.one;
+        // }
+        // public void PutOnTableCallCmd(Transform itemTransform)
+        // {
+        //     Debug.Log("call CMD");
+        //     Debug.Log(isClient);
+        //     Debug.Log(isServer);
+        //     Debug.Log(isLocalPlayer);
+        //     Debug.Log("server");
+        //     // _itemTransform = itemTransform;
+        //     // _itemTransform.SetParent(this.pointToSpawnItem);
+        //     // _itemTransform.SetLocalPositionAndRotation(Vector3.zero, Quaternion.identity);
+        //     if (_interactableHolder.hasCraftingTable)
+        //     {
+        //         _interactableHolder.craftingTable.ItemAddedToTable();
+        //     }
+        //
+        //     CmdPutOnTable(itemTransform);
+        // }
+        // [Command]
+        // public void CmdPutOnTable(Transform itemTransform)
+        // {
+        //     Debug.Log("CMD");
+        //     if (!isClient) return;
+        //     Debug.Log("client");
+        //     if (isServer)
+        //     {
+        //         _itemTransform = itemTransform;
+        //         _itemTransform.SetParent(this.pointToSpawnItem);
+        //         _itemTransform.SetLocalPositionAndRotation(Vector3.zero, Quaternion.identity);
+        //         RpcPutOnTable(itemTransform);
+        //         
+        //     }
+        //     // Verifica se quem chamou o comando é o servidor
+        //     // if (isServer)
+        //     // {
+        //     //     Debug.Log("server");
+        //     //     _itemTransform = itemTransform;
+        //     //     _itemTransform.SetParent(this.pointToSpawnItem);
+        //     //     _itemTransform.SetLocalPositionAndRotation(Vector3.zero, Quaternion.identity);
+        //     //     if (_interactableHolder.hasCraftingTable)
+        //     //     {
+        //     //         _interactableHolder.craftingTable.ItemAddedToTable();
+        //     //     }
+        //     //     RpcPutOnTable(itemTransform);
+        //     // }
+        //
+        // }
+        
+        // [ClientRpc]
+        // public void RpcPutOnTable(Transform itemTransform)
+        // {
+        //     Debug.Log("Rpc");
+        //     _itemTransform = itemTransform;
+        //     _itemTransform.SetParent(this.pointToSpawnItem);
+        //     _itemTransform.SetLocalPositionAndRotation(Vector3.zero, Quaternion.identity);
+        //     if (_interactableHolder.hasCraftingTable)
+        //     {
+        //         _interactableHolder.craftingTable.ItemAddedToTable();
+        //     }
+        // }
 
         public bool CanSetItem(Item newItem)
         {
@@ -173,6 +293,34 @@ namespace MadSmith.Scripts.CraftingTables
             {
                 AlertMessageManager.Instance.SpawnAlertMessage($"Item {ItemScript.baseItem.itemName} construído com sucesso.", MessageType.Normal);
             }
+        }
+
+        public void Batata(int id)
+        {
+            Debug.Log("Table Batata" + id);
+            ServerCall(id);
+        }
+        [Server]
+        public void ServerCall(int id)
+        {
+            Debug.Log("server call");
+            var prefab = BaseItemsManager.Instance.GetBaseItemById(id);
+            var item = Instantiate(prefab.prefab, pointToSpawnItem.position, Quaternion.identity, pointToSpawnItem);
+            Quaternion quaternion = item.transform.rotation;
+            NetworkServer.Spawn(item);
+
+            RpcSetPosition(item,quaternion);
+        }
+
+        [ClientRpc]
+        public void RpcSetPosition(GameObject item,Quaternion quaternion)
+        {
+            Debug.Log("Item" + item.name);
+            // Define o item como filho do jogador em cada cliente
+            item.transform.SetParent(this.pointToSpawnItem);
+            item.transform.SetLocalPositionAndRotation(Vector3.zero,quaternion);
+            item.transform.localScale = Vector3.one;
+            
         }
     }
 }

@@ -76,7 +76,7 @@ namespace MadSmith.Scripts.CraftingTables
 
         public virtual void ItemAddedToTable()
         {
-            // Debug.Log("Item added");
+            Debug.Log("Item added");
         }
     }
 }

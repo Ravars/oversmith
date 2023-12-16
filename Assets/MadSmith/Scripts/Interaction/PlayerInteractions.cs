@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using MadSmith.Scripts.CraftingTables;
 using MadSmith.Scripts.Input;
 using MadSmith.Scripts.Items;
 using MadSmith.Scripts.Systems;
@@ -17,7 +18,7 @@ namespace MadSmith.Scripts.Interaction
         [SyncVar] private int _baseItemHoldingId;
         public Item ItemScript { get; set; }
         public Transform itemHolder;
-        public BaseItem baseItemTest;
+        // public BaseItem baseItemTest;
         private void Start()
         {
             _playerInteractableHandler = GetComponent<PlayerInteractableHandler>();
@@ -91,14 +92,18 @@ namespace MadSmith.Scripts.Interaction
         }
         private void Grab()
         {
-            Debug.Log("Grab");
+            if (!hasAuthority ) return;
+            Debug.Log("Grab" + (_playerInteractableHandler.CurrentInteractable == null));
             if (_playerInteractableHandler.CurrentInteractable != null)
             {
+                Debug.Log("1");
                 var interactable = _playerInteractableHandler.CurrentInteractable.InteractableHolder;
                 if (interactable.hasTable && ItemScript?.baseItem.itemName != "Delivery Box")
                 {
+                    Debug.Log("2");
                     if (ItemScript == null && interactable.table.HasItem())
                     {
+                        Debug.Log("2.1");
                         Tuple<Transform,Item> item = interactable.table.RemoveFromTable(itemHolder);
                         _itemTransform = item.Item1;
                         ItemScript = item.Item2;
@@ -107,19 +112,53 @@ namespace MadSmith.Scripts.Interaction
                         return;
                     }
                     
+                    Debug.Log("3");
                     if (ItemScript != null && interactable.table.CanSetItem(ItemScript))
                     {
-                        interactable.table.PutOnTable(_itemTransform,ItemScript);
+                        Debug.Log("3.1");
+                        // interactable.table.PutOnTable(_baseItemHoldingId);
+                        if (!isLocalPlayer) return;
+                        if (_itemTransform != null && interactable.table != null)
+                        {
+                            Debug.Log("not nulls");
+                            _itemTransform.transform.SetParent(null);
+                            var networkIdentity = _itemTransform.GetComponent<NetworkIdentity>();
+                            if (networkIdentity != null)
+                            {
+                                Debug.Log("not null networkIdentity");
+                                var tableNetworkIdentity = interactable.table.transform.GetComponent<NetworkIdentity>();
+                                interactable.table.Batata(_baseItemHoldingId);
+                                CmdBatata();
+                                // CmdTransferItem(networkIdentity, tableNetworkIdentity);
+                            }
+                        }
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        // interactable.table.PutOnTableCallCmd(_itemTransform);
                         if (interactable.hasCraftingTable)
                             ItemScript.LastCraftingTable = interactable.craftingTable.type;
                         ItemScript.PlaySound(SoundType.SoundIn);
+                         CmdDestroyItem();
                         _itemTransform = null;
                          ItemScript = null;
                         return;
                     }
 
+                    Debug.Log("4");
                     if (ItemScript != null && interactable.table.CanMergeItem(ItemScript))
                     {
+                        Debug.Log("4.1");
                         interactable.table.MergeItem(ItemScript);
                         ItemScript.PlaySound(SoundType.CraftSound);
                         ItemScript = null;
@@ -190,8 +229,6 @@ namespace MadSmith.Scripts.Interaction
                     if (_itemTransform != null)
                     {
                         CmdDestroyItem();
-                        // NetworkServer.Destroy(_itemTransform.gameObject);
-                        // Destroy(_itemTransform.gameObject);
                     }
                     _itemTransform = null;
                 }
@@ -202,6 +239,26 @@ namespace MadSmith.Scripts.Interaction
         private void CmdDestroyItem()
         {
             NetworkServer.Destroy(_itemTransform.gameObject);
+        }
+
+        [Command]
+        private void CmdTransferItem(NetworkIdentity itemToTransfer, NetworkIdentity destination)
+        {
+            Debug.Log("Cmd transfer");
+            Table transferScript = destination.GetComponent<Table>();
+            if (itemToTransfer != null && destination != null)
+            {
+                Debug.Log("not null transfer" + transferScript.hasAuthority);
+                
+                transferScript.CmdReceiveItem(itemToTransfer);
+                
+            }
+        }
+
+        [Command]
+        private void CmdBatata()
+        {
+            Debug.Log("Batata");
         }
     }
 }
