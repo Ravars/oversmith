@@ -10,10 +10,16 @@ namespace MadSmith.Scripts.Gameplay
         [SerializeField] private Animator animator;
         private static readonly int Open = Animator.StringToHash("Open");
 
+        [Command]
         public void DestroyItem()
         {
+            Animation();
+        }
+
+        [ClientRpc]
+        public void Animation()
+        {
             animator.SetTrigger(Open);
-            
         }
     }
 }
