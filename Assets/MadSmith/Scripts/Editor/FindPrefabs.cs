@@ -8,7 +8,7 @@ public class FindPrefabsWithScript : EditorWindow
     [MenuItem("Custom/Find Prefabs With Script")]
     public static void FindPrefabs()
     {
-        string scriptName = "InteractableHolder"; // Substitua pelo nome do seu script
+        string scriptName = "BaseItem"; // Substitua pelo nome do seu script
 
         string[] guids = AssetDatabase.FindAssets("t:Prefab");
 

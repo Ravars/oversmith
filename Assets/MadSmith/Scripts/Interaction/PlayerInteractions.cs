@@ -63,7 +63,7 @@ namespace MadSmith.Scripts.Interaction
         }
 
         [Command]
-        private void CmdSpawn()
+        private void CmdSpawnItemOnPlayer()
         {
             // Debug.Log("CMD Nulo" + (_baseItemHolding.prefab == null));
             if (!isClient) return;
@@ -76,19 +76,41 @@ namespace MadSmith.Scripts.Interaction
                 _itemTransform = itemGameObject.transform;
                 Quaternion quaternion = itemGameObject.transform.rotation;
                 NetworkServer.Spawn(itemGameObject);
-                
-                // this.ItemScript = _itemTransform.GetComponent<Item>();
-                // Debug.Log((this.ItemScript == null) + " null");
-                RpcSyncItem(itemGameObject,quaternion);
-                
+                RpcSyncItemOnPlayer(itemGameObject,quaternion);
             }
         }
         [ClientRpc]
-        void RpcSyncItem(GameObject item,Quaternion quaternion)
+        void RpcSyncItemOnPlayer(GameObject item,Quaternion quaternion)
         {
             Debug.Log("Item" + item.name);
             // Define o item como filho do jogador em cada cliente
             item.transform.SetParent(this.itemHolder);
+            item.transform.SetLocalPositionAndRotation(Vector3.zero,quaternion);
+            item.transform.localScale = Vector3.one;
+        }
+        [Command]
+        private void CmdSpawnItemOnTable(Table table, int itemId)
+        {
+            // Debug.Log("CMD Nulo" + (_baseItemHolding.prefab == null));
+            if (!isClient) return;
+
+            // Verifica se quem chamou o comando é o servidor
+            if (isServer)
+            {
+                var baseItem = BaseItemsManager.Instance.GetBaseItemById(itemId);
+                GameObject itemGameObject = Instantiate(baseItem.prefab, table.PointToSpawnItem.position, Quaternion.identity, table.PointToSpawnItem);
+                table._itemTransform = itemGameObject.transform;
+                Quaternion quaternion = itemGameObject.transform.rotation;
+                NetworkServer.Spawn(itemGameObject);
+                RpcSyncItemOnTable(table, itemGameObject,quaternion);
+            }
+        }
+        [ClientRpc]
+        void RpcSyncItemOnTable(Table table, GameObject item,Quaternion quaternion)
+        {
+            Debug.Log("Item: " + table.PointToSpawnItem.name);
+            // Define o item como filho do jogador em cada cliente
+            item.transform.SetParent(table.PointToSpawnItem);
             item.transform.SetLocalPositionAndRotation(Vector3.zero,quaternion);
             item.transform.localScale = Vector3.one;
         }
@@ -104,22 +126,17 @@ namespace MadSmith.Scripts.Interaction
                 if (interactable.hasTable && itemScript?.baseItem.itemName != "Delivery Box")
                 {
                     Debug.Log("2");
-                    // Grab from table
+                    // Grab from table - OK
                     if (itemScript == null && interactable.table.HasItem())
                     {
                         Debug.Log("2.1");
-                        // // Tuple<Transform,Item> item = interactable.table.RemoveFromTable(itemHolder);
-                        // // _itemTransform = item.Item1;
-                        // // itemScript = item.Item2; // Nao sei pra que serve
-                        // if (itemScript != null) itemScript.PlaySound(SoundType.SoundOut);
-                        // _itemTransform.SetPositionAndRotation(itemHolder.position, Quaternion.identity);
-                        Debug.Log("Num" + interactable.table.num);
                         SetBaseItem(interactable.table.num);
                         GetObjectFromTable(interactable.table);
                         return;
                     }
                     
-                    // Put On Table
+                    Debug.Log("3");
+                    // Put On Table - Ok
                     if (_itemTransform != null && interactable.table.CanSetItem(itemScript))
                     {
                         if (!isLocalPlayer) return;
@@ -138,19 +155,19 @@ namespace MadSmith.Scripts.Interaction
                     }
 
                     Debug.Log("4");
-                    bool canMergeItem = interactable.table.CanMergeItem(itemScript);
-                    Debug.Log("Can:" + canMergeItem);
-                    if (itemScript != null && canMergeItem)
+                    if (itemScript != null && interactable.hasCraftingTable && interactable.table.CanMergeItem(itemScript))
                     {
                         Debug.Log("4.1");
-                        interactable.table.MergeItem(itemScript);
-                        itemScript.PlaySound(SoundType.CraftSound);
-                        itemScript = null;
-                        if (_itemTransform != null)
-                        {
-                            Destroy(_itemTransform.gameObject);
-                        }
+                        var itemToSpawn = interactable.table.MergeItem(itemScript);
+                        // Destruir o item na mao do player
+                        CmdDestroyItem();
                         _itemTransform = null;
+                        // Destruir o item na mesa
+                        CmdDestroyItem(interactable.table._itemTransform.gameObject);
+                        interactable.table._itemTransform = null;
+                        // Spawnar item
+                        // Mover o item para a mesa
+                        CmdSpawnItemOnTable(interactable.table, itemToSpawn);
                     }
                 }
                 //Debug.Log("3");
@@ -159,7 +176,7 @@ namespace MadSmith.Scripts.Interaction
                 {
                     var id = _playerInteractableHandler.CurrentInteractable.InteractableHolder.dispenser.rawMaterialSo.id;
                     SetBaseItem(id);
-                    CmdSpawn();
+                    CmdSpawnItemOnPlayer();
                     return;
                 }
 
@@ -225,6 +242,11 @@ namespace MadSmith.Scripts.Interaction
         private void CmdDestroyItem()
         {
             NetworkServer.Destroy(_itemTransform.gameObject);
+        }
+        [Command]
+        private void CmdDestroyItem(GameObject itemToDestroy)
+        {
+            NetworkServer.Destroy(itemToDestroy);
         }
 
         // [Command]

@@ -193,7 +193,7 @@ namespace MadSmith.Scripts.CraftingTables
 
         public bool CanSetItem(Item newItem)
         {
-            Debug.Log("CanSetItem");
+                Debug.Log("CanSetItem");
             if (_itemTransform == null && !_interactableHolder.hasCraftingTable)
             {
                 return true;
@@ -204,17 +204,17 @@ namespace MadSmith.Scripts.CraftingTables
             if (_interactableHolder.hasCraftingTable)
             {
                 // Debug.Log("CanSetItem 1");
-                // if (_itemTransform != null || _itemTransform.TryGetComponent(out Item itemScript))
-                // {
-                //     return false;
-                // }
+                if (_itemTransform == null)
+                {
+                    return true;
+                }
                 // Debug.Log("CanSetItem 2");
                 
                 
                 foreach (var process in newItem.baseItem.processes)
                 {
                     Debug.Log("process: "+process.craftingTable);
-                    if (process.craftingTable == _interactableHolder.craftingTable.type && process.craftingTable != CraftingTableType.Table)
+                    if (process.craftingTable == _interactableHolder.craftingTable.type && process.craftingTable != CraftingTableType.WorkingTable)
                     {
                         return true;
                     }
@@ -261,13 +261,14 @@ namespace MadSmith.Scripts.CraftingTables
             
         }
 
-        public void MergeItem(Item newItem)
+        public int MergeItem(Item newItem)
         {
+            var itemScript = _itemTransform.GetComponent<Item>();
             BaseItem[] itemsInUse = {
                 newItem.baseItem,
-                ItemScript.baseItem
+                itemScript.baseItem
             };
-            Process[] processes = newItem.baseItem.processes.Concat(ItemScript.baseItem.processes).ToArray();
+            Process[] processes = newItem.baseItem.processes.Concat(itemScript.baseItem.processes).ToArray();
             
             foreach (var process in processes)
             {
@@ -279,13 +280,15 @@ namespace MadSmith.Scripts.CraftingTables
                 if (canMerge)
                 {
                     
-                    AlertMessageManager.Instance.SpawnAlertMessage($"Item {process.itemGenerated.itemName} construído com sucesso.", MessageType.Normal);
-                    DestroyItem();
+                    // AlertMessageManager.Instance.SpawnAlertMessage($"Item {process.itemGenerated.itemName} construído com sucesso.", MessageType.Normal);
+                    // DestroyItem();
                     // Destroy(newItem.transform);
-                    SpawnNewItem(process.itemGenerated);
-                    break;
+                    // SpawnNewItem(process.itemGenerated);
+                    return process.itemGenerated.id;
                 }
             }
+
+            return -1;
         }
 
         private void DestroyItem()
