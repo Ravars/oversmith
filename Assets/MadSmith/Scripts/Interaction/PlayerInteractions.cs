@@ -155,6 +155,7 @@ namespace MadSmith.Scripts.Interaction
                     }
 
                     Debug.Log("4");
+                    // Merge item - Ok
                     if (itemScript != null && interactable.hasCraftingTable && interactable.table.CanMergeItem(itemScript))
                     {
                         Debug.Log("4.1");
@@ -168,9 +169,10 @@ namespace MadSmith.Scripts.Interaction
                         // Spawnar item
                         // Mover o item para a mesa
                         CmdSpawnItemOnTable(interactable.table, itemToSpawn);
+                        return;
                     }
                 }
-                //Debug.Log("3");
+                Debug.Log("5");
                 //Grab from Dispenser
                 if (interactable.hasDispenser && itemScript == null)
                 {
@@ -179,20 +181,6 @@ namespace MadSmith.Scripts.Interaction
                     CmdSpawnItemOnPlayer();
                     return;
                 }
-
-                // if (interactable.hasPallet && ItemScript?.baseItem.itemName == "Delivery Box")
-                // {
-                //     if (interactable.pallet.CanSetBox())
-                //     {
-                //         if (interactable.pallet.PutOnPallet(ItemScript.transform))
-                //         {
-                //             _itemTransform = null;
-                //             ItemScript = null;
-                //         }
-                //         return;
-                //     }
-                // }
-
                 if (interactable.hasDelivery)
                 {
                     // if (ItemScript == null)
