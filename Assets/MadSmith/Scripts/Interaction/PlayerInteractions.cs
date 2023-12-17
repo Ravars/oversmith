@@ -45,7 +45,8 @@ namespace MadSmith.Scripts.Interaction
                 var interactable = _playerInteractableHandler.CurrentInteractable.InteractableHolder;
                 if (interactable.hasCraftingTable && interactable.craftingTable.CanAddPlayer)
                 {
-                    interactable.craftingTable.AddPlayer(this);
+                    // interactable.craftingTable.AddPlayer();
+                    CmdAddPlayerCraftingTable(interactable);
                 }
                 
                 if (interactable.hasInteractable)
@@ -54,6 +55,23 @@ namespace MadSmith.Scripts.Interaction
                 }
             }
             
+        }
+
+        [Command]
+        public void CmdAddPlayerCraftingTable(InteractableHolder interactableHolder)
+        {
+            interactableHolder.craftingTable._craftingInteractionHandler.SetObject(interactableHolder.table._itemTransform.GetComponent<Item>().gameObject);
+            // interactableHolder.craftingTable._craftingInteractionHandler.Slider = .slider;
+            interactableHolder.craftingTable.AddPlayer();
+            RpcAddPlayerCraftingTable(interactableHolder);
+        }
+
+        [ClientRpc]
+        public void RpcAddPlayerCraftingTable(InteractableHolder interactableHolder)
+        {
+            interactableHolder.craftingTable._craftingInteractionHandler.SetObject(interactableHolder.table._itemTransform.GetComponent<Item>().gameObject);
+            // interactableHolder.craftingTable._craftingInteractionHandler.Slider = interactableHolder.table._itemTransform.GetComponent<Item>().slider;
+            interactableHolder.craftingTable.AddPlayer();
         }
 
         [Command]
