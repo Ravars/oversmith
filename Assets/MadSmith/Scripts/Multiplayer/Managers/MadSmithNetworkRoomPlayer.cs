@@ -23,7 +23,7 @@ namespace MadSmith.Scripts.Multiplayer.Managers
         [SerializeField] private GameObject localUI;
         public bool isLeader;
         private const int NumberOfCharacters = 4;
-        private const int NumberOfLevels = 6;
+        private const int NumberOfLevels = 9;
         [SyncVar(hook = nameof(ChangeCharacter))] public int CharacterId;
         [SyncVar(hook = nameof(ChangeLevel))] public int LevelSelected;
         // [SyncVar(hook = nameof(PlayerReadyUpdate))] public bool ready;
