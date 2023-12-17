@@ -1,4 +1,4 @@
-﻿using System;
+﻿    using System;
 using System.Linq;
 using MadSmith.Scripts.Interaction;
 using MadSmith.Scripts.Items;
@@ -17,9 +17,11 @@ namespace MadSmith.Scripts.CraftingTables
         // public BaseItem BaseItem { get; private set; }
         [SyncVar] private Transform _itemTransform;
         [SyncVar] private int _baseItemHoldingId;
+        [SyncVar] public int num;
         
         private InteractableHolder _interactableHolder;
-        [SerializeField] private Transform pointToSpawnItem;
+
+        [field: SerializeField] public Transform PointToSpawnItem { get; private set; }
         //ideia
 
         //[SerializeField] private AudioSource catchSound;
@@ -191,12 +193,15 @@ namespace MadSmith.Scripts.CraftingTables
 
         public bool CanSetItem(Item newItem)
         {
+            Debug.Log("CanSetItem");
             if (_interactableHolder.hasCraftingTable)
             {
+                Debug.Log("CanSetItem 1");
                 if (ItemScript != null)
                 {
                     return false;
                 }
+                Debug.Log("CanSetItem 2");
                 
                 
                 foreach (var process in newItem.baseItem.processes)
@@ -208,6 +213,7 @@ namespace MadSmith.Scripts.CraftingTables
                 }
                 return false;
             }
+            Debug.Log("CanSetItem 3");
 
             return ItemScript == null;
         }
@@ -286,8 +292,8 @@ namespace MadSmith.Scripts.CraftingTables
         private void SpawnNewItem(BaseItem newItem) // Provavelmente quebrado
         {
             //Debug.Log($"Spawn {newItem.name}");
-            _itemTransform = Instantiate(newItem.prefab, pointToSpawnItem.position, pointToSpawnItem.rotation,
-                pointToSpawnItem).transform;
+            _itemTransform = Instantiate(newItem.prefab, PointToSpawnItem.position, PointToSpawnItem.rotation,
+                PointToSpawnItem).transform;
             ItemScript = _itemTransform.GetComponent<Item>();
             if (AlertMessageManager.InstanceExists)
             {
@@ -295,32 +301,78 @@ namespace MadSmith.Scripts.CraftingTables
             }
         }
 
-        public void Batata(int id)
-        {
-            Debug.Log("Table Batata" + id);
-            ServerCall(id);
-        }
-        [Server]
-        public void ServerCall(int id)
-        {
-            Debug.Log("server call");
-            var prefab = BaseItemsManager.Instance.GetBaseItemById(id);
-            var item = Instantiate(prefab.prefab, pointToSpawnItem.position, Quaternion.identity, pointToSpawnItem);
-            Quaternion quaternion = item.transform.rotation;
-            NetworkServer.Spawn(item);
-
-            RpcSetPosition(item,quaternion);
-        }
-
-        [ClientRpc]
-        public void RpcSetPosition(GameObject item,Quaternion quaternion)
-        {
-            Debug.Log("Item" + item.name);
-            // Define o item como filho do jogador em cada cliente
-            item.transform.SetParent(this.pointToSpawnItem);
-            item.transform.SetLocalPositionAndRotation(Vector3.zero,quaternion);
-            item.transform.localScale = Vector3.one;
-            
-        }
+        // public void SetObject()
+        // {
+        //     
+        // }
+        //
+        
+        // public void Batata(int id)
+        // {
+        //     Debug.Log("Table Batata" + id);
+        //     num = id;
+        //     ServerClientNum(id);
+        //     // CmdBatata();
+        //     // ClientCallBatata();
+        //     // ServerBatata();
+        //     // ServerCall(id);
+        // }
+        //
+        // [Server]
+        // public void ServerClientNum(int id)
+        // {
+        //     Debug.Log("ServerClientNum " + id);
+        //     this.num = id;
+        //     ClientNum(id);
+        // }
+        //
+        // [ClientRpc]
+        // public void ClientNum(int id)
+        // {
+        //     Debug.Log("ClientNum: " + id);
+        //     this.num = id;
+        // }
+        //
+        // [Client]
+        // public void ClientCallBatata()
+        // {
+        //     Debug.Log("ClientCallBatata");
+        //     ServerBatata();
+        //     CmdBatata();
+        // }
+        //
+        // [Server]
+        // public void ServerBatata()
+        // {
+        //     Debug.Log("Server batata");
+        // }
+        //
+        // [Command]
+        // public void CmdBatata()
+        // {
+        //     Debug.Log("Cmd Batata");
+        // }
+        // [Server]
+        // public void ServerCall(int id)
+        // {
+        //     Debug.Log("server call");
+        //     var prefab = BaseItemsManager.Instance.GetBaseItemById(id);
+        //     var item = Instantiate(prefab.prefab, pointToSpawnItem.position, Quaternion.identity, pointToSpawnItem);
+        //     Quaternion quaternion = item.transform.rotation;
+        //     NetworkServer.Spawn(item);
+        //
+        //     RpcSetPosition(item,quaternion);
+        // }
+        //
+        // [ClientRpc]
+        // public void RpcSetPosition(GameObject item,Quaternion quaternion)
+        // {
+        //     Debug.Log("Item" + item.name);
+        //     // Define o item como filho do jogador em cada cliente
+        //     item.transform.SetParent(this.pointToSpawnItem);
+        //     item.transform.SetLocalPositionAndRotation(Vector3.zero,quaternion);
+        //     item.transform.localScale = Vector3.one;
+        //     
+        // }
     }
 }
