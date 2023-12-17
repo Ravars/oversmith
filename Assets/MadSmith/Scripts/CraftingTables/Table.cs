@@ -15,8 +15,8 @@ namespace MadSmith.Scripts.CraftingTables
         public Item ItemScript { get; private set; }
         // public bool isWorkTable = false;
         // public BaseItem BaseItem { get; private set; }
-        [SyncVar] private Transform _itemTransform;
-        [SyncVar] private int _baseItemHoldingId;
+        [SyncVar] public Transform _itemTransform;
+        // [SyncVar] private int _baseItemHoldingId;
         [SyncVar] public int num;
         
         private InteractableHolder _interactableHolder;

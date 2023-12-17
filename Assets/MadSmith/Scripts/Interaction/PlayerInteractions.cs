@@ -101,7 +101,6 @@ namespace MadSmith.Scripts.Interaction
                 Debug.Log("1");
                 var interactable = _playerInteractableHandler.CurrentInteractable.InteractableHolder;
                 var itemScript = _itemTransform != null ? _itemTransform.GetComponent<Item>() : null;
-                Debug.Log("itemScript " + (itemScript == null));
                 if (interactable.hasTable && itemScript?.baseItem.itemName != "Delivery Box")
                 {
                     Debug.Log("2");
@@ -116,42 +115,22 @@ namespace MadSmith.Scripts.Interaction
                         return;
                     }
                     
-                    // Debug.Log("3: " + (ItemScript != null));
+                    // Put On Table
                     if (_itemTransform != null && interactable.table.CanSetItem(itemScript))
                     {
-                        Debug.Log("3.1");
-                        // interactable.table.PutOnTable(_baseItemHoldingId);
-                        Debug.Log("3.2" + (_itemTransform != null) + " - " + (interactable.table != null));
                         if (!isLocalPlayer) return;
-                        Debug.Log("3.2" + (_itemTransform != null) + " - " + (interactable.table != null));
                         if (_itemTransform != null && interactable.table != null)
                         {
-                            Debug.Log("3.3");
-                            Debug.Log("not nulls");
                             _itemTransform.transform.SetParent(null);
                             var networkIdentity = _itemTransform.GetComponent<NetworkIdentity>();
                             if (networkIdentity != null)
                             {
-                                Debug.Log("not null networkIdentity");
                                 MoveObjectToSceneObject(interactable.table);
-                                // var tableNetworkIdentity = interactable.table.transform.GetComponent<NetworkIdentity>();
-                                // interactable.table.Batata(_baseItemHoldingId);
-                                // interactable.table.num = 5;
-                                // CmdBatata();
-                                // CmdTransferItem(networkIdentity, tableNetworkIdentity);
+                                _itemTransform = null;
+                                _baseItemHoldingId = -1;
+                                return;
                             }
                         }
-                        
-                        // interactable.table.PutOnTableCallCmd(_itemTransform);
-                        // if (interactable.hasCraftingTable)
-                            // itemScript.LastCraftingTable = interactable.craftingTable.type;
-                            // if (itemScript != null)
-                            // {
-                            //     itemScript.PlaySound(SoundType.SoundIn);
-                            //     CmdDestroyItem();
-                            //     _itemTransform = null;
-                            // }
-                        return;
                     }
 
                     Debug.Log("4");
@@ -253,12 +232,6 @@ namespace MadSmith.Scripts.Interaction
                 
             }
         }
-
-        [Command]
-        private void CmdBatata()
-        {
-            Debug.Log("Batata");
-        }
         public void MoveObjectToSceneObject(Table sceneObject)
         {
             if (!hasAuthority || _itemTransform == null || sceneObject == null)
@@ -277,7 +250,7 @@ namespace MadSmith.Scripts.Interaction
             objectToMove.transform.SetParent(sceneObject.PointToSpawnItem, true);
             objectToMove.transform.SetLocalPositionAndRotation(Vector3.zero, Quaternion.identity);
             sceneObject.num = 80;
-            
+            sceneObject._itemTransform = objectToMove.transform;
             RpcSyncMovedObject(objectToMove, sceneObject);
         }
         [ClientRpc]
@@ -285,6 +258,7 @@ namespace MadSmith.Scripts.Interaction
         {
             // Atualiza a posição do objeto movido em todos os clientes
             sceneObject.num = 80;
+            sceneObject._itemTransform = movedObject.transform;
             movedObject.transform.SetParent(sceneObject.PointToSpawnItem, true);
             movedObject.transform.SetLocalPositionAndRotation(Vector3.zero, Quaternion.identity);
         }
