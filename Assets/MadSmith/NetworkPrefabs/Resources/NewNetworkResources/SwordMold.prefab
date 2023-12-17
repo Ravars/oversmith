@@ -23,13 +23,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2346969192361077751}
+  serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0.855, y: 0.871, z: 0.987}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 6273766464673046859}
-  m_RootOrder: -1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &4136604704665009465
 GameObject:
@@ -55,13 +55,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4136604704665009465}
+  serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0.5, y: 0.5, z: 0.5}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 6273766464673046859}
-  m_RootOrder: -1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!65 &8817973592248302468
 BoxCollider:
@@ -99,6 +99,7 @@ GameObject:
   - component: {fileID: 6273766464673046863}
   - component: {fileID: 9020923744088267856}
   - component: {fileID: 1637838405863063610}
+  - component: {fileID: 1431722096487346789}
   m_Layer: 6
   m_Name: SwordMold
   m_TagString: Untagged
@@ -113,6 +114,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6273766464673046862}
+  serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
@@ -123,7 +125,6 @@ Transform:
   - {fileID: 6694666624560232231}
   - {fileID: 3559035028464866343}
   m_Father: {fileID: 0}
-  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &6273766464673046858
 MonoBehaviour:
@@ -137,6 +138,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6b4f7bfe658c4dd58f96bb76eb843f1d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
   hasTable: 0
   hasDispenser: 0
   hasCraftingTable: 0
@@ -148,6 +151,7 @@ MonoBehaviour:
   craftingTable: {fileID: 0}
   interactable: {fileID: 0}
   trashCan: {fileID: 0}
+  deliveryPlace: {fileID: 0}
   visual: {fileID: 0}
   visualSelected: {fileID: 8055815411873271836}
 --- !u!114 &6273766464673046857
@@ -162,7 +166,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f483bf3afb24452c9c4a3987f87420e3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  pointToSpawnItem: {fileID: 6694666624560232231}
+  syncMode: 0
+  syncInterval: 0.1
+  _itemTransform: {fileID: 0}
+  num: 0
+  <PointToSpawnItem>k__BackingField: {fileID: 6694666624560232231}
 --- !u!114 &6273766464673046856
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -189,6 +197,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 25016f3834484eb2859a5d2c4dbd46c2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
   timeToPrepareItem: 2
   currentTimeToPrepareItem: 0
   type: 4
@@ -312,6 +322,23 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!114 &1431722096487346789
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6273766464673046862}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9b91ecbcc199f4492b9a91e820070131, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sceneId: 0
+  serverOnly: 0
+  visible: 0
+  m_AssetId: 20da6c8ee5aff9b48a00f8aefb8b3844
+  hasSpawned: 0
 --- !u!1 &6273766466308402324
 GameObject:
   m_ObjectHideFlags: 0
@@ -335,6 +362,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6273766466308402324}
+  serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
@@ -343,7 +371,6 @@ Transform:
   - {fileID: 3860067960640222535}
   - {fileID: 7243989161540225702}
   m_Father: {fileID: 6273766464673046859}
-  m_RootOrder: -1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &1281282302298057987
 PrefabInstance:

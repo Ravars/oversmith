@@ -104,6 +104,7 @@ namespace MadSmith.Scripts.Interaction
                 if (interactable.hasTable && itemScript?.baseItem.itemName != "Delivery Box")
                 {
                     Debug.Log("2");
+                    // Grab from table
                     if (itemScript == null && interactable.table.HasItem())
                     {
                         Debug.Log("2.1");
@@ -114,7 +115,7 @@ namespace MadSmith.Scripts.Interaction
                         // _itemTransform.SetPositionAndRotation(itemHolder.position, Quaternion.identity);
                         Debug.Log("Num" + interactable.table.num);
                         SetBaseItem(interactable.table.num);
-                        GetObjectFromTable(interactable.table._itemTransform.gameObject);
+                        GetObjectFromTable(interactable.table);
                         return;
                     }
                     
@@ -137,7 +138,9 @@ namespace MadSmith.Scripts.Interaction
                     }
 
                     Debug.Log("4");
-                    if (itemScript != null && interactable.table.CanMergeItem(itemScript))
+                    bool canMergeItem = interactable.table.CanMergeItem(itemScript);
+                    Debug.Log("Can:" + canMergeItem);
+                    if (itemScript != null && canMergeItem)
                     {
                         Debug.Log("4.1");
                         interactable.table.MergeItem(itemScript);
@@ -151,6 +154,7 @@ namespace MadSmith.Scripts.Interaction
                     }
                 }
                 //Debug.Log("3");
+                //Grab from Dispenser
                 if (interactable.hasDispenser && itemScript == null)
                 {
                     var id = _playerInteractableHandler.CurrentInteractable.InteractableHolder.dispenser.rawMaterialSo.id;
@@ -203,6 +207,7 @@ namespace MadSmith.Scripts.Interaction
                     }
                 
                 }
+                // Trash can
                 if (interactable.hasTrashCan)
                 {
                     interactable.trashCan.DestroyItem();
@@ -222,19 +227,21 @@ namespace MadSmith.Scripts.Interaction
             NetworkServer.Destroy(_itemTransform.gameObject);
         }
 
-        [Command]
-        private void CmdTransferItem(NetworkIdentity itemToTransfer, NetworkIdentity destination)
-        {
-            Debug.Log("Cmd transfer");
-            Table transferScript = destination.GetComponent<Table>();
-            if (itemToTransfer != null && destination != null)
-            {
-                Debug.Log("not null transfer" + transferScript.hasAuthority);
-                
-                transferScript.CmdReceiveItem(itemToTransfer);
-                
-            }
-        }
+        // [Command]
+        // private void CmdTransferItem(NetworkIdentity itemToTransfer, NetworkIdentity destination)
+        // {
+        //     Debug.Log("Cmd transfer");
+        //     Table transferScript = destination.GetComponent<Table>();
+        //     if (itemToTransfer != null && destination != null)
+        //     {
+        //         Debug.Log("not null transfer" + transferScript.hasAuthority);
+        //         
+        //         transferScript.CmdReceiveItem(itemToTransfer);
+        //         
+        //     }
+        // }
+
+        #region Put On Table
         public void MoveObjectToSceneObject(Table sceneObject, int itemId)
         {
             if (!hasAuthority || _itemTransform == null || sceneObject == null)
@@ -265,32 +272,41 @@ namespace MadSmith.Scripts.Interaction
             movedObject.transform.SetParent(sceneObject.PointToSpawnItem, true);
             movedObject.transform.SetLocalPositionAndRotation(Vector3.zero, Quaternion.identity);
         }
-        public void GetObjectFromTable(GameObject objectToMove)
+        #endregion
+        
+        #region Grab from table
+        public void GetObjectFromTable(Table table)
         {
             // if (!hasAuthority || _itemTransform == null || objectToMove == null)
             //     return;
             Debug.Log("GetObjectFromTable");
-            CmdGetObjectFromTable(objectToMove);
+            CmdGetObjectFromTable(table);
         }
         [Command]
-        void CmdGetObjectFromTable(GameObject objectToMove)
+        void CmdGetObjectFromTable(Table table)
         {
             // Verifica se o jogador tem autoridade sobre o objeto
             // if (objectToMove.GetComponent<NetworkIdentity>().connectionToClient != connectionToClient)
             //     return;
             Debug.Log("CmdGetObjectFromTable");
             // Movimenta o objeto filho para o objeto do cenário
-            objectToMove.transform.SetParent(this.itemHolder, true);
-            objectToMove.transform.SetLocalPositionAndRotation(Vector3.zero, Quaternion.identity);
+            _itemTransform = table._itemTransform.transform;
+            _itemTransform.transform.SetParent(this.itemHolder, true);
+            _itemTransform.transform.SetLocalPositionAndRotation(Vector3.zero, Quaternion.identity);
             // sceneObject._itemTransform = objectToMove.transform;
-            RpcGetObjectFromTable(objectToMove);
+            RpcGetObjectFromTable(table);
+            // table._itemTransform = null;
         }
         [ClientRpc]
-        void RpcGetObjectFromTable(GameObject movedObject)
+        void RpcGetObjectFromTable(Table table)
         {
             // Atualiza a posição do objeto movido em todos os clientes
-            movedObject.transform.SetParent(this.itemHolder, true);
-            movedObject.transform.SetLocalPositionAndRotation(Vector3.zero, Quaternion.identity);
+            _itemTransform = table._itemTransform.transform;
+            _itemTransform.transform.SetParent(this.itemHolder, true);
+            _itemTransform.transform.SetLocalPositionAndRotation(Vector3.zero, Quaternion.identity);
+            table._itemTransform = null;
         }
+
+        #endregion
     }
 }
