@@ -35,7 +35,7 @@ namespace MadSmith.Scripts.CraftingTables
 
         public bool HasItem()
         {
-            return ItemScript != null;
+            return _itemTransform != null;
         }
 
         // public BaseItem GetItem()

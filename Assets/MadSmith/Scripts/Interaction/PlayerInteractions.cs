@@ -107,11 +107,14 @@ namespace MadSmith.Scripts.Interaction
                     if (itemScript == null && interactable.table.HasItem())
                     {
                         Debug.Log("2.1");
-                        Tuple<Transform,Item> item = interactable.table.RemoveFromTable(itemHolder);
-                        _itemTransform = item.Item1;
-                        // itemScript = item.Item2; // Nao sei pra que serve
-                        if (itemScript != null) itemScript.PlaySound(SoundType.SoundOut);
-                        _itemTransform.SetPositionAndRotation(itemHolder.position, Quaternion.identity);
+                        // // Tuple<Transform,Item> item = interactable.table.RemoveFromTable(itemHolder);
+                        // // _itemTransform = item.Item1;
+                        // // itemScript = item.Item2; // Nao sei pra que serve
+                        // if (itemScript != null) itemScript.PlaySound(SoundType.SoundOut);
+                        // _itemTransform.SetPositionAndRotation(itemHolder.position, Quaternion.identity);
+                        Debug.Log("Num" + interactable.table.num);
+                        SetBaseItem(interactable.table.num);
+                        GetObjectFromTable(interactable.table._itemTransform.gameObject);
                         return;
                     }
                     
@@ -125,7 +128,7 @@ namespace MadSmith.Scripts.Interaction
                             var networkIdentity = _itemTransform.GetComponent<NetworkIdentity>();
                             if (networkIdentity != null)
                             {
-                                MoveObjectToSceneObject(interactable.table);
+                                MoveObjectToSceneObject(interactable.table, _baseItemHoldingId);
                                 _itemTransform = null;
                                 _baseItemHoldingId = -1;
                                 return;
@@ -232,15 +235,15 @@ namespace MadSmith.Scripts.Interaction
                 
             }
         }
-        public void MoveObjectToSceneObject(Table sceneObject)
+        public void MoveObjectToSceneObject(Table sceneObject, int itemId)
         {
             if (!hasAuthority || _itemTransform == null || sceneObject == null)
                 return;
 
-            CmdMoveObjectToScene(_itemTransform.gameObject, sceneObject);
+            CmdMoveObjectToScene(_itemTransform.gameObject, sceneObject, itemId);
         }
         [Command]
-        void CmdMoveObjectToScene(GameObject objectToMove, Table sceneObject)
+        void CmdMoveObjectToScene(GameObject objectToMove, Table sceneObject, int itemId)
         {
             // Verifica se o jogador tem autoridade sobre o objeto
             // if (objectToMove.GetComponent<NetworkIdentity>().connectionToClient != connectionToClient)
@@ -249,17 +252,44 @@ namespace MadSmith.Scripts.Interaction
             // Movimenta o objeto filho para o objeto do cenário
             objectToMove.transform.SetParent(sceneObject.PointToSpawnItem, true);
             objectToMove.transform.SetLocalPositionAndRotation(Vector3.zero, Quaternion.identity);
-            sceneObject.num = 80;
+            sceneObject.num = itemId;
             sceneObject._itemTransform = objectToMove.transform;
-            RpcSyncMovedObject(objectToMove, sceneObject);
+            RpcSyncMovedObject(objectToMove, sceneObject,itemId);
         }
         [ClientRpc]
-        void RpcSyncMovedObject(GameObject movedObject, Table sceneObject)
+        void RpcSyncMovedObject(GameObject movedObject, Table sceneObject, int itemId)
         {
             // Atualiza a posição do objeto movido em todos os clientes
-            sceneObject.num = 80;
+            sceneObject.num = itemId;
             sceneObject._itemTransform = movedObject.transform;
             movedObject.transform.SetParent(sceneObject.PointToSpawnItem, true);
+            movedObject.transform.SetLocalPositionAndRotation(Vector3.zero, Quaternion.identity);
+        }
+        public void GetObjectFromTable(GameObject objectToMove)
+        {
+            // if (!hasAuthority || _itemTransform == null || objectToMove == null)
+            //     return;
+            Debug.Log("GetObjectFromTable");
+            CmdGetObjectFromTable(objectToMove);
+        }
+        [Command]
+        void CmdGetObjectFromTable(GameObject objectToMove)
+        {
+            // Verifica se o jogador tem autoridade sobre o objeto
+            // if (objectToMove.GetComponent<NetworkIdentity>().connectionToClient != connectionToClient)
+            //     return;
+            Debug.Log("CmdGetObjectFromTable");
+            // Movimenta o objeto filho para o objeto do cenário
+            objectToMove.transform.SetParent(this.itemHolder, true);
+            objectToMove.transform.SetLocalPositionAndRotation(Vector3.zero, Quaternion.identity);
+            // sceneObject._itemTransform = objectToMove.transform;
+            RpcGetObjectFromTable(objectToMove);
+        }
+        [ClientRpc]
+        void RpcGetObjectFromTable(GameObject movedObject)
+        {
+            // Atualiza a posição do objeto movido em todos os clientes
+            movedObject.transform.SetParent(this.itemHolder, true);
             movedObject.transform.SetLocalPositionAndRotation(Vector3.zero, Quaternion.identity);
         }
     }
