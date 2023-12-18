@@ -4,6 +4,7 @@ using MadSmith.Scripts.Events.ScriptableObjects;
 using MadSmith.Scripts.Gameplay;
 using MadSmith.Scripts.Input;
 using MadSmith.Scripts.Multiplayer.Managers;
+using MadSmith.Scripts.Multiplayer.Old.Managers;
 using MadSmith.Scripts.SavingSystem;
 using MadSmith.Scripts.SceneManagement.ScriptableObjects;
 using MadSmith.Scripts.Systems.Settings;
@@ -12,6 +13,7 @@ using MadSmith.Scripts.UI.SettingsScripts;
 using MadSmith.Scripts.Utils;
 using Mirror;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 namespace MadSmith.Scripts.UI.Managers
 {
@@ -21,12 +23,13 @@ namespace MadSmith.Scripts.UI.Managers
         Settings,
         Credits,
         Tutorial,
-        CharacterSelection,
-        LevelSelection,
+        // CharacterSelection,
+        // LevelSelection,
         Host,
         Join,
-        Lobby,
-        LobbiesList
+        // Lobby,
+        LobbiesList,
+        JoinLocalHost
     }
     public class UIMenuManager : Singleton<UIMenuManager>
     {
@@ -34,42 +37,43 @@ namespace MadSmith.Scripts.UI.Managers
         private bool _hasSaveData;
         [SerializeField] private SaveSystem _saveSystem = default;
         [SerializeField] private InputReader _inputReader = default;
-        [SerializeField] private GameDataSO currentGameData;
-        [SerializeField] private GameSceneSO _locationToNewGame;
+        // [SerializeField] private GameDataSO currentGameData;
+        // [SerializeField] private GameSceneSO _locationToNewGame;
         
         [Header("UI Scripts")]
         [SerializeField] private UIMainMenu _mainMenuPanel = default;
         [SerializeField] private UISettingsController _settingsPanel = default;
         [SerializeField] private UICredits _creditsPanel = default;
         [SerializeField] private UIPopup _popupPanel = default;
-        [SerializeField] private CharacterSelect _characterSelectUI;
-        [SerializeField] private UILevelSelection _levelSelectUI;
         [SerializeField] private UITutorial uiTutorial;
         [SerializeField] private UIHost uiHostPanel;
-        [SerializeField] private LobbyController uiLobbyControllerPanel;
         [SerializeField] private UIJoin uiJoinPanel;
+        [SerializeField] private UIJoinLocalHost uiJoinLocalHostPanel;
+        // [SerializeField] private CharacterSelect _characterSelectUI;
+        // [SerializeField] private UILevelSelection _levelSelectUI;
+        // [SerializeField] private LobbyControllerCanvas uiLobbyControllerCanvasPanel;
         [SerializeField] private UILobbyList uiLobbiesListPanel;
         
         [Header("Cameras")]
         [SerializeField] private GameObject _mainMenuCamera;
-        [SerializeField] private GameObject _characterSelectCamera;
+        // [SerializeField] private GameObject _characterSelectCamera;
         [SerializeField] private GameObject _creditsCamera;
         [SerializeField] private GameObject _tutorialCamera;
-        [SerializeField] private GameObject _levelSelectCamera;
+        // [SerializeField] private GameObject _levelSelectCamera;
         
         [Header("NetworkManager")]
-        private MadSmithNetworkManager _manager;
-        public MadSmithNetworkManager Manager
+        private MadSmithNetworkRoomManager _manager;
+        public MadSmithNetworkRoomManager Manager
         {
             get
             {
                 if (!ReferenceEquals(_manager, null)) return _manager;
-                return _manager = NetworkManager.singleton as MadSmithNetworkManager;
+                return _manager = NetworkManager.singleton as MadSmithNetworkRoomManager;
             }
         }
         
-        [Header("Broadcasting on")]
-        [SerializeField] private LoadEventChannelSO _loadLocation = default;
+        // [Header("Broadcasting on")]
+        // [SerializeField] private LoadEventChannelSO _loadLocation = default;
         private IEnumerator Start()
         {
             _inputReader.EnableMenuInput(); //TODO active this
@@ -77,38 +81,35 @@ namespace MadSmith.Scripts.UI.Managers
             SetMenuScreen();
             SetSettingsScreen();
             SetCreditsScreen();
-            SetCharacterSelectScreen();
-            SetLevelSelectScreen();
             SetTutorialScreen();
             SetHostScreen();
             SetJoinScreen();
-            SetLobbyScreen();
             SetLobbiesListScreen();
+            SetJoinLocalHostScreen();
             SetState(MenuState.MainMenu);
             // _loadLocation.OnLoadingRequested += (_, _, _) => { CloseAll();};
         }
 
         private void OnDisable()
         {
-            Debug.Log("Disable");
+            //Debug.Log("Disable");
             // _loadLocation.OnLoadingRequested -= (_, _, _) => { CloseAll();};
             UnsetMenuScreen();
             UnsetSettingsScreen();
             UnsetCreditsScreen();
-            
-            UnsetCharacterSelectScreen();
-            UnsetLevelSelectScreen();
             UnsetTutorialScreen();
-            
             UnsetHostScreen();
             UnsetJoinScreen();
-            UnsetLobbyScreen();
+            UnsetJoinLocalHostScreen();
             UnsetLobbiesListScreen();
+            // UnsetCharacterSelectScreen();
+            // UnsetLevelSelectScreen();
+            // UnsetLobbyScreen();
         }
 
         private void SetState(MenuState newState)
         {
-            Debug.Log(newState);
+            // Debug.Log(newState);
             CloseAll();
             State = newState;
             
@@ -127,26 +128,29 @@ namespace MadSmith.Scripts.UI.Managers
                 case MenuState.Tutorial:
                     OpenTutorialScreen();
                     break;
-                case MenuState.CharacterSelection:
-                    OpenCharacterSelect();
-                    break;
-                case MenuState.LevelSelection:
-                    OpenLevelSelect();
-                    break;
+                // case MenuState.CharacterSelection:
+                //     OpenCharacterSelect();
+                //     break;
+                // case MenuState.LevelSelection:
+                //     OpenLevelSelect();
+                //     break;
                 case MenuState.Host:
                     OpenHost();
                     break;
                 case MenuState.Join:
                     OpenJoin();
                     break;
-                case MenuState.Lobby:
-                    OpenLobby();
+                case MenuState.JoinLocalHost:
+                    OpenJoinLocalHost();
                     break;
+                // case MenuState.Lobby:
+                //     OpenLobby();
+                //     break;
                 case MenuState.LobbiesList:
                     OpenLobbiesList();
                     break;
                 default:
-                    Debug.Log("Nothing");
+                    //Debug.Log("Nothing");
                     break;
             }
         }
@@ -233,44 +237,44 @@ namespace MadSmith.Scripts.UI.Managers
         }
         #endregion
 
-        #region Character Selection
-
-        private void SetCharacterSelectScreen()
-        {
-            _characterSelectUI.Setup();
-            _characterSelectUI.OnCharacterSelected += OnCharacterSelected;
-            _characterSelectUI.OnCloseCharacterSelection += () => SetState(MenuState.MainMenu);
-        }
-        private void UnsetCharacterSelectScreen()
-        {
-            _characterSelectUI.OnCharacterSelected -= OnCharacterSelected;
-            _characterSelectUI.OnCloseCharacterSelection -= () => SetState(MenuState.MainMenu);
-        }
-
-        private void OnCharacterSelected()
-        {
-            if (currentGameData.LevelScores.Count > 0)
-            {
-                SetState(MenuState.LevelSelection);
-            }
-            else
-            {
-                _loadLocation.RaiseEvent(_locationToNewGame, true, true);
-            }
-        }
-
-        private void OpenCharacterSelect()
-        {
-            _characterSelectCamera.SetActive(true);
-            _characterSelectUI.gameObject.SetActive(true);
-        }
-
-        public void CloseCharacterSelect()
-        {
-            _characterSelectUI.gameObject.SetActive(false);
-            _characterSelectCamera.SetActive(false);
-        }
-        #endregion
+        // #region Character Selection
+        //
+        // // private void SetCharacterSelectScreen()
+        // // {
+        // //     _characterSelectUI.Setup();
+        // //     _characterSelectUI.OnCharacterSelected += OnCharacterSelected;
+        // //     _characterSelectUI.OnCloseCharacterSelection += () => SetState(MenuState.MainMenu);
+        // // }
+        // // private void UnsetCharacterSelectScreen()
+        // // {
+        // //     _characterSelectUI.OnCharacterSelected -= OnCharacterSelected;
+        // //     _characterSelectUI.OnCloseCharacterSelection -= () => SetState(MenuState.MainMenu);
+        // // }
+        //
+        // private void OnCharacterSelected()
+        // {
+        //     if (currentGameData.LevelScores.Count > 0)
+        //     {
+        //         SetState(MenuState.LevelSelection);
+        //     }
+        //     else
+        //     {
+        //         _loadLocation.RaiseEvent(_locationToNewGame, true, true);
+        //     }
+        // }
+        //
+        // // private void OpenCharacterSelect()
+        // // {
+        // //     _characterSelectCamera.SetActive(true);
+        // //     _characterSelectUI.gameObject.SetActive(true);
+        // // }
+        //
+        // // public void CloseCharacterSelect()
+        // // {
+        // //     _characterSelectUI.gameObject.SetActive(false);
+        // //     _characterSelectCamera.SetActive(false);
+        // // }
+        // #endregion
 
         #region Tutorial
 
@@ -297,32 +301,32 @@ namespace MadSmith.Scripts.UI.Managers
         }
         #endregion
 
-        #region Level Selection
-
-        private void SetLevelSelectScreen()
-        {
-            _levelSelectUI.OnCloseLevelSelection += () => SetState(MenuState.CharacterSelection);
-            _levelSelectUI.OnLevelSelected += CloseAll;
-        }
-
-        private void UnsetLevelSelectScreen()
-        {
-            _levelSelectUI.OnCloseLevelSelection -= () => SetState(MenuState.CharacterSelection);
-            _levelSelectUI.OnLevelSelected -= CloseAll;
-        }
-
-        private void OpenLevelSelect()
-        {
-            _levelSelectUI.gameObject.SetActive(true);
-            _levelSelectCamera.SetActive(true);
-        }
-
-        private void CloseLevelSelect()
-        {
-            _levelSelectUI.gameObject.SetActive(false);
-            _levelSelectCamera.SetActive(false);
-        }
-        #endregion
+        // #region Level Selection
+        //
+        // private void SetLevelSelectScreen()
+        // {
+        //     _levelSelectUI.OnCloseLevelSelection += () => SetState(MenuState.CharacterSelection);
+        //     _levelSelectUI.OnLevelSelected += CloseAll;
+        // }
+        //
+        // private void UnsetLevelSelectScreen()
+        // {
+        //     _levelSelectUI.OnCloseLevelSelection -= () => SetState(MenuState.CharacterSelection);
+        //     _levelSelectUI.OnLevelSelected -= CloseAll;
+        // }
+        //
+        // private void OpenLevelSelect()
+        // {
+        //     _levelSelectUI.gameObject.SetActive(true);
+        //     _levelSelectCamera.SetActive(true);
+        // }
+        //
+        // private void CloseLevelSelect()
+        // {
+        //     _levelSelectUI.gameObject.SetActive(false);
+        //     _levelSelectCamera.SetActive(false);
+        // }
+        // #endregion
 
         #region Quit game Popup
         private void ShowExitConfirmationPopup()
@@ -346,16 +350,16 @@ namespace MadSmith.Scripts.UI.Managers
         #region Host
         private void SetHostScreen()
         {
-            uiHostPanel.SetUIHost(Manager.SteamIsOpen());
+            // uiHostPanel.SetUIHost(Manager.SteamIsOpen());
             uiHostPanel.SteamHostButtonAction += () =>
             {
                 Manager.HostBySteam();
-                SetState(MenuState.Lobby);
+                // SetState(MenuState.Lobby);
             };
             uiHostPanel.LocalHostButtonAction += () =>
             {
                 Manager.HostByLocalHost();
-                SetState(MenuState.Lobby);
+                // SetState(MenuState.Lobby);
             };
             uiHostPanel.Closed += () => SetState(MenuState.MainMenu);
         }
@@ -364,12 +368,12 @@ namespace MadSmith.Scripts.UI.Managers
             uiHostPanel.SteamHostButtonAction -= () =>
             {
                 Manager.HostBySteam();
-                SetState(MenuState.Lobby);
+                // SetState(MenuState.Lobby);
             };
             uiHostPanel.LocalHostButtonAction -= () =>
             {
                 Manager.HostByLocalHost();
-                SetState(MenuState.Lobby);
+                // SetState(MenuState.Lobby);
             };
             uiHostPanel.Closed -= () => SetState(MenuState.MainMenu);
         }
@@ -385,6 +389,37 @@ namespace MadSmith.Scripts.UI.Managers
         }
         #endregion
         
+        #region JoinLocalHost
+        private void SetJoinLocalHostScreen()
+        {
+            uiJoinLocalHostPanel.SetJoinLocalHost();
+            uiJoinLocalHostPanel.Closed += () => SetState(MenuState.MainMenu);
+            uiJoinLocalHostPanel.JoinButtonAction += () =>
+            {
+                Manager.JoinByLocalHost();
+                // SetState(MenuState.Lobby);
+            };
+        }
+        private void UnsetJoinLocalHostScreen()
+        {
+            
+            uiJoinLocalHostPanel.Closed -= () => SetState(MenuState.MainMenu);
+            uiJoinLocalHostPanel.JoinButtonAction -= () =>
+            {
+                Manager.JoinByLocalHost();
+            };
+        }
+        private void OpenJoinLocalHost()
+        {
+            _mainMenuCamera.SetActive(true);
+            uiJoinLocalHostPanel.gameObject.SetActive(true);
+        }
+        private void CloseJoinLocalHost()
+        {
+            _mainMenuCamera.SetActive(false);
+            uiJoinLocalHostPanel.gameObject.SetActive(false);
+        }
+        #endregion
         #region Join
         private void SetJoinScreen()
         {
@@ -397,8 +432,8 @@ namespace MadSmith.Scripts.UI.Managers
             };
             uiJoinPanel.LocalhostJoinButtonAction += () =>
             {
-                Manager.JoinByLocalhost();
-                // SetState(MenuState.Lobby);
+                Manager.EnableJoinByLocalhost();
+                SetState(MenuState.JoinLocalHost);
             };
         }
         private void UnsetJoinScreen()
@@ -407,7 +442,12 @@ namespace MadSmith.Scripts.UI.Managers
             uiJoinPanel.SteamJoinButtonAction -= () =>
             {
                 Manager.JoinBySteam();
-                // SetState(MenuState.Lobby);
+                SetState(MenuState.JoinLocalHost);
+            };
+            uiJoinPanel.LocalhostJoinButtonAction -= () =>
+            {
+                Manager.EnableJoinByLocalhost();
+                SetState(MenuState.JoinLocalHost);
             };
         }
         private void OpenJoin()
@@ -422,44 +462,45 @@ namespace MadSmith.Scripts.UI.Managers
         }
         #endregion
         
-        #region Lobby
-        private void SetLobbyScreen()
-        {
-            // uiLobbyControllerPanel
-            uiLobbyControllerPanel.Closed += () =>
-            {
-                Manager.StopHostOrClientOnLobbyMenu();
-                SetState(MenuState.MainMenu);
-            };
-            uiLobbyControllerPanel.NextPage += () => { SetState(MenuState.LevelSelection); };
-            Manager.SteamLobby.OnLobbyEnteredEvent += () => SetState(MenuState.Lobby);
-        }
-        private void UnsetLobbyScreen()
-        {
-            if (ReferenceEquals(uiLobbyControllerPanel, null)) return;
-            uiLobbyControllerPanel.Closed -= () =>
-            {
-                Manager.StopHostOrClientOnLobbyMenu();
-                SetState(MenuState.MainMenu);
-            };
-            uiLobbyControllerPanel.NextPage -= () => { SetState(MenuState.LevelSelection); };
-            Manager.SteamLobby.OnLobbyEnteredEvent -= () => SetState(MenuState.Lobby);
-        }
-        private void OpenLobby()
-        {
-            _mainMenuCamera.SetActive(true);
-            uiLobbyControllerPanel.gameObject.SetActive(true);
-        }
-        private void CloseLobby()
-        {
-            _mainMenuCamera.SetActive(false);
-            uiLobbyControllerPanel.gameObject.SetActive(false);
-        }
-        #endregion
+        // #region Lobby
+        // private void SetLobbyScreen()
+        // {
+        //     // uiLobbyControllerPanel
+        //     uiLobbyControllerCanvasPanel.Closed += () =>
+        //     {
+        //         Manager.StopHostOrClientOnLobbyMenu();
+        //         SetState(MenuState.MainMenu);
+        //     };
+        //     uiLobbyControllerCanvasPanel.NextPage += () => { SetState(MenuState.LevelSelection); };
+        //     Manager.SteamLobby.OnLobbyEnteredEvent += () => SetState(MenuState.Lobby);
+        // }
+        // private void UnsetLobbyScreen()
+        // {
+        //     if (ReferenceEquals(uiLobbyControllerCanvasPanel, null)) return;
+        //     uiLobbyControllerCanvasPanel.Closed -= () =>
+        //     {
+        //         Manager.StopHostOrClientOnLobbyMenu();
+        //         SetState(MenuState.MainMenu);
+        //     };
+        //     uiLobbyControllerCanvasPanel.NextPage -= () => { SetState(MenuState.LevelSelection); };
+        //     Manager.SteamLobby.OnLobbyEnteredEvent -= () => SetState(MenuState.Lobby);
+        // }
+        // private void OpenLobby()
+        // {
+        //     _mainMenuCamera.SetActive(true);
+        //     uiLobbyControllerCanvasPanel.gameObject.SetActive(true);
+        // }
+        // private void CloseLobby()
+        // {
+        //     _mainMenuCamera.SetActive(false);
+        //     uiLobbyControllerCanvasPanel.gameObject.SetActive(false);
+        // }
+        // #endregion
         
         #region Lobbies List
         private void SetLobbiesListScreen()
         {
+            if (!SteamLobby.InstanceExists) return;
             SteamLobby.Instance.OnLobbyListRequestedEvent += () => SetState(MenuState.LobbiesList);
             uiLobbiesListPanel.Closed += () =>
             {
@@ -481,6 +522,7 @@ namespace MadSmith.Scripts.UI.Managers
         }
         private void OpenLobbiesList()
         {
+            //Debug.Log("OpenLobbiesList");
             _mainMenuCamera.SetActive(true);
             uiLobbiesListPanel.gameObject.SetActive(true);
         }
@@ -493,7 +535,7 @@ namespace MadSmith.Scripts.UI.Managers
 
         protected override void OnDestroy()
         {
-            Debug.Log("OnDestroy");
+            // Debug.Log("OnDestroy");
             _popupPanel.ConfirmationResponseAction -= HideExitConfirmationPopup;
             base.OnDestroy();
         }
@@ -504,12 +546,13 @@ namespace MadSmith.Scripts.UI.Managers
             CloseSettingsScreen();
             CloseCreditsScreen();
             CloseTutorialScreen();
-            CloseCharacterSelect();
-            CloseLevelSelect();
             CloseHost();
             CloseJoin();
-            CloseLobby();
+            CloseJoinLocalHost();
             CloseLobbiesList();
+            // CloseCharacterSelect();
+            // CloseLevelSelect();
+            // CloseLobby();
         }
     }
 }

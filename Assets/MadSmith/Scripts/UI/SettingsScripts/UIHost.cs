@@ -17,7 +17,7 @@ namespace MadSmith.Scripts.UI.SettingsScripts
         
         public void SetUIHost(bool steamOpen)
         {
-            Debug.Log("Steam open: " + steamOpen);
+            //Debug.Log("Steam open: " + steamOpen);
             // steamHost.interactable = steamOpen;
         }
 
@@ -33,11 +33,11 @@ namespace MadSmith.Scripts.UI.SettingsScripts
 
         public void SteamHostButton()
         {
-            SteamHostButtonAction.Invoke();
+            SteamHostButtonAction?.Invoke();
         }
         public void LocalHostButton()
         {
-            LocalHostButtonAction.Invoke();
+            LocalHostButtonAction?.Invoke();
         }
         public void CloseScreen()
         {

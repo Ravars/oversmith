@@ -11,6 +11,7 @@ namespace MadSmith.Scripts.Items
         public Process[] processes;
         public Texture image;
         public bool isDoubleHand = true;
+        public int id;
     }
 
     [Serializable]

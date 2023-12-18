@@ -1,10 +1,13 @@
+using System;
+using MadSmith.Scripts.Events.ScriptableObjects;
 using MadSmith.Scripts.Multiplayer.Managers;
+using MadSmith.Scripts.Multiplayer.Old.Managers;
 using Mirror;
 using Steamworks;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
-
+using TransportLayer = MadSmith.Scripts.Multiplayer.Managers.TransportLayer;
 namespace MadSmith.Scripts.Multiplayer.UI
 {
     public class PlayerListItem : MonoBehaviour
@@ -23,43 +26,47 @@ namespace MadSmith.Scripts.Multiplayer.UI
         public int CharacterID;
         [SerializeField] private Sprite[] charactersImages;
         protected Callback ImageLoaded;
+        
+        // [Header("Listening to")]
+        // [SerializeField] private VoidEventChannelSO onUpdatePlayerList = default;
         //Manager
-        private MadSmithNetworkManager _manager;
-        public MadSmithNetworkManager Manager
+        private MadSmithNetworkRoomManager _manager;
+
+        private MadSmithNetworkRoomManager Manager
         {
             get
             {
                 if (!ReferenceEquals(_manager, null)) return _manager;
-                return _manager = NetworkManager.singleton as MadSmithNetworkManager;
+                return _manager = NetworkManager.singleton as MadSmithNetworkRoomManager;
             }
         }
         private void Start()
         {
+            // Debug.Log("Player list item start");
             if (Manager.TransportLayer == TransportLayer.Steam)
             {
                 ImageLoaded = Callback<AvatarImageLoaded_t>.Create(OnImageLoaded);
             }
+
+            // onUpdatePlayerList.OnEventRaised += SetPlayerValues;
+            // SetPlayerValues();
         }
-        private void OnImageLoaded(AvatarImageLoaded_t callback)
+
+        private void OnDisable()
         {
-            if (callback.m_steamID.m_SteamID == PlayerSteamID)
-            {
-                PlayerIcon.texture = GetSteamImageAsTexture(callback.m_iImage);
-            }
-            else
-            {
-                return;
-            }
+            // onUpdatePlayerList.OnEventRaised -= SetPlayerValues;
         }
+
         public void SetPlayerValues()
         {
             PlayerNameText.text = PlayerName;
             ChangeReadyStatus();
-            CharacterIdText.text = CharacterID.ToString();
+            // CharacterIdText.text = CharacterID.ToString();
             CharacterImage.sprite = charactersImages[CharacterID];
             if(!AvatarReceived) {GetPlayerIcon();}
         }
-        public void ChangeReadyStatus()
+
+        private void ChangeReadyStatus()
         {
             if (Ready)
             {
@@ -68,13 +75,16 @@ namespace MadSmith.Scripts.Multiplayer.UI
             }
             else
             {
-                PlayerReadyText.text = "Unready";
+                PlayerReadyText.text = "Not Ready";
                 PlayerReadyText.color = Color.red;
                 
             }
         }
+
+        #region Steam
         private void GetPlayerIcon()
         {
+            if (!SteamLobby.InstanceExists) return;
             int ImageID = SteamFriends.GetLargeFriendAvatar((CSteamID)PlayerSteamID);
             if (ImageID == -1)
             {
@@ -104,5 +114,17 @@ namespace MadSmith.Scripts.Multiplayer.UI
             AvatarReceived = true;
             return texture;
         }
+        private void OnImageLoaded(AvatarImageLoaded_t callback)
+        {
+            if (callback.m_steamID.m_SteamID == PlayerSteamID)
+            {
+                PlayerIcon.texture = GetSteamImageAsTexture(callback.m_iImage);
+            }
+            else
+            {
+                return;
+            }
+        }
+        #endregion
     }
 }

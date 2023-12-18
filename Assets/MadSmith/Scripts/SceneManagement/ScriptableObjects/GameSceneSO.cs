@@ -9,7 +9,7 @@ namespace MadSmith.Scripts.SceneManagement.ScriptableObjects
     public class GameSceneSO : DescriptionBaseSO
     {
         public GameSceneType sceneType;
-        public AssetReference sceneReference;
+        // public AssetReference sceneReference;
         public int sceneId;
         public Levels level; //TODO change this to LocationSO
         public GameSceneSO nextScene;

@@ -12,7 +12,7 @@ namespace MadSmith.Scripts.Events.ScriptableObjects
         // ReSharper disable Unity.PerformanceAnalysis
         public void RaiseEvent(GameSceneSO locationToLoad, bool showLoadingScreen = false, bool fadeScreen = false)
         {
-            Debug.Log("locationToLoad" + locationToLoad.sceneReference);
+            // Debug.Log("locationToLoad" + locationToLoad.sceneReference);
             if (OnLoadingRequested != null)
             {
                 OnLoadingRequested.Invoke(locationToLoad, showLoadingScreen, fadeScreen);

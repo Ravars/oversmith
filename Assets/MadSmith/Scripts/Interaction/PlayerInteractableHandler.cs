@@ -1,10 +1,11 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using Mirror;
 using UnityEngine;
 
 namespace MadSmith.Scripts.Interaction
 {
-    public class PlayerInteractableHandler : MonoBehaviour
+    public class PlayerInteractableHandler : NetworkBehaviour
     {
         private List<ObjectInteractable> _interactableList = new ();
         public bool isActive;
@@ -36,6 +37,7 @@ namespace MadSmith.Scripts.Interaction
                     if (CurrentInteractable != closestInteractable)
                     {
                         closestInteractable = _interactableList[0];
+                        //Debug.Log(closestInteractable.InteractableHolder.gameObject.name);
                     }
                 }
                 else if(_interactableList.Count > 1)

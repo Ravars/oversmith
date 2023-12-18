@@ -1,18 +1,19 @@
 ﻿using System.Collections.Generic;
 using MadSmith.Scripts.Interaction;
 using MadSmith.Scripts.Items;
+using Mirror;
 using UnityEngine;
 
 namespace MadSmith.Scripts.CraftingTables
 {
     [RequireComponent(typeof(InteractableHolder),typeof(CraftingInteractionHandler), typeof(AudioSource))]
-    public class CraftingTable : MonoBehaviour
+    public class CraftingTable : NetworkBehaviour
     {
         [SerializeField] protected float timeToPrepareItem = 10f;
         [SerializeField] protected float currentTimeToPrepareItem;
-        protected List<PlayerInteractions> PlayerInteractionsArray = new();
+        // protected List<PlayerInteractions> PlayerInteractionsArray = new();
         private Table _table;
-        protected CraftingInteractionHandler _craftingInteractionHandler;
+        public CraftingInteractionHandler _craftingInteractionHandler;
         public CraftingTableType type;
         public ParticleSystem[] particleSystems;
         public bool CanAddPlayer { get; protected set; } = true;
@@ -28,33 +29,34 @@ namespace MadSmith.Scripts.CraftingTables
             _animator = GetComponentInChildren<Animator>();
         }
 
-        private void OnTriggerExit(Collider other)
-        {
-            if (other.TryGetComponent(out PlayerInteractions playerInteraction))
-            {
-                if (PlayerInteractionsArray.Contains(playerInteraction))
-                {
-                    PlayerInteractionsArray.Remove(playerInteraction);
-                    _craftingInteractionHandler.NumberOfPlayers = PlayerInteractionsArray.Count;
-                }
-            }
-        } 
-        public void AddPlayer(PlayerInteractions playerInteraction)
+        // private void OnTriggerExit(Collider other)
+        // {
+        //     if (other.TryGetComponent(out PlayerInteractions playerInteraction))
+        //     {
+        //         if (PlayerInteractionsArray.Contains(playerInteraction))
+        //         {
+        //             PlayerInteractionsArray.Remove(playerInteraction);
+        //             _craftingInteractionHandler.NumberOfPlayers = PlayerInteractionsArray.Count;
+        //         }
+        //     }
+        // } 
+        public void AddPlayer()
         {
             // Debug.Log(PlayerInteractionsArray.Contains(playerInteraction));
-            if (!PlayerInteractionsArray.Contains(playerInteraction))
-            {
-                PlayerInteractionsArray.Add(playerInteraction);
-            }
-            
+            // if (!PlayerInteractionsArray.Contains(playerInteraction))
+            // {
+            //     PlayerInteractionsArray.Add(playerInteraction);
+            // }
+            //Debug.Log("AddPlayer");
             if (!_craftingInteractionHandler.isRunning)
             {
+                //Debug.Log("! running");
                 _craftingInteractionHandler.Init(timeToPrepareItem,2);
             }
-            else
-            {
-                _craftingInteractionHandler.NumberOfPlayers = PlayerInteractionsArray.Count;
-            }
+            // else
+            // {
+            //     _craftingInteractionHandler.NumberOfPlayers += 1;
+            // }
         }
 
         public void SetParticlesState(bool state)
@@ -75,7 +77,7 @@ namespace MadSmith.Scripts.CraftingTables
 
         public virtual void ItemAddedToTable()
         {
-            // Debug.Log("Item added");
+            //Debug.Log("Item added");
         }
     }
 }

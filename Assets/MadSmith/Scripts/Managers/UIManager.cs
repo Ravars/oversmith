@@ -3,10 +3,12 @@ using MadSmith.Scripts.Events.ScriptableObjects;
 using MadSmith.Scripts.Gameplay;
 using MadSmith.Scripts.Input;
 using MadSmith.Scripts.Menu;
+using MadSmith.Scripts.Multiplayer.Managers;
 using MadSmith.Scripts.SceneManagement.ScriptableObjects;
 using MadSmith.Scripts.Systems.Settings;
 using MadSmith.Scripts.UI;
 using MadSmith.Scripts.UI.Canvas;
+using Mirror;
 using UnityEngine;
 
 namespace MadSmith.Scripts.Managers
@@ -35,19 +37,50 @@ namespace MadSmith.Scripts.Managers
         [SerializeField] private LoadEventChannelSO _loadMenuEvent = default;
         [SerializeField] private LoadEventChannelSO _loadNextLevel = default;
         [SerializeField] private VoidEventChannelSO _onGameStart = default;
-        
+        // private MadSmithNetworkRoomManager _manager;
+        // private MadSmithNetworkRoomManager Manager
+        // { get {
+        //         if (!ReferenceEquals(_manager, null)) return _manager;
+        //         return _manager = NetworkManager.singleton as MadSmithNetworkRoomManager;
+        //     }
+        // }
+
+        private void Awake()
+        {
+            CloseAll();
+            inGameComponent.gameObject.SetActive(true);
+        }
+
+        private void Start()
+        {
+            // DontDestroyOnLoad(gameObject);
+        }
 
         private void OnEnable()
         {
-            _onSceneReady.OnEventRaised += ResetUI;
+            //Debug.Log("UI Manager OnEnable");
+            _onSceneReady.OnEventRaised += StartUp;
             _onLevelCompleted.OnEventRaised += OpenEndGameScreen;
             _inputReader.MenuPauseEvent += OpenUIPause;
-
+            // StartUp();
+            // MadSmithNetworkManager.OnServerReadied += MadSmithNetworkManagerOnOnServerReadied;
         }
+        private void OnDisable()
+        {
+            _onSceneReady.OnEventRaised -= StartUp;
+            _inputReader.MenuPauseEvent -= OpenUIPause;
+            _onLevelCompleted.OnEventRaised -= OpenEndGameScreen;
+            // MadSmithNetworkManager.OnServerReadied -= MadSmithNetworkManagerOnOnServerReadied;
+        }
+
+        // private void MadSmithNetworkManagerOnOnServerReadied(NetworkConnection obj)
+        // {
+        //     StartUp();
+        // }
 
         private void OpenEndGameScreen(float finalScore)
         {
-            ResetUI();
+            // StartUp();
             inGameComponent.gameObject.SetActive(false);
             _endGameComponent.Setup((int)finalScore);
             _endGameComponent.Continued += EndGameComponentOnContinued;
@@ -60,34 +93,44 @@ namespace MadSmith.Scripts.Managers
         {
             _endGameComponent.Continued -= EndGameComponentOnContinued;
             _endGameComponent.BackToMenuClicked -= ShowBackToMenuConfirmationPopup;
-            if (GameManager.Instance.CurrentSceneSo.sceneType == GameSceneType.Location && GameManager.Instance.CurrentSceneSo.nextScene != null)
+            var currentScene = GameManager.Instance.GetCurrentScene();
+            if (currentScene.sceneType == GameSceneType.Location && currentScene.nextScene != null)
             {
                 _endGameComponent.gameObject.SetActive(false);
-                _loadNextLevel.RaiseEvent(GameManager.Instance.CurrentSceneSo.nextScene,true);
+                _loadNextLevel.RaiseEvent(currentScene.nextScene,true);
             }
             // _onScreenEndGameClosed.RaiseEvent();
         }
 
-        private void OnDisable()
-        {
-            _onSceneReady.OnEventRaised -= ResetUI;
-            _onLevelCompleted.OnEventRaised -= OpenEndGameScreen;
-            _inputReader.MenuPauseEvent -= OpenUIPause;
-        }
+        
 
-
-        private void ResetUI()
+        private void CloseAll()
         {
             _inputReader.EnableDialogueInput();
-            // inGameComponent.gameObject.SetActive(true);
-            if (GameManager.Instance.CurrentSceneSo.sceneType == GameSceneType.Location)
+            inGameComponent.gameObject.SetActive(false);
+            inGameTutorialComponent.gameObject.SetActive(false);
+            _endGameComponent.gameObject.SetActive(false);
+            _popupPanel.gameObject.SetActive(false);
+            pauseScreen.gameObject.SetActive(false);
+            _settingScreen.gameObject.SetActive(false);
+        }
+        private void StartUp()
+        {
+            var currentScene = GameManager.Instance.GetCurrentScene();
+            if (currentScene.sceneType == GameSceneType.Location)
             {
                 OpenTutorial();
             }
-        }
+        }   
 
 
         [ContextMenu("Open Config")]
+
+        #region Ui Menu
+
+        
+
+        
         private void OpenUIPause()
         {
             if (pauseScreen == null) return; 
@@ -125,7 +168,9 @@ namespace MadSmith.Scripts.Managers
             }
             _selectionHandler.Unselect();
         }
-        
+        #endregion
+
+        #region Settings
         void OpenSettingScreen()
         {
             _settingScreen.Closed += CloseSettingScreen; // sub to close setting event with event 
@@ -149,6 +194,9 @@ namespace MadSmith.Scripts.Managers
             // time is still set to 0 and Input is still set to menuInput 
             //going out from setting screen gets us back to the pause screen
         }
+        #endregion
+        
+        #region Back To Menu
         void ShowBackToMenuConfirmationPopup()
         {
             pauseScreen.gameObject.SetActive(false); // Set pause screen to inactive
@@ -183,21 +231,33 @@ namespace MadSmith.Scripts.Managers
                 _loadMenuEvent.RaiseEvent(_mainMenu, false); //load main menu
             }
         }
+        #endregion
+        
+        
+        
 
+        #region Tutorial
         private void OpenTutorial()
         {
             inGameTutorialComponent.gameObject.SetActive(true);
             inGameTutorialComponent.Closed += UiTutorialClosed;
-            inGameTutorialComponent.Setup((LocationSO)GameManager.Instance.CurrentSceneSo);
+            var currentScene = GameManager.Instance.GetCurrentScene();
+            inGameTutorialComponent.Setup((LocationSO)currentScene);
         }
-
         private void UiTutorialClosed()
         {
             inGameTutorialComponent.gameObject.SetActive(false);
             inGameTutorialComponent.Closed -= UiTutorialClosed;
             _inputReader.EnableGameplayInput();
-            inGameComponent.gameObject.SetActive(true);
+            inGameComponent.hudPanel.SetActive(true);
             _onGameStart.RaiseEvent();
         }
+        
+
+        #endregion
+        
+        
+
+        
     }
 }

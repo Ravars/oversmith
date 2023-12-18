@@ -93,10 +93,11 @@ namespace MadSmith.Scripts
 
             _animator.SetBool(Run,movementDirection.magnitude > 0f);
             
-            bool isCarrying = !ReferenceEquals(_playerInteractions.ItemScript, null);
+            bool isCarrying = !ReferenceEquals(_playerInteractions._itemTransform, null);
             if (isCarrying)
             {
-                bool doubleHand = _playerInteractions.ItemScript.baseItem.isDoubleHand;
+                // bool doubleHand = _playerInteractions.ItemScript.baseItem.isDoubleHand;
+                bool doubleHand = true;
                 _animator.SetBool(DoubleHand,doubleHand);
             }
             _animator.SetLayerWeight(1,isCarrying ? 1 : 0);

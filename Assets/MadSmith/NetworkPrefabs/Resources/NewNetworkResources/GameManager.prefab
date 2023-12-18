@@ -1,0 +1,83 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &6876697836074403809
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 6974990960493908845}
+  - component: {fileID: 7461107387004581948}
+  - component: {fileID: 5193814707570136865}
+  m_Layer: 0
+  m_Name: GameManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &6974990960493908845
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6876697836074403809}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &7461107387004581948
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6876697836074403809}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9b91ecbcc199f4492b9a91e820070131, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sceneId: 0
+  serverOnly: 0
+  visible: 0
+  m_AssetId: 694616e012ce7654080407804cdd3f51
+  hasSpawned: 0
+--- !u!114 &5193814707570136865
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6876697836074403809}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ac80ed0eba9e49968f74006da09650dd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
+  sceneSos:
+  - {fileID: 11400000, guid: 1e8ca08c25bb68944a0bb0bae20d6eef, type: 2}
+  - {fileID: 11400000, guid: 7d9fc202bcf774543a40689996da658a, type: 2}
+  - {fileID: 11400000, guid: f33b158fe6020ea4d98ae18cc1df1189, type: 2}
+  - {fileID: 11400000, guid: 027d0ec1ca756ab46b96d1e0e41fbefd, type: 2}
+  - {fileID: 11400000, guid: 1fed74123b220164fae5976ff2ce71b1, type: 2}
+  - {fileID: 11400000, guid: 6287ba2e2d59b254f854d3c24eef3dbb, type: 2}
+  - {fileID: 11400000, guid: f7c23982a840b894497917077b119ba8, type: 2}
+  - {fileID: 11400000, guid: 85ed433ba00f88346805fda8f22b06a8, type: 2}
+  - {fileID: 11400000, guid: 236ddf30c23128643ac615e90538ba0d, type: 2}
+  currentSceneIndex: 0
+  saveSystem: {fileID: 11400000, guid: 2b15ecd60be148f43aff11a8e48649a1, type: 2}
+  currentSettings: {fileID: 11400000, guid: 0051a8d1c19a5704588bf76d4b8e402d, type: 2}
+  currentGameData: {fileID: 11400000, guid: 70aeb997762ebb44bbdcc314ee37add3, type: 2}
+  onLevelCompleted: {fileID: 11400000, guid: 919321fbc38fd0b4fa6eb629728b3c6c, type: 2}
+  _loadNextLevel: {fileID: 11400000, guid: c991a83e63337eb4f9962f1d4ed3fdc4, type: 2}
+  _saveGameData: {fileID: 11400000, guid: cb4aa88367b6a694b9796b0f429f8579, type: 2}

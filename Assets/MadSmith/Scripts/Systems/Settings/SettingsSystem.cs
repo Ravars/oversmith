@@ -33,7 +33,7 @@ namespace MadSmith.Scripts.Systems.Settings
 
         private void OnGameManagerAwake()
         {
-            Debug.Log("Game Manager awaken settings system");
+            //Debug.Log("Game Manager awaken settings system");
             SetCurrentSettings();
         }
 

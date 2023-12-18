@@ -8,6 +8,7 @@ namespace MadSmith.Scripts.SceneManagement.ScriptableObjects
     [CreateAssetMenu(fileName = "NewLocation", menuName = "Scene Data/Location")]
     public class LocationSO : GameSceneSO
     {
+        public string sceneName;
         public TutorialDataSO tutorialDataSo;
         public LocalizedString locationName;
         public LevelConfigItems levelConfigItems;

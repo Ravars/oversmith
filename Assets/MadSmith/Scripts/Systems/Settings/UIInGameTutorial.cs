@@ -18,6 +18,7 @@ namespace MadSmith.Scripts.Systems.Settings
         [SerializeField] private Image tutorialImage;
         [SerializeField] private LocalizeStringEvent tutorialTitle;
         [SerializeField] private LocalizeStringEvent tutorialSecondaryText;
+        [SerializeField] private TextMeshProUGUI closeButtonText;
         private void OnEnable()
         {
             _inputReader.EnableDialogueInput();
@@ -34,15 +35,17 @@ namespace MadSmith.Scripts.Systems.Settings
 
         public void Setup(LocationSO level)
         {
-            Debug.Log("UI Setup." + level.tutorialDataSo == null + " " + ReferenceEquals(level.tutorialDataSo, null));
+            //Debug.Log("UI Setup." + level.tutorialDataSo == null + " " + ReferenceEquals(level.tutorialDataSo, null));
             //TODO verificacao com null nao funfa
             if (level.tutorialDataSo == null)
             {
-                CloseTutorialButton();
+                Invoke(nameof(CloseTutorialButton), 1f);
                 return;
             }
             
             tutorialImage.sprite = level.tutorialDataSo.tutorialImage;
+            tutorialImage.color = Color.white;
+            closeButtonText.text = "X";
             tutorialTitle.StringReference = level.tutorialDataSo.locationTitle;
             if (level.tutorialDataSo.locationSecondaryText != null)
             {
@@ -52,7 +55,7 @@ namespace MadSmith.Scripts.Systems.Settings
 
         public void CloseTutorialButton()
         {
-            Debug.Log("Closed");
+            //Debug.Log("Closed");
             Closed?.Invoke();
         }
     }

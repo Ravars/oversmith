@@ -1,4 +1,5 @@
 using System;
+using Mirror;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -9,10 +10,10 @@ namespace MadSmith.Scripts.Items
         SoundIn, SoundOut, CraftSound
     }
     
-    public class Item : MonoBehaviour
+    public class Item : NetworkBehaviour
     {
         public Slider slider;
-        private float _currentProcessTimeNormalized;
+        [SyncVar] public float currentProcessTimeNormalized;
         public BaseItem baseItem; 
         private CraftingTableType _lastCraftingTable;
         
@@ -47,13 +48,13 @@ namespace MadSmith.Scripts.Items
         
         public float CurrentProcessTimeNormalized
         {
-            get => _currentProcessTimeNormalized;
+            get => currentProcessTimeNormalized;
             set
             {
-                _currentProcessTimeNormalized = value;
+                currentProcessTimeNormalized = value;
                 if (slider != null)
                 {
-                    slider.value = value;
+                    // slider.value = value;
                 }
                 else
                 {

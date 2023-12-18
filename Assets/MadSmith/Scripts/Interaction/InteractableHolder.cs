@@ -1,10 +1,11 @@
 ﻿using MadSmith.Scripts.CraftingTables;
 using MadSmith.Scripts.Gameplay;
+using Mirror;
 using UnityEngine;
 
 namespace MadSmith.Scripts.Interaction
 {
-    public class InteractableHolder : MonoBehaviour
+    public class InteractableHolder : NetworkBehaviour
     {
         public bool hasTable;
         public bool hasDispenser;

@@ -31,7 +31,13 @@ namespace MadSmith.Scripts.UI
         [SerializeField] private OrderUpdateEventChannelSO onDeleteOrder;
         [SerializeField] private OrderUpdateEventChannelSO onDeliveryOrder;
 
-        private void OnEnable()
+        protected override void Awake()
+        {
+            base.Awake();
+            hudPanel.SetActive(false);
+        }
+
+        private void Start() // Era no OnEnable
         {
             _onCountdownTimerUpdated.OnEventRaised += UpdateTimer;
             onPlayerScore.OnEventRaised += UpdatePlayerScore;
@@ -44,7 +50,7 @@ namespace MadSmith.Scripts.UI
 
         private void DeleteOrder(OrderData orderData)
         {
-            Debug.Log("Delete order");
+            //Debug.Log("Delete order");
             var a = ItemCardHolders.Find(x => x.id == orderData.Id);
             
             if (ReferenceEquals(a, null)) return;

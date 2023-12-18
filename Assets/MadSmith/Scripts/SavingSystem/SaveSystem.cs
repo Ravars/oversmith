@@ -58,7 +58,7 @@ namespace MadSmith.Scripts.SavingSystem
             {
                 if (FileManager.WriteToFile(saveFilename, saveData.ToJson()))
                 {
-                    Debug.Log("Success save");
+                    //Debug.Log("Success save");
                 }
             }
         }

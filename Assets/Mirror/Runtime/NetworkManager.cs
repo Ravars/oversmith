@@ -319,9 +319,10 @@ namespace Mirror
             mode = NetworkManagerMode.ClientOnly;
 
             InitializeSingleton();
-
+            Debug.Log("1");
             if (runInBackground)
                 Application.runInBackground = true;
+            Debug.Log("2");
 
             if (authenticator != null)
             {
@@ -329,8 +330,10 @@ namespace Mirror
                 authenticator.OnClientAuthenticated.AddListener(OnClientAuthenticated);
             }
 
+            Debug.Log("3");
             // In case this is a headless client...
             ConfigureHeadlessFrameRate();
+            Debug.Log("4");
 
             RegisterClientMessages();
 
@@ -339,11 +342,14 @@ namespace Mirror
                 Debug.LogError("Must set the Network Address field in the manager");
                 return;
             }
+            Debug.Log("5");
             // Debug.Log($"NetworkManager StartClient address:{networkAddress}");
 
             NetworkClient.Connect(networkAddress);
+            Debug.Log("6");
 
             OnStartClient();
+            Debug.Log("7");
         }
 
         /// <summary>Starts the client, connects it to the server via Uri</summary>
@@ -1301,6 +1307,7 @@ namespace Mirror
             // Only call AddPlayer for normal scene changes, not additive load/unload
             if (clientSceneOperation == SceneOperation.Normal && autoCreatePlayer && NetworkClient.localPlayer == null)
             {
+                Debug.Log("Add Player");
                 // add player if existing one is null
                 NetworkClient.AddPlayer();
             }

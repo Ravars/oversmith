@@ -152,7 +152,7 @@ namespace Mirror
         /// <param name="conn">Connection from client.</param>
         public override void OnServerReady(NetworkConnectionToClient conn)
         {
-            Debug.Log($"NetworkRoomManager OnServerReady {conn}");
+            // Debug.Log($"NetworkRoomManager OnServerReady {conn}");
             base.OnServerReady(conn);
 
             if (conn != null && conn.identity != null)
@@ -318,7 +318,7 @@ namespace Mirror
         {
             // increment the index before adding the player, so first player starts at 1
             clientIndex++;
-
+            Debug.Log(IsSceneActive(RoomScene) + " + " + roomSlots.Count  + " - " + (roomSlots.Count == maxConnections));
             if (IsSceneActive(RoomScene))
             {
                 if (roomSlots.Count == maxConnections)
@@ -326,7 +326,7 @@ namespace Mirror
 
                 allPlayersReady = false;
 
-                //Debug.Log("NetworkRoomManager.OnServerAddPlayer playerPrefab: {roomPlayerPrefab.name}");
+                Debug.Log("NetworkRoomManager.OnServerAddPlayer playerPrefab: {roomPlayerPrefab.name}");
 
                 GameObject newRoomGameObject = OnRoomServerCreateRoomPlayer(conn);
                 if (newRoomGameObject == null)
@@ -587,6 +587,7 @@ namespace Mirror
         /// <param name="conn">The connection the player object is for.</param>
         public virtual void OnRoomServerAddPlayer(NetworkConnectionToClient conn)
         {
+            Debug.Log("OnRoomServerAddPlayer");
             base.OnServerAddPlayer(conn);
         }
 
