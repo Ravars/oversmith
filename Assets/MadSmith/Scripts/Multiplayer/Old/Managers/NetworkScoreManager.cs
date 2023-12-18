@@ -13,7 +13,7 @@ namespace MadSmith.Scripts.Multiplayer.Old.Managers
         private bool _isScoring;
         
         
-        [SerializeField] private float totalScore = 5000;
+        [SerializeField] private float totalScore = 400; //5000
         [SerializeField] private float orderPoints = 1000;
         [SerializeField] private float penaltyCost = 0.2f;
         [SerializeField] private float enemyScoringRate;
@@ -61,12 +61,14 @@ namespace MadSmith.Scripts.Multiplayer.Old.Managers
             }
             if (_enemyScore >= totalScore)
             {
+                //Debug.Log("_enemyScore >= totalScore");
                 RpcLevelCompleted((_playerScore / totalScore) * 100);
                 _isScoring = false;
             }
         }
         private void PlayerScore(OrderData orderData)
         {
+            Debug.Log("Player score: isServer " + isServer + " _isScoring:" + _isScoring);
             if (!isServer || !_isScoring) return;
             _playerScore = Mathf.Min(_playerScore + orderPoints, totalScore);
             RpcPlayerScore(_playerScore / totalScore);
@@ -78,6 +80,7 @@ namespace MadSmith.Scripts.Multiplayer.Old.Managers
             }
             if (_playerScore >= totalScore)
             {
+                //Debug.Log("_playerScore >= totalScore");
                 RpcLevelCompleted((_playerScore / totalScore) * 100);
                 _isScoring = false;
             }
@@ -103,6 +106,7 @@ namespace MadSmith.Scripts.Multiplayer.Old.Managers
         [ClientRpc]
         private void RpcLevelCompleted(float score)
         {
+            //Debug.Log("RpcLevelCompleted");
             onLevelCompleted.RaiseEvent(score);
         }
     }

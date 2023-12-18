@@ -6,6 +6,7 @@ using Mirror;
 using Mirror.FizzySteam;
 using Steamworks;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 namespace MadSmith.Scripts.Multiplayer.Managers
 {
@@ -109,6 +110,7 @@ namespace MadSmith.Scripts.Multiplayer.Managers
 
         public override GameObject OnRoomServerCreateGamePlayer(NetworkConnectionToClient conn, GameObject roomPlayer)
         {
+            Debug.Log("OnRoomServerCreateGamePlayer");
             MadSmithNetworkRoomPlayer madSmithNetworkRoomPlayer = roomPlayer.GetComponent<MadSmithNetworkRoomPlayer>();
             var gamePlayer = gamePlayersPrefabs[madSmithNetworkRoomPlayer.CharacterId];
             var player = Instantiate(gamePlayer,GetStartPosition().position, Quaternion.identity);
@@ -165,12 +167,16 @@ namespace MadSmith.Scripts.Multiplayer.Managers
 
         public override void OnStartClient()
         {
-            base.OnStartClient();
-            var spawnablePrefabs = Resources.LoadAll<GameObject>(ResourcesPath);
-            //Debug.Log("Start client: " + spawnablePrefabs.Length);
-            foreach (var spawnablePrefab in spawnablePrefabs)
+            Debug.Log("SceneManager.GetActiveScene" + SceneManager.GetActiveScene());
+            if (SceneManager.GetActiveScene().buildIndex <= 3)
             {
-                NetworkClient.RegisterPrefab(spawnablePrefab);
+                base.OnStartClient();
+                var spawnablePrefabs = Resources.LoadAll<GameObject>(ResourcesPath);
+                //Debug.Log("Start client: " + spawnablePrefabs.Length);
+                foreach (var spawnablePrefab in spawnablePrefabs)
+                {
+                    NetworkClient.RegisterPrefab(spawnablePrefab);
+                }
             }
 
             //Debug.Log("gameManagerInstance");
@@ -180,7 +186,7 @@ namespace MadSmith.Scripts.Multiplayer.Managers
         
         public override void OnServerAddPlayer(NetworkConnectionToClient conn)
         {
-            // Debug.Log("OnServerAddPlayer");
+            Debug.Log("OnServerAddPlayer");
             // base.OnServerAddPlayer(conn);
             
             MadSmithNetworkRoomPlayer lobbyClient = Instantiate(roomPlayerPrefab) as MadSmithNetworkRoomPlayer;

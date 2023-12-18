@@ -44,14 +44,14 @@ namespace MadSmith.Scripts.Interaction
 
         public void Init(float timeToPrepareItem, float speed, int numberOfPlayer = 1)
         {
-            Debug.Log("Init");
+            //Debug.Log("Init");
             if (!isRunning && _table.HasItem()) // has process
             {
-                Debug.Log("1");
+                //Debug.Log("1");
                     
                 var itemScript = _table._itemTransform.GetComponent<Item>();
                 if (itemScript.baseItem.processes.Length <= 0) return;
-                Debug.Log("2");
+                //Debug.Log("2");
                 
                 Process? a = null;
                 foreach (var process in itemScript.baseItem.processes)
@@ -62,13 +62,19 @@ namespace MadSmith.Scripts.Interaction
                         break;
                     }
                 }
-                Debug.Log("3");
+                //Debug.Log("3");
                 if (a == null)
                 {
                     // error VFX
                     return;
                 }
-                Debug.Log("4");
+
+                if (a.Value.itemsNeeded.Length > 0)
+                {
+                    //Debug.Log("Nao precisa interagir");
+                    return;
+                }
+                //Debug.Log("4");
                 //Debug.Log($"Init {a.Value.itemGenerated.itemName}");
                 
                 _timeToPrepareItem = timeToPrepareItem;
@@ -76,7 +82,7 @@ namespace MadSmith.Scripts.Interaction
                 // Item itemScript = _table.item.
                 // CurrentTimeToPrepareItem = _table.itemScript.currentProcessTimeNormalized;
                 _numberOfPlayer = numberOfPlayer;
-                Debug.Log("numberOfPlayer " + numberOfPlayer);
+                //Debug.Log("numberOfPlayer " + numberOfPlayer);
                 _speed = speed;
                 isRunning = true;
                 enabled = true;
@@ -110,7 +116,7 @@ namespace MadSmith.Scripts.Interaction
                 if (_itemScript.CurrentProcessTimeNormalized >= 1)
                 {
                     
-                    Debug.Log("Finished");
+                    //Debug.Log("Finished");
                     foreach (var process in _itemScript.baseItem.processes)
                     {
                         if (process.craftingTable == _craftingTable.type)
@@ -118,7 +124,7 @@ namespace MadSmith.Scripts.Interaction
                             // _table.CraftItem(process.itemGenerated); // Nao sei se consigo enviar o Item aqui
                             isRunning = false;
                             enabled = false;
-                            Debug.Log("Finished 2");
+                            //Debug.Log("Finished 2");
                             ServerSpawnItem(process.itemGenerated.id);
                             // _craftingTable.SetParticlesState(false);
                             // _craftingTable._audioSource.Stop();
@@ -143,7 +149,7 @@ namespace MadSmith.Scripts.Interaction
             var item = Instantiate(baseItem.prefab, _table.PointToSpawnItem.position, Quaternion.identity, _table.PointToSpawnItem);
             Quaternion quaternion = item.transform.rotation;
             NetworkServer.Spawn(item);
-            Debug.Log("Spawn new item");
+            //Debug.Log("Spawn new item");
             NetworkServer.Destroy(_table._itemTransform.gameObject);
             // _table._itemTransform = item.transform;
             ClientRpcSyncItem(item, quaternion);
@@ -155,7 +161,7 @@ namespace MadSmith.Scripts.Interaction
             item.transform.SetParent(_table.PointToSpawnItem);
             item.transform.SetLocalPositionAndRotation(Vector3.zero, quaternion);
             _table._itemTransform = item.transform;
-            Debug.Log("ClientRpcSyncItem");
+            //Debug.Log("ClientRpcSyncItem");
         }
     }
 }

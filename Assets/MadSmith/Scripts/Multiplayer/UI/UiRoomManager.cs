@@ -46,7 +46,7 @@ namespace MadSmith.Scripts.Multiplayer.UI
         private void Start()
         {
             _inputReader.EnableMenuInput();
-            Debug.Log("Start UiRoom");
+            //Debug.Log("Start UiRoom");
             SetLevelSelection();
             SetCharacterController();
 

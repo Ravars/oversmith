@@ -193,7 +193,7 @@ namespace MadSmith.Scripts.CraftingTables
 
         public bool CanSetItem(Item newItem)
         {
-                Debug.Log("CanSetItem");
+                //Debug.Log("CanSetItem");
             if (_itemTransform == null && !_interactableHolder.hasCraftingTable)
             {
                 return true;
@@ -213,7 +213,7 @@ namespace MadSmith.Scripts.CraftingTables
                 
                 foreach (var process in newItem.baseItem.processes)
                 {
-                    Debug.Log("process: "+process.craftingTable);
+                    //Debug.Log("process: "+process.craftingTable);
                     if (process.craftingTable == _interactableHolder.craftingTable.type && process.craftingTable != CraftingTableType.WorkingTable)
                     {
                         return true;
@@ -221,7 +221,7 @@ namespace MadSmith.Scripts.CraftingTables
                 }
                 return false;
             }
-            Debug.Log("CanSetItem 3");
+            //Debug.Log("CanSetItem 3");
 
             return false;
         }

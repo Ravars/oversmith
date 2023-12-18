@@ -4,18 +4,19 @@ using MadSmith.Scripts.Events.ScriptableObjects;
 using MadSmith.Scripts.Items;
 using MadSmith.Scripts.Managers;
 using MadSmith.Scripts.SceneManagement.ScriptableObjects;
+using MadSmith.Scripts.Utils;
 using Mirror;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
 namespace MadSmith.Scripts.Multiplayer.Managers
 {
-    public class TestNetworkOrderManager : NetworkBehaviour
+    public class NetworkOrderManager : NetworkSingleton<NetworkOrderManager>
     {
         [SerializeField] private float startingDelay = 5;
         [SerializeField] private float firstOrderDelay = 3;
         [SerializeField] private float orderDelay = 11;
-        [SerializeField] private float timeToSingleItem = 200; // 60
+        [SerializeField] private float timeToSingleItem = 60; // 60
         [SerializeField] private int maxConcurrentOrders = 6;
         [SerializeField] private int timeToDeliver = 240;
         private float _timeToSpawn;
@@ -41,7 +42,7 @@ namespace MadSmith.Scripts.Multiplayer.Managers
 
         private void Start()
         {
-            Debug.Log("Listening onSceneReady");
+            //Debug.Log("Listening onSceneReady");
             onSceneReady.RaiseEvent();
             Setup();
             Invoke(nameof(StartGame), startingDelay);
@@ -62,7 +63,7 @@ namespace MadSmith.Scripts.Multiplayer.Managers
         private void Setup()
         {
             var currentSceneSo = GameManager.Instance.GetCurrentScene();
-            Debug.Log("CurrentSceneSo" + currentSceneSo.name);
+            //Debug.Log("CurrentSceneSo" + currentSceneSo.name);
             if (currentSceneSo.sceneType == GameSceneType.Location)
             {
                 var location = (LocationSO)currentSceneSo;
@@ -154,7 +155,18 @@ namespace MadSmith.Scripts.Multiplayer.Managers
             var newOrderTime = new OrderTimes(value, 1);
             currentOrderList.Add(newOrderData);
             currentOrderListTimes.Add(newOrderTime);
+            //Debug.Log("Spawn order");
             onCreateOrder.RaiseEvent(newOrderData);
+        }
+        public bool CheckOrder(BaseItem item)
+        {
+            var orderData = currentOrderList.Find(x => x.BaseItem.id == item.id);
+            //Debug.Log("oderData" + orderData);
+            if (ReferenceEquals(orderData, null)) return false;
+            //Debug.Log("onDeliveryOrder.RaiseEvent");
+            onDeliveryOrder.RaiseEvent(orderData);
+            currentOrderList.Remove(orderData);
+            return true;
         }
     }
 }

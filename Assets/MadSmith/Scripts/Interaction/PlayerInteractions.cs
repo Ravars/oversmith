@@ -39,7 +39,7 @@ namespace MadSmith.Scripts.Interaction
         }
         private void Interact()
         {
-            Debug.Log("Interact");
+            //Debug.Log("Interact");
             if (_playerInteractableHandler.CurrentInteractable != null)
             {
                 var interactable = _playerInteractableHandler.CurrentInteractable.InteractableHolder;
@@ -100,7 +100,7 @@ namespace MadSmith.Scripts.Interaction
         [ClientRpc]
         void RpcSyncItemOnPlayer(GameObject item,Quaternion quaternion)
         {
-            Debug.Log("Item" + item.name);
+            //Debug.Log("Item" + item.name);
             // Define o item como filho do jogador em cada cliente
             item.transform.SetParent(this.itemHolder);
             item.transform.SetLocalPositionAndRotation(Vector3.zero,quaternion);
@@ -126,7 +126,7 @@ namespace MadSmith.Scripts.Interaction
         [ClientRpc]
         void RpcSyncItemOnTable(Table table, GameObject item,Quaternion quaternion)
         {
-            Debug.Log("Item: " + table.PointToSpawnItem.name);
+            //Debug.Log("Item: " + table.PointToSpawnItem.name);
             // Define o item como filho do jogador em cada cliente
             item.transform.SetParent(table.PointToSpawnItem);
             item.transform.SetLocalPositionAndRotation(Vector3.zero,quaternion);
@@ -135,25 +135,25 @@ namespace MadSmith.Scripts.Interaction
         private void Grab()
         {
             if (!hasAuthority ) return;
-            Debug.Log("Grab" + (_playerInteractableHandler.CurrentInteractable == null));
+            //Debug.Log("Grab" + (_playerInteractableHandler.CurrentInteractable == null));
             if (_playerInteractableHandler.CurrentInteractable != null)
             {
-                Debug.Log("1");
+                //Debug.Log("1");
                 var interactable = _playerInteractableHandler.CurrentInteractable.InteractableHolder;
                 var itemScript = _itemTransform != null ? _itemTransform.GetComponent<Item>() : null;
                 if (interactable.hasTable && itemScript?.baseItem.itemName != "Delivery Box")
                 {
-                    Debug.Log("2");
+                    //Debug.Log("2");
                     // Grab from table - OK
                     if (itemScript == null && interactable.table.HasItem())
                     {
-                        Debug.Log("2.1");
+                        //Debug.Log("2.1");
                         SetBaseItem(interactable.table.num);
                         GetObjectFromTable(interactable.table);
                         return;
                     }
                     
-                    Debug.Log("3");
+                    //Debug.Log("3");
                     // Put On Table - Ok
                     if (_itemTransform != null && interactable.table.CanSetItem(itemScript))
                     {
@@ -172,11 +172,11 @@ namespace MadSmith.Scripts.Interaction
                         }
                     }
 
-                    Debug.Log("4");
+                    //Debug.Log("4");
                     // Merge item - Ok
                     if (itemScript != null && interactable.hasCraftingTable && interactable.table.CanMergeItem(itemScript))
                     {
-                        Debug.Log("4.1");
+                        //Debug.Log("4.1");
                         var itemToSpawn = interactable.table.MergeItem(itemScript);
                         // Destruir o item na mao do player
                         CmdDestroyItem();
@@ -190,7 +190,7 @@ namespace MadSmith.Scripts.Interaction
                         return;
                     }
                 }
-                Debug.Log("5");
+                //Debug.Log("5");
                 //Grab from Dispenser
                 if (interactable.hasDispenser && itemScript == null)
                 {
@@ -215,6 +215,15 @@ namespace MadSmith.Scripts.Interaction
                     {
                         if (interactable.deliveryPlace.DeliverItem(itemScript.baseItem))
                         {
+
+                            //Debug.Log("item delivered");
+                            itemScript = null;
+                            if (_itemTransform != null)
+                            {
+                                CmdDestroyItem();
+                            }
+                            _itemTransform = null;
+                            return;
 						    if (_itemTransform != null)
 						    {
 							    Destroy(_itemTransform.gameObject);
@@ -307,7 +316,7 @@ namespace MadSmith.Scripts.Interaction
         {
             // if (!hasAuthority || _itemTransform == null || objectToMove == null)
             //     return;
-            Debug.Log("GetObjectFromTable");
+            //Debug.Log("GetObjectFromTable");
             CmdGetObjectFromTable(table);
         }
         [Command]
@@ -316,7 +325,7 @@ namespace MadSmith.Scripts.Interaction
             // Verifica se o jogador tem autoridade sobre o objeto
             // if (objectToMove.GetComponent<NetworkIdentity>().connectionToClient != connectionToClient)
             //     return;
-            Debug.Log("CmdGetObjectFromTable");
+            //Debug.Log("CmdGetObjectFromTable");
             // Movimenta o objeto filho para o objeto do cenário
             _itemTransform = table._itemTransform.transform;
             _itemTransform.transform.SetParent(this.itemHolder, true);

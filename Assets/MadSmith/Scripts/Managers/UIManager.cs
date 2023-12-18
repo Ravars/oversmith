@@ -31,7 +31,7 @@ namespace MadSmith.Scripts.Managers
 
         [Header("Listening on")] 
         [SerializeField] private VoidEventChannelSO _onSceneReady = default;
-        // [SerializeField] private FloatEventChannelSO _onLevelCompleted = default;
+        [SerializeField] private FloatEventChannelSO _onLevelCompleted = default;
 
         [Header("Broadcasting on ")]
         [SerializeField] private LoadEventChannelSO _loadMenuEvent = default;
@@ -58,9 +58,9 @@ namespace MadSmith.Scripts.Managers
 
         private void OnEnable()
         {
-            Debug.Log("UI Manager OnEnable");
+            //Debug.Log("UI Manager OnEnable");
             _onSceneReady.OnEventRaised += StartUp;
-            // _onLevelCompleted.OnEventRaised += OpenEndGameScreen;
+            _onLevelCompleted.OnEventRaised += OpenEndGameScreen;
             _inputReader.MenuPauseEvent += OpenUIPause;
             // StartUp();
             // MadSmithNetworkManager.OnServerReadied += MadSmithNetworkManagerOnOnServerReadied;
@@ -69,7 +69,7 @@ namespace MadSmith.Scripts.Managers
         {
             _onSceneReady.OnEventRaised -= StartUp;
             _inputReader.MenuPauseEvent -= OpenUIPause;
-            // _onLevelCompleted.OnEventRaised -= OpenEndGameScreen;
+            _onLevelCompleted.OnEventRaised -= OpenEndGameScreen;
             // MadSmithNetworkManager.OnServerReadied -= MadSmithNetworkManagerOnOnServerReadied;
         }
 
@@ -80,7 +80,7 @@ namespace MadSmith.Scripts.Managers
 
         private void OpenEndGameScreen(float finalScore)
         {
-            StartUp();
+            // StartUp();
             inGameComponent.gameObject.SetActive(false);
             _endGameComponent.Setup((int)finalScore);
             _endGameComponent.Continued += EndGameComponentOnContinued;

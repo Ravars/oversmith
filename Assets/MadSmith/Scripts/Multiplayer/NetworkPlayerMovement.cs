@@ -32,7 +32,7 @@ namespace MadSmith.Scripts.Multiplayer.Old.Player
         }
         public override void OnStartAuthority()
         {
-            Debug.Log("OnStartAuthority");
+            //Debug.Log("OnStartAuthority");
             enabled = true;
             
             // RpcEnableMovement();

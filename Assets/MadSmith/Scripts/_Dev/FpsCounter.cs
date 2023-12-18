@@ -12,7 +12,7 @@ namespace MadSmith.Scripts._Dev
         private void Awake()
         {
             frameDeltaTimeArray = new float[50];
-            Debug.Log("FpsCounter awake");
+            //Debug.Log("FpsCounter awake");
         }
 
         private void Update()

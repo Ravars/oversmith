@@ -1,6 +1,5 @@
 using System;
 using MadSmith.Scripts.Events.ScriptableObjects;
-using MadSmith.Scripts.Managers;
 using MadSmith.Scripts.Multiplayer.Managers;
 using UnityEngine;
 using UnityEngine.SceneManagement;

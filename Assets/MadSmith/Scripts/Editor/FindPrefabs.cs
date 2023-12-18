@@ -41,11 +41,11 @@ public class FindPrefabsWithScript : EditorWindow
         if (prefabsWithScript.Count > 0)
         {
             Selection.objects = prefabsWithScript.ToArray();
-            Debug.Log(prefabsWithScript.Count + " prefab(s) com o script '" + scriptName + "' selecionado(s).");
+            //Debug.Log(prefabsWithScript.Count + " prefab(s) com o script '" + scriptName + "' selecionado(s).");
         }
         else
         {
-            Debug.Log("Nenhum prefab encontrado com o script '" + scriptName + "'.");
+            //Debug.Log("Nenhum prefab encontrado com o script '" + scriptName + "'.");
         }
     }
 }

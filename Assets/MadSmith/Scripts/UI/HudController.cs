@@ -68,10 +68,10 @@ namespace MadSmith.Scripts.UI
 
         private void OnOrderListUpdate(List<OrderTimes> arg0)
         {
-            // for (int i = 0; i < ItemCardHolders.Count; i++)
-            // {
-            //     ItemCardHolders[i].slider.value = arg0.Find(x=> x.Id == ItemCardHolders[i].id).TimeRemaining01;
-            // }
+            for (int i = 0; i < ItemCardHolders.Count; i++)
+            {
+                ItemCardHolders[i].slider.value = arg0.Find(x=> x.Id == ItemCardHolders[i].id).TimeRemaining01;
+            }
         }
 
         private void UpdateEnemyScore(float value)

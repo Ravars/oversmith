@@ -55,7 +55,7 @@ namespace MadSmith.Scripts.Systems.Settings
 
         public void CloseTutorialButton()
         {
-            Debug.Log("Closed");
+            //Debug.Log("Closed");
             Closed?.Invoke();
         }
     }

@@ -522,7 +522,7 @@ namespace MadSmith.Scripts.UI.Managers
         }
         private void OpenLobbiesList()
         {
-            Debug.Log("OpenLobbiesList");
+            //Debug.Log("OpenLobbiesList");
             _mainMenuCamera.SetActive(true);
             uiLobbiesListPanel.gameObject.SetActive(true);
         }

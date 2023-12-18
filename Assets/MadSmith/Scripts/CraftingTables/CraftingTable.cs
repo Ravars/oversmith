@@ -47,10 +47,10 @@ namespace MadSmith.Scripts.CraftingTables
             // {
             //     PlayerInteractionsArray.Add(playerInteraction);
             // }
-            Debug.Log("AddPlayer");
+            //Debug.Log("AddPlayer");
             if (!_craftingInteractionHandler.isRunning)
             {
-                Debug.Log("! running");
+                //Debug.Log("! running");
                 _craftingInteractionHandler.Init(timeToPrepareItem,2);
             }
             // else
@@ -77,7 +77,7 @@ namespace MadSmith.Scripts.CraftingTables
 
         public virtual void ItemAddedToTable()
         {
-            Debug.Log("Item added");
+            //Debug.Log("Item added");
         }
     }
 }
