@@ -6,6 +6,7 @@ using Mirror;
 using Steamworks;
 using TMPro;
 using UnityEngine;
+using UnityEngine.Localization.Components;
 using UnityEngine.UI;
 using TransportLayer = MadSmith.Scripts.Multiplayer.Managers.TransportLayer;
 namespace MadSmith.Scripts.Multiplayer.UI
@@ -21,6 +22,7 @@ namespace MadSmith.Scripts.Multiplayer.UI
         public RawImage PlayerIcon;
         public Image CharacterImage;
         public TextMeshProUGUI PlayerReadyText;
+        public LocalizeStringEvent readyTextLocalize;
         public TextMeshProUGUI CharacterIdText;
         public bool Ready;
         public int CharacterID;
@@ -70,12 +72,12 @@ namespace MadSmith.Scripts.Multiplayer.UI
         {
             if (Ready)
             {
-                PlayerReadyText.text = "Ready";
+                readyTextLocalize.StringReference.TableEntryReference = "Ready";
                 PlayerReadyText.color = Color.green;
             }
             else
             {
-                PlayerReadyText.text = "Not Ready";
+                readyTextLocalize.StringReference.TableEntryReference = "Unready";
                 PlayerReadyText.color = Color.red;
                 
             }

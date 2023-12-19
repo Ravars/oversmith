@@ -11,6 +11,7 @@ using Steamworks;
 using TMPro;
 using UnityEngine;
 using UnityEngine.Events;
+using UnityEngine.Localization.Components;
 using UnityEngine.UI;
 
 namespace MadSmith.Scripts.Multiplayer.Managers
@@ -23,7 +24,8 @@ namespace MadSmith.Scripts.Multiplayer.Managers
         
         //UI Element
         public TextMeshProUGUI LobbyNameText;
-        
+        [SerializeField] private LocalizeStringEvent readyText;
+
         //Player Data
         public GameObject PlayerListViewContent;
         public GameObject PlayerListItemPrefab;
@@ -182,7 +184,10 @@ namespace MadSmith.Scripts.Multiplayer.Managers
         }
         private void UpdateButton()
         {
-            ReadyButtonText.text = LocalPlayer.readyToBegin? "Unready" : "Ready";
+            if (LocalPlayer.readyToBegin)
+                readyText.StringReference.TableEntryReference = "Ready";
+            else
+                readyText.StringReference.TableEntryReference = "Unready";
         }
         
         // private void CheckIfAllReady()
