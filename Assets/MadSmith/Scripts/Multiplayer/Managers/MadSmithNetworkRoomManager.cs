@@ -88,6 +88,13 @@ namespace MadSmith.Scripts.Multiplayer.Managers
         public override bool OnRoomServerSceneLoadedForPlayer(NetworkConnectionToClient conn, GameObject roomPlayer, GameObject gamePlayer)
         {
             Debug.Log("OnRoomServerSceneLoadedForPlayer" + " - " + roomPlayer.name + " - " + gamePlayer.name);
+            MadSmithNetworkRoomPlayer madSmithNetworkRoomPlayer = roomPlayer.GetComponent<MadSmithNetworkRoomPlayer>();
+            NetworkPlayerMovement networkPlayerMovement = gamePlayer.GetComponent<NetworkPlayerMovement>();
+
+            networkPlayerMovement.ConnectionID = madSmithNetworkRoomPlayer.ConnectionID;
+            networkPlayerMovement.CharacterId = madSmithNetworkRoomPlayer.CharacterId;
+            NetworkServer.Destroy(roomPlayer);
+            
             // PlayerScore playerScore = gamePlayer.GetComponent<PlayerScore>();
             // playerScore.index = roomPlayer.GetComponent<NetworkRoomPlayer>().index;
             return true;
@@ -143,18 +150,18 @@ namespace MadSmith.Scripts.Multiplayer.Managers
             SteamLobby.enabled = true;
             _steamManager.enabled = true;
         }
-        public override void OnGUI()
-        {
-            base.OnGUI();
-
-            if (allPlayersReady && _showStartButton && GUI.Button(new Rect(150, 300, 120, 20), "START GAME"))
-            {
-                // set to false to hide it in the game scene
-                _showStartButton = false;
-
-                ServerChangeScene(GameplayScene);
-            }
-        }
+        // public override void OnGUI()
+        // {
+        //     base.OnGUI();
+        //
+        //     if (allPlayersReady && _showStartButton && GUI.Button(new Rect(150, 300, 120, 20), "START GAME"))
+        //     {
+        //         // set to false to hide it in the game scene
+        //         _showStartButton = false;
+        //
+        //         ServerChangeScene(GameplayScene);
+        //     }
+        // }
 
         public override void OnStartServer()
         {
@@ -184,10 +191,10 @@ namespace MadSmith.Scripts.Multiplayer.Managers
             MadSmithNetworkRoomPlayer lobbyClient = Instantiate(roomPlayerPrefab) as MadSmithNetworkRoomPlayer;
             lobbyClient.isLeader = roomSlots.Count == 0;
             lobbyClient.ConnectionID = conn.connectionId;
-            if (TransportLayer == TransportLayer.Steam)
-            {
-                lobbyClient.PlayerSteamID = (ulong) SteamMatchmaking.GetLobbyMemberByIndex((CSteamID)SteamLobby.Instance.currentLobbyID, roomSlots.Count);
-            }
+            // if (TransportLayer == TransportLayer.Steam)
+            // {
+            //     lobbyClient.PlayerSteamID = (ulong) SteamMatchmaking.GetLobbyMemberByIndex((CSteamID)SteamLobby.Instance.currentLobbyID, roomSlots.Count);
+            // }
             NetworkServer.AddPlayerForConnection(conn, lobbyClient.gameObject);
 
             if (!lobbyClient.isServer || GameManager.InstanceExists) return;

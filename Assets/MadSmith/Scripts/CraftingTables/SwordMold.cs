@@ -9,7 +9,7 @@ namespace MadSmith.Scripts.CraftingTables
         protected override void Awake()
         {
             base.Awake();
-            CanAddPlayer = false;
+            CanAddPlayer = true;
         }
         
         public override void ItemAddedToTable()

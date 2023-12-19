@@ -12,21 +12,17 @@ namespace MadSmith.Scripts.Multiplayer.Managers
 {
     public class MadSmithNetworkRoomPlayer : NetworkRoomPlayer
     {
+        // [SyncVar] public ulong PlayerSteamID;
+        // [SyncVar] public string PlayerName;
         [SyncVar] public int ConnectionID;
-        [SyncVar] public ulong PlayerSteamID;
-        [SyncVar] public string PlayerName;
-        // [SyncVar] public bool ready;
-        // [SyncVar] public int CharacterId;
+        [SyncVar(hook = nameof(ChangeCharacter))] public int CharacterId;
+        [SyncVar(hook = nameof(ChangeLevel))] public int LevelSelected;
+        
         [SerializeField] private Button startButton;
-        // [SerializeField] private TextMeshProUGUI readyText;
-        // [SerializeField] private TextMeshProUGUI startButtonText;
         [SerializeField] private GameObject localUI;
         public bool isLeader;
         private const int NumberOfCharacters = 4;
         private const int NumberOfLevels = 9;
-        [SyncVar(hook = nameof(ChangeCharacter))] public int CharacterId;
-        [SyncVar(hook = nameof(ChangeLevel))] public int LevelSelected;
-        // [SyncVar(hook = nameof(PlayerReadyUpdate))] public bool ready;
         
         [Header("Broadcasting ong")]
         [SerializeField] private VoidEventChannelSO onUpdatePlayerList = default;
@@ -43,10 +39,14 @@ namespace MadSmith.Scripts.Multiplayer.Managers
         public override void OnStartClient()
         {
             // Debug.Log($"OnStartClient {gameObject}");
-            startButton.enabled = isServer;
-            if (hasAuthority)
+            // startButton.enabled = isServer;
+            if (hasAuthority && UiRoomManager.InstanceExists)
             {
                 UiRoomManager.Instance.SetLocalPlayer(this);
+            }
+            else
+            {
+                
             }
         }
 
@@ -54,6 +54,10 @@ namespace MadSmith.Scripts.Multiplayer.Managers
         {
             // Debug.Log($"OnClientEnterRoom {SceneManager.GetActiveScene().path}");
             onUpdatePlayerList.RaiseEvent();
+            if (!(hasAuthority && UiRoomManager.InstanceExists))
+            {
+                NetworkClient.Ready();
+            }
         }
 
         public override void OnClientExitRoom()

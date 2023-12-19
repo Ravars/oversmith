@@ -99,9 +99,9 @@ namespace MadSmith.Scripts.Multiplayer.Managers
                 GameObject newPlayerItem = Instantiate(PlayerListItemPrefab, PlayerListViewContent.transform, true) as GameObject;
                 PlayerListItem newPlayerItemScript = newPlayerItem.GetComponent<PlayerListItem>();
                 
-                newPlayerItemScript.PlayerName = player.PlayerName;
+                // newPlayerItemScript.PlayerName = player.PlayerName;
                 newPlayerItemScript.ConnectionID = player.ConnectionID;
-                newPlayerItemScript.PlayerSteamID = player.PlayerSteamID;
+                // newPlayerItemScript.PlayerSteamID = player.PlayerSteamID;
                 newPlayerItemScript.Ready = player.readyToBegin;
                 newPlayerItemScript.SetPlayerValues();
 
@@ -121,9 +121,9 @@ namespace MadSmith.Scripts.Multiplayer.Managers
                     GameObject newPlayerItem = Instantiate(PlayerListItemPrefab, PlayerListViewContent.transform, true) as GameObject;
                     PlayerListItem newPlayerItemScript = newPlayerItem.GetComponent<PlayerListItem>();
 
-                    newPlayerItemScript.PlayerName = player.PlayerName;
+                    // newPlayerItemScript.PlayerName = player.PlayerName;
                     newPlayerItemScript.ConnectionID = player.ConnectionID;
-                    newPlayerItemScript.PlayerSteamID = player.PlayerSteamID;
+                    // newPlayerItemScript.PlayerSteamID = player.PlayerSteamID;
                     newPlayerItemScript.SetPlayerValues();
 
                     newPlayerItem.transform.localScale = Vector3.one;
@@ -167,7 +167,7 @@ namespace MadSmith.Scripts.Multiplayer.Managers
                 {
                     if (playerListItemScript.ConnectionID == player.ConnectionID)
                     {
-                        playerListItemScript.PlayerName = player.PlayerName;
+                        // playerListItemScript.PlayerName = player.PlayerName;
                         playerListItemScript.Ready = player.readyToBegin;
                         playerListItemScript.CharacterID = player.CharacterId;
                         playerListItemScript.SetPlayerValues();

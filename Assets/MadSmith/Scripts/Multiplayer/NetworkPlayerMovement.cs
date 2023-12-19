@@ -1,14 +1,17 @@
 using MadSmith.Scripts.Events.ScriptableObjects;
 using MadSmith.Scripts.Input;
 using MadSmith.Scripts.Multiplayer.Managers;
-using MadSmith.Scripts.Multiplayer.Old.Managers;
 using Mirror;
 using UnityEngine;
 
-namespace MadSmith.Scripts.Multiplayer.Old.Player
+namespace MadSmith.Scripts.Multiplayer
 {
     public class NetworkPlayerMovement : NetworkBehaviour
     {
+        [SyncVar] public int ConnectionID;
+        [SyncVar] public int CharacterId;
+        
+        
         public float smoothing = 5f;
         [SerializeField] private float moveSpeed = 10f;
         [SerializeField] private InputReader inputReader;

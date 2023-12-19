@@ -37,23 +37,12 @@ namespace MadSmith.Scripts.Managers
         [SerializeField] private LoadEventChannelSO _loadMenuEvent = default;
         [SerializeField] private LoadEventChannelSO _loadNextLevel = default;
         [SerializeField] private VoidEventChannelSO _onGameStart = default;
-        // private MadSmithNetworkRoomManager _manager;
-        // private MadSmithNetworkRoomManager Manager
-        // { get {
-        //         if (!ReferenceEquals(_manager, null)) return _manager;
-        //         return _manager = NetworkManager.singleton as MadSmithNetworkRoomManager;
-        //     }
-        // }
 
         private void Awake()
         {
             CloseAll();
             inGameComponent.gameObject.SetActive(true);
-        }
-
-        private void Start()
-        {
-            // DontDestroyOnLoad(gameObject);
+            inGameComponent.hudPanel.gameObject.SetActive(false);
         }
 
         private void OnEnable()
@@ -81,7 +70,7 @@ namespace MadSmith.Scripts.Managers
         private void OpenEndGameScreen(float finalScore)
         {
             // StartUp();
-            inGameComponent.gameObject.SetActive(false);
+            inGameComponent.hudPanel.gameObject.SetActive(false);
             _endGameComponent.Setup((int)finalScore);
             _endGameComponent.Continued += EndGameComponentOnContinued;
             _endGameComponent.BackToMenuClicked += ShowBackToMenuConfirmationPopup;
@@ -89,6 +78,7 @@ namespace MadSmith.Scripts.Managers
         }
         
 
+        [ContextMenu("JumpNextLevel")]
         private void EndGameComponentOnContinued()
         {
             _endGameComponent.Continued -= EndGameComponentOnContinued;
@@ -107,7 +97,7 @@ namespace MadSmith.Scripts.Managers
         private void CloseAll()
         {
             _inputReader.EnableDialogueInput();
-            inGameComponent.gameObject.SetActive(false);
+            inGameComponent.hudPanel.gameObject.SetActive(false);
             inGameTutorialComponent.gameObject.SetActive(false);
             _endGameComponent.gameObject.SetActive(false);
             _popupPanel.gameObject.SetActive(false);
@@ -140,7 +130,7 @@ namespace MadSmith.Scripts.Managers
             pauseScreen.BackToMainRequested += ShowBackToMenuConfirmationPopup;//once the UI Pause popup is open, listen to back to menu button
             pauseScreen.Resumed += CloseUIPause;//once the UI Pause popup is open, listen to unpause event
 
-            inGameComponent.gameObject.SetActive(false);
+            inGameComponent.hudPanel.gameObject.SetActive(false);
             pauseScreen.gameObject.SetActive(true);
 
             _inputReader.EnableMenuInput();
@@ -158,7 +148,7 @@ namespace MadSmith.Scripts.Managers
             pauseScreen.Resumed -= CloseUIPause;//once the UI Pause popup is open, listen to unpause event
 
             pauseScreen.gameObject.SetActive(false);
-            inGameComponent.gameObject.SetActive(true);
+            inGameComponent.hudPanel.gameObject.SetActive(true);
 
             _gameStateManager.ResetToPreviousGameState();
 		

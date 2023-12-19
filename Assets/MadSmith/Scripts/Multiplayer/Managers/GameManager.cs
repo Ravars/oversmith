@@ -65,7 +65,7 @@ namespace MadSmith.Scripts.Multiplayer.Managers
         {
             string newSceneName = ((LocationSO)arg0).sceneName;
             Debug.Log("newSceneName; " + newSceneName);
-            Manager.GameplayScene = newSceneName;
+            // Manager.GameplayScene = newSceneName;
             Manager.ServerChangeScene(newSceneName);
         }
 

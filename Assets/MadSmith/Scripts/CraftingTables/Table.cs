@@ -14,7 +14,7 @@ namespace MadSmith.Scripts.CraftingTables
     {
         [SyncVar] private GameObject _itemObject;
         public Item ItemScript { get; private set; }
-        [SyncVar] public int num;
+        // [SyncVar] public int num;
         private InteractableHolder _interactableHolder;
         [field: SerializeField] public Transform PointToSpawnItem { get; private set; }
 
@@ -92,7 +92,7 @@ namespace MadSmith.Scripts.CraftingTables
                 {
                     canMerge = process.itemsNeeded.All(itemNeeded => itemsInUse.Contains(itemNeeded));
                 }
-                if (canMerge)
+                if (canMerge && _interactableHolder.craftingTable.type == process.craftingTable)
                 {
                     return true;
                 }
@@ -103,23 +103,26 @@ namespace MadSmith.Scripts.CraftingTables
 
         public int MergeItem(Item newItem)
         {
-            var itemScript = _itemObject.GetComponent<Item>();
+            // var itemScript = _itemObject.GetComponent<Item>();
             BaseItem[] itemsInUse = {
                 newItem.baseItem,
-                itemScript.baseItem
+                ItemScript.baseItem
             };
-            Process[] processes = newItem.baseItem.processes.Concat(itemScript.baseItem.processes).ToArray();
+            Process[] processes = newItem.baseItem.processes.Concat(ItemScript.baseItem.processes).ToArray();
             
             foreach (var process in processes)
             {
+                Debug.Log("A");
                 var canMerge = false;
                 if (process.itemsNeeded.Length > 0)
                 {
                     canMerge = process.itemsNeeded.All(itemNeeded => itemsInUse.Contains(itemNeeded));
                 }
-                if (canMerge)
+
+                Debug.Log("B");
+                if (canMerge && _interactableHolder.craftingTable.type == process.craftingTable)
                 {
-                    
+                    Debug.Log("C: " + process.itemGenerated.id);
                     // AlertMessageManager.Instance.SpawnAlertMessage($"Item {process.itemGenerated.itemName} construído com sucesso.", MessageType.Normal);
                     // DestroyItem();
                     // Destroy(newItem.transform);
