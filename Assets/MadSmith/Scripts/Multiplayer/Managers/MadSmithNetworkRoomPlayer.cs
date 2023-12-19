@@ -56,10 +56,15 @@ namespace MadSmith.Scripts.Multiplayer.Managers
             onUpdatePlayerList.RaiseEvent();
             if (!(hasAuthority && UiRoomManager.InstanceExists))
             {
-                NetworkClient.Ready();
+                Debug.Log("OnClientEnterRoom");
+                Invoke(nameof(TestReady), 2f);
             }
         }
 
+        private void TestReady()
+        {
+            NetworkClient.Ready();
+        }
         public override void OnClientExitRoom()
         {
             // Debug.Log($"OnClientExitRoom {SceneManager.GetActiveScene().path}");

@@ -155,13 +155,17 @@ namespace MadSmith.Scripts.Interaction
                     // Put On Table - Ok
                     if (_itemTransform != null && interactable.table.CanSetItem(itemScript))
                     {
-                        if (!isLocalPlayer) return;
+                        Debug.Log("1");
+                        // if (!isLocalPlayer) return;
+                        Debug.Log("2");
                         if (_itemTransform != null && interactable.table != null)
                         {
+                            Debug.Log("3");
                             _itemTransform.transform.SetParent(null);
                             var networkIdentity = _itemTransform.GetComponent<NetworkIdentity>();
                             if (networkIdentity != null)
                             {
+                                Debug.Log("4");
                                 if (!interactable.table.CanMergeItem(itemScript))
                                 {
                                     MoveObjectToSceneObject(interactable.table, _baseItemHoldingId);

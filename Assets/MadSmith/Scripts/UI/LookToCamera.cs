@@ -15,6 +15,7 @@ namespace MadSmith.Scripts.UI
         // Update is called once per frame
         void LateUpdate()
         {
+            if (rotationObject == null) return;
             rotationObject.transform.right = _cameraLocation.right;
             rotationObject.transform.up = _cameraLocation.up;
             // rotationObject.transform.LookAt(_cameraLocation);

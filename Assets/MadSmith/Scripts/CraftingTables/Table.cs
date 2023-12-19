@@ -43,24 +43,24 @@ namespace MadSmith.Scripts.CraftingTables
 
         public bool CanSetItem(Item newItem)
         {
-                //Debug.Log("CanSetItem");
+                Debug.Log("CanSetItem");
             if (_itemObject == null && !_interactableHolder.hasCraftingTable)
             {
                 return true;
             }
             if (_interactableHolder.hasCraftingTable)
             {
-                // Debug.Log("CanSetItem 1");
+                Debug.Log("CanSetItem 1");
                 if (_itemObject == null)
                 {
                     return true;
                 }
-                // Debug.Log("CanSetItem 2");
+                Debug.Log("CanSetItem 2");
                 
                 
                 foreach (var process in newItem.baseItem.processes)
                 {
-                    //Debug.Log("process: "+process.craftingTable);
+                    Debug.Log("process: "+process.craftingTable);
                     if (process.craftingTable == _interactableHolder.craftingTable.type && process.craftingTable != CraftingTableType.WorkingTable)
                     {
                         return true;

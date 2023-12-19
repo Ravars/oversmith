@@ -185,9 +185,9 @@ namespace MadSmith.Scripts.Multiplayer.Managers
         private void UpdateButton()
         {
             if (LocalPlayer.readyToBegin)
-                readyText.StringReference.TableEntryReference = "Ready";
-            else
                 readyText.StringReference.TableEntryReference = "Unready";
+            else
+                readyText.StringReference.TableEntryReference = "Ready";
         }
         
         // private void CheckIfAllReady()

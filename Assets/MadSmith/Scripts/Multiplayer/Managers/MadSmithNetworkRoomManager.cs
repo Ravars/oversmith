@@ -87,17 +87,22 @@ namespace MadSmith.Scripts.Multiplayer.Managers
         /// <returns>true unless some code in here decides it needs to abort the replacement</returns>
         public override bool OnRoomServerSceneLoadedForPlayer(NetworkConnectionToClient conn, GameObject roomPlayer, GameObject gamePlayer)
         {
-            Debug.Log("OnRoomServerSceneLoadedForPlayer" + " - " + roomPlayer.name + " - " + gamePlayer.name);
-            MadSmithNetworkRoomPlayer madSmithNetworkRoomPlayer = roomPlayer.GetComponent<MadSmithNetworkRoomPlayer>();
-            NetworkPlayerMovement networkPlayerMovement = gamePlayer.GetComponent<NetworkPlayerMovement>();
+            if (GameManager.Instance.GetCurrentScene().sceneType != GameSceneType.Location)
+            {
+                Debug.Log("OnRoomServerSceneLoadedForPlayer" + " - " + roomPlayer.name + " - " + gamePlayer.name);
+                MadSmithNetworkRoomPlayer madSmithNetworkRoomPlayer = roomPlayer.GetComponent<MadSmithNetworkRoomPlayer>();
+                NetworkPlayerMovement networkPlayerMovement = gamePlayer.GetComponent<NetworkPlayerMovement>();
 
-            networkPlayerMovement.ConnectionID = madSmithNetworkRoomPlayer.ConnectionID;
-            networkPlayerMovement.CharacterId = madSmithNetworkRoomPlayer.CharacterId;
-            NetworkServer.Destroy(roomPlayer);
-            
-            // PlayerScore playerScore = gamePlayer.GetComponent<PlayerScore>();
-            // playerScore.index = roomPlayer.GetComponent<NetworkRoomPlayer>().index;
-            return true;
+                networkPlayerMovement.ConnectionID = madSmithNetworkRoomPlayer.ConnectionID;
+                networkPlayerMovement.CharacterId = madSmithNetworkRoomPlayer.CharacterId;
+                NetworkServer.Destroy(roomPlayer);
+                
+                // PlayerScore playerScore = gamePlayer.GetComponent<PlayerScore>();
+                // playerScore.index = roomPlayer.GetComponent<NetworkRoomPlayer>().index;
+                return true;
+            }
+
+            return false;
         }
 
         public override void OnRoomClientSceneChanged()

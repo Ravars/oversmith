@@ -48,9 +48,10 @@ namespace MadSmith.Scripts.Multiplayer
             //Debug.Log("CMD Scene ready");
             // Manager.ClientSceneReady();
         }
-        private void Start()
+
+        public override void OnStartClient()
         {
-            //Debug.Log("Start");
+            base.OnStartClient();
             _onGameStart.OnEventRaised += OnStartGame;
             // DontDestroyOnLoad(gameObject);
         }

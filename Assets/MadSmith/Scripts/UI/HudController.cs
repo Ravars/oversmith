@@ -68,7 +68,7 @@ namespace MadSmith.Scripts.UI
 
         private void OnOrderListUpdate(List<OrderTimes> arg0)
         {
-            Debug.Log("arg0: " + arg0);
+            // Debug.Log("arg0: " + arg0);
             if (ItemCardHolders == null || ItemCardHolders.Count == 0) return;
             for (int i = 0; i < ItemCardHolders.Count; i++)
             {
