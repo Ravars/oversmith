@@ -8,6 +8,7 @@ using MadSmith.Scripts.Systems.Settings;
 using MadSmith.Scripts.Utils;
 using Mirror;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 namespace MadSmith.Scripts.Multiplayer.Managers
 {
@@ -88,7 +89,8 @@ namespace MadSmith.Scripts.Multiplayer.Managers
         public GameSceneSO GetCurrentScene()
         {
             Debug.Log("Get current scene");
-            return sceneSos[currentSceneIndex];
+            var gameSceneSo = sceneSos.First(x => x.sceneId == SceneManager.GetActiveScene().buildIndex);
+            return gameSceneSo;
         }
         
         public static string CalculateScore(int finalScore)

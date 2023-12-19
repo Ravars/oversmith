@@ -63,8 +63,17 @@ namespace MadSmith.Scripts.Multiplayer.Managers
         private void Setup()
         {
             Debug.Log("Start order manager");
+            
+        }
+        private void StartGame() 
+        {
+            // show hud
+            if (!isServer) return;
+            _timeToSpawn = Time.fixedTime + firstOrderDelay;
+            _hasBeenStarted = true;
+            _currentTime = timeToDeliver;
             var currentSceneSo = GameManager.Instance.GetCurrentScene();
-            //Debug.Log("CurrentSceneSo" + currentSceneSo.name);
+            Debug.Log("CurrentSceneSo" + currentSceneSo.name);
             if (currentSceneSo.sceneType == GameSceneType.Location)
             {
                 var location = (LocationSO)currentSceneSo;
@@ -74,15 +83,6 @@ namespace MadSmith.Scripts.Multiplayer.Managers
             {
                 return;
             }
-        }
-        private void StartGame() 
-        {
-            // show hud
-            if (!isServer) return;
-            _timeToSpawn = Time.fixedTime + firstOrderDelay;
-            _hasBeenStarted = true;
-            _currentTime = timeToDeliver;
-            
             UpdateTimers(currentOrderListTimes, (int)_currentTime);
         }
         
