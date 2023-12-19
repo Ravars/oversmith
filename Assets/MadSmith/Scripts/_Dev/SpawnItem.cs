@@ -15,15 +15,15 @@ namespace MadSmith.Scripts._Dev
             _playerInteractableHandler = GetComponent<PlayerInteractableHandler>();
         }
 
-        [ContextMenu("Spawn item on current table")]
-        public void SpawnItemOnCurrentTable()
-        {
-            if (_playerInteractableHandler.CurrentInteractable != null
-                && _playerInteractableHandler.CurrentInteractable.InteractableHolder.hasTable
-                && _playerInteractableHandler.CurrentInteractable.InteractableHolder.table.ItemScript == null)
-            {
-                _playerInteractableHandler.CurrentInteractable.InteractableHolder.table.CraftItem(baseItem);
-            }
-        }
+        // [ContextMenu("Spawn item on current table")]
+        // public void SpawnItemOnCurrentTable()
+        // {
+        //     if (_playerInteractableHandler.CurrentInteractable != null
+        //         && _playerInteractableHandler.CurrentInteractable.InteractableHolder.hasTable
+        //         && _playerInteractableHandler.CurrentInteractable.InteractableHolder.table.ItemScript == null)
+        //     {
+        //         _playerInteractableHandler.CurrentInteractable.InteractableHolder.table.CraftItem(baseItem);
+        //     }
+        // }
     }
 }

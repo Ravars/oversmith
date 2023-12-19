@@ -23,11 +23,10 @@ namespace MadSmith.Scripts.Interaction
         // [field: SerializeField] public float CurrentTimeToPrepareItem { get; private set; }
         [field: SerializeField] private float _speed;
         [SyncVar] public bool isRunning;
-        [SyncVar] private float currentTime;
-        public Slider Slider;
+        // [SyncVar] private float currentTime;
 
-        [SyncVar] private GameObject _itemObject;
-        private Item _itemScript;
+        // [SyncVar] private GameObject _itemObject;
+        // private Item _itemScript;
         
         
         private void Awake()
@@ -36,11 +35,11 @@ namespace MadSmith.Scripts.Interaction
             _craftingTable = GetComponent<CraftingTable>();
         }
 
-        public void SetObject(GameObject itemObject)
-        {
-            _itemObject = itemObject;
-            _itemScript = _itemObject.GetComponent<Item>();
-        }
+        // public void SetObject(GameObject itemObject)
+        // {
+        //     _itemObject = itemObject;
+        //     _itemScript = _itemObject.GetComponent<Item>();
+        // }
 
         public void Init(float timeToPrepareItem, float speed, int numberOfPlayer = 1)
         {
@@ -49,12 +48,12 @@ namespace MadSmith.Scripts.Interaction
             {
                 //Debug.Log("1");
                     
-                var itemScript = _table._itemTransform.GetComponent<Item>();
-                if (itemScript.baseItem.processes.Length <= 0) return;
+                // var itemScript = _table._itemTransform.GetComponent<Item>();
+                if (_table.ItemScript.baseItem.processes.Length <= 0) return;
                 //Debug.Log("2");
                 
                 Process? a = null;
-                foreach (var process in itemScript.baseItem.processes)
+                foreach (var process in _table.ItemScript.baseItem.processes)
                 {
                     if (process.craftingTable == _craftingTable.type)
                     {
@@ -88,11 +87,11 @@ namespace MadSmith.Scripts.Interaction
                 enabled = true;
                 _craftingTable.SetParticlesState(true);
                 _craftingTable._audioSource.Play();
-                _itemScript = itemScript;
-                currentTime = 0;
-                if(_itemScript.slider != null)
+                // _itemScript = itemScript;
+                _table.ItemScript.CurrentProcessTimeNormalized = 0;
+                if(_table.ItemScript.slider != null)
                 {
-                    _itemScript.slider.gameObject.SetActive(true);
+                    _table.ItemScript.slider.gameObject.SetActive(true);
                 }
             }
         }
@@ -105,7 +104,7 @@ namespace MadSmith.Scripts.Interaction
 
             if (isServer)
             {
-                if (_table._itemTransform == null)
+                if (_table.ItemScript == null)
                 {
                     isRunning = false;
                     enabled = false;
@@ -113,11 +112,11 @@ namespace MadSmith.Scripts.Interaction
                     _craftingTable._audioSource.Stop();
                     return;
                 };
-                if (_itemScript.CurrentProcessTimeNormalized >= 1)
+                if (_table.ItemScript.CurrentProcessTimeNormalized >= 1)
                 {
                     
                     //Debug.Log("Finished");
-                    foreach (var process in _itemScript.baseItem.processes)
+                    foreach (var process in _table.ItemScript.baseItem.processes)
                     {
                         if (process.craftingTable == _craftingTable.type)
                         {
@@ -133,12 +132,12 @@ namespace MadSmith.Scripts.Interaction
                         }
                     }
                 }
-                _itemScript.CurrentProcessTimeNormalized += (Time.deltaTime * _numberOfPlayer * _speed) / _timeToPrepareItem;
+                _table.ItemScript.CurrentProcessTimeNormalized += (Time.deltaTime * _numberOfPlayer * _speed) / _timeToPrepareItem;
             }
 
             if (isClient)
             {
-                _itemScript.slider.value = _itemScript.CurrentProcessTimeNormalized;
+                _table.ItemScript.slider.value = _table.ItemScript.CurrentProcessTimeNormalized;
             }
         }
 
@@ -150,7 +149,7 @@ namespace MadSmith.Scripts.Interaction
             Quaternion quaternion = item.transform.rotation;
             NetworkServer.Spawn(item);
             //Debug.Log("Spawn new item");
-            NetworkServer.Destroy(_table._itemTransform.gameObject);
+            NetworkServer.Destroy(_table.ItemScript.gameObject);
             // _table._itemTransform = item.transform;
             ClientRpcSyncItem(item, quaternion);
         }
@@ -160,7 +159,8 @@ namespace MadSmith.Scripts.Interaction
         {
             item.transform.SetParent(_table.PointToSpawnItem);
             item.transform.SetLocalPositionAndRotation(Vector3.zero, quaternion);
-            _table._itemTransform = item.transform;
+            // _table.ItemScript = item.transform;
+            _table.SetObject(item);
             //Debug.Log("ClientRpcSyncItem");
         }
     }

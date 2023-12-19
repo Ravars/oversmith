@@ -88,8 +88,6 @@ namespace MadSmith.Scripts.Multiplayer.Managers
         public override bool OnRoomServerSceneLoadedForPlayer(NetworkConnectionToClient conn, GameObject roomPlayer, GameObject gamePlayer)
         {
             Debug.Log("OnRoomServerSceneLoadedForPlayer" + " - " + roomPlayer.name + " - " + gamePlayer.name);
-            // gamePlayer = playerTest;
-            // playerPrefab = playerTest;
             // PlayerScore playerScore = gamePlayer.GetComponent<PlayerScore>();
             // playerScore.index = roomPlayer.GetComponent<NetworkRoomPlayer>().index;
             return true;
@@ -162,7 +160,6 @@ namespace MadSmith.Scripts.Multiplayer.Managers
         {
             base.OnStartServer();
             spawnPrefabs = Resources.LoadAll<GameObject>(ResourcesPath).ToList();
-            //Debug.Log("Start client: " + spawnPrefabs.Count);
         }
 
         public override void OnStartClient()
@@ -172,16 +169,11 @@ namespace MadSmith.Scripts.Multiplayer.Managers
             {
                 base.OnStartClient();
                 var spawnablePrefabs = Resources.LoadAll<GameObject>(ResourcesPath);
-                //Debug.Log("Start client: " + spawnablePrefabs.Length);
                 foreach (var spawnablePrefab in spawnablePrefabs)
                 {
                     NetworkClient.RegisterPrefab(spawnablePrefab);
                 }
             }
-
-            //Debug.Log("gameManagerInstance");
-            
-            
         }
         
         public override void OnServerAddPlayer(NetworkConnectionToClient conn)

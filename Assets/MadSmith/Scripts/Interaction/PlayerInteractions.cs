@@ -39,7 +39,6 @@ namespace MadSmith.Scripts.Interaction
         }
         private void Interact()
         {
-            //Debug.Log("Interact");
             if (_playerInteractableHandler.CurrentInteractable != null)
             {
                 var interactable = _playerInteractableHandler.CurrentInteractable.InteractableHolder;
@@ -60,7 +59,7 @@ namespace MadSmith.Scripts.Interaction
         [Command]
         public void CmdAddPlayerCraftingTable(InteractableHolder interactableHolder)
         {
-            interactableHolder.craftingTable._craftingInteractionHandler.SetObject(interactableHolder.table._itemTransform.GetComponent<Item>().gameObject);
+            // interactableHolder.craftingTable._craftingInteractionHandler.SetObject(interactableHolder.table._itemTransform.GetComponent<Item>().gameObject);
             // interactableHolder.craftingTable._craftingInteractionHandler.Slider = .slider;
             interactableHolder.craftingTable.AddPlayer();
             RpcAddPlayerCraftingTable(interactableHolder);
@@ -69,7 +68,7 @@ namespace MadSmith.Scripts.Interaction
         [ClientRpc]
         public void RpcAddPlayerCraftingTable(InteractableHolder interactableHolder)
         {
-            interactableHolder.craftingTable._craftingInteractionHandler.SetObject(interactableHolder.table._itemTransform.GetComponent<Item>().gameObject);
+            // interactableHolder.craftingTable._craftingInteractionHandler.SetObject(interactableHolder.table._itemTransform.GetComponent<Item>().gameObject);
             // interactableHolder.craftingTable._craftingInteractionHandler.Slider = interactableHolder.table._itemTransform.GetComponent<Item>().slider;
             interactableHolder.craftingTable.AddPlayer();
         }
@@ -117,7 +116,6 @@ namespace MadSmith.Scripts.Interaction
             {
                 var baseItem = BaseItemsManager.Instance.GetBaseItemById(itemId);
                 GameObject itemGameObject = Instantiate(baseItem.prefab, table.PointToSpawnItem.position, Quaternion.identity, table.PointToSpawnItem);
-                table._itemTransform = itemGameObject.transform;
                 Quaternion quaternion = itemGameObject.transform.rotation;
                 NetworkServer.Spawn(itemGameObject);
                 RpcSyncItemOnTable(table, itemGameObject,quaternion);
@@ -131,6 +129,7 @@ namespace MadSmith.Scripts.Interaction
             item.transform.SetParent(table.PointToSpawnItem);
             item.transform.SetLocalPositionAndRotation(Vector3.zero,quaternion);
             item.transform.localScale = Vector3.one;
+            table.SetObject(item);
         }
         private void Grab()
         {
@@ -182,8 +181,8 @@ namespace MadSmith.Scripts.Interaction
                         CmdDestroyItem();
                         _itemTransform = null;
                         // Destruir o item na mesa
-                        CmdDestroyItem(interactable.table._itemTransform.gameObject);
-                        interactable.table._itemTransform = null;
+                        CmdDestroyItem(interactable.table.ItemScript.gameObject);
+                        // interactable.table._itemTransform = null;
                         // Spawnar item
                         // Mover o item para a mesa
                         CmdSpawnItemOnTable(interactable.table, itemToSpawn);
@@ -287,26 +286,28 @@ namespace MadSmith.Scripts.Interaction
             CmdMoveObjectToScene(_itemTransform.gameObject, sceneObject, itemId);
         }
         [Command]
-        void CmdMoveObjectToScene(GameObject objectToMove, Table sceneObject, int itemId)
+        void CmdMoveObjectToScene(GameObject objectToMove, Table table, int itemId)
         {
             // Verifica se o jogador tem autoridade sobre o objeto
             // if (objectToMove.GetComponent<NetworkIdentity>().connectionToClient != connectionToClient)
             //     return;
 
             // Movimenta o objeto filho para o objeto do cenário
-            objectToMove.transform.SetParent(sceneObject.PointToSpawnItem, true);
+            objectToMove.transform.SetParent(table.PointToSpawnItem, true);
             objectToMove.transform.SetLocalPositionAndRotation(Vector3.zero, Quaternion.identity);
-            sceneObject.num = itemId;
-            sceneObject._itemTransform = objectToMove.transform;
-            RpcSyncMovedObject(objectToMove, sceneObject,itemId);
+            table.num = itemId;
+            table.SetObject(objectToMove);
+            // sceneObject._itemTransform = objectToMove.transform;
+            RpcSyncMovedObject(objectToMove, table,itemId);
         }
         [ClientRpc]
-        void RpcSyncMovedObject(GameObject movedObject, Table sceneObject, int itemId)
+        void RpcSyncMovedObject(GameObject movedObject, Table table, int itemId)
         {
             // Atualiza a posição do objeto movido em todos os clientes
-            sceneObject.num = itemId;
-            sceneObject._itemTransform = movedObject.transform;
-            movedObject.transform.SetParent(sceneObject.PointToSpawnItem, true);
+            table.num = itemId;
+            table.SetObject(movedObject);
+            // sceneObject._itemTransform = movedObject.transform;
+            movedObject.transform.SetParent(table.PointToSpawnItem, true);
             movedObject.transform.SetLocalPositionAndRotation(Vector3.zero, Quaternion.identity);
         }
         #endregion
@@ -325,9 +326,9 @@ namespace MadSmith.Scripts.Interaction
             // Verifica se o jogador tem autoridade sobre o objeto
             // if (objectToMove.GetComponent<NetworkIdentity>().connectionToClient != connectionToClient)
             //     return;
-            //Debug.Log("CmdGetObjectFromTable");
+            Debug.Log("CmdGetObjectFromTable");
             // Movimenta o objeto filho para o objeto do cenário
-            _itemTransform = table._itemTransform.transform;
+            _itemTransform = table.ItemScript.transform;
             _itemTransform.transform.SetParent(this.itemHolder, true);
             _itemTransform.transform.SetLocalPositionAndRotation(Vector3.zero, Quaternion.identity);
             // sceneObject._itemTransform = objectToMove.transform;
@@ -338,10 +339,11 @@ namespace MadSmith.Scripts.Interaction
         void RpcGetObjectFromTable(Table table)
         {
             // Atualiza a posição do objeto movido em todos os clientes
-            _itemTransform = table._itemTransform.transform;
+            _itemTransform = table.ItemScript.transform;
             _itemTransform.transform.SetParent(this.itemHolder, true);
             _itemTransform.transform.SetLocalPositionAndRotation(Vector3.zero, Quaternion.identity);
-            table._itemTransform = null;
+            table.SetObject(null);
+            // table._itemTransform = null;
         }
 
         #endregion
