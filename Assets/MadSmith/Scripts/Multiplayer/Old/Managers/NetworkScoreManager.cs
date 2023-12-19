@@ -20,7 +20,7 @@ namespace MadSmith.Scripts.Multiplayer.Old.Managers
         
         [Header("Listening to")]
         [SerializeField] private IntEventChannelSO onCountdownTimerUpdated;
-        [SerializeField] private OrderUpdateEventChannelSO onMissedOrder;
+        [SerializeField] private VoidEventChannelSO onMissedOrder;
         [SerializeField] private OrderUpdateEventChannelSO onDeliveryOrder;
         
         [Header("Broadcasting to")]
@@ -85,7 +85,7 @@ namespace MadSmith.Scripts.Multiplayer.Old.Managers
                 _isScoring = false;
             }
         }
-        private void ApplyPenalty(OrderData orderData)
+        private void ApplyPenalty()
         {
             if (!isServer) return;
             _playerScore = Mathf.Max(_playerScore - orderPoints * penaltyCost, 0);

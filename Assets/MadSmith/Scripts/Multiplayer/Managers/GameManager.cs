@@ -1,4 +1,5 @@
 using System;
+using System.Linq;
 using MadSmith.Scripts.Events.ScriptableObjects;
 using MadSmith.Scripts.Managers;
 using MadSmith.Scripts.SavingSystem;
@@ -66,16 +67,18 @@ namespace MadSmith.Scripts.Multiplayer.Managers
             string newSceneName = ((LocationSO)arg0).sceneName;
             Debug.Log("newSceneName; " + newSceneName);
             // Manager.GameplayScene = newSceneName;
+            currentSceneIndex = ((int)arg0.level)-1;
             Manager.ServerChangeScene(newSceneName);
         }
 
         private void OnLevelCompleted(float finalScore)
         {
+            Debug.Log("OnLevelCompleted" + currentSceneIndex);
             currentGameData.SaveLevelScore((Levels)currentSceneIndex,(int)finalScore); // change to game manager
             _saveGameData.RaiseEvent();
         }
 
-        // [Command]
+        [Command]
         public void SetGameSceneSo(int gameSceneIndex)
         {
             currentSceneIndex = gameSceneIndex;
@@ -84,6 +87,7 @@ namespace MadSmith.Scripts.Multiplayer.Managers
 
         public GameSceneSO GetCurrentScene()
         {
+            Debug.Log("Get current scene");
             return sceneSos[currentSceneIndex];
         }
         

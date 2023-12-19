@@ -44,26 +44,13 @@ namespace MadSmith.Scripts.Multiplayer.Managers
             {
                 UiRoomManager.Instance.SetLocalPlayer(this);
             }
-            else
-            {
-                
-            }
         }
 
         public override void OnClientEnterRoom()
         {
             // Debug.Log($"OnClientEnterRoom {SceneManager.GetActiveScene().path}");
             onUpdatePlayerList.RaiseEvent();
-            if (!(hasAuthority && UiRoomManager.InstanceExists))
-            {
-                Debug.Log("OnClientEnterRoom");
-                Invoke(nameof(TestReady), 2f);
-            }
-        }
-
-        private void TestReady()
-        {
-            NetworkClient.Ready();
+            
         }
         public override void OnClientExitRoom()
         {
@@ -210,12 +197,6 @@ namespace MadSmith.Scripts.Multiplayer.Managers
         }
 
         #endregion
-
-        [ContextMenu("Test")]
-        public void Test()
-        {
-            //Debug.Log(GameManager.Instance.CurrentSceneSo.name + " - " + GameManager.Instance.currentSceneIndex);
-        }
         
     }
 }

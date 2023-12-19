@@ -39,15 +39,19 @@ namespace MadSmith.Scripts.Interaction
         }
         private void Interact()
         {
+            Debug.Log("_playerInteractableHandler.CurrentInteractable");
             if (_playerInteractableHandler.CurrentInteractable != null)
             {
+                Debug.Log("2");
                 var interactable = _playerInteractableHandler.CurrentInteractable.InteractableHolder;
                 if (interactable.hasCraftingTable && interactable.craftingTable.CanAddPlayer)
                 {
+                    Debug.Log("3");
                     // interactable.craftingTable.AddPlayer();
                     CmdAddPlayerCraftingTable(interactable);
                 }
                 
+                    Debug.Log("4");
                 if (interactable.hasInteractable)
                 {
                     interactable.interactable.Interact(this);

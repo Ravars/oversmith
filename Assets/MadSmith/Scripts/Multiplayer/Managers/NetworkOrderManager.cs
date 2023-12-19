@@ -18,7 +18,7 @@ namespace MadSmith.Scripts.Multiplayer.Managers
         [SerializeField] private float orderDelay = 11;
         [SerializeField] private float timeToSingleItem = 60; // 60
         [SerializeField] private int maxConcurrentOrders = 6;
-        [SerializeField] private int timeToDeliver = 240;
+        [SerializeField] private int timeToDeliver = 20;
         private float _timeToSpawn;
         private bool _firstOrderAlreadySpawned;
         private float _currentTime;
@@ -36,7 +36,7 @@ namespace MadSmith.Scripts.Multiplayer.Managers
         [SerializeField] private VoidEventChannelSO onSceneReady;
         [SerializeField] private OrderListUpdateEventChannelSO onOrderListUpdate;
         [SerializeField] private OrderUpdateEventChannelSO onCreateOrder;
-        [SerializeField] private OrderUpdateEventChannelSO onMissedOrder;
+        [SerializeField] private IntEventChannelSO onMissedOrder;
         [SerializeField] private OrderUpdateEventChannelSO onDeliveryOrder;
         [SerializeField] private IntEventChannelSO onCountdownTimerUpdated;
 
@@ -62,6 +62,7 @@ namespace MadSmith.Scripts.Multiplayer.Managers
         }
         private void Setup()
         {
+            Debug.Log("Start order manager");
             var currentSceneSo = GameManager.Instance.GetCurrentScene();
             //Debug.Log("CurrentSceneSo" + currentSceneSo.name);
             if (currentSceneSo.sceneType == GameSceneType.Location)
@@ -99,7 +100,7 @@ namespace MadSmith.Scripts.Multiplayer.Managers
 
             UpdateTimers(currentOrderListTimes, (int)_currentTime);
             // update times
-            for (var i = 0; i < currentOrderList.Count; i++)
+            for (int i = 0; i < currentOrderList.Count; i++)
             {
                 var orderListTime = currentOrderList[i];
                 orderListTime.TimeRemaining01 -= percentToRemove;
@@ -109,13 +110,18 @@ namespace MadSmith.Scripts.Multiplayer.Managers
             }
 
             //Remove by time expired
-            for (int i = currentOrderList.Count-1; i >= 0; i--)
+            // Debug.Log("currentOrderListTimes.Count:" + (currentOrderListTimes.Count - 1));
+            if (currentOrderListTimes.Count > 0)
             {
-                if (currentOrderList[i].TimeRemaining01 <= 0)
+                for (int j = currentOrderListTimes.Count-1; j > -1; j--)
                 {
-                    MissedOrder(i);
-                    currentOrderList.RemoveAt(i); 
-                    currentOrderListTimes.RemoveAt(i); 
+                    Debug.Log(j);
+                    if (currentOrderListTimes[j].TimeRemaining01 <= 0)
+                    {
+                        MissedOrder(currentOrderListTimes[j].Id);
+                        currentOrderListTimes.RemoveAt(j); 
+                        currentOrderList.RemoveAt(j); 
+                    }
                 }
             }
 
@@ -142,7 +148,8 @@ namespace MadSmith.Scripts.Multiplayer.Managers
         [ClientRpc]
         private void MissedOrder(int i)
         {
-            onMissedOrder.RaiseEvent(currentOrderList[i]);
+            Debug.Log("ID Missed: " + i);
+            onMissedOrder.RaiseEvent(i);
             //Verificar se fica aqui ou fora do RPC
         }
 
@@ -151,6 +158,7 @@ namespace MadSmith.Scripts.Multiplayer.Managers
         {
             BaseItem newItem = _levelConfigItems.itemsToDelivery[itemIndex];
             var value = _lastOrderId++;
+            Debug.Log("Value: " + value);
             var newOrderData = new OrderData(value, 1, newItem);
             var newOrderTime = new OrderTimes(value, 1);
             currentOrderList.Add(newOrderData);

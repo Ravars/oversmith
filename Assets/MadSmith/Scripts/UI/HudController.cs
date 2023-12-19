@@ -28,7 +28,7 @@ namespace MadSmith.Scripts.UI
         
         [SerializeField] private OrderListUpdateEventChannelSO onOrderListUpdate;
         [SerializeField] private OrderUpdateEventChannelSO onCreateOrder;
-        [SerializeField] private OrderUpdateEventChannelSO onDeleteOrder;
+        [SerializeField] private IntEventChannelSO onDeleteOrder;
         [SerializeField] private OrderUpdateEventChannelSO onDeliveryOrder;
 
         protected override void Awake()
@@ -45,13 +45,19 @@ namespace MadSmith.Scripts.UI
             onOrderListUpdate.OnEventRaised += OnOrderListUpdate;
             onCreateOrder.OnEventRaised += CreateOrder;
             onDeleteOrder.OnEventRaised += DeleteOrder;
-            onDeliveryOrder.OnEventRaised += DeleteOrder; // TODO: mudar para uma função diferente para uma propria para a entrega (VFX)
+            onDeliveryOrder.OnEventRaised += OnEventRaised;
+            // onDeliveryOrder.OnEventRaised += DeleteOrder; // TODO: mudar para uma função diferente para uma propria para a entrega (VFX)
         }
 
-        private void DeleteOrder(OrderData orderData)
+        private void OnEventRaised(OrderData arg0)
+        {
+            DeleteOrder(arg0.Id);
+        }
+
+        private void DeleteOrder(int id)
         {
             //Debug.Log("Delete order");
-            var a = ItemCardHolders.Find(x => x.id == orderData.Id);
+            var a = ItemCardHolders.Find(x => x.id == id);
             
             if (ReferenceEquals(a, null)) return;
             
@@ -68,11 +74,10 @@ namespace MadSmith.Scripts.UI
 
         private void OnOrderListUpdate(List<OrderTimes> arg0)
         {
-            // Debug.Log("arg0: " + arg0);
-            if (ItemCardHolders == null || ItemCardHolders.Count == 0) return;
             for (int i = 0; i < ItemCardHolders.Count; i++)
             {
-                ItemCardHolders[i].slider.value = arg0.Find(x=> x.Id == ItemCardHolders[i].id).TimeRemaining01;
+                var a = arg0.Find(x=> x.Id == ItemCardHolders[i].id);
+                ItemCardHolders[i].slider.value = a?.TimeRemaining01 ?? 0;
             }
         }
 
@@ -101,7 +106,7 @@ namespace MadSmith.Scripts.UI
             onOrderListUpdate.OnEventRaised -= OnOrderListUpdate;
             onCreateOrder.OnEventRaised -= CreateOrder;
             onDeleteOrder.OnEventRaised -= DeleteOrder;
-            onDeliveryOrder.OnEventRaised -= DeleteOrder;
+            // onDeliveryOrder.OnEventRaised -= DeleteOrder;
         }
 
         // private void Clear()

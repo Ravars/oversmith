@@ -65,6 +65,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
+  startingDelay: 5
   firstOrderDelay: 3
   orderDelay: 11
   timeToSingleItem: 60
@@ -76,7 +77,7 @@ MonoBehaviour:
   onSceneReady: {fileID: 11400000, guid: df6aead758def0e408c9231e08fef990, type: 2}
   onOrderListUpdate: {fileID: 11400000, guid: 9a16ad1837556cf449892165813ead4d, type: 2}
   onCreateOrder: {fileID: 11400000, guid: 8d30dd3621d42174f8de9a1d51368110, type: 2}
-  onMissedOrder: {fileID: 11400000, guid: 659e3abb8b36fda489b56ba78dc091a0, type: 2}
+  onMissedOrder: {fileID: 11400000, guid: 1b931d5baee6791449fc2cf6cbe74abf, type: 2}
   onDeliveryOrder: {fileID: 11400000, guid: d1e67331e9e13c24f91c9484d11b1c23, type: 2}
   onCountdownTimerUpdated: {fileID: 11400000, guid: 77027518a220d8547a5e0d1f60e26b57,
     type: 2}
@@ -100,7 +101,7 @@ MonoBehaviour:
   enemyScoringRate: 14
   onCountdownTimerUpdated: {fileID: 11400000, guid: 77027518a220d8547a5e0d1f60e26b57,
     type: 2}
-  onMissedOrder: {fileID: 11400000, guid: 659e3abb8b36fda489b56ba78dc091a0, type: 2}
+  onMissedOrder: {fileID: 11400000, guid: 49368945ffb6a964aa258d2ff3d87a81, type: 2}
   onDeliveryOrder: {fileID: 11400000, guid: d1e67331e9e13c24f91c9484d11b1c23, type: 2}
   onPlayerScore: {fileID: 11400000, guid: 3b077ae3d935e6147ba5b1a0a3fa052c, type: 2}
   onEnemyScore: {fileID: 11400000, guid: 2b9d72a02274afc48923bc31a3598754, type: 2}
