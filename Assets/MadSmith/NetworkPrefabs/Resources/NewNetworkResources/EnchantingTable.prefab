@@ -131,8 +131,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: db600fcc0de84d1f851e24222bda3f2e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
   _speed: 0
-  <isRunning>k__BackingField: 0
+  isRunning: 0
+  Slider: {fileID: 0}
 --- !u!82 &1173129929
 AudioSource:
   m_ObjectHideFlags: 0
@@ -246,6 +249,7 @@ MonoBehaviour:
   syncInterval: 0.1
   timeToPrepareItem: 5
   currentTimeToPrepareItem: 0
+  _craftingInteractionHandler: {fileID: 0}
   type: 7
   particleSystems: []
   _audioSource: {fileID: 0}
@@ -698,6 +702,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: StoneAura_VFX
       objectReference: {fileID: 0}
+    - target: {fileID: 3537485657747962389, guid: 2ddef6546bcb9f34b95390e1e63681cb,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 4410794232727365056, guid: 2ddef6546bcb9f34b95390e1e63681cb,
         type: 3}
       propertyPath: m_LocalScale.x
@@ -796,6 +805,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: VFX_Falling_Stars
+      objectReference: {fileID: 0}
+    - target: {fileID: 7696920697174824537, guid: 8547b3b69f488b2459e292470f4c6186,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8355129951065928385, guid: 8547b3b69f488b2459e292470f4c6186,
         type: 3}
